@@ -12,6 +12,7 @@
 
 // Data type language (DTL) tests
 #include "test/protox/dtl/compute_octet_boundary.hpp"
+#include "test/protox/dtl/basic.hpp"
 
 
 
