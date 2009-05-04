@@ -110,7 +110,7 @@ namespace test_protox_dtl_simple
     BOOST_CHECK( 5 == int16BE );
   }
 
-  BOOST_AUTO_TEST_CASE( test_in_equality_operator )
+  BOOST_AUTO_TEST_CASE( test_inequality_operator )
   {
     using namespace protox;
     using namespace protox::dtl;
