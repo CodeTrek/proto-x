@@ -31,12 +31,12 @@
 
 /**************************************************************************************************/
 
-using namespace boost;
-using namespace protox::hla_1516;
+namespace protox { namespace dtl {
 
 /**************************************************************************************************/
 
-namespace protox { namespace dtl {
+using namespace boost;
+using namespace protox::hla_1516;
 
 /**************************************************************************************************/
 
@@ -45,8 +45,8 @@ struct basic_codec_impl_1516
   template< typename T >
   struct octet_boundary
   {
-    typedef typename protox::dtl::compute_octet_boundary< T::size_in_bits >::type type;
-    BOOST_STATIC_ASSERT(( type::value != protox::dtl::UNKNOWN_OCTET_BOUNDARY::value ));
+    typedef typename compute_octet_boundary< T::size_in_bits >::type type;
+    BOOST_STATIC_ASSERT(( type::value != UNKNOWN_OCTET_BOUNDARY::value ));
   };
 
   // Compute the data type's size in bytes from size in bits. If the size
@@ -54,7 +54,8 @@ struct basic_codec_impl_1516
   template< typename T >
   struct static_size_in_bytes
   {
-    typedef typename mpl::int_< (T::size_in_bits/8) + ( ((T::size_in_bits % 8) == 0) ? 0 : 1 ) >::type type;
+    typedef typename mpl::int_<
+      (T::size_in_bits/8) + ( ((T::size_in_bits % 8) == 0) ? 0 : 1 ) >::type type;
   };
 
   template< typename T >
@@ -65,7 +66,7 @@ struct basic_codec_impl_1516
   {
     BOOST_STATIC_ASSERT((mpl::sizeof_< HLAoctet::value_type >::value == 1));
 
-    const protox::hla_1516::HLAoctet::value_type *bytes = (HLAoctet::value_type const *)(&obj.value);
+    const HLAoctet::value_type *bytes = (HLAoctet::value_type const *)(&obj.value);
     s.start_value();
 
     encode_basic<
@@ -95,17 +96,17 @@ struct basic_codec_impl_1516
   }
 };
 
-template<> struct codec_impl< protox::hla_1516::HLAportable > : basic_codec_impl_1516 {};
+template<> struct codec_impl< hla_1516::HLAportable > : basic_codec_impl_1516 {};
 
-template<> struct codec_impl< protox::hla_1516::HLA16BitTwosComplementSigned > : basic_codec_impl_1516 {};
+template<> struct codec_impl< hla_1516::HLA16BitTwosComplementSigned > : basic_codec_impl_1516 {};
 
-template<> struct codec_impl< protox::hla_1516::HLA32BitTwosComplementSigned > : basic_codec_impl_1516 {};
+template<> struct codec_impl< hla_1516::HLA32BitTwosComplementSigned > : basic_codec_impl_1516 {};
 
-template<> struct codec_impl< protox::hla_1516::HLA64BitTwosComplementSigned > : basic_codec_impl_1516 {};
+template<> struct codec_impl< hla_1516::HLA64BitTwosComplementSigned > : basic_codec_impl_1516 {};
 
-template<> struct codec_impl< protox::hla_1516::HLA32BitIEEESinglePrecision > : basic_codec_impl_1516 {};
+template<> struct codec_impl< hla_1516::HLA32BitIEEESinglePrecision > : basic_codec_impl_1516 {};
 
-template<> struct codec_impl< protox::hla_1516::HLA64BitIEEEDoublePrecision > : basic_codec_impl_1516 {};
+template<> struct codec_impl< hla_1516::HLA64BitIEEEDoublePrecision > : basic_codec_impl_1516 {};
 
 /**************************************************************************************************/
 

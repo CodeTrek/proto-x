@@ -43,6 +43,10 @@ namespace fixed_array_codec_1516 {
 
 /**************************************************************************************************/
 
+using namespace protox;
+
+/**************************************************************************************************/
+
 template< bool Has_Static_Size > struct _layout;
 
 // Specilization for arrays with fixed size elements.
@@ -53,25 +57,25 @@ struct _layout< true >
   template< typename S, typename T >
   inline static void encode_pad(S &s, typename T::value_type const &)
   {
-    typedef typename protox::hla_1516::static_pad_<
+    typedef typename hla_1516::static_pad_<
       mpl::int_< 0 >,
-      typename protox::dtl::codec::static_size_in_bytes<typename T::value_type>::type,
-      typename protox::dtl::codec::octet_boundary< typename T::value_type >::type
+      typename codec::static_size_in_bytes<typename T::value_type>::type,
+      typename codec::octet_boundary< typename T::value_type >::type
     >::type static_pad;
 
-    protox::hla_1516::pad< S, static_pad::value >::encode(s);
+    hla_1516::pad< S, static_pad::value >::encode(s);
   }
 
   template< typename S, typename T >
   inline static void decode_pad(typename T::value_type &, S const &s, std::size_t &offset)
   {
-    typedef typename protox::hla_1516::static_pad_<
+    typedef typename hla_1516::static_pad_<
       mpl::int_< 0 >,
-      typename protox::dtl::codec::static_size_in_bytes<typename T::value_type>::type,
-      typename protox::dtl::codec::octet_boundary< typename T::value_type >::type
+      typename codec::static_size_in_bytes<typename T::value_type>::type,
+      typename codec::octet_boundary< typename T::value_type >::type
     >::type static_pad;
 
-    protox::hla_1516::pad< S, static_pad::value >::decode(s, offset);
+    hla_1516::pad< S, static_pad::value >::decode(s, offset);
   }
 
   // Dynamic size is equal to the static size.
@@ -80,10 +84,10 @@ struct _layout< true >
   {
     // Ensure elements of T have a fixed size.
     BOOST_STATIC_ASSERT((
-      protox::dtl::codec::static_size_in_bytes< typename T::value_type >::value != protox::dtl::UNKNOWN_STATIC_SIZE::value
+      codec::static_size_in_bytes< typename T::value_type >::value != UNKNOWN_STATIC_SIZE::value
     ));
 
-    return protox::dtl::codec::static_size_in_bytes<T>::value;
+    return codec::static_size_in_bytes<T>::value;
   }
 };
 
@@ -95,13 +99,13 @@ struct _layout< false >
   template< typename S, typename T >
   static void encode_pad(S &s, typename T::value_type const &obj)
   {
-    std::size_t const obj_size = protox::dtl::codec::dynamic_size(obj);
+    std::size_t const obj_size = codec::dynamic_size(obj);
     std::size_t const pad_bytes
-      = protox::hla_1516::sizeof_pad(
-          obj_size,
-          protox::dtl::codec::octet_boundary< typename T::value_type >::value);
+      = hla_1516::sizeof_pad(
+        obj_size,
+        codec::octet_boundary< typename T::value_type >::value);
 
-    protox::hla_1516::encode_pad(s, pad_bytes);
+    hla_1516::encode_pad(s, pad_bytes);
   }
 
   template< typename S, typename T >
@@ -110,14 +114,14 @@ struct _layout< false >
     S const &s,
     std::size_t &offset )
   {
-    std::size_t const obj_size = protox::dtl::codec::dynamic_size(obj);
+    std::size_t const obj_size = codec::dynamic_size(obj);
 
     std::size_t const pad_bytes
-      = protox::hla_1516::sizeof_pad(
-          obj_size,
-          protox::dtl::codec::octet_boundary< typename T::value_type >::value);
+      = hla_1516::sizeof_pad(
+        obj_size,
+        codec::octet_boundary< typename T::value_type >::value);
 
-    protox::hla_1516::decode_pad(s, pad_bytes, offset);
+    hla_1516::decode_pad(s, pad_bytes, offset);
   }
 
   template< typename T >
@@ -125,7 +129,7 @@ struct _layout< false >
   {
     // Ensure elements of T are not fixed size.
     BOOST_STATIC_ASSERT((
-      protox::dtl::codec::static_size_in_bytes<typename T::value_type>::value == protox::dtl::UNKNOWN_STATIC_SIZE::value
+      codec::static_size_in_bytes<typename T::value_type>::value == UNKNOWN_STATIC_SIZE::value
     ));
 
     std::size_t size = 0; // Used to accumulate T's size.
@@ -133,12 +137,12 @@ struct _layout< false >
     // For each element i in the array, except for the last element ...
     for( std::size_t i = 0; i < (T::static_num_elements - 1); ++i )
     {
-      std::size_t const obj_size = protox::dtl::codec::dynamic_size(obj[i]);
+      std::size_t const obj_size = codec::dynamic_size(obj[i]);
 
       // Sum the size of element i and the size of its padding.
       size += obj_size;
-      size += protox::hla_1516::sizeof_pad(
-        obj_size, protox::dtl::codec::octet_boundary< typename T::value_type >::value);
+      size += hla_1516::sizeof_pad(
+        obj_size, codec::octet_boundary< typename T::value_type >::value);
     }
 
     // Add the size of the last element in the array.
@@ -154,7 +158,7 @@ struct impl
 {
   // Is this array's size fixed or dynamic?
   typedef mpl::not_equal_to<
-    typename protox::dtl::codec::static_size_in_bytes< T >::type, protox::dtl::UNKNOWN_STATIC_SIZE
+    typename codec::static_size_in_bytes< T >::type, UNKNOWN_STATIC_SIZE
   > has_static_size;
 
   typedef _layout< has_static_size::value > type;
@@ -171,7 +175,7 @@ template<> struct codec_impl< protox::hla_1516::HLAfixedArray >
   template< typename T >
   struct octet_boundary
   {
-    typedef typename protox::dtl::codec::octet_boundary< typename T::value_type >::type type;
+    typedef typename codec::octet_boundary< typename T::value_type >::type type;
   };
 
   template< typename T >
@@ -182,16 +186,17 @@ template<> struct codec_impl< protox::hla_1516::HLAfixedArray >
     // not have a fixed size, then the padding is computed at run-time.
     typedef typename mpl::if_<
       // Size of T is not fixed?
-      mpl::equal_to< typename protox::dtl::codec::static_size_in_bytes<typename T::value_type>::type, protox::dtl::UNKNOWN_STATIC_SIZE >,
+      mpl::equal_to<
+        typename codec::static_size_in_bytes<typename T::value_type>::type, UNKNOWN_STATIC_SIZE >,
 
-      // true : unknown static pad size.
-      mpl::int_< protox::dtl::UNKNOWN_STATIC_SIZE::value >,
+        // true : unknown static pad size.
+        mpl::int_< protox::dtl::UNKNOWN_STATIC_SIZE::value >,
 
-      // false : compute the static pad size.
-      protox::hla_1516::static_pad_<
-        mpl::int_< 0 >,
-        typename protox::dtl::codec::static_size_in_bytes<typename T::value_type>::type,
-        typename protox::dtl::codec::octet_boundary< typename T::value_type >::type
+        // false : compute the static pad size.
+        protox::hla_1516::static_pad_<
+          mpl::int_< 0 >,
+          typename codec::static_size_in_bytes<typename T::value_type>::type,
+          typename codec::octet_boundary< typename T::value_type >::type
       >
     >::type static_pad;
 
@@ -200,15 +205,16 @@ template<> struct codec_impl< protox::hla_1516::HLAfixedArray >
     // size, then the total size of the array is computed at run-time.
     typedef typename mpl::if_<
       // Size of T is not fixed?
-      mpl::equal_to< typename protox::dtl::codec::static_size_in_bytes<typename T::value_type>::type, protox::dtl::UNKNOWN_STATIC_SIZE >,
+      mpl::equal_to<
+        typename codec::static_size_in_bytes<typename T::value_type>::type, UNKNOWN_STATIC_SIZE >,
+      
+        // true : unknown static size.
+        protox::dtl::UNKNOWN_STATIC_SIZE,
 
-      // true : unknown static size.
-      protox::dtl::UNKNOWN_STATIC_SIZE,
-
-      // false : compute the total size of the array in bytes.
-      mpl::plus<
-        mpl::multiplies< mpl::int_< T::static_num_elements >, typename protox::dtl::codec::static_size_in_bytes<typename T::value_type>::type >,
-        mpl::multiplies< mpl::int_< T::static_num_elements - 1 >, typename static_pad::type >
+        // false : compute the total size of the array in bytes.
+        mpl::plus<
+          mpl::multiplies< mpl::int_< T::static_num_elements >, typename codec::static_size_in_bytes<typename T::value_type>::type >,
+          mpl::multiplies< mpl::int_< T::static_num_elements - 1 >, typename static_pad::type >
       >
     >::type type;
   };
@@ -229,12 +235,12 @@ template<> struct codec_impl< protox::hla_1516::HLAfixedArray >
     // For each element in the array, except for the last ...
     for( int i = 0; i < (A::static_num_elements - 1); ++i )
     {
-      protox::dtl::codec::encode(s, obj[i]);
+      codec::encode(s, obj[i]);
       layout::template encode_pad<S, A>(s, obj[i]);
     }
 
     // Encode the last element.
-    protox::dtl::codec::encode(s, obj[A::static_num_elements - 1]);
+    codec::encode(s, obj[A::static_num_elements - 1]);
 
     s.end_fixed_array();
   }
@@ -249,12 +255,12 @@ template<> struct codec_impl< protox::hla_1516::HLAfixedArray >
     // For each element in the array, except for the last ...
     for( int i = 0; i < (A::static_num_elements - 1); ++i )
     {
-      protox::dtl::codec::decode(obj[i], s, offset);
+      codec::decode(obj[i], s, offset);
       layout::template decode_pad<S, A>(obj[i], s, offset);
     }
 
     // Decode the last element.
-    protox::dtl::codec::decode(obj[A::static_num_elements - 1], s, offset);
+    codec::decode(obj[A::static_num_elements - 1], s, offset);
 
     s.end_fixed_array();
   }
