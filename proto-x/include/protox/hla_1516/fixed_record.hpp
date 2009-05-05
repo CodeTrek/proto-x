@@ -7,35 +7,26 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_DTL_ENDIAN_ENUM_HPP
-#define PROTOX_DTL_ENDIAN_ENUM_HPP
+#ifndef PROTOX_HLA_1516_FIXED_RECORD_HPP
+#define PROTOX_HLA_1516_FIXED_RECORD_HPP
 
 /**************************************************************************************************/
 
-#include <boost/mpl/int.hpp>
-
-#include <protox/platform.hpp>
-
-/**************************************************************************************************/
-
-namespace protox { namespace dtl {
+#include <protox/dtl/fixed_record.hpp>
+#include <protox/hla_1516/codec_tags.hpp>
 
 /**************************************************************************************************/
 
-using namespace boost;
+namespace protox { namespace hla_1516 {
 
 /**************************************************************************************************/
 
-struct endian
-{
-  typedef mpl::int_< PROTOX_DTL_NA_ENDIAN     > na;
-  typedef mpl::int_< PROTOX_DTL_LITTLE_ENDIAN > little;
-  typedef mpl::int_< PROTOX_DTL_BIG_ENDIAN    > big;
-};
+template< typename FIELD_VECTOR >
+struct fixed_record : protox::dtl::fixed_record< FIELD_VECTOR, HLAfixedRecord > {};
 
 /**************************************************************************************************/
 
-}} // protox::dtl
+}} // protox::hla_1516
 
 /**************************************************************************************************/
 

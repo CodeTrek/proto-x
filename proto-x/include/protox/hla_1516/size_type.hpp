@@ -7,35 +7,24 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_DTL_ENDIAN_ENUM_HPP
-#define PROTOX_DTL_ENDIAN_ENUM_HPP
+#ifndef PROTOX_DTL_HLA_1516_SIZE_TYPE_HPP
+#define PROTOX_DTL_HLA_1516_SIZE_TYPE_HPP
 
 /**************************************************************************************************/
 
-#include <boost/mpl/int.hpp>
-
-#include <protox/platform.hpp>
+#include <protox/hla_1516/basic_data_representation_table.hpp>
 
 /**************************************************************************************************/
 
-namespace protox { namespace dtl {
+namespace protox { namespace hla_1516 {
 
 /**************************************************************************************************/
 
-using namespace boost;
+typedef HLAinteger32BE size_type;
 
 /**************************************************************************************************/
 
-struct endian
-{
-  typedef mpl::int_< PROTOX_DTL_NA_ENDIAN     > na;
-  typedef mpl::int_< PROTOX_DTL_LITTLE_ENDIAN > little;
-  typedef mpl::int_< PROTOX_DTL_BIG_ENDIAN    > big;
-};
-
-/**************************************************************************************************/
-
-}} // protox::dtl
+}} // protox::hla_1516
 
 /**************************************************************************************************/
 

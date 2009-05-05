@@ -7,14 +7,12 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_DTL_ENDIAN_ENUM_HPP
-#define PROTOX_DTL_ENDIAN_ENUM_HPP
+#ifndef PROTOX_DTL_UNKNOWN_STATIC_SIZE_HPP
+#define PROTOX_DTL_UNKNOWN_STATIC_SIZE_HPP
 
 /**************************************************************************************************/
 
 #include <boost/mpl/int.hpp>
-
-#include <protox/platform.hpp>
 
 /**************************************************************************************************/
 
@@ -22,23 +20,15 @@ namespace protox { namespace dtl {
 
 /**************************************************************************************************/
 
-using namespace boost;
+/**
+* @brief Denotes a size that can not be computed at compile time.
+*/
+typedef boost::mpl::int_< -1 > UNKNOWN_STATIC_SIZE;
 
 /**************************************************************************************************/
 
-struct endian
-{
-  typedef mpl::int_< PROTOX_DTL_NA_ENDIAN     > na;
-  typedef mpl::int_< PROTOX_DTL_LITTLE_ENDIAN > little;
-  typedef mpl::int_< PROTOX_DTL_BIG_ENDIAN    > big;
-};
-
-/**************************************************************************************************/
-
-}} // protox::dtl
+}} // namespace protox::dtl
 
 /**************************************************************************************************/
 
 #endif
-
-/**************************************************************************************************/

@@ -7,14 +7,8 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_DTL_ENDIAN_ENUM_HPP
-#define PROTOX_DTL_ENDIAN_ENUM_HPP
-
-/**************************************************************************************************/
-
-#include <boost/mpl/int.hpp>
-
-#include <protox/platform.hpp>
+#ifndef PROTOX_DTL_ALTERNATIVE_HPP
+#define PROTOX_DTL_ALTERNATIVE_HPP
 
 /**************************************************************************************************/
 
@@ -22,15 +16,25 @@ namespace protox { namespace dtl {
 
 /**************************************************************************************************/
 
-using namespace boost;
+// Represents a variant record alternative value of type T.
+template< typename T > // The variant's type
+struct alternative
+{
+  typedef T value_type;
+
+  value_type value;
+
+  alternative() {}
+  alternative(const T &v) : value(v) {}
+};
 
 /**************************************************************************************************/
 
-struct endian
+// Returns the data type associated with the alternative for the given discriminant D.
+template< typename D > // The discriminant
+struct get_alternative_type
 {
-  typedef mpl::int_< PROTOX_DTL_NA_ENDIAN     > na;
-  typedef mpl::int_< PROTOX_DTL_LITTLE_ENDIAN > little;
-  typedef mpl::int_< PROTOX_DTL_BIG_ENDIAN    > big;
+  typedef typename D::alternative type;
 };
 
 /**************************************************************************************************/

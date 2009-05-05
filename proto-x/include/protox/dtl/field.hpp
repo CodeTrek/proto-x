@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2009 Jay Graham
+    Copyright (C) 2009 Jay Graham
 
     Distributed under the MIT License (see accompanying file LICENSE_1_0_0.txt
     or http://www.opensource.org/licenses/mit-license.php)
@@ -7,14 +7,8 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_DTL_ENDIAN_ENUM_HPP
-#define PROTOX_DTL_ENDIAN_ENUM_HPP
-
-/**************************************************************************************************/
-
-#include <boost/mpl/int.hpp>
-
-#include <protox/platform.hpp>
+#ifndef PROTOX_DTL_FIELD_HPP
+#define PROTOX_DTL_FIELD_HPP
 
 /**************************************************************************************************/
 
@@ -22,15 +16,21 @@ namespace protox { namespace dtl {
 
 /**************************************************************************************************/
 
-using namespace boost;
+// The templates field_base and field are used to represent a field in
+// a fixed_record definition.
 
-/**************************************************************************************************/
-
-struct endian
+// Holds a field's value.
+template< typename T >
+struct field_base
 {
-  typedef mpl::int_< PROTOX_DTL_NA_ENDIAN     > na;
-  typedef mpl::int_< PROTOX_DTL_LITTLE_ENDIAN > little;
-  typedef mpl::int_< PROTOX_DTL_BIG_ENDIAN    > big;
+  typename T::value_type value;
+};
+
+// Defines an HLA 1516 fixed record field datatype.
+template< typename T >
+struct field
+{
+  typedef T value_type;
 };
 
 /**************************************************************************************************/

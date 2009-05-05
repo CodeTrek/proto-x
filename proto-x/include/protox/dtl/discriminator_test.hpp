@@ -7,18 +7,13 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_DTL_ENDIAN_ENUM_HPP
-#define PROTOX_DTL_ENDIAN_ENUM_HPP
+#ifndef PROTOX_DTL_DISCRIMINATOR_TEST_HPP
+#define PROTOX_DTL_DISCRIMINATOR_TEST_HPP
 
 /**************************************************************************************************/
 
-#include <boost/mpl/int.hpp>
-
-#include <protox/platform.hpp>
-
-/**************************************************************************************************/
-
-namespace protox { namespace dtl {
+#include <boost/mpl/fold.hpp>
+#include <boost/mpl/placeholders.hpp>
 
 /**************************************************************************************************/
 
@@ -26,11 +21,37 @@ using namespace boost;
 
 /**************************************************************************************************/
 
-struct endian
+namespace protox { namespace dtl {
+
+/**************************************************************************************************/
+
+struct _in_enumerator_set_false
 {
-  typedef mpl::int_< PROTOX_DTL_NA_ENDIAN     > na;
-  typedef mpl::int_< PROTOX_DTL_LITTLE_ENDIAN > little;
-  typedef mpl::int_< PROTOX_DTL_BIG_ENDIAN    > big;
+  template< typename T >
+  static bool is_equal(const T &) { return false; };
+};
+
+template< typename E, typename Base >
+struct _in_enumerator_set
+{
+  template< typename T >
+  static bool is_equal(const T &d)
+  {
+    if ( Base::is_equal(d) )
+      return true;
+
+    return (d == E::value());
+  }
+};
+
+template< typename D >
+struct discriminator_test
+{
+  typedef typename mpl::fold<
+    typename D::enumerator_vector,
+    _in_enumerator_set_false,
+    _in_enumerator_set< mpl::placeholders::_2, mpl::placeholders::_1 >
+  >::type type;
 };
 
 /**************************************************************************************************/

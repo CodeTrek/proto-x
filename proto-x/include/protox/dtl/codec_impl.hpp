@@ -7,14 +7,8 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_DTL_ENDIAN_ENUM_HPP
-#define PROTOX_DTL_ENDIAN_ENUM_HPP
-
-/**************************************************************************************************/
-
-#include <boost/mpl/int.hpp>
-
-#include <protox/platform.hpp>
+#ifndef PROTOX_DTL_CODEC_IMPL_HPP
+#define PROTOX_DTL_CODEC_IMPL_HPP
 
 /**************************************************************************************************/
 
@@ -22,16 +16,9 @@ namespace protox { namespace dtl {
 
 /**************************************************************************************************/
 
-using namespace boost;
-
-/**************************************************************************************************/
-
-struct endian
-{
-  typedef mpl::int_< PROTOX_DTL_NA_ENDIAN     > na;
-  typedef mpl::int_< PROTOX_DTL_LITTLE_ENDIAN > little;
-  typedef mpl::int_< PROTOX_DTL_BIG_ENDIAN    > big;
-};
+// Provide concrete implementations of codec_impl to enforce protocol specific data encoding
+// standards.
+template< typename CODEC_TAG > struct codec_impl;
 
 /**************************************************************************************************/
 

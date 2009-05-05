@@ -7,35 +7,33 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_DTL_ENDIAN_ENUM_HPP
-#define PROTOX_DTL_ENDIAN_ENUM_HPP
+#ifndef PROTOX_HLA_1516_ENUMERATED_HPP
+#define PROTOX_HLA_1516_ENUMERATED_HPP
 
 /**************************************************************************************************/
 
-#include <boost/mpl/int.hpp>
-
-#include <protox/platform.hpp>
-
-/**************************************************************************************************/
-
-namespace protox { namespace dtl {
+#include <protox/dtl/enumerated.hpp>
+#include <protox/hla_1516/codec_tags.hpp>
 
 /**************************************************************************************************/
 
-using namespace boost;
+namespace protox { namespace hla_1516 {
 
 /**************************************************************************************************/
 
-struct endian
+template< typename E, typename T >
+struct enumerated : protox::dtl::enumerated< E, T, HLAenumerated >
 {
-  typedef mpl::int_< PROTOX_DTL_NA_ENDIAN     > na;
-  typedef mpl::int_< PROTOX_DTL_LITTLE_ENDIAN > little;
-  typedef mpl::int_< PROTOX_DTL_BIG_ENDIAN    > big;
+  friend struct protox::dtl::codec_impl<protox::hla_1516::HLAenumerated>;
+
+  enumerated() {}
+  enumerated(T const v) : protox::dtl::enumerated< E, T, HLAenumerated >(v) {}
+  enumerated(enumerated const &v) : protox::dtl::enumerated< E, T, HLAenumerated >(v) {}
 };
 
 /**************************************************************************************************/
 
-}} // protox::dtl
+}} // protox::hla_1516
 
 /**************************************************************************************************/
 

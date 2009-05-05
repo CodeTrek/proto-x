@@ -7,18 +7,13 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_DTL_ENDIAN_ENUM_HPP
-#define PROTOX_DTL_ENDIAN_ENUM_HPP
+#ifndef PROTOX_HLA_1516_VARIANT_RECORD_HPP
+#define PROTOX_HLA_1516_VARIANT_RECORD_HPP
 
 /**************************************************************************************************/
 
-#include <boost/mpl/int.hpp>
-
-#include <protox/platform.hpp>
-
-/**************************************************************************************************/
-
-namespace protox { namespace dtl {
+#include <protox/dtl/variant_record.hpp>
+#include <protox/hla_1516/codec_tags.hpp>
 
 /**************************************************************************************************/
 
@@ -26,16 +21,20 @@ using namespace boost;
 
 /**************************************************************************************************/
 
-struct endian
-{
-  typedef mpl::int_< PROTOX_DTL_NA_ENDIAN     > na;
-  typedef mpl::int_< PROTOX_DTL_LITTLE_ENDIAN > little;
-  typedef mpl::int_< PROTOX_DTL_BIG_ENDIAN    > big;
-};
+namespace protox { namespace hla_1516 {
 
 /**************************************************************************************************/
 
-}} // protox::dtl
+template<
+  typename D_Type,
+  typename D_Vector,
+  typename Other = protox::dtl::discriminant_other_none
+>
+struct variant_record : protox::dtl::variant_record< D_Type, D_Vector, Other, HLAvariantRecord > {};
+
+/**************************************************************************************************/
+
+}} // protox::hla_1516
 
 /**************************************************************************************************/
 

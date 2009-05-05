@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2009 Jay Graham
+    Copyright 2009 Jay Graham
 
     Distributed under the MIT License (see accompanying file LICENSE_1_0_0.txt
     or http://www.opensource.org/licenses/mit-license.php)
@@ -7,35 +7,31 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_DTL_ENDIAN_ENUM_HPP
-#define PROTOX_DTL_ENDIAN_ENUM_HPP
+#ifndef PROTOX_HLA_1516_CODEC_TAGS_HPP
+#define PROTOX_HLA_1516_CODEC_TAGS_HPP
 
 /**************************************************************************************************/
 
-#include <boost/mpl/int.hpp>
-
-#include <protox/platform.hpp>
+namespace protox { namespace hla_1516 {
 
 /**************************************************************************************************/
 
-namespace protox { namespace dtl {
+struct HLAbasicDataRepresentation {};
+struct HLAportable {};
+struct HLA16BitTwosComplementSigned {};
+struct HLA32BitTwosComplementSigned {};
+struct HLA64BitTwosComplementSigned {};
+struct HLA32BitIEEESinglePrecision {};
+struct HLA64BitIEEEDoublePrecision {};
+struct HLAfixedRecord {};
+struct HLAfixedArray {};
+struct HLAvariableArray {};
+struct HLAenumerated {};
+struct HLAvariantRecord {};
 
 /**************************************************************************************************/
 
-using namespace boost;
-
-/**************************************************************************************************/
-
-struct endian
-{
-  typedef mpl::int_< PROTOX_DTL_NA_ENDIAN     > na;
-  typedef mpl::int_< PROTOX_DTL_LITTLE_ENDIAN > little;
-  typedef mpl::int_< PROTOX_DTL_BIG_ENDIAN    > big;
-};
-
-/**************************************************************************************************/
-
-}} // protox::dtl
+}} // protox::hla_1516
 
 /**************************************************************************************************/
 

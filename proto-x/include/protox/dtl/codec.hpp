@@ -7,20 +7,20 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_DTL_BASIC_TAG_HPP
-#define PROTOX_DTL_BASIC_TAG_HPP
+#ifndef PROTOX_DTL_CODEC_HPP
+#define PROTOX_DTL_CODEC_HPP
 
 /**************************************************************************************************/
 
-namespace protox { namespace dtl {
+// HLA 1516 codec policies
+#include <protox/hla_1516/basic_data_codec.hpp>
+#include <protox/hla_1516/fixed_record_codec.hpp>
+#include <protox/hla_1516/fixed_array_codec.hpp>
+#include <protox/hla_1516/variable_array_codec.hpp>
+#include <protox/hla_1516/enumerated_codec.hpp>
+#include <protox/hla_1516/variant_record_codec.hpp>
 
-/**************************************************************************************************/
-
-struct basic_tag {};
-
-/**************************************************************************************************/
-
-}} // protox::dtl
+// Add additional protocol codec policies here...
 
 /**************************************************************************************************/
 

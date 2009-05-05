@@ -7,18 +7,13 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_DTL_ENDIAN_ENUM_HPP
-#define PROTOX_DTL_ENDIAN_ENUM_HPP
+#ifndef PROTOX_HLA_1516_FIXED_ARRAY_HPP
+#define PROTOX_HLA_1516_FIXED_ARRAY_HPP
 
 /**************************************************************************************************/
 
-#include <boost/mpl/int.hpp>
-
-#include <protox/platform.hpp>
-
-/**************************************************************************************************/
-
-namespace protox { namespace dtl {
+#include <protox/dtl/fixed_array.hpp>
+#include <protox/hla_1516/codec_tags.hpp>
 
 /**************************************************************************************************/
 
@@ -26,16 +21,16 @@ using namespace boost;
 
 /**************************************************************************************************/
 
-struct endian
-{
-  typedef mpl::int_< PROTOX_DTL_NA_ENDIAN     > na;
-  typedef mpl::int_< PROTOX_DTL_LITTLE_ENDIAN > little;
-  typedef mpl::int_< PROTOX_DTL_BIG_ENDIAN    > big;
-};
+namespace protox { namespace hla_1516 {
 
 /**************************************************************************************************/
 
-}} // protox::dtl
+template< typename T, int N >
+struct fixed_array : protox::dtl::fixed_array< T, N, HLAfixedArray > {};
+
+/**************************************************************************************************/
+
+}} // protox::hla_1516
 
 /**************************************************************************************************/
 

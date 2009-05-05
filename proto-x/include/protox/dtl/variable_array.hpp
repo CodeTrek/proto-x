@@ -7,18 +7,12 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_DTL_ENDIAN_ENUM_HPP
-#define PROTOX_DTL_ENDIAN_ENUM_HPP
+#ifndef PROTOX_DTL_VARIABLE_ARRAY_HPP
+#define PROTOX_DTL_VARIABLE_ARRAY_HPP
 
 /**************************************************************************************************/
 
-#include <boost/mpl/int.hpp>
-
-#include <protox/platform.hpp>
-
-/**************************************************************************************************/
-
-namespace protox { namespace dtl {
+#include <boost/mpl/min_max.hpp>
 
 /**************************************************************************************************/
 
@@ -26,11 +20,19 @@ using namespace boost;
 
 /**************************************************************************************************/
 
-struct endian
+namespace protox { namespace dtl {
+
+/**************************************************************************************************/
+
+
+// Defines a variable length array based on a container of type T.
+template< typename T, typename CODEC_TAG >
+struct variable_array : public T
 {
-  typedef mpl::int_< PROTOX_DTL_NA_ENDIAN     > na;
-  typedef mpl::int_< PROTOX_DTL_LITTLE_ENDIAN > little;
-  typedef mpl::int_< PROTOX_DTL_BIG_ENDIAN    > big;
+  typedef typename T::value_type value_type;
+  typedef CODEC_TAG codec_tag;
+
+  variable_array() {}
 };
 
 /**************************************************************************************************/
