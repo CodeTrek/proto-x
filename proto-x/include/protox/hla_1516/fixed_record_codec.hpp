@@ -184,7 +184,7 @@ struct _layout< T, Base, false, false >
     std::size_t const pad_bytes
       = sizeof_pad(
           base_size,
-          protox::dtl::codec::octet_boundary< typename T::value_type >::value);
+          codec::octet_boundary< typename T::value_type >::value);
 
     encode_pad(s, pad_bytes);
   }
@@ -199,7 +199,7 @@ struct _layout< T, Base, false, false >
     std::size_t const pad_bytes
       = sizeof_pad(
           base_size,
-          protox::dtl::codec::octet_boundary< typename T::value_type >::value);
+          codec::octet_boundary< typename T::value_type >::value);
 
     decode_pad(s, pad_bytes, offset);
   }
@@ -211,7 +211,8 @@ struct _layout< T, Base, false, false >
     std::size_t const base_size = base_layout::dynamic_size(obj);
     std::size_t const pad_bytes
       = sizeof_pad(
-        base_size, protox::dtl::codec::octet_boundary< typename T::value_type >::value);
+        base_size,
+        codec::octet_boundary< typename T::value_type >::value);
 
     typename T::value_type const &value = obj.template f_< T > ();
     typedef typename T::impl::layout T_layout;
@@ -233,17 +234,17 @@ template< typename T, typename Base > struct _layout< T, Base, true, false >;
 template< typename T, typename Base >
 struct _impl
 {
-  typedef typename protox::dtl::codec::static_size_in_bytes< typename T::value_type >::type static_size;
+  typedef typename codec::static_size_in_bytes< typename T::value_type >::type static_size;
 
   typedef typename mpl::max<
-    typename protox::dtl::codec::octet_boundary< typename T::value_type >::type,
+    typename codec::octet_boundary< typename T::value_type >::type,
     typename Base::octet_boundary
   >::type octet_boundary;
 
   // Both Base and T have a static size?
   typedef mpl::bool_<
     Base::has_static_size::value &&
-    (static_size::value != protox::dtl::UNKNOWN_STATIC_SIZE::value)
+    (static_size::value != UNKNOWN_STATIC_SIZE::value)
   > has_static_size;
 
   typedef _layout<
@@ -265,7 +266,7 @@ struct _impl
     s.start_field();
 
     typename T::value_type const &value = obj.template f_< T > ();
-    protox::dtl::codec::encode(s, value);
+    codec::encode(s, value);
 
     s.end_field();
   }
@@ -281,7 +282,7 @@ struct _impl
 
     s.start_field();
     typename T::value_type &value = obj.template f_< T >();
-    protox::dtl::codec::decode( value, s, offset );
+    codec::decode( value, s, offset );
     s.end_field();
   }
 };
