@@ -56,6 +56,10 @@ template<
       {
         type::init_handles(rtiAmb, *this);
       }
+
+      type()
+      {
+      }
   };
 };
 

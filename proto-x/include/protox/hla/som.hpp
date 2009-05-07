@@ -55,6 +55,9 @@ namespace protox { namespace hla {
 /**************************************************************************************************/
 
 using namespace boost;
+using namespace protox;
+
+/**************************************************************************************************/
 
 struct print_stack
 {
@@ -87,12 +90,12 @@ struct init_attr_handle
 {
   RTI::RTIambassador &rtiAmb;
   RTI::ObjectClassHandle class_handle;
-  class_handle_to_attr_handle_map &map;
+  o_class_handle_to_attr_map &map;
   
   init_attr_handle(
     RTI::RTIambassador &rtiAmb,
     RTI::ObjectClassHandle ch,
-    class_handle_to_attr_handle_map &m
+    o_class_handle_to_attr_map &m
   ) :
     rtiAmb(rtiAmb),
     class_handle(ch),
@@ -103,7 +106,22 @@ struct init_attr_handle
   void operator()(N)
   {
     std::cout << "   class handle : " << class_handle << " attr : " << N::name() << "\n";
-    map[N::name()] = rtiAmb.getAttributeHandle(N::name(), class_handle);
+    // Find the class handle entry
+    o_class_handle_to_attr_map::iterator i = map.find(class_handle);
+
+    if (i == map.end())
+    {
+      map[class_handle] = attr_name_to_handle_map();
+    }
+
+    // Find the attribute handle by name
+    attr_name_to_handle_map::iterator j = map[class_handle].find(N::name());
+
+    // No entry for the attribute name?
+    if (j == map[class_handle].end())
+    {
+      map[class_handle][N::name()] = rtiAmb.getAttributeHandle(N::name(), class_handle);
+    }
   }
 };
 
@@ -119,7 +137,8 @@ struct dfs_children< false, Children, Stack >
 {
   // Separate the first child from the rest.
   typedef typename mpl::front< Children >::type first_child;
-  //typedef typename mpl::pop_front< Children >::type tail;
+
+  // Get the remaining children (i.e, the tail of the child vector)
   typedef typename mpl::erase< Children, mpl::front< Children > >::type tail;
 
   // Traverse the first child of the given Children vector.
@@ -137,7 +156,7 @@ struct dfs_children< false, Children, Stack >
   
   static void init_o_class_handles(RTI::RTIambassador &rtiAmb,
     name_to_o_class_handle_map &class_map,
-    class_handle_to_attr_handle_map &attr_map)
+    o_class_handle_to_attr_map &attr_map)
   {
     stack::init_o_class_handles(rtiAmb, class_map, attr_map);
     result::init_o_class_handles(rtiAmb, class_map, attr_map);
@@ -158,12 +177,12 @@ struct dfs_children< true, Children, Stack >
   static void init_o_class_handles(
     RTI::RTIambassador &rtiAmb,
     name_to_o_class_handle_map &class_map,
-    class_handle_to_attr_handle_map &attr_map)
+    o_class_handle_to_attr_map &attr_map)
   {
     std::string full_name;
     mpl::for_each< Stack >(build_full_name(full_name));
     
-    std::cout << "full name : " << full_name.c_str() << "\n";
+    //std::cout << "full name : " << full_name.c_str() << "\n";
     
     RTI::ObjectClassHandle class_handle = rtiAmb.getObjectClassHandle(full_name.c_str());
     class_map[full_name] = class_handle;
@@ -201,7 +220,7 @@ struct dfs
   static void init_o_class_handles(
     RTI::RTIambassador &rtiAmb,
     name_to_o_class_handle_map &class_map,
-    class_handle_to_attr_handle_map &attr_map)
+    o_class_handle_to_attr_map &attr_map)
   {
     result::init_o_class_handles(rtiAmb, class_map, attr_map);
   }
@@ -213,39 +232,62 @@ struct som
 private:
   typedef dfs< ROOT_O_CLASS > dfs_type;
     
-  static protox::hla::name_to_o_class_handle_map &
+  static hla::name_to_o_class_handle_map &
   get_name_to_o_class_handle_map()
   {
     static protox::hla::name_to_o_class_handle_map map;
     return map;
   }
-  
-  static protox::hla::class_handle_to_attr_handle_map &
-  get_class_handle_to_attr_handle_map()
+
+  static hla::o_class_handle_to_attr_map &
+  get_o_class_handle_to_attr_map()
   {
-    static protox::hla::class_handle_to_attr_handle_map map;
+    static hla::o_class_handle_to_attr_map map;
     return map;
   }
-  
+
   static void init_o_class_handles(RTI::RTIambassador &rtiAmb)
   {
-    protox::hla::name_to_o_class_handle_map &o_class_map
-      = get_name_to_o_class_handle_map();
+    hla::name_to_o_class_handle_map &o_class_map = get_name_to_o_class_handle_map();
       
     // Maps is already populated? 
     if (!o_class_map.empty())
       return;
       
-    protox::hla::class_handle_to_attr_handle_map &attr_map
-      = get_class_handle_to_attr_handle_map();
+    hla::o_class_handle_to_attr_map &attr_map = get_o_class_handle_to_attr_map();
+
+    assert(attr_map.empty());
       
     dfs_type::init_o_class_handles(rtiAmb, o_class_map, attr_map);
   }
   
 public: 
+  static RTI::ObjectClassHandle get_object_class_handle(std::string const &name)
+  {
+    name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
+    name_to_o_class_handle_map::const_iterator it = class_map.find(name);
+
+    // Not found
+    if (it == class_map.end())
+    {
+      // TODO : throw an exception
+      return -1;
+    }
+
+    return ((*it).second);
+  }
+
+  static std::size_t get_num_object_classes()
+  {
+    name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
+    return class_map.size();
+  }
+
   static void init_handles(RTI::RTIambassador &rtiAmb)
   {
     init_o_class_handles(rtiAmb);
+
+#if 0
     name_to_o_class_handle_map::const_iterator it;
     name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
     for(it = class_map.begin(); it != class_map.end(); ++it) 
@@ -259,14 +301,44 @@ public:
     {
       std::cout << (*it2).first << " -> " << (*it2).second << "\n";
     }
+#endif
   }
-  
+ 
+  // Debug methods
   static void dump_stack()
   {
     //typedef dfs< ROOT_O_CLASS > dfs_type;
     dfs_type::dump_stack();
   }
-  
+
+  static void print_object_class_handle_map()
+  {
+    name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
+    name_to_o_class_handle_map::const_iterator it;
+    for(it = class_map.begin(); it != class_map.end(); ++it) 
+    {
+      std::cout << (*it).first << " -> " << (*it).second << "\n";
+    }
+  }
+
+  static void print_attr_handle_map()
+  {
+    o_class_handle_to_attr_map &class_map = get_o_class_handle_to_attr_map();
+    o_class_handle_to_attr_map::const_iterator i;
+
+    for (i = class_map.begin(); i != class_map.end(); ++i) 
+    {
+      std::cout << (*i).first << " : " << "\n";
+
+      const attr_name_to_handle_map &attr_map = (*i).second;
+      attr_name_to_handle_map::const_iterator j;
+
+      for (j = attr_map.begin(); j != attr_map.end(); ++j)
+      {
+        std::cout << "   " << (*j).first << " : " << (*j).second << "\n";
+      }
+    }
+  }
 };
   
 /**************************************************************************************************/

@@ -38,10 +38,22 @@ template<
     QUALIFIED_NAME_VECTOR
   >::type attr_vector_type;
 
+  struct type : mpl::inherit_linearly<
+    attr_vector_type,
+    attr_inherit< attr_base< boost::mpl::placeholders::_2 >, boost::mpl::placeholders::_1 >
+  >::type
+  {
+    type()
+    {
+    }
+  };
+
+#if 0
   typedef typename mpl::inherit_linearly<
     attr_vector_type,
     attr_inherit< attr_base< boost::mpl::placeholders::_2 >, boost::mpl::placeholders::_1 >
   >::type type;
+#endif
 };
   
 /**************************************************************************************************/
