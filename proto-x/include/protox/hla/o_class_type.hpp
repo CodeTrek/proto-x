@@ -78,8 +78,8 @@ template<
         if (!initialized)
         {
           const std::string &name = type::get_name();
-          initialized = true;
           handle = SOM::get_object_class_handle(name);
+          initialized = true;
         }
 
         return handle;
