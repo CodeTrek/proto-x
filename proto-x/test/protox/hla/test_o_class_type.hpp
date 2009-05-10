@@ -25,6 +25,7 @@
 #include <protox/hla/keywords.hpp>
 #include <protox/hla/attr.hpp>
 #include <protox/hla/name.hpp>
+#include <protox/hla/som.hpp>
 
 /**************************************************************************************************/
 
@@ -53,7 +54,7 @@ namespace t1
   struct A3 : protox::hla::attr< double > { HLA_NAME("A3") };
   
   // Structure
-  struct som : 
+  struct o_class_table : 
     o_class< Class_A,
              attrs< A3 >,
              child< o_class< Class_B,
@@ -81,18 +82,29 @@ BOOST_AUTO_TEST_CASE( test_o_class_type )
   using namespace boost;
   using namespace t1;
 
+  typedef hla::som< o_class_table > som;
+
+  RTI::RTIambassador rtiAmb;  
+  som::init_handles(rtiAmb);
+
+  som::print_object_class_handle_map();
+  som::print_attr_handle_map();
+
   typedef o_class_type< som, qualified_name< Class_C, Class_A, Class_E > > class_type;
 
   std::cout << mpl::size< class_type::attr_vector_type >::value << "\n";
-
   class_type::type bObj;
 
-  RTI::RTIambassador rtiAmb;
+  bObj.a_<A1>() = 5;
+  bObj.a_<A2>() = 10;
+  bObj.a_<A3>() = 3.145;
 
-  bObj.init_handles(rtiAmb);
-  
-  //BOOST_CHECK( boost::mpl::size<c_type::attr_list_type>::value == 2 );
-  //som::init_handles(rtiAmb);
+  std::cout << "class name = " << class_type::type::get_name() << "\n";
+  std::cout << "class handle = " << class_type::type::get_handle() << "\n";
+
+  std::cout << "bObj.a_<A1> = " << bObj.a_<A1>() << "\n";
+  std::cout << "bObj.a_<A2> = " << bObj.a_<A2>() << "\n";
+  std::cout << "bObj.a_<A3> = " << bObj.a_<A3>() << "\n";
 }
 
 /**************************************************************************************************/

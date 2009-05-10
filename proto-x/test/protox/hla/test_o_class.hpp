@@ -174,49 +174,6 @@ BOOST_AUTO_TEST_CASE( test_o_class_children_with_attrs )
   //BOOST_CHECK( a2_type::name() == std::string("A2") );
 }
 
-namespace t5
-{
-  using namespace protox::hla;
-
-  // Class names
-  struct Class_A { HLA_NAME("Class_A") };
-  struct Class_B { HLA_NAME("Class_B") };
-  struct Class_C { HLA_NAME("Class_C") };
-  struct Class_D { HLA_NAME("Class_D") };
-  struct Class_E { HLA_NAME("Class_E") };
-  struct Class_F { HLA_NAME("Class_F") };
-  struct Class_G { HLA_NAME("Class_G") };
-  struct Class_H { HLA_NAME("Class_H") };
-
-  // Structure
-  struct som :
-    o_class< Class_A,
-               none,
-               child< o_class< Class_B,    // index 0
-                                 none,
-                                 child< o_class< Class_E >,
-                                        o_class< Class_F >,
-                                        o_class< Class_C > > >,
-                      o_class< Class_C,    // index 1
-                                 none,
-                                 child< o_class< Class_A >,
-                                        o_class< Class_C > > >,
-                      o_class< Class_D,    // index 2
-                                 none,
-                                 child< o_class< Class_G >,
-                                        o_class< Class_H > > > > > {};
-}
-
-BOOST_AUTO_TEST_CASE( test_o_class_init_handle )
-{
-  using namespace t5;
-  using namespace boost;
-
-  RTI::RTIambassador rtiAmb;
-
-  som::init_handles(rtiAmb);
-}
-
 /**************************************************************************************************/
 
 } // namespace test_protox_hla_o_class

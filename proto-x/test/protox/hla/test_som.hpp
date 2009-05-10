@@ -20,7 +20,6 @@
 #include <protox/hla/keywords.hpp>
 #include <protox/hla/name.hpp>
 #include <protox/hla/som.hpp>
-#include <protox/hla/class_handle_to_attr_handle_map.hpp>
 
 /**************************************************************************************************/
 
@@ -101,6 +100,9 @@ BOOST_AUTO_TEST_CASE( test_som_init_class_handles )
   BOOST_CHECK( som::get_object_class_handle("Class_A.Class_D") > 0 );
   BOOST_CHECK( som::get_object_class_handle("Class_A.Class_D.Class_G") > 0 );
   BOOST_CHECK( som::get_object_class_handle("Class_A.Class_D.Class_H") > 0 );
+
+  som::print_object_class_handle_map();
+  som::print_attr_handle_map();
 }
 
 namespace t2
@@ -196,6 +198,7 @@ BOOST_AUTO_TEST_CASE( test_som_init_attr_handles )
   BOOST_CHECK( som::get_object_class_handle("Class_A.Class_D.Class_G") > 0 );
   BOOST_CHECK( som::get_object_class_handle("Class_A.Class_D.Class_H") > 0 );
 
+  som::print_object_class_handle_map();
   som::print_attr_handle_map();
 }
 

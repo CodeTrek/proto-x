@@ -47,6 +47,7 @@
 
 #include <protox/hla/name_to_o_class_handle_map.hpp>
 #include <protox/hla/class_handle_to_attr_handle_map.hpp>
+#include <protox/hla/build_full_name.hpp>
 
 /**************************************************************************************************/
 
@@ -67,22 +68,6 @@ struct print_stack
   void operator()(N)
   {
     std::cout << N::name_type::name() << ".";
-  }
-};
-
-struct build_full_name
-{
-  std::string &full_name;
-  
-  build_full_name(std::string &fn) : full_name(fn) {}
-
-  template< typename N >
-  void operator()(N)
-  {
-    if (full_name.empty())
-      full_name = std::string(N::name_type::name()); 
-    else
-      full_name = std::string(N::name_type::name()) + "." + full_name; 
   }
 };
 
@@ -180,7 +165,7 @@ struct dfs_children< true, Children, Stack >
     o_class_handle_to_attr_map &attr_map)
   {
     std::string full_name;
-    mpl::for_each< Stack >(build_full_name(full_name));
+    mpl::for_each< Stack >(build_full_name(full_name, REVERSED));
     
     //std::cout << "full name : " << full_name.c_str() << "\n";
     
@@ -262,6 +247,8 @@ private:
   }
   
 public: 
+  typedef ROOT_O_CLASS o_class_table;
+
   static RTI::ObjectClassHandle get_object_class_handle(std::string const &name)
   {
     name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
@@ -286,28 +273,11 @@ public:
   static void init_handles(RTI::RTIambassador &rtiAmb)
   {
     init_o_class_handles(rtiAmb);
-
-#if 0
-    name_to_o_class_handle_map::const_iterator it;
-    name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
-    for(it = class_map.begin(); it != class_map.end(); ++it) 
-    {
-      std::cout << (*it).first << " -> " << (*it).second << "\n";
-    }
-    
-    class_handle_to_attr_handle_map::const_iterator it2;
-    class_handle_to_attr_handle_map &attr_map = get_class_handle_to_attr_handle_map();
-    for(it2 = attr_map.begin(); it2 != attr_map.end(); ++it2)
-    {
-      std::cout << (*it2).first << " -> " << (*it2).second << "\n";
-    }
-#endif
   }
  
   // Debug methods
   static void dump_stack()
   {
-    //typedef dfs< ROOT_O_CLASS > dfs_type;
     dfs_type::dump_stack();
   }
 
@@ -317,7 +287,7 @@ public:
     name_to_o_class_handle_map::const_iterator it;
     for(it = class_map.begin(); it != class_map.end(); ++it) 
     {
-      std::cout << (*it).first << " -> " << (*it).second << "\n";
+      std::cout << (*it).first << " = " << (*it).second << "\n";
     }
   }
 

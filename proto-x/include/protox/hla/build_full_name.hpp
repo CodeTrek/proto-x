@@ -7,16 +7,12 @@
 
 /**************************************************************************************************/
  
-#ifndef PROTOX_HLA_O_CLASS_HPP
-#define PROTOX_HLA_O_CLASS_HPP
+#ifndef PROTOX_HLA_BUILD_FULL_NAME_HPP
+#define PROTOX_HLA_BUILD_FULL_NAME_HPP
 
 /**************************************************************************************************/
 
-#include <boost/static_assert.hpp>
-
-#include <protox/hla/keywords.hpp>
-#include <protox/hla/has_duplicate_class_names.hpp>
-#include <protox/hla/has_duplicate_attr_names.hpp>
+#include <string>
 
 /**************************************************************************************************/
 
@@ -25,30 +21,45 @@ namespace protox { namespace hla {
 /**************************************************************************************************/
 
 using namespace boost;
+using namespace protox;
 
 /**************************************************************************************************/
 
-template<
-  typename NAME,
-  typename ATTR_SET = protox::hla::none,
-  typename CHILD_SET = protox::hla::none >
-struct o_class
-{
-  // Check for duplicate child classes.
-  BOOST_STATIC_ASSERT( (has_duplicate_class_names<CHILD_SET>::type::value == false) );
-  
-  // Check for duplicate attributes.
-  BOOST_STATIC_ASSERT( (has_duplicate_attr_names<ATTR_SET>::type::value == false) );
+enum reverse_flag {REVERSED = 1, NOT_REVERSED};
 
-  typedef NAME name_type;
- 
-  typedef ATTR_SET attr_list_type;
-  typedef CHILD_SET child_list_type;
+/**************************************************************************************************/
+
+struct build_full_name
+{
+  std::string &full_name;
+  reverse_flag reverse;
+  
+  build_full_name(std::string &fn, reverse_flag f = NOT_REVERSED) : full_name(fn), reverse(f) {}
+
+  template< typename N >
+  void operator()(N)
+  {
+    if (full_name.empty())
+    {
+      full_name = std::string(N::name_type::name()); 
+    }
+    else
+    {
+      if (reverse == REVERSED)
+      {
+        full_name = std::string(N::name_type::name()) + "." + full_name; 
+      }
+      else
+      {
+        full_name = full_name + "." + std::string(N::name_type::name());
+      }
+    }
+  }
 };
 
 /**************************************************************************************************/
 
-}} // namespace protox.hla
+}} // protox::hla
 
 /**************************************************************************************************/
 

@@ -24,7 +24,7 @@ using namespace boost;
 
 /**************************************************************************************************/
 
-// Cretes a unary operator that counts duplicate set elements.
+// Creates a unary operator that counts duplicate set elements.
 template< typename SET >
 struct element_counter
 {

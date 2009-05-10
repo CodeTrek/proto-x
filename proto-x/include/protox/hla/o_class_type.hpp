@@ -12,12 +12,16 @@
 
 /**************************************************************************************************/
 
+#include <string>
+
+#include <boost/mpl/for_each.hpp>
 #include <boost/mpl/inherit_linearly.hpp>
 #include <boost/mpl/placeholders.hpp>
 
 #include <protox/hla/o_class_attr_vector.hpp>
 #include <protox/hla/o_class_vector.hpp>
 #include <protox/hla/attr.hpp>
+#include <protox/hla/build_full_name.hpp>
 
 /**************************************************************************************************/
 
@@ -26,14 +30,14 @@ namespace protox { namespace hla {
 /**************************************************************************************************/
 
 template<
-  typename O_CLASS,
+  typename SOM,
   typename QUALIFIED_NAME_VECTOR
 > struct o_class_type
 {
   // Construct the vector of attributes from the given
   // qualified name.
   typedef typename o_class_attr_vector<
-    O_CLASS,
+    typename SOM::o_class_table,
     QUALIFIED_NAME_VECTOR
   >::type attr_vector_type;
 
@@ -46,20 +50,42 @@ template<
   struct type : attrs_type
   {
     private:
-      static void init_handles( class RTI::RTIambassador &rtiAmb, type &obj )
-      {
-        typedef typename o_class_vector< O_CLASS, QUALIFIED_NAME_VECTOR >::type o_class_vector_type;
-        obj.template init_handle< o_class_vector_type >(rtiAmb);
-      }
+      typedef typename o_class_vector< typename SOM::o_class_table, QUALIFIED_NAME_VECTOR >::type o_class_vector_type;
+
+      std::string full_name;
+      RTI::ObjectClassHandle handle;
+
     public:
-      void init_handles(class RTI::RTIambassador &rtiAmb)
+      static const std::string &get_name()
       {
-        type::init_handles(rtiAmb, *this);
+        static bool initialized = false;
+        static std::string name;
+
+        if (!initialized)
+        {
+          mpl::for_each< o_class_vector_type >(build_full_name(name));
+          initialized = true;
+        }
+
+        return name;
       }
 
-      type()
+      static RTI::ObjectClassHandle get_handle()
       {
+        static bool initialized = false;
+        static RTI::ObjectClassHandle handle; 
+
+        if (!initialized)
+        {
+          const std::string &name = type::get_name();
+          initialized = true;
+          handle = SOM::get_object_class_handle(name);
+        }
+
+        return handle;
       }
+
+      type() {}
   };
 };
 
