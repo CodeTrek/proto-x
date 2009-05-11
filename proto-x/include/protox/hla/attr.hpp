@@ -5,12 +5,13 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #ifndef PROTOX_HLA_ATTR_HPP
 #define PROTOX_HLA_ATTR_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
+
 #include <vector>
 #include <string>
 
@@ -22,15 +23,12 @@
 #include <boost/mpl/empty.hpp>
 #include <boost/mpl/back_inserter.hpp>
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace protox { namespace hla {
 
-/**************************************************************************************************/
+/******************************************************************************/
 
-using namespace boost;
-
-/**************************************************************************************************/
 
 template< typename T >
 struct attr_base
@@ -45,7 +43,7 @@ struct attr_base
   attr_base() : handle(0) {}
 };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 template< typename T >
 struct attr
@@ -53,15 +51,15 @@ struct attr
   typedef T value_type;
 };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 // Forward declaration
 template< typename A, typename B > struct attr_inherit;
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 template< typename A >
-struct attr_inherit< A, mpl::empty_base > : A, mpl::empty_base
+struct attr_inherit< A, mpl::empty_base > : A, boost::mpl::empty_base
 {
   template< bool DONE, typename O_CLASS_VECTOR > struct init_class_handles;
 
@@ -83,14 +81,17 @@ struct attr_inherit< A, mpl::empty_base > : A, mpl::empty_base
       std::vector<RTI::ObjectClassHandle> &handles,
       const char *parentName = 0)
     {
-      typedef typename mpl::front< O_CLASS_VECTOR >::type front_class;
-      typedef typename mpl::pop_front< O_CLASS_VECTOR >::type class_vector_tail;
+      typedef typename boost::mpl::front< O_CLASS_VECTOR >::type front_class;
+      typedef typename boost::mpl::pop_front<
+        O_CLASS_VECTOR
+      >::type class_vector_tail;
 
       std::string fullName;
 
       if (parentName != 0)
       {
-        fullName = std::string(parentName) + "." + front_class::name_type::name();
+        fullName
+          = std::string(parentName) + "." + front_class::name_type::name();
       }
       else
       {
@@ -100,14 +101,16 @@ struct attr_inherit< A, mpl::empty_base > : A, mpl::empty_base
       handles.push_back(rtiAmb.getObjectClassHandle(fullName.c_str()));
 
       init_class_handles<
-        mpl::empty< class_vector_tail >::value,
+        boost::mpl::empty< class_vector_tail >::value,
         class_vector_tail
       >::init(rtiAmb, handles, fullName.c_str());
     }
   };
 
   template< typename O_CLASS_VECTOR >
-  static RTI::AttributeHandle get_handle(RTI::RTIambassador &rtiAmb, const char *attr_name)
+  static RTI::AttributeHandle get_handle(
+    RTI::RTIambassador &rtiAmb,
+    const char *attr_name)
   {
     // A list of class handles for this vector of attributes.
     // Index 0 contains the least derived class handle, and index
@@ -122,11 +125,11 @@ struct attr_inherit< A, mpl::empty_base > : A, mpl::empty_base
         O_CLASS_VECTOR
       >::init(rtiAmb, class_handles);
 
-      std::cout << "          num class handles = " << class_handles.size() << "\n";
+      std::cout << "    num class handles = " << class_handles.size() << "\n";
     }
 
     assert( attr_name != 0 );
-    std::cout << "          attr name = " << attr_name << "\n";
+    std::cout << "      attr name = " << attr_name << "\n";
     return 0;
   }
 
@@ -137,7 +140,7 @@ struct attr_inherit< A, mpl::empty_base > : A, mpl::empty_base
   }
 };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 template< typename A, typename B >
 struct attr_inherit : A, B
@@ -162,15 +165,12 @@ struct attr_inherit : A, B
   }
 };
 
-//template< typename A >
-//std::vector<RTI::ObjectClassHandle> attr_inherit<A, mpl::empty_base >::class_handles;
-
-/**************************************************************************************************/
+/******************************************************************************/
 
 }} // protox::hla
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/******************************************************************************/

@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #ifndef PROTOX_DTL_FIXED_RECORD_HPP
 #define PROTOX_DTL_FIXED_RECORD_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #include <boost/mpl/inherit.hpp>
 #include <boost/mpl/placeholders.hpp>
@@ -26,15 +26,11 @@
 
 #include <protox/dtl/field.hpp>
 
-/**************************************************************************************************/
-
-using namespace boost;
-
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace protox { namespace dtl {
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 // The fixed_record template constructs a fixed record definition from the
 // given vector of field types.
@@ -96,10 +92,11 @@ namespace protox { namespace dtl {
 // brief Defines an HLA 1516 fixed record datatype.
 
 template< typename FIELD_VECTOR, typename CODEC_TAG >
-struct fixed_record : public mpl::reverse_fold<
+struct fixed_record : public boost::mpl::reverse_fold<
   FIELD_VECTOR,
-  mpl::empty_base,
-  mpl::inherit< field_base< mpl::placeholders::_2 >, mpl::placeholders::_1 >
+  boost::mpl::empty_base,
+  boost::mpl::inherit<
+    field_base< boost::mpl::placeholders::_2 >, boost::mpl::placeholders::_1 >
 >::type
 {
   BOOST_STATIC_ASSERT( (boost::mpl::empty< FIELD_VECTOR >::value != true) );
@@ -137,7 +134,7 @@ struct fixed_record : public mpl::reverse_fold<
    */
   inline bool operator == (const fixed_record &rhs) const
   {
-    typedef typename mpl::fold<
+    typedef typename boost::mpl::fold<
       FIELD_VECTOR,
       null_field_compare,
       field_compare< mpl::placeholders::_2, mpl::placeholders::_1 >
@@ -166,12 +163,12 @@ struct fixed_record : public mpl::reverse_fold<
   }
 };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 }} // protox::dtl
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/******************************************************************************/

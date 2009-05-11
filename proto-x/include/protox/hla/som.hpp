@@ -1,16 +1,16 @@
 /*
-    Copyright (c) 2009 Jay Graham
+    Copyright (C) 2009 Jay Graham
 
     Distributed under the MIT License (see accompanying file LICENSE_1_0_0.txt
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
- 
+/******************************************************************************/
+
 #ifndef PROTOX_HLA_SOM_HPP
 #define PROTOX_HLA_SOM_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #include <RTI.hh>
 
@@ -49,16 +49,11 @@
 #include <protox/hla/class_handle_to_attr_handle_map.hpp>
 #include <protox/hla/build_full_name.hpp>
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace protox { namespace hla {
 
-/**************************************************************************************************/
-
-using namespace boost;
-using namespace protox;
-
-/**************************************************************************************************/
+/******************************************************************************/
 
 struct print_stack
 {
@@ -70,6 +65,8 @@ struct print_stack
     std::cout << N::name_type::name() << ".";
   }
 };
+
+/******************************************************************************/
 
 struct init_attr_handle
 {
@@ -110,27 +107,30 @@ struct init_attr_handle
   }
 };
 
+/******************************************************************************/
+
 template< typename T, typename Stack > struct dfs; // forward declaration
+
+/******************************************************************************/
 
 template< bool empty, typename Children, typename Stack > struct dfs_children;
 
-/**
- *
- */
+/******************************************************************************/
+
 template< typename Children, typename Stack >
 struct dfs_children< false, Children, Stack >
 {
   // Separate the first child from the rest.
-  typedef typename mpl::front< Children >::type first_child;
+  typedef typename boost::mpl::front< Children >::type first_child;
 
   // Get the remaining children (i.e, the tail of the child vector)
-  typedef typename mpl::erase< Children, mpl::front< Children > >::type tail;
+  typedef typename boost::mpl::erase< Children, boost::mpl::front< Children > >::type tail;
 
   // Traverse the first child of the given Children vector.
   typedef dfs< first_child, Stack > stack;
 
   // Traverse the remaining children.
-  typedef dfs_children< mpl::empty<tail>::value, tail, typename stack::type > result;
+  typedef dfs_children< boost::mpl::empty<tail>::value, tail, typename stack::type > result;
   typedef typename result::type type;
 
   static void dump_stack()
@@ -148,14 +148,16 @@ struct dfs_children< false, Children, Stack >
   }
 };
 
+/******************************************************************************/
+
 template< typename Children, typename Stack >
 struct dfs_children< true, Children, Stack >
 {
-  typedef typename mpl::pop_front< Stack >::type type;
+  typedef typename boost::mpl::pop_front< Stack >::type type;
 
   static void dump_stack()
   {
-    mpl::for_each< Stack >( print_stack() );
+    boost::mpl::for_each< Stack >( print_stack() );
     std::cout << "null\n";
   }
   
@@ -165,32 +167,34 @@ struct dfs_children< true, Children, Stack >
     o_class_handle_to_attr_map &attr_map)
   {
     std::string full_name;
-    mpl::for_each< Stack >(build_full_name(full_name, REVERSED));
+    boost::mpl::for_each< Stack >(build_full_name(full_name, REVERSED));
     
     //std::cout << "full name : " << full_name.c_str() << "\n";
     
     RTI::ObjectClassHandle class_handle = rtiAmb.getObjectClassHandle(full_name.c_str());
     class_map[full_name] = class_handle;
     
-    typedef typename mpl::front< Stack >::type child;
+    typedef typename boost::mpl::front< Stack >::type child;
     
-    mpl::for_each< typename child::attr_list_type >
+    boost::mpl::for_each< typename child::attr_list_type >
       (init_attr_handle(rtiAmb, class_handle, attr_map));
   }
 };
 
+/******************************************************************************/
+
 /**
  * Perform a depth first traversal of the given tree T.  
  */
-template< typename T, typename Stack = mpl::vector<> >
+template< typename T, typename Stack = boost::mpl::vector<> >
 struct dfs
 {
   // Push the root of the tree onto a stack.  
-  typedef typename mpl::push_front< Stack, T >::type stack;
+  typedef typename boost::mpl::push_front< Stack, T >::type stack;
 
   // Continue the traversl by recursively looping over the children of T.
   typedef dfs_children<
-    mpl::empty< typename T::child_list_type >::value,
+    boost::mpl::empty< typename T::child_list_type >::value,
     typename T::child_list_type,
     stack
   > result;
@@ -210,6 +214,8 @@ struct dfs
     result::init_o_class_handles(rtiAmb, class_map, attr_map);
   }
 };
+
+/******************************************************************************/
   
 template< typename ROOT_O_CLASS >
 struct som
@@ -311,12 +317,12 @@ public:
   }
 };
   
-/**************************************************************************************************/
+/******************************************************************************/
 
 }} // protox::hla
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/******************************************************************************/

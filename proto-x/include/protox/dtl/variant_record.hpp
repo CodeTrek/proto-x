@@ -23,10 +23,6 @@
 
 /**************************************************************************************************/
 
-using namespace boost;
-
-/**************************************************************************************************/
-
 namespace protox { namespace dtl {
 
 /**************************************************************************************************/
@@ -48,8 +44,8 @@ struct variant_record
 
   typedef typename mpl::fold<
     D_VECTOR,
-    mpl::vector<>,
-    mpl::push_back< boost::mpl::placeholders::_1, get_alternative_type< boost::mpl::placeholders::_2 > >
+    boost::mpl::vector<>,
+    boost::mpl::push_back< boost::mpl::placeholders::_1, get_alternative_type< boost::mpl::placeholders::_2 > >
 
   >::type alternative_vector;
 

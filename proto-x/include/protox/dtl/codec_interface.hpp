@@ -5,26 +5,22 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #ifndef PROTOX_DTL_CODEC_INTERFACE_HPP
 #define PROTOX_DTL_CODEC_INTERFACE_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #include <cstddef>
 
 #include <protox/dtl/codec_impl.hpp>
 
-/**************************************************************************************************/
-
-using namespace boost;
-
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace protox { namespace dtl {
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 // Compile time polymorphic interface to codec_impl
 struct codec
@@ -33,7 +29,10 @@ struct codec
   template< typename T >
   struct octet_boundary
   {
-    typedef typename codec_impl< typename T::codec_tag >::template octet_boundary< T >::type type;
+    typedef typename codec_impl<
+      typename T::codec_tag
+    >::template octet_boundary< T >::type type;
+
     static typename type::value_type const value = type::value;
   };
 
@@ -41,7 +40,10 @@ struct codec
   template< typename T >
   struct static_size_in_bytes
   {
-    typedef typename codec_impl< typename T::codec_tag >::template static_size_in_bytes< T >::type type;
+    typedef typename codec_impl<
+      typename T::codec_tag
+    >::template static_size_in_bytes< T >::type type;
+
     static typename type::value_type const value = type::value;
   };
 
@@ -69,13 +71,12 @@ struct codec
   }
 };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 }} // protox::dtl
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
-
+/******************************************************************************/

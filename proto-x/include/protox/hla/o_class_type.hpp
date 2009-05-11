@@ -1,16 +1,16 @@
 /*
-    Copyright (c) 2009 Jay Graham
+    Copyright (C) 2009 Jay Graham
 
     Distributed under the MIT License (see accompanying file LICENSE_1_0_0.txt
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #ifndef PROTOX_HLA_O_CLASS_TYPE_HPP
 #define PROTOX_HLA_O_CLASS_TYPE_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #include <string>
 
@@ -23,11 +23,11 @@
 #include <protox/hla/attr.hpp>
 #include <protox/hla/build_full_name.hpp>
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace protox { namespace hla {
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 template<
   typename SOM,
@@ -44,13 +44,19 @@ template<
   // Construct the inheritence tree from the attribute vector.
   typedef typename mpl::inherit_linearly<
     attr_vector_type,
-    attr_inherit< attr_base< boost::mpl::placeholders::_2 >, boost::mpl::placeholders::_1 >
+    attr_inherit<
+      attr_base< boost::mpl::placeholders::_2 >,
+      boost::mpl::placeholders::_1 >
   >::type attrs_type;
 
   struct type : attrs_type
   {
     private:
-      typedef typename o_class_vector< typename SOM::o_class_table, QUALIFIED_NAME_VECTOR >::type o_class_vector_type;
+      typedef typename
+        o_class_vector<
+          typename SOM::o_class_table,
+          QUALIFIED_NAME_VECTOR
+        >::type o_class_vector_type;
 
       std::string full_name;
       RTI::ObjectClassHandle handle;
@@ -63,7 +69,7 @@ template<
 
         if (!initialized)
         {
-          mpl::for_each< o_class_vector_type >(build_full_name(name));
+          boost::mpl::for_each< o_class_vector_type >(build_full_name(name));
           initialized = true;
         }
 
@@ -89,12 +95,12 @@ template<
   };
 };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
-}} // namespace protox::hla
+}} // protox::hla
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/******************************************************************************/
