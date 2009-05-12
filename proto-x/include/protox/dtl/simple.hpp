@@ -67,9 +67,9 @@ struct simple : T
 
 /******************************************************************************/
 
-#define PROTOX_SIMPLE(simple_name)                                                                                        \
+#define PROTOX_SIMPLE(simple_name)                                 \
   simple_name() {}                                                 \
-  typedef simple<                                                  \
+  typedef protox::dtl::simple<                                     \
     simple_name::basic_type, simple_name::unit_type > simple_type; \
   simple_name(simple_type::value_type v) : simple_type(v) {}
 

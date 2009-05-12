@@ -65,14 +65,14 @@ struct basic_codec_impl_1516
   inline static void encode(S &s, const T &obj)
   {
     BOOST_STATIC_ASSERT(
-      (boost::mpl::sizeof_< HLAoctet::value_type >::value == 1));
+      (boost::mpl::sizeof_< hla_1516::HLAoctet::value_type >::value == 1));
 
-    const HLAoctet::value_type *bytes =
-      (HLAoctet::value_type const *)(&obj.value);
+    const hla_1516::HLAoctet::value_type *bytes =
+      (hla_1516::HLAoctet::value_type const *)(&obj.value);
 
     s.start_value();
 
-    encode_basic<
+    hla_1516::encode_basic<
       S,
       codec::static_size_in_bytes<T>::value,
       (T::endian::value != PROTOX_DTL_PLATFORM_ENDIANESS)
@@ -85,13 +85,14 @@ struct basic_codec_impl_1516
   inline static void decode(T &v, const S &s, std::size_t &offset)
   {
     BOOST_STATIC_ASSERT(
-      (boost::mpl::sizeof_< HLAoctet::value_type >::value == 1) );
+      (boost::mpl::sizeof_< hla_1516::HLAoctet::value_type >::value == 1) );
 
-    HLAoctet::value_type *v_ptr = (HLAoctet::value_type *)(&v.value);
+    hla_1516::HLAoctet::value_type *v_ptr
+      = (hla_1516::HLAoctet::value_type *)(&v.value);
 
     s.start_value();
 
-    decode_basic<
+    hla_1516::decode_basic<
       S,
       codec::static_size_in_bytes<T>::value,
       (T::endian::value != PROTOX_DTL_PLATFORM_ENDIANESS)

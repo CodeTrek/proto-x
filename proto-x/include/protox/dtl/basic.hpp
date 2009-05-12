@@ -114,12 +114,12 @@ struct basic : basic_tag
   }
 };
 
-#define PROTOX_BASIC(basic_name)                                                                                        \
-  basic_name() {}                        \
-  typedef basic< basic_name::value_type, \
-    basic_name::size_in_bits,            \
-    basic_name::endian,                  \
-    basic_name::codec_tag > base_type;   \
+#define PROTOX_BASIC(basic_name)                      \
+  basic_name() {}                                     \
+  typedef protox::dtl::basic< basic_name::value_type, \
+    basic_name::size_in_bits,                         \
+    basic_name::endian,                               \
+    basic_name::codec_tag > base_type;                \
   basic_name(base_type::value_type v) : base_type(v) {}
 
 /**************************************************************************************************/
