@@ -19,6 +19,7 @@
 
 
 using namespace boost;
+using namespace protox::dtl;
 using namespace protox::hla_1516;
 
 namespace test_protox_dtl_hla_1516_codec_basic_data
