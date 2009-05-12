@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #ifndef PROTOX_HLA_1516_FIXED_RECORD_CODEC_HPP
 #define PROTOX_HLA_1516_FIXED_RECORD_CODEC_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #include <cstddef>
 
@@ -28,32 +28,30 @@
 #include <protox/hla_1516/static_pad.hpp>
 #include <protox/hla_1516/dynamic_pad.hpp>
 
-/**************************************************************************************************/
-
-using namespace boost;
-
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace protox { namespace dtl {
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace fixed_record_codec_1516 {
 
-/**************************************************************************************************/
+/******************************************************************************/
 
-struct null_impl_layout
+struct null_impllayout_
 {
-  typedef mpl::int_< 0 > static_pad;
-  typedef mpl::int_< 0 > static_offset;
+  typedef boost::mpl::int_< 0 > static_pad;
+  typedef boost::mpl::int_< 0 > static_offset;
 };
+
+/******************************************************************************/
 
 struct null_impl
 {
-  typedef null_impl_layout layout;
-  typedef mpl::int_< 0 > static_size;
-  typedef mpl::int_< 0 > octet_boundary;
-  typedef mpl::bool_< true > has_static_size;
+  typedef null_impllayout_ layout;
+  typedef boost::mpl::int_< 0 > static_size;
+  typedef boost::mpl::int_< 0 > octet_boundary;
+  typedef boost::mpl::bool_< true > has_static_size;
 
   template< typename S, typename R >
   inline static void encode(S &, R const &) {}
@@ -65,6 +63,8 @@ struct null_impl
   inline static bool is_equal(R const &, R const &) { return true; }
 };
 
+/******************************************************************************/
+
 // This template is used to compute layout values i.e., padding and
 // offset sizes in bytes.
 template<
@@ -73,7 +73,9 @@ template<
   bool T_Has_Static_Size,   // true, if T's size is fixed and Base's size
                                 // is fixed.
   bool Base_Has_Static_Size // true, if Base's size is fixed.
-> struct _layout;
+> struct layout_;
+
+/******************************************************************************/
 
 // The static size of field T and its Base determine if T's offset and
 // padding can be computed at compile time. The table below list all
@@ -93,7 +95,7 @@ template<
 //   +-------+----------+----------------------------+-------------+
 
 template< typename T, typename Base >
-struct _layout< T, Base, true, true >
+struct layout_< T, Base, true, true >
 {
   typedef typename protox::hla_1516::static_pad_<
     typename Base::layout::static_offset,
@@ -101,7 +103,7 @@ struct _layout< T, Base, true, true >
     typename protox::dtl::codec::octet_boundary< typename T::value_type >::type
   >::type static_pad;
 
-  typedef mpl::int_<
+  typedef boost::mpl::int_<
     Base::layout::static_offset::value +
     Base::static_size::value        +
     static_pad::value
@@ -126,12 +128,15 @@ struct _layout< T, Base, true, true >
   template< typename R >
   inline static std::size_t dynamic_size(R const &)
   {
-    return (static_offset::value + protox::dtl::codec::static_size_in_bytes<typename T::value_type>::value);
+    return (static_offset::value
+      + dtl::codec::static_size_in_bytes<typename T::value_type>::value);
   }
 };
 
+/******************************************************************************/
+
 template< typename T, typename Base >
-struct _layout< T, Base, false, true >
+struct layout_< T, Base, false, true >
 {
   typedef typename protox::hla_1516::static_pad_<
     typename Base::layout::static_offset,
@@ -139,7 +144,7 @@ struct _layout< T, Base, false, true >
     typename protox::dtl::codec::octet_boundary< typename T::value_type >::type
   >::type static_pad;
 
-  typedef mpl::int_<
+  typedef boost::mpl::int_<
     Base::layout::static_offset::value +
     Base::static_size::value           +
     static_pad::value
@@ -165,13 +170,15 @@ struct _layout< T, Base, false, true >
   inline static std::size_t dynamic_size(R const &obj)
   {
     typename T::value_type const &value = obj.template f_ < T > ();
-    typedef typename T::impl::layout T_layout;
-    return (static_offset::value + T_layout::dynamic_size(value));
+    typedef typename T::impl::layout Tlayout_;
+    return (static_offset::value + Tlayout_::dynamic_size(value));
   }
 };
 
+/******************************************************************************/
+
 template< typename T, typename Base >
-struct _layout< T, Base, false, false >
+struct layout_< T, Base, false, false >
 {
   typedef protox::dtl::UNKNOWN_STATIC_SIZE static_offset;
 
@@ -207,24 +214,28 @@ struct _layout< T, Base, false, false >
   template< typename R >
   inline static std::size_t dynamic_size(R const &obj)
   {
-    typedef typename Base::layout base_layout;
-    std::size_t const base_size = base_layout::dynamic_size(obj);
+    typedef typename Base::layout baselayout_;
+    std::size_t const base_size = baselayout_::dynamic_size(obj);
     std::size_t const pad_bytes
       = sizeof_pad(
         base_size,
         codec::octet_boundary< typename T::value_type >::value);
 
     typename T::value_type const &value = obj.template f_< T > ();
-    typedef typename T::impl::layout T_layout;
-    return (base_size + pad_bytes + T_layout::dynamic_size(value));
+    typedef typename T::impl::layout Tlayout_;
+    return (base_size + pad_bytes + Tlayout_::dynamic_size(value));
   }
 };
+
+/******************************************************************************/
 
 // _The following case should never happen_
 // Once a dynamic Base field in record R is
 // encounterd (i.e., Base::static_size is dtel::UNKNOWN_STATIC_SIZE),
 // then all subsequent fields T have unknown static sizes.
-template< typename T, typename Base > struct _layout< T, Base, true, false >;
+template< typename T, typename Base > struct layout_< T, Base, true, false >;
+
+/******************************************************************************/
 
 // Create the compile time interface for the given type pair, T and Base,
 // where T derives directly from Base.
@@ -232,22 +243,23 @@ template< typename T, typename Base > struct _layout< T, Base, true, false >;
 // T represents a single field.
 // Base represents the partial record formed by T's predeccsor fields.
 template< typename T, typename Base >
-struct _impl
+struct impl_
 {
-  typedef typename codec::static_size_in_bytes< typename T::value_type >::type static_size;
+  typedef typename
+    codec::static_size_in_bytes< typename T::value_type >::type static_size;
 
-  typedef typename mpl::max<
+  typedef typename boost::mpl::max<
     typename codec::octet_boundary< typename T::value_type >::type,
     typename Base::octet_boundary
   >::type octet_boundary;
 
   // Both Base and T have a static size?
-  typedef mpl::bool_<
+  typedef boost::mpl::bool_<
     Base::has_static_size::value &&
     (static_size::value != UNKNOWN_STATIC_SIZE::value)
   > has_static_size;
 
-  typedef _layout<
+  typedef layout_<
     T,
     Base,
     has_static_size::value,
@@ -287,6 +299,8 @@ struct _impl
   }
 };
 
+/******************************************************************************/
+
 template< typename T >
 struct impl
 {
@@ -295,25 +309,26 @@ struct impl
   // A fold meta-function is used to construct encode/decode functions
   // that makes recursive calls down record's a field structure, computing
   // alignment requirements along the way.
-  typedef typename mpl::fold<
+  typedef typename boost::mpl::fold<
     typename T::field_vector,
     null_impl,
-    _impl< mpl::placeholders::_2, mpl::placeholders::_1 >
+    impl_< boost::mpl::placeholders::_2, boost::mpl::placeholders::_1 >
   >::type type;
   };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 } // protox::dtl::fixed_record_codec
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 template<> struct codec_impl< protox::hla_1516::HLAfixedRecord >
 {
   template< typename T >
   struct octet_boundary
   {
-    typedef typename fixed_record_codec_1516::impl< T >::type::octet_boundary type;
+    typedef typename
+      fixed_record_codec_1516::impl< T >::type::octet_boundary type;
   };
 
   template< typename T >
@@ -321,18 +336,19 @@ template<> struct codec_impl< protox::hla_1516::HLAfixedRecord >
   {
     typedef typename fixed_record_codec_1516::impl< T >::type impl;
 
-    typedef typename mpl::if_ <
+    typedef typename boost::mpl::if_<
       // Size is not fixed?
-      mpl::equal_to< typename impl::static_size, protox::dtl::UNKNOWN_STATIC_SIZE >,
+      boost::mpl::equal_to<
+        typename impl::static_size,
+        dtl::UNKNOWN_STATIC_SIZE >,
 
       // true : unknown static size.
       protox::dtl::UNKNOWN_STATIC_SIZE,
 
       // false : compute this record's static size.
-      mpl::plus<
+      boost::mpl::plus<
         typename impl::layout::static_offset,
-        typename impl::static_size
-      >
+        typename impl::static_size >
     >::type type;
   };
 
@@ -362,12 +378,12 @@ template<> struct codec_impl< protox::hla_1516::HLAfixedRecord >
   }
 };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 }} // protox::dtl
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/******************************************************************************/

@@ -5,21 +5,21 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #ifndef PROTOX_HLA_1516_BASIC_DATA_DECODERS_HPP
 #define PROTOX_HLA_1516_BASIC_DATA_DECODERS_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #include <protox/hla_1516/basic_data_representation_table.hpp>
 #include <protox/hla_1516/size_type.hpp>
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace protox { namespace hla_1516 {
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 template< typename S >
 inline void decode(char &c, const S &s, std::size_t &offset)
@@ -28,6 +28,8 @@ inline void decode(char &c, const S &s, std::size_t &offset)
   ++offset;
 }
 
+/******************************************************************************/
+
 template<
   typename S,                // Source byte buffer
   std::size_t SIZE_IN_BYTES, // Size of value to be decoded in bytes
@@ -35,20 +37,28 @@ template<
                              // decoding
 > struct decode_basic;
 
+/******************************************************************************/
+
 template< typename S, bool CONVERT_ENDIAN >
 struct decode_basic< S, 1, CONVERT_ENDIAN >
 {
-  static inline void unpack(HLAoctet::value_type *value, const S &s, std::size_t &offset)
+  static inline void unpack(
+    HLAoctet::value_type *value,
+    const S &s, std::size_t &offset)
   {
     *value = s[(unsigned int) (offset)];
     ++offset;
   }
 };
 
+/******************************************************************************/
+
 template< typename S >
 struct decode_basic< S, 2, false >
 {
-  static inline void unpack(HLAoctet::value_type *value, const S &s, std::size_t &offset)
+  static inline void unpack(
+    HLAoctet::value_type *value,
+    const S &s, std::size_t &offset)
   {
     value[0] = s[(unsigned int) (offset + 0)];
     value[1] = s[(unsigned int) (offset + 1)];
@@ -57,10 +67,15 @@ struct decode_basic< S, 2, false >
   }
 };
 
+/******************************************************************************/
+
 template< typename S >
 struct decode_basic< S, 4, false >
 {
-  static inline void unpack(HLAoctet::value_type *value, const S &s, std::size_t &offset)
+  static inline void unpack(
+    HLAoctet::value_type *value,
+    const S &s,
+    std::size_t &offset)
   {
     value[0] = s[(unsigned int) (offset + 0)];
     value[1] = s[(unsigned int) (offset + 1)];
@@ -71,10 +86,15 @@ struct decode_basic< S, 4, false >
   }
 };
 
+/******************************************************************************/
+
 template< typename S >
 struct decode_basic< S, 8, false >
 {
-  static inline void unpack(HLAoctet::value_type *value, const S &s, std::size_t &offset)
+  static inline void unpack(
+    HLAoctet::value_type *value,
+    const S &s,
+    std::size_t &offset)
   {
     value[0] = s[(unsigned int) (offset + 0)];
     value[1] = s[(unsigned int) (offset + 1)];
@@ -89,10 +109,15 @@ struct decode_basic< S, 8, false >
   }
 };
 
+/******************************************************************************/
+
 template< typename S >
 struct decode_basic< S, 2, true >
 {
-  static inline void unpack(HLAoctet::value_type *value, const S &s, std::size_t &offset)
+  static inline void unpack(
+    HLAoctet::value_type *value,
+    const S &s,
+    std::size_t &offset)
   {
     value[1] = s[(unsigned int) (offset + 0)];
     value[0] = s[(unsigned int) (offset + 1)];
@@ -101,10 +126,15 @@ struct decode_basic< S, 2, true >
   }
 };
 
+/******************************************************************************/
+
 template< typename S >
 struct decode_basic< S, 4, true >
 {
-  static inline void unpack(HLAoctet::value_type *value, const S &s, std::size_t &offset)
+  static inline void unpack(
+    HLAoctet::value_type *value,
+    const S &s,
+    std::size_t &offset)
   {
     value[3] = s[(unsigned int) (offset + 0)];
     value[2] = s[(unsigned int) (offset + 1)];
@@ -115,10 +145,15 @@ struct decode_basic< S, 4, true >
   }
 };
 
+/******************************************************************************/
+
 template< typename S >
 struct decode_basic< S, 8, true >
 {
-  static inline void unpack(HLAoctet::value_type *value, const S &s, std::size_t &offset)
+  static inline void unpack(
+    HLAoctet::value_type *value,
+    const S &s,
+    std::size_t &offset)
   {
     value[7] = s[(unsigned int) (offset + 0)];
     value[6] = s[(unsigned int) (offset + 1)];
@@ -133,12 +168,12 @@ struct decode_basic< S, 8, true >
   }
 };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 }} // protox::hla_1516
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/******************************************************************************/

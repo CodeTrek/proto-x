@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #ifndef PROTOX_HLA_1516_STATIC_PAD_HPP
 #define PROTOX_HLA_1516_STATIC_PAD_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #include <cstddef>
 
@@ -28,11 +28,11 @@
 #include <protox/hla_1516/size_type.hpp>
 #include <protox/hla_1516/basic_data_representation_table.hpp>
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace protox { namespace hla_1516 {
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 // Computes padding in bytes according to the following formula:
 //   (Offset + Size + Padding) modulus Octet_Boundary = 0
@@ -42,19 +42,21 @@ struct static_pad_
   BOOST_STATIC_ASSERT((
     (Offset::value >= 0) &&
     (Size::value >= 0)   &&
-    (Octet_Boundary::value > 0)
-  ));
+    (Octet_Boundary::value > 0) ));
 
-  typedef typename mpl::modulus<
-    mpl::plus< Offset, Size >,
+  typedef typename boost::mpl::modulus<
+    boost::mpl::plus< Offset, Size >,
     Octet_Boundary
   > remainder;
 
-  typedef typename mpl::if_< mpl::equal_to< remainder, mpl::int_< 0 > >,
-    mpl::int_< 0 >,
-    mpl::minus< Octet_Boundary, remainder >
-  >::type type;
+  typedef typename
+    boost::mpl::if_< boost::mpl::equal_to< remainder, boost::mpl::int_< 0 > >,
+      boost::mpl::int_< 0 >,
+      boost::mpl::minus< Octet_Boundary, remainder >
+    >::type type;
 };
+
+/******************************************************************************/
 
 template< typename S, std::size_t pad_size >
 struct pad
@@ -81,12 +83,16 @@ struct pad
   }
 };
 
+/******************************************************************************/
+
 template< typename S >
 struct pad< S, 0 >
 {
   inline static void encode(S &s) {}
   inline static void decode(S const &s, std::size_t &offset) {}
 };
+
+/******************************************************************************/
 
 template< typename S >
 struct pad< S, 1 >
@@ -105,6 +111,8 @@ struct pad< S, 1 >
     s.end_pad(1);
   }
 };
+
+/******************************************************************************/
 
 template< typename S >
 struct pad< S, 2 >
@@ -125,6 +133,8 @@ struct pad< S, 2 >
   }
 };
 
+/******************************************************************************/
+
 template< typename S >
 struct pad< S, 3 >
 {
@@ -144,6 +154,8 @@ struct pad< S, 3 >
     s.end_pad(3);
   }
 };
+
+/******************************************************************************/
 
 template< typename S >
 struct pad< S, 4 >
@@ -166,12 +178,12 @@ struct pad< S, 4 >
   }
 };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 }} // protox::hla_1516
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/******************************************************************************/

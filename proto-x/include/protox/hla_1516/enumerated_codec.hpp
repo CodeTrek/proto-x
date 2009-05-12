@@ -5,34 +5,31 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #ifndef PROTOX_HLA_1516_ENUMERATED_CODEC_HPP
 #define PROTOX_HLA_1516_ENUMERATED_CODEC_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #include <cstddef>
 
 #include <protox/dtl/codec_interface.hpp>
 #include <protox/hla_1516/codec_tags.hpp>
 
-/**************************************************************************************************/
-
-using namespace boost;
-
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace protox { namespace dtl {
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 template<> struct codec_impl< protox::hla_1516::HLAenumerated >
 {
   template< typename T >
   struct octet_boundary
   {
-    typedef typename codec::octet_boundary< typename T::value_type >::type type;
+    typedef typename
+      codec::octet_boundary< typename T::value_type >::type type;
   };
 
   // Compute the data type's size in bytes from size in bits. If the size
@@ -40,11 +37,15 @@ template<> struct codec_impl< protox::hla_1516::HLAenumerated >
   template< typename T >
   struct static_size_in_bytes
   {
-    typedef typename codec::static_size_in_bytes< typename T::value_type >::type type;
+    typedef typename
+      codec::static_size_in_bytes< typename T::value_type >::type type;
   };
 
   template< typename T >
-  inline static std::size_t dynamic_size(T) { return static_size_in_bytes<T>::type::value; }
+  inline static std::size_t dynamic_size(T)
+  {
+    return static_size_in_bytes<T>::type::value;
+  }
 
   template< typename S, typename T >
   inline static void encode(S &s, T const &obj)
@@ -63,12 +64,12 @@ template<> struct codec_impl< protox::hla_1516::HLAenumerated >
   }
 };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 }} // protox::dtl
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/******************************************************************************/

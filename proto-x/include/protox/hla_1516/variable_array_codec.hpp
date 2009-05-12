@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #ifndef PROTOX_HLA_1516_VARIABLE_ARRAY_CODEC_HPP
 #define PROTOX_HLA_1516_VARIABLE_ARRAY_CODEC_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #include <cstddef>
 
@@ -34,44 +34,46 @@
 #include <protox/hla_1516/dynamic_pad.hpp>
 #include <protox/hla_1516/size_type.hpp>
 
-/**************************************************************************************************/
-
-using namespace boost;
-
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace protox { namespace dtl {
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace variable_array_codec_1516 {
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 template< typename T >
 struct sizeof_header_pad
 {
   typedef typename hla_1516::static_pad_<
-    mpl::int_< 0 >,
+    boost::mpl::int_< 0 >,
     typename codec::static_size_in_bytes<hla_1516::size_type>::type,
     typename codec::octet_boundary< typename T::value_type >::type
   >::type type;
 };
 
+/******************************************************************************/
+
 template< typename T >
 struct compute_static_pad
 {
   typedef typename hla_1516::static_pad_<
-    mpl::int_< 0 >,
+    boost::mpl::int_< 0 >,
     typename codec::static_size_in_bytes<typename T::value_type>::type,
     typename codec::octet_boundary< typename T::value_type >::type
   >::type type;
 };
 
-template< bool Has_Static_Size > struct _layout;
+/******************************************************************************/
+
+template< bool Has_Static_Size > struct layout_;
+
+/******************************************************************************/
 
 template<>
-struct _layout< true >
+struct layout_< true >
 {
   template< typename S, typename T >
   inline static void encode_pad( S &s, typename T::value_type const & )
@@ -82,7 +84,7 @@ struct _layout< true >
 
   template< typename S, typename T >
   inline static void decode_pad(
-    typename call_traits< typename T::value_type >::param_type,
+    typename boost::call_traits< typename T::value_type >::param_type,
     S const &s,
     std::size_t &offset )
   {
@@ -93,30 +95,35 @@ struct _layout< true >
   template< typename T >
   inline static std::size_t dynamic_size(T const &obj)
   {
-     BOOST_STATIC_ASSERT((
-       codec::static_size_in_bytes< typename T::value_type >::value !=
-       UNKNOWN_STATIC_SIZE::value
-     ));
+    BOOST_STATIC_ASSERT((
+      codec::static_size_in_bytes< typename T::value_type >::value !=
+      UNKNOWN_STATIC_SIZE::value
+    ));
 
     // Compute the size of the header and then add the size of the elements
     // and padding
-     std::size_t size = codec::static_size_in_bytes< hla_1516::size_type >::value;
+    std::size_t size
+      = codec::static_size_in_bytes< hla_1516::size_type >::value;
 
-    if ( obj.empty() )
+    if (obj.empty())
       return size;
 
     typedef typename compute_static_pad< T >::type static_pad;
 
     size += sizeof_header_pad<T>::type::value;
-    size += (obj.size() * codec::static_size_in_bytes< typename T::value_type >::value );
+    size +=
+      (obj.size() *
+        codec::static_size_in_bytes< typename T::value_type >::value);
     size += ((obj.size() - 1) * static_pad::value);
 
     return( size );
   }
 };
 
+/******************************************************************************/
+
 template<>
-struct _layout< false >
+struct layout_< false >
 {
   template< typename T >
   inline static std::size_t dynamic_size(T const &obj)
@@ -126,9 +133,10 @@ struct _layout< false >
       UNKNOWN_STATIC_SIZE::value
     ));
 
-    std::size_t size = codec::static_size_in_bytes< hla_1516::size_type >::value;
+    std::size_t size
+      = codec::static_size_in_bytes< hla_1516::size_type >::value;
 
-    if ( obj.empty() )
+    if (obj.empty())
       return size;
 
     size += sizeof_header_pad<T>::type::value;
@@ -181,29 +189,33 @@ struct _layout< false >
   }
 };
 
+/******************************************************************************/
+
 template< typename T >
 struct impl
 {
   // Are the array elements fixed or dynamic in size?
-  typedef mpl::not_equal_to<
-    typename codec::static_size_in_bytes< typename T::value_type >::type, UNKNOWN_STATIC_SIZE
+  typedef boost::mpl::not_equal_to<
+    typename codec::static_size_in_bytes<
+      typename T::value_type
+    >::type, UNKNOWN_STATIC_SIZE
   > has_static_size;
 
-  typedef _layout< has_static_size::value > type;
+  typedef layout_< has_static_size::value > type;
 };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
  } // protox::dtl::variable_array_codec
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 template<> struct codec_impl< protox::hla_1516::HLAvariableArray >
 {
   template< typename T >
   struct octet_boundary
   {
-    typedef typename mpl::max<
+    typedef typename boost::mpl::max<
       typename codec::octet_boundary< typename T::value_type >::type,
       typename codec::octet_boundary< hla_1516::size_type >::type
     >::type type;
@@ -287,12 +299,12 @@ template<> struct codec_impl< protox::hla_1516::HLAvariableArray >
   }
 };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 }} // protox::dtl
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/******************************************************************************/
