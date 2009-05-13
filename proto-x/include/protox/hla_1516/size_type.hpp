@@ -12,6 +12,8 @@
 
 /******************************************************************************/
 
+#include <cstddef>
+
 #include <protox/hla_1516/basic_data_representation_table.hpp>
 
 /******************************************************************************/
@@ -20,7 +22,19 @@ namespace protox { namespace hla_1516 {
 
 /******************************************************************************/
 
-typedef HLAinteger32BE size_type;
+struct size_type : HLAinteger32BE
+{
+  size_type(std::size_t s)
+  {
+    value = (HLAinteger32BE::value_type) s;
+  }
+
+  size_type &operator=(std::size_t s)
+  {
+    value = (HLAinteger32BE::value_type) s;
+    return *this;
+  }
+};
 
 /******************************************************************************/
 

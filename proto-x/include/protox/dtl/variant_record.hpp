@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #ifndef PROTOX_DTL_VARIANT_RECORD_HPP
 #define PROTOX_DTL_VARIANT_RECORD_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #include <boost/mpl/placeholders.hpp>
 #include <boost/mpl/max.hpp>
@@ -21,11 +21,11 @@
 #include <protox/dtl/alternative.hpp>
 #include <protox/dtl/discriminant.hpp>
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace protox { namespace dtl {
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 template<
   typename D_TYPE,   // Discriminant type
@@ -42,11 +42,12 @@ struct variant_record
   typedef D_VECTOR d_vector;
   typedef OTHER other_type;
 
-  typedef typename mpl::fold<
+  typedef typename boost::mpl::fold<
     D_VECTOR,
     boost::mpl::vector<>,
-    boost::mpl::push_back< boost::mpl::placeholders::_1, get_alternative_type< boost::mpl::placeholders::_2 > >
-
+    boost::mpl::push_back<
+      boost::mpl::placeholders::_1,
+      get_alternative_type< boost::mpl::placeholders::_2 > >
   >::type alternative_vector;
 
   typename boost::make_variant_over<
@@ -76,7 +77,8 @@ struct variant_record
     template< typename R >
     inline static bool is_equal(const R &lhs, const R &rhs)
     {
-      // This is the "other" case, so testing for discriminant equality is not necessary.
+      // This is the "other" case, so testing for discriminant equality
+      // is not necessary.
       typename OTHER_T::value_type const *lhs_value = lhs.other_();
       typename OTHER_T::value_type const *rhs_value = rhs.other_();
 
@@ -93,7 +95,8 @@ struct variant_record
   template< typename D, typename BASE >
   struct discriminant_compare
   {
-    typedef typename protox::dtl::discriminator_test< D >::type discriminator_test;
+    typedef typename
+      protox::dtl::discriminator_test< D >::type discriminator_test;
 
     template< typename R >
     inline static bool is_equal(const R &lhs, const R &rhs)
@@ -107,8 +110,11 @@ struct variant_record
         if (!(lhs.discriminant == rhs.discriminant))
           return false;
 
-        typename D::alternative::value_type const *lhs_value = lhs.template alt_< D >();
-        typename D::alternative::value_type const *rhs_value = rhs.template alt_< D >();
+        typename D::alternative::value_type const *lhs_value
+          = lhs.template alt_< D >();
+
+        typename D::alternative::value_type const *rhs_value
+          = rhs.template alt_< D >();
 
         // No alternative values?
         if ((!lhs_value) && (!rhs_value))
@@ -129,10 +135,12 @@ struct variant_record
 
   inline bool operator == (const variant_record &rhs) const
   {
-    typedef typename mpl::fold<
+    typedef typename boost::mpl::fold<
       D_VECTOR,
       compare_other< OTHER, void >,
-      discriminant_compare< boost::mpl::placeholders::_2, boost::mpl::placeholders::_1 >
+      discriminant_compare<
+        boost::mpl::placeholders::_2,
+        boost::mpl::placeholders::_1 >
     >::type type;
 
     return type::is_equal(*this, rhs);
@@ -149,7 +157,6 @@ struct variant_record
   {
     value = static_cast<typename get_alternative_type<T>::type>(v);
   }
-
 
   // Gets a read/write pointer to an alternative's value
   template< typename T >
@@ -199,12 +206,12 @@ struct variant_record
   }
 };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 }} // protox::dtl
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/******************************************************************************/

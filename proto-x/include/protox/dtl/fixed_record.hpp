@@ -137,7 +137,9 @@ struct fixed_record : public boost::mpl::reverse_fold<
     typedef typename boost::mpl::fold<
       FIELD_VECTOR,
       null_field_compare,
-      field_compare< mpl::placeholders::_2, mpl::placeholders::_1 >
+      field_compare<
+        boost::mpl::placeholders::_2,
+        boost::mpl::placeholders::_1 >
     >::type type;
 
     return type::is_equal(*this, rhs);

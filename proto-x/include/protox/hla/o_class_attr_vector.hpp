@@ -80,7 +80,7 @@ struct o_class_attr_vector
   typedef typename o_class_attr_vector_impl<
     (boost::mpl::empty< class_vector >::value),
     class_vector,
-    mpl::vector<>
+    boost::mpl::vector<>
   >::type type;
 };
 

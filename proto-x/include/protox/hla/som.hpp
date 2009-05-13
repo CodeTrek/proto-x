@@ -87,7 +87,6 @@ struct init_attr_handle
   template< typename N >
   void operator()(N)
   {
-    std::cout << "   class handle : " << class_handle << " attr : " << N::name() << "\n";
     // Find the class handle entry
     o_class_handle_to_attr_map::iterator i = map.find(class_handle);
 
@@ -168,8 +167,6 @@ struct dfs_children< true, Children, Stack >
   {
     std::string full_name;
     boost::mpl::for_each< Stack >(build_full_name(full_name, REVERSED));
-    
-    //std::cout << "full name : " << full_name.c_str() << "\n";
     
     RTI::ObjectClassHandle class_handle = rtiAmb.getObjectClassHandle(full_name.c_str());
     class_map[full_name] = class_handle;
@@ -255,7 +252,7 @@ private:
 public: 
   typedef ROOT_O_CLASS o_class_table;
 
-  static RTI::ObjectClassHandle get_object_class_handle(std::string const &name)
+  static RTI::ObjectClassHandle get_object_class_handle(const std::string &name)
   {
     name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
     name_to_o_class_handle_map::const_iterator it = class_map.find(name);
@@ -268,6 +265,69 @@ public:
     }
 
     return ((*it).second);
+  }
+
+  static RTI::AttributeHandle get_attr_handle(
+    const std::string &name,
+    RTI::ObjectClassHandle handle)
+  {
+    o_class_handle_to_attr_map &class_map = get_o_class_handle_to_attr_map();
+    o_class_handle_to_attr_map::const_iterator i = class_map.find(handle);
+
+    if (i == class_map.end())
+    {
+      // TODO:: trow exception
+      return -1;
+    }
+
+    const attr_name_to_handle_map &attr_map = (*i).second;
+    attr_name_to_handle_map::const_iterator j = attr_map.find(name);
+
+    if (j == attr_map.end())
+    {
+      // TODO:: trow exception
+      return -1;
+    }
+
+    return (*j).second;
+  }
+
+  static RTI::AttributeHandle get_attr_handle(
+    const std::string &class_name,
+    const std::string &attr_name)
+  {
+    if (class_name.empty())
+    {
+      // TODO:: trow exception
+      return -1;
+    }
+
+    RTI::ObjectClassHandle class_handle = get_object_class_handle(class_name);
+
+    // Not found?
+    if (class_handle == -1) // temp
+    {
+      // TODO:: trow exception
+      return -1;
+    }
+
+    RTI::AttributeHandle attr_handle = get_attr_handle(attr_name, class_handle);
+
+    // Not found?
+    if (attr_handle == -1)
+    {
+      std::string parent = "";
+      std::string::size_type pos = class_name.find_last_of('.');
+
+      if (pos != std::string::npos)
+      {
+        parent = class_name.substr(0, (class_name.size() - (pos + 1)));
+      }
+
+      return get_attr_handle(parent, attr_name);
+    }
+
+    return attr_handle;
   }
 
   static std::size_t get_num_object_classes()

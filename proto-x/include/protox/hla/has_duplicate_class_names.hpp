@@ -55,7 +55,7 @@ struct has_duplicate_class_names_impl< false, SET >
     >::type names;
 
   // Transform names into a count of each name.
-  typedef typename mpl::transform_view<
+  typedef typename boost::mpl::transform_view<
     names,
     typename element_counter<names>::template op< boost::mpl::placeholders::_1 >
   >::type name_counts;

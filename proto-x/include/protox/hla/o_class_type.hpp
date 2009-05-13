@@ -42,7 +42,7 @@ template<
   >::type attr_vector_type;
 
   // Construct the inheritence tree from the attribute vector.
-  typedef typename mpl::inherit_linearly<
+  typedef typename boost::mpl::inherit_linearly<
     attr_vector_type,
     attr_inherit<
       attr_base< boost::mpl::placeholders::_2 >,

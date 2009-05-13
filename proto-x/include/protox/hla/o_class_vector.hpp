@@ -60,7 +60,7 @@ template<
   typename CLASS_VECTOR
 > struct o_class_vector_impl< true, O_CLASS, NAME_VECTOR, CLASS_VECTOR >
 {
-  BOOST_STATIC_ASSERT(( mpl::size< NAME_VECTOR >::value == 0 ));
+  BOOST_STATIC_ASSERT(( boost::mpl::size< NAME_VECTOR >::value == 0 ));
   typedef CLASS_VECTOR type;
 };
 
