@@ -22,13 +22,14 @@
 #include <protox/hla_1516/variable_array.hpp>
 #include <protox/hla_1516/basic_data_representation_table.hpp>
 
-using namespace boost;
-using namespace protox;
-using namespace protox::dtl;
-using namespace protox::hla_1516;
 
 namespace test_protox_dtl_hla_1516_policy_variable_array
 {
+  using namespace boost;
+  using namespace protox;
+  using namespace protox::dtl;
+  using namespace protox::hla_1516;
+
   BOOST_AUTO_TEST_CASE( tests_has_dynamic_size )
   {
     typedef hla_1516::variable_array< std::vector< HLAoctet > > A1;

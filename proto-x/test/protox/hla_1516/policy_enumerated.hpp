@@ -21,12 +21,11 @@
 
 #include "./test_days_of_week_enum.hpp"
 
-using namespace boost;
-using namespace protox::hla_1516;
-
-
 namespace test_protox_dtl_hla_1516_codec_enumerated
 {
+  using namespace boost;
+  using namespace protox::hla_1516;
+
   /**
    * Define an enumeration with enumerators that can be respresented
    * by muliple values.
@@ -119,9 +118,9 @@ namespace test_protox_dtl_hla_1516_codec_enumerated
 
   BOOST_AUTO_TEST_CASE( test_enumerated )
   {
-    BOOST_CHECK( codec::octet_boundary< HLAboolean >::value == 4 );
-    BOOST_CHECK( codec::static_size_in_bytes< HLAboolean >::value == 4 );
-    BOOST_CHECK( codec::dynamic_size(HLAtrue::value()) == 4 );
+    BOOST_CHECK( protox::dtl::codec::octet_boundary< HLAboolean >::value == 4 );
+    BOOST_CHECK( protox::dtl::codec::static_size_in_bytes< HLAboolean >::value == 4 );
+    BOOST_CHECK( protox::dtl::codec::dynamic_size(HLAtrue::value()) == 4 );
 
     protox::io::byte_data_sink sink;
 

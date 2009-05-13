@@ -36,7 +36,6 @@ namespace test_protox_hla_o_class_type {
 namespace t1
 {
   using namespace protox::hla;
-
  
   // Class names 
   struct Class_A { HLA_NAME("Class_A") };
@@ -82,17 +81,16 @@ BOOST_AUTO_TEST_CASE( test_o_class_type )
   using namespace boost;
   using namespace t1;
 
-  typedef hla::som< o_class_table > som;
+  typedef protox::hla::som< o_class_table > som;
 
   RTI::RTIambassador rtiAmb;  
   som::init_handles(rtiAmb);
 
-  som::print_object_class_handle_map();
-  som::print_attr_handle_map();
+  //som::print_object_class_handle_map();
+  //som::print_attr_handle_map();
 
   typedef o_class_type< som, qualified_name< Class_C, Class_A, Class_E > > class_type;
 
-  std::cout << mpl::size< class_type::attr_vector_type >::value << "\n";
   class_type::type bObj;
 
   bObj.a_<A1>() = 5;

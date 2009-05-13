@@ -21,13 +21,13 @@
 #include <protox/hla_1516/fixed_array.hpp>
 #include <protox/hla_1516/fixed_record.hpp>
 
-using namespace boost;
-using namespace protox;
-using namespace protox::dtl;
-using namespace protox::hla_1516;
-
 namespace test_protox_dtl_hla_1516_codec_fixed_array
 {
+  using namespace boost;
+  using namespace protox;
+  using namespace protox::dtl;
+  using namespace protox::hla_1516;
+
    BOOST_AUTO_TEST_CASE( test_static_size_no_padding )
   {
     typedef hla_1516::fixed_array< HLAoctet, 20 > A1;

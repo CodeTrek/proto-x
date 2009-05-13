@@ -101,8 +101,8 @@ BOOST_AUTO_TEST_CASE( test_som_init_class_handles )
   BOOST_CHECK( som::get_object_class_handle("Class_A.Class_D.Class_G") > 0 );
   BOOST_CHECK( som::get_object_class_handle("Class_A.Class_D.Class_H") > 0 );
 
-  som::print_object_class_handle_map();
-  som::print_attr_handle_map();
+  //som::print_object_class_handle_map();
+  //som::print_attr_handle_map();
 }
 
 namespace t2
@@ -198,8 +198,17 @@ BOOST_AUTO_TEST_CASE( test_som_init_attr_handles )
   BOOST_CHECK( som::get_object_class_handle("Class_A.Class_D.Class_G") > 0 );
   BOOST_CHECK( som::get_object_class_handle("Class_A.Class_D.Class_H") > 0 );
 
-  som::print_object_class_handle_map();
-  som::print_attr_handle_map();
+  BOOST_CHECK( som::get_attr_handle("a1",
+                 som::get_object_class_handle("Class_A")) > 0 );
+
+  BOOST_CHECK( som::get_attr_handle("a2",
+                 som::get_object_class_handle("Class_A")) > 0 );
+
+  BOOST_CHECK( som::get_attr_handle("Class_A.Class_B", "a2") > 0 );
+  BOOST_CHECK( som::get_attr_handle("Class_A.Class_C.Class_A", "a1") > 0 );
+
+  //som::print_object_class_handle_map();
+  //som::print_attr_handle_map();
 }
 
 /**************************************************************************************************/

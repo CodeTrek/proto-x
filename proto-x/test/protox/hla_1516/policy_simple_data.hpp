@@ -18,12 +18,12 @@
 #include <protox/io/byte_data_sink.hpp>
 #include <protox/io/byte_data_source.hpp>
 
-using namespace boost;
-using namespace protox::dtl;
-using namespace protox::hla_1516;
-
 namespace test_protox_dtl_hla_1516_codec_simple_data
 {
+  using namespace boost;
+  using namespace protox::dtl;
+  using namespace protox::hla_1516;
+
   namespace t1
   {
     struct SimpleHLAoctet : simple<HLAoctet> {PROTOX_SIMPLE(SimpleHLAoctet)}; 

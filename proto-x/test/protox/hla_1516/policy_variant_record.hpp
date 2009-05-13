@@ -27,17 +27,18 @@
 #include "protox/hla_1516/basic_data_representation_table.hpp"
 #include "protox/hla_1516/fixed_record.hpp"
 
-using namespace boost;
-using namespace protox;
-using namespace protox::dtl;
-using namespace protox::hla_1516;
-using namespace test_hla1516;
-using namespace test_hla1516::DaysOfWeekEnum16;
-using namespace test_hla1516::ColorEnum16;
-using namespace test_hla1516::SuiteEnum8;
 
 namespace test_protox_dtl_hla_1516_policy_variant_record
 {
+  using namespace boost;
+  using namespace protox;
+  using namespace protox::dtl;
+  using namespace protox::hla_1516;
+  using namespace test_hla1516;
+  using namespace test_hla1516::DaysOfWeekEnum16;
+  using namespace test_hla1516::ColorEnum16;
+  using namespace test_hla1516::SuiteEnum8;
+
   namespace t1
   {
     struct x : public field<HLAoctet> {};

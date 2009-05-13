@@ -17,13 +17,12 @@
 #include <protox/io/byte_data_sink.hpp>
 #include <protox/io/byte_data_source.hpp>
 
-
-using namespace boost;
-using namespace protox::dtl;
-using namespace protox::hla_1516;
-
 namespace test_protox_dtl_hla_1516_codec_basic_data
 {
+  using namespace boost;
+  using namespace protox::dtl;
+  using namespace protox::hla_1516;
+
   BOOST_AUTO_TEST_CASE( test_basic_data_representation_table )
   {
     typedef protox::dtl::codec codec;
@@ -328,7 +327,6 @@ namespace test_protox_dtl_hla_1516_codec_basic_data
 
     BOOST_CHECK( fabs(float64BE_d - 5.67e-3) <= 0.00001 );
   }
-
 }
 
 #endif
