@@ -90,7 +90,7 @@ template<
 
       type()
       {
-        init_handles<SOM>(type::get_name());
+        attrs_type::template init_handles< SOM >(type::get_name());
       }
   };
 };

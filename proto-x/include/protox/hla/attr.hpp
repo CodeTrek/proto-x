@@ -46,7 +46,7 @@ protected:
   template< typename S >
   void init_handle(const std::string &class_name )
   {
-    handle = S::get_attr_handle(class_name, name());
+    handle = S::get_attr_handle(class_name, name());;
   }
 };
 
@@ -72,7 +72,7 @@ protected:
   template< typename T >
   void init_handles(const std::string &class_name)
   {
-    A::init_handle< T >(class_name);
+    A::template init_handle< T >(class_name);
   }
 };
 
@@ -88,8 +88,8 @@ protected:
   template< typename T >
   void init_handles(const std::string &class_name)
   {
-    A::init_handle< T >(class_name);
-    B::init_handles< T >(class_name);
+    A::template init_handle< T >(class_name);
+    B::template init_handles< T >(class_name);
   }
 
 public:
@@ -103,6 +103,12 @@ public:
   inline typename T::value_type &a_()
   {
     return (static_cast< attr_base< T > & >(*this).value);
+  }
+  
+  template< typename T >
+  inline RTI::AttributeHandle get_attr_handle()
+  {
+    return (static_cast< attr_base< T > & >(*this).handle);
   }
 };
 
