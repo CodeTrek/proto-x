@@ -103,6 +103,10 @@ BOOST_AUTO_TEST_CASE( test_o_class_type )
   std::cout << "bObj.a_<A1> = " << bObj.a_<A1>() << "\n";
   std::cout << "bObj.a_<A2> = " << bObj.a_<A2>() << "\n";
   std::cout << "bObj.a_<A3> = " << bObj.a_<A3>() << "\n";
+  
+  std::cout << "bObj.get_attr_handle<A1>() = " << bObj.get_attr_handle<A1>() << "\n";
+  std::cout << "bObj.get_attr_handle<A2>() = " << bObj.get_attr_handle<A2>() << "\n";
+  std::cout << "bObj.get_attr_handle<A3>() = " << bObj.get_attr_handle<A3>() << "\n";
 }
 
 /**************************************************************************************************/
