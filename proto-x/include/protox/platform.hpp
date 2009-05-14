@@ -33,7 +33,8 @@
 
 #define PROTOX_DTL_NA_ENDIAN     0
 
-// Use these values to configure DTEL for a big or little endian architecture.
+// Use these values to configure protox::dtl for a big or little endian
+// architecture.
 #define PROTOX_DTL_LITTLE_ENDIAN 1
 #define PROTOX_DTL_BIG_ENDIAN    2
 

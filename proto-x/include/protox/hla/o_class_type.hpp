@@ -58,9 +58,6 @@ template<
           QUALIFIED_NAME_VECTOR
         >::type o_class_vector_type;
 
-      std::string full_name;
-      RTI::ObjectClassHandle handle;
-
     public:
       static const std::string &get_name()
       {
@@ -91,7 +88,10 @@ template<
         return handle;
       }
 
-      type() {}
+      type()
+      {
+        init_handles<SOM>(type::get_name());
+      }
   };
 };
 

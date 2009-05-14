@@ -41,6 +41,13 @@ struct attr_base
   static char const *name() { return T::name(); }
 
   attr_base() : handle(0) {}
+
+protected:
+  template< typename S >
+  void init_handle(const std::string &class_name )
+  {
+    handle = S::get_attr_handle(class_name, name());
+  }
 };
 
 /******************************************************************************/
@@ -60,13 +67,32 @@ template< typename A, typename B > struct attr_inherit;
 
 template< typename A >
 struct attr_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty_base
-{};
+{
+protected:
+  template< typename T >
+  void init_handles(const std::string &class_name)
+  {
+    A::init_handle< T >(class_name);
+  }
+};
 
 /******************************************************************************/
 
+/**
+ * A is an attribute and B is set of predecessor attributes.
+ */
 template< typename A, typename B >
 struct attr_inherit : A, B
 {
+protected:
+  template< typename T >
+  void init_handles(const std::string &class_name)
+  {
+    A::init_handle< T >(class_name);
+    B::init_handles< T >(class_name);
+  }
+
+public:
   template< typename T >
   inline typename T::value_type const &a_() const
   {

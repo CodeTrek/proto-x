@@ -321,7 +321,7 @@ public:
 
       if (pos != std::string::npos)
       {
-        parent = class_name.substr(0, (class_name.size() - (pos + 1)));
+        parent = class_name.substr(0, pos);
       }
 
       return get_attr_handle(parent, attr_name);

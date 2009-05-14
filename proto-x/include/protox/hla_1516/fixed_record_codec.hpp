@@ -231,7 +231,7 @@ struct layout_< T, Base, false, false >
 
 // _The following case should never happen_
 // Once a dynamic Base field in record R is
-// encounterd (i.e., Base::static_size is dtel::UNKNOWN_STATIC_SIZE),
+// encounterd (i.e., Base::static_size is dtl::UNKNOWN_STATIC_SIZE),
 // then all subsequent fields T have unknown static sizes.
 template< typename T, typename Base > struct layout_< T, Base, true, false >;
 
@@ -241,7 +241,7 @@ template< typename T, typename Base > struct layout_< T, Base, true, false >;
 // where T derives directly from Base.
 //
 // T represents a single field.
-// Base represents the partial record formed by T's predeccsor fields.
+// Base represents the partial record formed by T's predecessor fields.
 template< typename T, typename Base >
 struct impl_
 {
