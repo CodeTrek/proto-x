@@ -12,23 +12,17 @@
 
 /******************************************************************************/
 
-#include <vector>
 #include <string>
 
 #include <RTI.hh>
 
-#include <boost/mpl/front.hpp>
-#include <boost/mpl/pop_front.hpp>
 #include <boost/mpl/empty_base.hpp>
-#include <boost/mpl/empty.hpp>
-#include <boost/mpl/back_inserter.hpp>
 
 /******************************************************************************/
 
 namespace protox { namespace hla {
 
 /******************************************************************************/
-
 
 template< typename T >
 struct attr_base

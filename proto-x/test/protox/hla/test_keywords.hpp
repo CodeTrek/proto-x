@@ -51,13 +51,13 @@ namespace test_protox_hla_keywords
     BOOST_CHECK( boost::mpl::size<c4>::value == 4 );
   }
 
-  BOOST_AUTO_TEST_CASE( test_qualified_name_keyword )
+  BOOST_AUTO_TEST_CASE( test_q_name_keyword )
   {
-    typedef protox::hla::qualified_name<> q0;
-    typedef protox::hla::qualified_name< int > q1;
-    typedef protox::hla::qualified_name< int, float > q2;
-    typedef protox::hla::qualified_name< int, float, double > q3;
-    typedef protox::hla::qualified_name< int, float, double, char > q4;
+    typedef protox::hla::q_name<> q0;
+    typedef protox::hla::q_name< int > q1;
+    typedef protox::hla::q_name< int, float > q2;
+    typedef protox::hla::q_name< int, float, double > q3;
+    typedef protox::hla::q_name< int, float, double, char > q4;
 
     BOOST_CHECK( boost::mpl::size<q0>::value == 0 );
     BOOST_CHECK( boost::mpl::size<q1>::value == 1 );

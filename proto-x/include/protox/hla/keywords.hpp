@@ -115,7 +115,7 @@ struct child : boost::mpl::set< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_CHILDREN, T) > 
 
 /**************************************************************************************************/
 
-// keyword: qualified_name
+// keyword: q_name
 
 /**************************************************************************************************/
 
@@ -127,7 +127,7 @@ struct child : boost::mpl::set< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_CHILDREN, T) > 
 
 // Forward reference
 template< BOOST_PP_ENUM(HLA_MAX_NUM_QNAME, HLA_QNAME_DEFAULT_PARAMS, typename T) >
-struct qualified_name;
+struct q_name;
 
 // Used to yield the 'text' argument
 #define HLA_QNAME_TEXT(z, n, text) text
@@ -135,7 +135,7 @@ struct qualified_name;
 // struct child specializations
 #define HLA_QNAME(z, n, unused)                               \
   template< BOOST_PP_ENUM_PARAMS(n, typename T) >             \
-  struct qualified_name<                                      \
+  struct q_name<                                              \
     BOOST_PP_ENUM_PARAMS(n, T)                                \
     BOOST_PP_COMMA_IF(n)                                      \
     BOOST_PP_ENUM(                                            \
@@ -144,7 +144,7 @@ struct qualified_name;
 
 // Non-specialized structa attrs
 template< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_QNAME, typename T) >
-struct qualified_name : boost::mpl::vector< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_QNAME, T) > {};
+struct q_name : boost::mpl::vector< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_QNAME, T) > {};
 
 // Vertical repetition
 #define BOOST_PP_LOCAL_MACRO(n) HLA_QNAME(~, n, ~)

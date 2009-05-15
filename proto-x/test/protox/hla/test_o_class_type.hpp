@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #ifndef TEST_PROTOX_HLA_O_CLASS_TYPE_HPP
 #define TEST_PROTOX_HLA_O_CLASS_TYPE_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #include <RTI.hh>
 
@@ -27,16 +27,18 @@
 #include <protox/hla/name.hpp>
 #include <protox/hla/som.hpp>
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace test_protox_hla_o_class_type {
 
-/**************************************************************************************************/
+/******************************************************************************/
+
+using namespace protox::hla;
+
+/******************************************************************************/
 
 namespace t1
 {
-  using namespace protox::hla;
- 
   // Class names 
   struct Class_A { HLA_NAME("Class_A") };
   struct Class_B { HLA_NAME("Class_B") };
@@ -51,45 +53,94 @@ namespace t1
   struct A1 : protox::hla::attr< int > { HLA_NAME("A1") };
   struct A2 : protox::hla::attr< int > { HLA_NAME("A2") };
   struct A3 : protox::hla::attr< double > { HLA_NAME("A3") };
-  
+
   // Structure
   struct o_class_table : 
+// +------------------+
     o_class< Class_A,
-             attrs< A3 >,
-             child< o_class< Class_B,
-                             attrs< A1, A2 >,
-                             child< o_class< Class_E >,
-                                    o_class< Class_F >,
-                                    o_class< Class_C > > >,
-                    o_class< Class_C,
-                             attrs< A1, A2 >,
-                             child< o_class< Class_A,
-                                             none,
-                                             child< o_class< Class_E > > >,
-                                    o_class< Class_C >,
-                                    o_class< Class_E > > >,
-                    o_class< Class_D,
-                             attrs< A1, A2 >,
-                             child< o_class< Class_G >,
-                                    o_class< Class_H > > > > > {};
+      attrs< A3 >,
+//                    +-------------------------+
+                        child< o_class< Class_B,
+                          attrs< A1, A2 >,
+//                                              +--------------------------+
+                                                  child< o_class< Class_E >,
+//                                              +--------------------------+
+                                                         o_class< Class_F >,
+//                                              +--------------------------+
+                                                         o_class< Class_C > > >,
+//                                              +--------------------------+
+//                    +-------------------------+
+                        o_class< Class_C,
+                          attrs< A1, A2 >,
+//                                              +--------------------------+
+                                                  child< o_class< Class_A,
+                                                    none,
+//                                                                         +-------------------------+
+                                                                             child< o_class< Class_E > > >,
+//                                                                         +-------------------------+
+//                                              +--------------------------+
+                                                         o_class< Class_C >,
+//                                              +--------------------------+
+                                                         o_class< Class_E > > >,
+//                                              +--------------------------+
+//                    +-------------------------+
+                        o_class< Class_D,
+                          attrs< A1, A2 >,
+//                                              +--------------------------+
+                                                  child< o_class< Class_G >,
+//                                              +--------------------------+
+                                                         o_class< Class_H > > > > > {};
+//                                              +--------------------------+
+//                    +-------------------------+
+// +------------------+
 
+} // t1
 
-}
+/******************************************************************************/
 
-BOOST_AUTO_TEST_CASE( test_o_class_type )
+using namespace boost;
+using namespace t1;
+
+/******************************************************************************/
+
+BOOST_AUTO_TEST_CASE( test_o_class_type_definition )
 {
-  using namespace boost;
-  using namespace t1;
-
   typedef protox::hla::som< o_class_table > som;
 
   RTI::RTIambassador rtiAmb;  
   som::init_handles(rtiAmb);
 
-  //som::print_object_class_handle_map();
-  //som::print_attr_handle_map();
+  typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > > class_type;
 
-  typedef o_class_type< som, qualified_name< Class_C, Class_A, Class_E > > class_type;
+  BOOST_CHECK( class_type::type::get_name()
+    == "Class_A.Class_C.Class_A.Class_E" );
+  BOOST_CHECK( class_type::type::get_handle() > 0 ); 
+}
+
+BOOST_AUTO_TEST_CASE( test_o_class_type_ctor )
+{
+  typedef protox::hla::som< o_class_table > som;
+
+  RTI::RTIambassador rtiAmb;  
+  som::init_handles(rtiAmb);
+
+  typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > > class_type;
+
+  class_type::type bObj;
+
+  BOOST_CHECK( bObj.get_attr_handle<A1>() > 0 );
+  BOOST_CHECK( bObj.get_attr_handle<A2>() > 0 );
+  BOOST_CHECK( bObj.get_attr_handle<A3>() > 0 );
+}
+
+BOOST_AUTO_TEST_CASE( test_o_class_type_attr_mutators )
+{
+  typedef protox::hla::som< o_class_table > som;
+
+  RTI::RTIambassador rtiAmb;  
+  som::init_handles(rtiAmb);
+
+  typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > > class_type;
 
   class_type::type bObj;
 
@@ -97,24 +148,17 @@ BOOST_AUTO_TEST_CASE( test_o_class_type )
   bObj.a_<A2>() = 10;
   bObj.a_<A3>() = 3.145;
 
-  std::cout << "class name = " << class_type::type::get_name() << "\n";
-  std::cout << "class handle = " << class_type::type::get_handle() << "\n";
-
-  std::cout << "bObj.a_<A1> = " << bObj.a_<A1>() << "\n";
-  std::cout << "bObj.a_<A2> = " << bObj.a_<A2>() << "\n";
-  std::cout << "bObj.a_<A3> = " << bObj.a_<A3>() << "\n";
-  
-  std::cout << "bObj.get_attr_handle<A1>() = " << bObj.get_attr_handle<A1>() << "\n";
-  std::cout << "bObj.get_attr_handle<A2>() = " << bObj.get_attr_handle<A2>() << "\n";
-  std::cout << "bObj.get_attr_handle<A3>() = " << bObj.get_attr_handle<A3>() << "\n";
+  BOOST_CHECK( bObj.a_<A1>() == 5 );
+  BOOST_CHECK( bObj.a_<A2>() == 10 );
+  BOOST_CHECK( (bObj.a_<A3>() - 3.145) < 0.00001 );
 }
 
-/**************************************************************************************************/
+/******************************************************************************/
 
-} // namespace test_protox_hla_o_class_type
+} // test_protox_hla_o_class_type
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/******************************************************************************/

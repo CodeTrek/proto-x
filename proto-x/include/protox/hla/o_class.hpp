@@ -17,6 +17,7 @@
 #include <protox/hla/keywords.hpp>
 #include <protox/hla/has_duplicate_class_names.hpp>
 #include <protox/hla/has_duplicate_attr_names.hpp>
+#include <protox/hla/name.hpp>
 
 /******************************************************************************/
 
@@ -31,16 +32,22 @@ template<
 struct o_class
 {
   // Check for duplicate child classes.
-  BOOST_STATIC_ASSERT( (has_duplicate_class_names<CHILD_SET>::type::value == false) );
+  BOOST_STATIC_ASSERT(
+    (has_duplicate_class_names<CHILD_SET>::type::value == false) );
   
   // Check for duplicate attributes.
-  BOOST_STATIC_ASSERT( (has_duplicate_attr_names<ATTR_SET>::type::value == false) );
+  BOOST_STATIC_ASSERT(
+    (has_duplicate_attr_names<ATTR_SET>::type::value == false) );
 
   typedef NAME name_type;
  
   typedef ATTR_SET attr_list_type;
   typedef CHILD_SET child_list_type;
 };
+
+/******************************************************************************/
+
+struct null_o_class : o_class< null_name > {};  
 
 /******************************************************************************/
 

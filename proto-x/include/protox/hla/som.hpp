@@ -49,6 +49,8 @@
 #include <protox/hla/class_handle_to_attr_handle_map.hpp>
 #include <protox/hla/build_full_name.hpp>
 
+#include <protox/hla/o_class.hpp>
+
 /******************************************************************************/
 
 namespace protox { namespace hla {
@@ -101,35 +103,45 @@ struct init_attr_handle
     // No entry for the attribute name?
     if (j == map[class_handle].end())
     {
-      map[class_handle][N::name()] = rtiAmb.getAttributeHandle(N::name(), class_handle);
+      map[class_handle][N::name()]
+        = rtiAmb.getAttributeHandle(N::name(), class_handle);
     }
   }
 };
 
 /******************************************************************************/
 
-template< typename T, typename Stack > struct dfs; // forward declaration
+// forward declaration
+template< typename T, typename Stack > struct attr_dft;
 
 /******************************************************************************/
 
-template< bool empty, typename Children, typename Stack > struct dfs_children;
+// forward declaration
+template< bool empty, typename Children, typename Stack >
+struct attr_dft_children;
 
 /******************************************************************************/
 
 template< typename Children, typename Stack >
-struct dfs_children< false, Children, Stack >
+struct attr_dft_children< false, Children, Stack >
 {
   // Separate the first child from the rest.
   typedef typename boost::mpl::front< Children >::type first_child;
 
   // Get the remaining children (i.e, the tail of the child vector)
-  typedef typename boost::mpl::erase< Children, boost::mpl::front< Children > >::type tail;
+  typedef typename
+    boost::mpl::erase< Children, boost::mpl::front< Children > >::type tail;
 
   // Traverse the first child of the given Children vector.
-  typedef dfs< first_child, Stack > stack;
+  typedef attr_dft< first_child, Stack > stack;
 
   // Traverse the remaining children.
-  typedef dfs_children< boost::mpl::empty<tail>::value, tail, typename stack::type > result;
+  typedef attr_dft_children<
+    boost::mpl::empty<tail>::value,
+    tail,
+    typename stack::type
+  > result;
+
   typedef typename result::type type;
 
   static void dump_stack()
@@ -150,7 +162,7 @@ struct dfs_children< false, Children, Stack >
 /******************************************************************************/
 
 template< typename Children, typename Stack >
-struct dfs_children< true, Children, Stack >
+struct attr_dft_children< true, Children, Stack >
 {
   typedef typename boost::mpl::pop_front< Stack >::type type;
 
@@ -168,7 +180,9 @@ struct dfs_children< true, Children, Stack >
     std::string full_name;
     boost::mpl::for_each< Stack >(build_full_name(full_name, REVERSED));
     
-    RTI::ObjectClassHandle class_handle = rtiAmb.getObjectClassHandle(full_name.c_str());
+    RTI::ObjectClassHandle class_handle =
+      rtiAmb.getObjectClassHandle(full_name.c_str());
+
     class_map[full_name] = class_handle;
     
     typedef typename boost::mpl::front< Stack >::type child;
@@ -184,13 +198,13 @@ struct dfs_children< true, Children, Stack >
  * Perform a depth first traversal of the given tree T.  
  */
 template< typename T, typename Stack = boost::mpl::vector<> >
-struct dfs
+struct attr_dft
 {
   // Push the root of the tree onto a stack.  
   typedef typename boost::mpl::push_front< Stack, T >::type stack;
 
-  // Continue the traversl by recursively looping over the children of T.
-  typedef dfs_children<
+  // Continue the traversal by recursively looping over the children of T.
+  typedef attr_dft_children<
     boost::mpl::empty< typename T::child_list_type >::value,
     typename T::child_list_type,
     stack
@@ -214,11 +228,11 @@ struct dfs
 
 /******************************************************************************/
   
-template< typename ROOT_O_CLASS >
+template< typename ROOT_O_CLASS = null_o_class >
 struct som
 {
 private:
-  typedef dfs< ROOT_O_CLASS > dfs_type;
+  typedef attr_dft< ROOT_O_CLASS > attr_dft_type;
     
   static hla::name_to_o_class_handle_map &
   get_name_to_o_class_handle_map()
@@ -236,17 +250,19 @@ private:
 
   static void init_o_class_handles(RTI::RTIambassador &rtiAmb)
   {
-    hla::name_to_o_class_handle_map &o_class_map = get_name_to_o_class_handle_map();
+    hla::name_to_o_class_handle_map &o_class_map
+      = get_name_to_o_class_handle_map();
       
     // Maps is already populated? 
     if (!o_class_map.empty())
       return;
       
-    hla::o_class_handle_to_attr_map &attr_map = get_o_class_handle_to_attr_map();
+    hla::o_class_handle_to_attr_map &attr_map
+      = get_o_class_handle_to_attr_map();
 
     assert(attr_map.empty());
       
-    dfs_type::init_o_class_handles(rtiAmb, o_class_map, attr_map);
+    attr_dft_type::init_o_class_handles(rtiAmb, o_class_map, attr_map);
   }
   
 public: 
@@ -344,7 +360,7 @@ public:
   // Debug methods
   static void dump_stack()
   {
-    dfs_type::dump_stack();
+    attr_dft_type::dump_stack();
   }
 
   static void print_object_class_handle_map()
