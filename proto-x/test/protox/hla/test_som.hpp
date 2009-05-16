@@ -132,13 +132,10 @@ namespace t2
 //     | Name                         | Attribute | Datatype        | String Name     |
 //     +------------------------------+-----------+-----------------+-----------------+
   struct Class_A {HLA_NAME("Class_A")};
-//                                    +-----------+-----------------+-----------------+
                                  struct a1        : attr< int >     { HLA_NAME("a1") };
-//                                    +-----------+-----------------+-----------------+
                                  struct a2        : attr< int >     { HLA_NAME("a2") };
 //     +------------------------------+-----------+-----------------+-----------------+
   struct Class_B { HLA_NAME("Class_B") };
-//                                    +-----------+-----------------+-----------------+
                                  struct b1        : attr< int >     { HLA_NAME("b1") };
 //     +------------------------------+-----------+-----------------+-----------------+
   struct Class_C { HLA_NAME("Class_C") };
@@ -150,9 +147,7 @@ namespace t2
   struct Class_F { HLA_NAME("Class_F") };
 //     +------------------------------+-----------+-----------------+-----------------+
   struct Class_G { HLA_NAME("Class_G") };
-//                                    +-----------+-----------------+-----------------+
                                  struct g1        : attr< int >     { HLA_NAME("g1") };
-//                                    +-----------+-----------------+-----------------+
                                  struct g2        : attr< int >     { HLA_NAME("g2") };
 //     +------------------------------+-----------+-----------------+-----------------+
   struct Class_H { HLA_NAME("Class_H") };
@@ -248,25 +243,25 @@ namespace t3
 //                                    +-----------+-----------------+-----------------+
                                  struct a2        : param< int >    { HLA_NAME("a2") };
 //     +------------------------------+-----------+-----------------+-----------------+
-  struct Class_B { HLA_NAME("Class_B") };
+  struct Class_B {HLA_NAME("Class_B")};
 //                                    +-----------+-----------------+-----------------+
                                  struct b1        : param< int >    { HLA_NAME("b1") };
 //     +------------------------------+-----------+-----------------+-----------------+
-  struct Class_C { HLA_NAME("Class_C") };
+  struct Class_C {HLA_NAME("Class_C")};
 //     +------------------------------+-----------+-----------------+-----------------+
-  struct Class_D { HLA_NAME("Class_D") };
+  struct Class_D {HLA_NAME("Class_D")};
+//     +-----------------------------+-----------+-----------------+-----------------+
+  struct Class_E {HLA_NAME("Class_E")};
+//     +-----------------------------+-----------+-----------------+-----------------+
+  struct Class_F {HLA_NAME("Class_F")};
 //     +------------------------------+-----------+-----------------+-----------------+
-  struct Class_E { HLA_NAME("Class_E") };
-//     +------------------------------+-----------+-----------------+-----------------+
-  struct Class_F { HLA_NAME("Class_F") };
-//     +------------------------------+-----------+-----------------+-----------------+
-  struct Class_G { HLA_NAME("Class_G") };
+  struct Class_G {HLA_NAME("Class_G")};
 //                                    +-----------+-----------------+-----------------+
                                  struct g1        : param< int >    { HLA_NAME("g1") };
 //                                    +-----------+-----------------+-----------------+
                                  struct g2        : param< int >    { HLA_NAME("g2") };
 //     +------------------------------+-----------+-----------------+-----------------+
-  struct Class_H { HLA_NAME("Class_H") };
+  struct Class_H {HLA_NAME("Class_H")};
 //     +------------------------------+-----------+-----------------+-----------------+
   
  
@@ -339,6 +334,72 @@ BOOST_AUTO_TEST_CASE( test_som_init_param_handles )
 
   BOOST_CHECK( som::get_param_handle("Class_A.Class_B", "a2") > 0 );
   BOOST_CHECK( som::get_param_handle("Class_A.Class_C.Class_A", "a1") > 0 );
+}
+
+/**************************************************************************************************/
+
+namespace t4
+{
+  using namespace protox::hla;
+
+//     +------------------------------------------+----------------------------+--------------+----------------------------------------+
+//     | Name                                     | Parameter                  | Datatype     | String Name                            |
+//     +------------------------------------------+----------------------------+--------------+----------------------------------------+
+  struct HLAobjectRoot {HLA_NAME("HLAobjectRoot")};
+                                             struct HLAprivilegeToDeleteObject : param< int > { HLA_NAME("HLAprivilegeToDeleteObject")};
+//     +------------------------------------------+----------------------------+--------------+----------------------------------------+
+  struct Employee {HLA_NAME("Employee")};
+                                             struct PayRate                    : param< int > { HLA_NAME("PayRate")};
+                                             struct YearsOfService             : param< int > { HLA_NAME("YearsOfService")};
+                                             struct HomeNumber                 : param< int > { HLA_NAME("HomeNumber")};
+                                             struct HomeAddress                : param< int > { HLA_NAME("HomeAddress")};
+//     +------------------------------------------+----------------------------+--------------+----------------------------------------+
+  struct Waiter {HLA_NAME("Waiter")};
+                                             struct Efficiency                 : param< int > { HLA_NAME("Efficiency")};
+                                             struct Cheerfulness               : param< int > { HLA_NAME("Cheerfulness")};
+                                             struct State                      : param< int > { HLA_NAME("State")};
+//     +------------------------------------------+----------------------------+--------------+----------------------------------------+
+  struct DishWasher {HLA_NAME("DishWasher")};
+                                             struct CleaningRate               : param< int > { HLA_NAME("CleaningRate")};
+//     +------------------------------------------+----------------------------+--------------+----------------------------------------+
+  struct Food {HLA_NAME("Food")};
+                                             struct Price                      : param< int > { HLA_NAME("Price")};
+//     +------------------------------------------+----------------------------+--------------+----------------------------------------+
+  struct Entree {HLA_NAME("Entree")};
+                                             struct MenuItem                   : param< int > { HLA_NAME("MenuItem")};
+//     +------------------------------------------+----------------------------+--------------+----------------------------------------+
+  struct Beef {HLA_NAME("Beef")};
+                                             struct TypeOfCut                  : param< int > { HLA_NAME("TypeOfCut")};
+//     +------------------------------------------+----------------------------+--------------+----------------------------------------+
+  struct SeaFood {HLA_NAME("Seafood")};
+//     +------------------------------------------+----------------------------+--------------+----------------------------------------+
+  struct Dessert {HLA_NAME("Dessert")};
+//     +------------------------------------------+----------------------------+--------------+----------------------------------------+
+
+
+   struct obj_class_table : o_class< HLAobjectRoot, attrs< HLAprivilegeToDeleteObject >, child< 
+// +--------------------+--------------------------+-------------------------+
+// | Class 1            | Class 2                  | Class 3                 |
+// +--------------------+--------------------------+-------------------------+
+     o_class< Employee,                                                         attrs< PayRate, YearsOfService, HomeNumber, HomeAddress >,
+//                      +-------------------------+
+                          child< o_class< Waiter,                               attrs< Efficiency, Cheerfulness, State > >,
+//                      +--------------------------+
+                                 o_class< DishWasher,                           attrs< CleaningRate > > > >,
+//                      +--------------------------+
+// +--------------------+
+     o_class< Food,                                                             attrs< Price >,
+//                      +--------------------------+
+                          child< o_class< Entree,                               attrs< MenuItem >,
+//                                                 +-------------------------+
+                                                     child< o_class< Beef,      attrs< TypeOfCut > >,
+//                                                 +-------------------------+
+                                                            o_class< SeaFood > > >,
+//                                                 +-------------------------+
+//                      +--------------------------+
+                                 o_class< Dessert > > > > > {};
+//                      +--------------------------+
+// +--------------------+
 }
 
 /**************************************************************************************************/
