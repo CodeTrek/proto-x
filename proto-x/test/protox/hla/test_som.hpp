@@ -26,6 +26,18 @@
 namespace test_protox_hla_som {
 
 /**************************************************************************************************/
+BOOST_AUTO_TEST_CASE( test_som_empty )
+{
+  typedef protox::hla::som<> som;
+  
+  //RTI::RTIambassador rtiAmb;  
+  //som::init_handles(rtiAmb);
+
+  BOOST_CHECK( som::get_num_object_classes() == 0 ); 
+  BOOST_CHECK( som::get_num_interaction_classes() == 0 ); 
+}
+
+/**************************************************************************************************/
 
 namespace t1
 {
@@ -76,6 +88,8 @@ namespace t1
 // +-------------------+
 }
 
+/**************************************************************************************************/
+
 BOOST_AUTO_TEST_CASE( test_som_init_class_handles )
 {
   using namespace t1;
@@ -104,6 +118,8 @@ BOOST_AUTO_TEST_CASE( test_som_init_class_handles )
   //som::print_object_class_handle_map();
   //som::print_attr_handle_map();
 }
+
+/**************************************************************************************************/
 
 namespace t2
 {
@@ -173,6 +189,9 @@ namespace t2
 //                     +-------------------------+
 // +-------------------+
 }
+
+/**************************************************************************************************/
+
 BOOST_AUTO_TEST_CASE( test_som_init_attr_handles )
 {
   using namespace t2;
@@ -209,6 +228,114 @@ BOOST_AUTO_TEST_CASE( test_som_init_attr_handles )
 
   //som::print_object_class_handle_map();
   //som::print_attr_handle_map();
+}
+
+/**************************************************************************************************/
+
+namespace t3
+{
+  using namespace protox::hla;
+
+//     +------------------------------+-----------+-----------------+-----------------+
+//     | Name                         | Parameter | Datatype        | String Name     |
+//     +------------------------------+-----------+-----------------+-----------------+
+  struct Class_A {HLA_NAME("Class_A")};
+//                                    +-----------+-----------------+-----------------+
+                                 struct a1        : param< int >    { HLA_NAME("a1") };
+//                                    +-----------+-----------------+-----------------+
+                                 struct a2        : param< int >    { HLA_NAME("a2") };
+//     +------------------------------+-----------+-----------------+-----------------+
+  struct Class_B { HLA_NAME("Class_B") };
+//                                    +-----------+-----------------+-----------------+
+                                 struct b1        : param< int >    { HLA_NAME("b1") };
+//     +------------------------------+-----------+-----------------+-----------------+
+  struct Class_C { HLA_NAME("Class_C") };
+//     +------------------------------+-----------+-----------------+-----------------+
+  struct Class_D { HLA_NAME("Class_D") };
+//     +------------------------------+-----------+-----------------+-----------------+
+  struct Class_E { HLA_NAME("Class_E") };
+//     +------------------------------+-----------+-----------------+-----------------+
+  struct Class_F { HLA_NAME("Class_F") };
+//     +------------------------------+-----------+-----------------+-----------------+
+  struct Class_G { HLA_NAME("Class_G") };
+//                                    +-----------+-----------------+-----------------+
+                                 struct g1        : param< int >    { HLA_NAME("g1") };
+//                                    +-----------+-----------------+-----------------+
+                                 struct g2        : param< int >    { HLA_NAME("g2") };
+//     +------------------------------+-----------+-----------------+-----------------+
+  struct Class_H { HLA_NAME("Class_H") };
+//     +------------------------------+-----------+-----------------+-----------------+
+  
+ 
+  struct inter_class_table : 
+// +-------------------+
+     i_class< Class_A,
+     params< a1, a2 >,
+//                     +-------------------------+
+                         child< i_class< Class_B,
+                         params< b1 >,
+//                                               +--------------------------------+
+                                                   child< i_class< Class_E >,
+//                                               +--------------------------------+
+                                                          i_class< Class_F >,
+//                                               +--------------------------------+
+                                                          i_class< Class_C > > >,
+//                                               +--------------------------------+
+//                     +-------------------------+
+                               i_class< Class_C,
+                                        none,
+//                                               +--------------------------------+
+                                                   child< i_class< Class_A >,
+//                                               +--------------------------------+
+                                                          i_class< Class_C > > >,
+//                                               +--------------------------------+
+//                     +-------------------------+
+                               i_class< Class_D,
+                                        none,
+//                                               +--------------------------------+
+                                                   child< i_class< Class_G, params< g1, g2 > >,
+//                                               +--------------------------------+
+                                                          i_class< Class_H > > > > > {};
+//                                               +--------------------------------+
+//                     +-------------------------+
+// +-------------------+
+}
+
+/**************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE( test_som_init_param_handles )
+{
+  using namespace t3;
+  using namespace boost;
+  using namespace protox;
+
+  typedef hla::som< null_o_class, inter_class_table > som;
+  
+  RTI::RTIambassador rtiAmb;  
+  som::init_handles(rtiAmb);
+
+  BOOST_CHECK( som::get_num_interaction_classes() == 11 ); 
+
+  BOOST_CHECK( som::get_interaction_class_handle("Class_A") > 0 );
+  BOOST_CHECK( som::get_interaction_class_handle("Class_A.Class_B") > 0 );
+  BOOST_CHECK( som::get_interaction_class_handle("Class_A.Class_B.Class_E") > 0 );
+  BOOST_CHECK( som::get_interaction_class_handle("Class_A.Class_B.Class_F") > 0 );
+  BOOST_CHECK( som::get_interaction_class_handle("Class_A.Class_B.Class_C") > 0 );
+  BOOST_CHECK( som::get_interaction_class_handle("Class_A.Class_C") > 0 );
+  BOOST_CHECK( som::get_interaction_class_handle("Class_A.Class_C.Class_A") > 0 );
+  BOOST_CHECK( som::get_interaction_class_handle("Class_A.Class_C.Class_C") > 0 );
+  BOOST_CHECK( som::get_interaction_class_handle("Class_A.Class_D") > 0 );
+  BOOST_CHECK( som::get_interaction_class_handle("Class_A.Class_D.Class_G") > 0 );
+  BOOST_CHECK( som::get_interaction_class_handle("Class_A.Class_D.Class_H") > 0 );
+
+  BOOST_CHECK( som::get_param_handle("a1",
+                 som::get_interaction_class_handle("Class_A")) > 0 );
+
+  BOOST_CHECK( som::get_param_handle("a2",
+                 som::get_interaction_class_handle("Class_A")) > 0 );
+
+  BOOST_CHECK( som::get_param_handle("Class_A.Class_B", "a2") > 0 );
+  BOOST_CHECK( som::get_param_handle("Class_A.Class_C.Class_A", "a1") > 0 );
 }
 
 /**************************************************************************************************/

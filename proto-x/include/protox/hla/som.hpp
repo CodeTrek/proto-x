@@ -37,6 +37,7 @@ struct som
 {
 private:
 
+  // Object class support
   typedef attr_dft< ROOT_O_CLASS > attr_dft_type;
     
   static hla::name_to_o_class_handle_map &
@@ -69,9 +70,44 @@ private:
       
     attr_dft_type::init_o_class_handles(rtiAmb, o_class_map, attr_map);
   }
+
+  // Interaction class support
+  typedef param_dft< ROOT_I_CLASS > param_dft_type;
+    
+  static hla::name_to_i_class_handle_map &
+  get_name_to_i_class_handle_map()
+  {
+    static protox::hla::name_to_i_class_handle_map map;
+    return map;
+  }
+
+  static hla::i_class_handle_to_param_map &
+  get_i_class_handle_to_param_map()
+  {
+    static hla::i_class_handle_to_param_map map;
+    return map;
+  }
+
+  static void init_i_class_handles(RTI::RTIambassador &rtiAmb)
+  {
+    hla::name_to_i_class_handle_map &i_class_map
+      = get_name_to_i_class_handle_map();
+      
+    // Maps is already populated? 
+    if (!i_class_map.empty())
+      return;
+      
+    hla::i_class_handle_to_param_map &param_map
+      = get_i_class_handle_to_param_map();
+
+    assert(param_map.empty());
+      
+    param_dft_type::init_i_class_handles(rtiAmb, i_class_map, param_map);
+  }
   
 public: 
   typedef ROOT_O_CLASS o_class_table;
+  typedef ROOT_I_CLASS i_class_table;
 
   static RTI::ObjectClassHandle get_object_class_handle(const std::string &name)
   {
@@ -157,15 +193,101 @@ public:
     return class_map.size();
   }
 
+  static RTI::InteractionClassHandle get_interaction_class_handle(const std::string &name)
+  {
+    name_to_i_class_handle_map &class_map = get_name_to_i_class_handle_map();
+    name_to_i_class_handle_map::const_iterator it = class_map.find(name);
+
+    // Not found
+    if (it == class_map.end())
+    {
+      // TODO : throw an exception
+      return -1;
+    }
+
+    return ((*it).second);
+  }
+
+  static RTI::ParameterHandle get_param_handle(
+    const std::string &name,
+    RTI::InteractionClassHandle handle)
+  {
+    i_class_handle_to_param_map &class_map = get_i_class_handle_to_param_map();
+    i_class_handle_to_param_map::const_iterator i = class_map.find(handle);
+
+    if (i == class_map.end())
+    {
+      // TODO:: trow exception
+      return -1;
+    }
+
+    const param_name_to_handle_map &param_map = (*i).second;
+    param_name_to_handle_map::const_iterator j = param_map.find(name);
+
+    if (j == param_map.end())
+    {
+      // TODO:: trow exception
+      return -1;
+    }
+
+    return (*j).second;
+  }
+
+  static RTI::ParameterHandle get_param_handle(
+    const std::string &class_name,
+    const std::string &param_name)
+  {
+    if (class_name.empty())
+    {
+      // TODO:: trow exception
+      return -1;
+    }
+
+    RTI::InteractionClassHandle class_handle = get_interaction_class_handle(class_name);
+
+    // Not found?
+    if (class_handle == -1) // temp
+    {
+      // TODO:: trow exception
+      return -1;
+    }
+
+    RTI::ParameterHandle param_handle = get_param_handle(param_name, class_handle);
+
+    // Not found?
+    if (param_handle == -1)
+    {
+      std::string parent = "";
+      std::string::size_type pos = class_name.find_last_of('.');
+
+      if (pos != std::string::npos)
+      {
+        parent = class_name.substr(0, pos);
+      }
+
+      return get_param_handle(parent, param_name);
+    }
+
+    return param_handle;
+  }
+
+  static std::size_t get_num_interaction_classes()
+  {
+    name_to_i_class_handle_map &class_map = get_name_to_i_class_handle_map();
+    return class_map.size();
+  }
+
   static void init_handles(RTI::RTIambassador &rtiAmb)
   {
     init_o_class_handles(rtiAmb);
+    init_i_class_handles(rtiAmb);
   }
  
   // Debug methods
   static void dump_stack()
   {
     attr_dft_type::dump_stack();
+    param_dft_type::dump_stack();
   }
 
   static void print_object_class_handle_map()
