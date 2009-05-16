@@ -8,16 +8,9 @@
 #ifndef TEST_PROTOX_HLA_KEYWORDS_HPP
 #define TEST_PROTOX_HLA_KEYWORDS_HPP
 
-#include <iostream>
-
 #include <boost/mpl/size.hpp>
 #include <boost/mpl/vector.hpp>
 #include <protox/hla/keywords.hpp>
-
-#include <protox/hla/o_class.hpp>
-#include <protox/hla/o_class_attr_vector.hpp>
-#include <protox/hla/o_class_vector.hpp>
-#include <protox/hla/o_class_type.hpp>
 
 namespace test_protox_hla_keywords
 {
@@ -34,6 +27,21 @@ namespace test_protox_hla_keywords
     BOOST_CHECK( boost::mpl::size<a2>::value == 2 );
     BOOST_CHECK( boost::mpl::size<a3>::value == 3 );
     BOOST_CHECK( boost::mpl::size<a4>::value == 4 );
+  }
+
+  BOOST_AUTO_TEST_CASE( test_params_keyword )
+  {
+    typedef protox::hla::params<> p0;
+    typedef protox::hla::params< int > p1;
+    typedef protox::hla::params< int, float > p2;
+    typedef protox::hla::params< int, float, double > p3;
+    typedef protox::hla::params< int, float, double, char > p4;
+
+    BOOST_CHECK( boost::mpl::size<p0>::value == 0 );
+    BOOST_CHECK( boost::mpl::size<p1>::value == 1 );
+    BOOST_CHECK( boost::mpl::size<p2>::value == 2 );
+    BOOST_CHECK( boost::mpl::size<p3>::value == 3 );
+    BOOST_CHECK( boost::mpl::size<p4>::value == 4 );
   }
 
   BOOST_AUTO_TEST_CASE( test_child_keyword )
