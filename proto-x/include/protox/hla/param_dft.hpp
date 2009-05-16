@@ -87,7 +87,7 @@ struct init_param_handle
     if (j == map[class_handle].end())
     {
       map[class_handle][N::name()]
-        = rtiAmb.getparamibuteHandle(N::name(), class_handle);
+        = rtiAmb.getParameterHandle(N::name(), class_handle);
     }
   }
 };
