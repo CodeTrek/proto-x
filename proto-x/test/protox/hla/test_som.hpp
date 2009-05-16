@@ -17,6 +17,9 @@
 #include <RTI.hh>
 
 #include <protox/hla/o_class.hpp>
+#include <protox/hla/attr.hpp>
+#include <protox/hla/i_class.hpp>
+#include <protox/hla/param.hpp>
 #include <protox/hla/keywords.hpp>
 #include <protox/hla/name.hpp>
 #include <protox/hla/som.hpp>
