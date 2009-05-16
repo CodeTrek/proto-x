@@ -31,19 +31,6 @@ namespace protox { namespace hla {
 
 /******************************************************************************/
 
-struct print_stack
-{
-  print_stack() {}
-
-  template< typename N >
-  void operator()(N)
-  {
-    std::cout << N::name_type::name() << ".";
-  }
-};
-
-/******************************************************************************/
-  
 template< typename ROOT_O_CLASS = null_o_class,
           typename ROOT_I_CLASS = null_i_class >
 struct som

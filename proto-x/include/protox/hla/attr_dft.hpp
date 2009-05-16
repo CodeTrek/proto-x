@@ -45,6 +45,7 @@
 #include <protox/hla/name_to_o_class_handle_map.hpp>
 #include <protox/hla/class_handle_to_attr_handle_map.hpp>
 #include <protox/hla/build_full_name.hpp>
+#include <protox/hla/print_stack.hpp>
 
 /******************************************************************************/
 
