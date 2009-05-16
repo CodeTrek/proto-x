@@ -19,7 +19,7 @@
 #include <boost/mpl/placeholders.hpp>
 
 #include <protox/hla/o_class_attr_vector.hpp>
-#include <protox/hla/o_class_vector.hpp>
+#include <protox/hla/x_class_vector.hpp>
 #include <protox/hla/attr.hpp>
 #include <protox/hla/build_full_name.hpp>
 
@@ -53,10 +53,10 @@ template<
   {
     private:
       typedef typename
-        o_class_vector<
+        x_class_vector<
           typename SOM::o_class_table,
           QUALIFIED_NAME_VECTOR
-        >::type o_class_vector_type;
+        >::type x_class_vector_type;
 
     public:
       static const std::string &get_name()
@@ -66,7 +66,7 @@ template<
 
         if (!initialized)
         {
-          boost::mpl::for_each< o_class_vector_type >(build_full_name(name));
+          boost::mpl::for_each< x_class_vector_type >(build_full_name(name));
           initialized = true;
         }
 

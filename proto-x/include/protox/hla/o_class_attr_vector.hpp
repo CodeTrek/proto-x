@@ -20,7 +20,7 @@
 #include <boost/mpl/empty.hpp>
 #include <boost/mpl/back_inserter.hpp>
 
-#include <protox/hla/o_class_vector.hpp>
+#include <protox/hla/x_class_vector.hpp>
 
 /******************************************************************************/
 
@@ -75,7 +75,7 @@ template<
   typename NAME_VECTOR >
 struct o_class_attr_vector
 {
-  typedef typename o_class_vector< O_CLASS, NAME_VECTOR >::type class_vector;
+  typedef typename x_class_vector< O_CLASS, NAME_VECTOR >::type class_vector;
 
   typedef typename o_class_attr_vector_impl<
     (boost::mpl::empty< class_vector >::value),
