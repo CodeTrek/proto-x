@@ -341,48 +341,49 @@ BOOST_AUTO_TEST_CASE( test_som_init_param_handles )
 namespace t4
 {
   using namespace protox::hla;
-
+////// Attribute Table ////////////////////////////
 //     +------------------------------------------+----------------------------+--------------+----------------------------------------+
-//     | Name                                     | Parameter                  | Datatype     | String Name                            |
+//     | Name                                     | Attribute                  | Datatype     | String Name                            |
 //     +------------------------------------------+----------------------------+--------------+----------------------------------------+
   struct HLAobjectRoot {HLA_NAME("HLAobjectRoot")};
-                                             struct HLAprivilegeToDeleteObject : param< int > { HLA_NAME("HLAprivilegeToDeleteObject")};
+                                             struct HLAprivilegeToDeleteObject : attr< int >  { HLA_NAME("HLAprivilegeToDeleteObject")};
 //     +------------------------------------------+----------------------------+--------------+----------------------------------------+
-  struct Employee {HLA_NAME("Employee")};
-                                             struct PayRate                    : param< int > { HLA_NAME("PayRate")};
-                                             struct YearsOfService             : param< int > { HLA_NAME("YearsOfService")};
-                                             struct HomeNumber                 : param< int > { HLA_NAME("HomeNumber")};
-                                             struct HomeAddress                : param< int > { HLA_NAME("HomeAddress")};
+  struct Employee      {HLA_NAME("Employee")};
+                                             struct PayRate                    : attr< int >  { HLA_NAME("PayRate")};
+                                             struct YearsOfService             : attr< int >  { HLA_NAME("YearsOfService")};
+                                             struct HomeNumber                 : attr< int >  { HLA_NAME("HomeNumber")};
+                                             struct HomeAddress                : attr< int >  { HLA_NAME("HomeAddress")};
 //     +------------------------------------------+----------------------------+--------------+----------------------------------------+
-  struct Waiter {HLA_NAME("Waiter")};
-                                             struct Efficiency                 : param< int > { HLA_NAME("Efficiency")};
-                                             struct Cheerfulness               : param< int > { HLA_NAME("Cheerfulness")};
-                                             struct State                      : param< int > { HLA_NAME("State")};
+  struct Waiter        {HLA_NAME("Waiter")};
+                                             struct Efficiency                 : attr< int >  { HLA_NAME("Efficiency")};
+                                             struct Cheerfulness               : attr< int >  { HLA_NAME("Cheerfulness")};
+                                             struct State                      : attr< int >  { HLA_NAME("State")};
 //     +------------------------------------------+----------------------------+--------------+----------------------------------------+
-  struct DishWasher {HLA_NAME("DishWasher")};
-                                             struct CleaningRate               : param< int > { HLA_NAME("CleaningRate")};
+  struct DishWasher    {HLA_NAME("DishWasher")};
+                                             struct CleaningRate               : attr< int >  { HLA_NAME("CleaningRate")};
 //     +------------------------------------------+----------------------------+--------------+----------------------------------------+
-  struct Food {HLA_NAME("Food")};
-                                             struct Price                      : param< int > { HLA_NAME("Price")};
+  struct Food          {HLA_NAME("Food")};
+                                             struct Price                      : attr< int >  { HLA_NAME("Price")};
 //     +------------------------------------------+----------------------------+--------------+----------------------------------------+
-  struct Entree {HLA_NAME("Entree")};
-                                             struct MenuItem                   : param< int > { HLA_NAME("MenuItem")};
+  struct Entree        {HLA_NAME("Entree")};
+                                             struct MenuItem                   : attr< int >  { HLA_NAME("MenuItem")};
 //     +------------------------------------------+----------------------------+--------------+----------------------------------------+
-  struct Beef {HLA_NAME("Beef")};
-                                             struct TypeOfCut                  : param< int > { HLA_NAME("TypeOfCut")};
+  struct Beef          {HLA_NAME("Beef")};
+                                             struct TypeOfCut                  : attr< int >  { HLA_NAME("TypeOfCut")};
 //     +------------------------------------------+----------------------------+--------------+----------------------------------------+
-  struct SeaFood {HLA_NAME("Seafood")};
+  struct Seafood       {HLA_NAME("Seafood")};
 //     +------------------------------------------+----------------------------+--------------+----------------------------------------+
-  struct Dessert {HLA_NAME("Dessert")};
+  struct Dessert       {HLA_NAME("Dessert")};
 //     +------------------------------------------+----------------------------+--------------+----------------------------------------+
 
 
+//// Object Class Table ////////////////////////////////////////////////////////////////////////
    struct obj_class_table : o_class< HLAobjectRoot, attrs< HLAprivilegeToDeleteObject >, child< 
 // +--------------------+--------------------------+-------------------------+
 // | Class 1            | Class 2                  | Class 3                 |
 // +--------------------+--------------------------+-------------------------+
      o_class< Employee,                                                         attrs< PayRate, YearsOfService, HomeNumber, HomeAddress >,
-//                      +-------------------------+
+//                      +--------------------------+
                           child< o_class< Waiter,                               attrs< Efficiency, Cheerfulness, State > >,
 //                      +--------------------------+
                                  o_class< DishWasher,                           attrs< CleaningRate > > > >,
@@ -394,12 +395,72 @@ namespace t4
 //                                                 +-------------------------+
                                                      child< o_class< Beef,      attrs< TypeOfCut > >,
 //                                                 +-------------------------+
-                                                            o_class< SeaFood > > >,
+                                                            o_class< Seafood > > >,
 //                                                 +-------------------------+
 //                      +--------------------------+
                                  o_class< Dessert > > > > > {};
 //                      +--------------------------+
 // +--------------------+
+
+//////// Parameter Table //////////////////////////////////////
+//     +------------------------------------------------------+---------------+---------------+--------------------------+
+//     | Name                                                 | Parameter     | Datatype      | String Name              |
+//     +------------------------------------------------------+---------------+---------------+--------------------------+
+  struct HLAinteractionRoot  {HLA_NAME("HLAinteractionRoot")};
+//     +------------------------------------------------------+---------------+---------------+--------------------------+
+  struct CustomerTransaction {HLA_NAME("CustomerTransaction")};
+//     +------------------------------------------------------+---------------+---------------+--------------------------+
+  struct CustomerSeated      {HLA_NAME("CustomerSeated")};
+                                                         struct TimeSeated    : param < int > { HLA_NAME("TimeSeated")};
+//     +------------------------------------------------------+---------------+---------------+--------------------------+
+  struct FoodServed          {HLA_NAME("FoodServed")};
+                                                         struct TemperatureOk : param < int > { HLA_NAME("TemperatureOk")};
+                                                         struct AccuracyOk    : param < int > { HLA_NAME("AccuracyOk")};
+                                                         struct TimelinessOk  : param < int > { HLA_NAME("TimelinessOk")};
+//     +------------------------------------------------------+---------------+---------------+--------------------------+
+
+//// Interaction Class Table /////////////////////////////////////////////////
+   struct inter_class_table : i_class< HLAinteractionRoot, none, child< 
+// +-------------------------------+-------------------------------+
+// | Class 1                       | Class 2                       |
+// +-------------------------------+-------------------------------+
+     i_class< CustomerTransaction,
+     none,
+//                                 +-------------------------------+
+                                     child< i_class< CustomerSeated,  params< TimeSeated > >,
+//                                 +-------------------------------+
+                                            i_class< FoodServed,      params< TemperatureOk, AccuracyOk, TimelinessOk > > > > > > {};
+// +-------------------------------+-------------------------------+
+}
+
+/**************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE( test_som_init_handles )
+{
+  using namespace t4;
+  using namespace boost;
+  using namespace protox;
+
+  typedef hla::som< obj_class_table, inter_class_table > som;
+  
+  RTI::RTIambassador rtiAmb;  
+  som::init_handles(rtiAmb);
+
+  BOOST_CHECK( som::get_num_object_classes() == 9 ); 
+  BOOST_CHECK( som::get_num_interaction_classes() == 4 ); 
+
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot") > 0 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Employee") > 0 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Employee.Waiter") > 0 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Employee.DishWasher") > 0 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Food") > 0 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Food.Entree") > 0 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Food.Entree.Beef") > 0 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Food.Entree.Seafood") > 0 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Food.Dessert") > 0 );
+
+  BOOST_CHECK( som::get_attr_handle("HLAobjectRoot.Employee.DishWasher", "HLAprivilegeToDeleteObject") > 0 );
+  BOOST_CHECK( som::get_attr_handle("HLAobjectRoot.Employee.DishWasher", "HomeAddress") > 0 );
 }
 
 /**************************************************************************************************/
