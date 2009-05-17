@@ -27,6 +27,8 @@
 #include <protox/hla/param.hpp>
 #include <protox/hla/name.hpp>
 #include <protox/hla/som.hpp>
+#include <protox/dtl/simple.hpp>
+#include <protox/hla_1516/basic_data_representation_table.hpp>
 
 /******************************************************************************/
 
@@ -35,11 +37,16 @@ namespace test_protox_hla_i_class_type {
 /******************************************************************************/
 
 using namespace protox::hla;
+using namespace protox::dtl;
+using namespace protox::hla_1516;
 
 /******************************************************************************/
 
 namespace t1
 {
+  struct simple_int : simple<HLAinteger16BE> {PROTOX_SIMPLE(simple_int)}; 
+  struct simple_float : simple<HLAfloat32BE> {PROTOX_SIMPLE(simple_float)}; 
+
   // Class names 
   struct Class_A { HLA_NAME("Class_A") };
   struct Class_B { HLA_NAME("Class_B") };
@@ -51,9 +58,9 @@ namespace t1
   struct Class_H { HLA_NAME("Class_H") };
 
   // Attribute names
-  struct A1 : protox::hla::param< int > { HLA_NAME("A1") };
-  struct A2 : protox::hla::param< int > { HLA_NAME("A2") };
-  struct A3 : protox::hla::param< double > { HLA_NAME("A3") };
+  struct A1 : protox::hla::param< simple_int > { HLA_NAME("A1") };
+  struct A2 : protox::hla::param< simple_int > { HLA_NAME("A2") };
+  struct A3 : protox::hla::param< simple_float > { HLA_NAME("A3") };
 
   // Structure
   struct i_class_table : 
@@ -111,12 +118,16 @@ BOOST_AUTO_TEST_CASE( test_i_class_type_definition )
   RTI::RTIambassador rtiAmb;  
   som::init_handles(rtiAmb);
 
-  typedef i_class_type< som, q_name< Class_C, Class_A, Class_E > > class_type;
+  typedef
+    i_class_type< som, q_name< Class_C, Class_A, Class_E > >::type class_type;
 
-  BOOST_CHECK( class_type::type::get_name()
+  BOOST_CHECK( class_type::get_name()
     == "Class_A.Class_C.Class_A.Class_E" );
-  BOOST_CHECK( class_type::type::get_handle() > 0 ); 
+  BOOST_CHECK( class_type::get_handle() > 0 );
+  BOOST_CHECK( class_type::get_num_parameters() == 3 );
 }
+
+/******************************************************************************/
 
 BOOST_AUTO_TEST_CASE( test_i_class_type_ctor )
 {
@@ -125,33 +136,75 @@ BOOST_AUTO_TEST_CASE( test_i_class_type_ctor )
   RTI::RTIambassador rtiAmb;  
   som::init_handles(rtiAmb);
 
-  typedef i_class_type< som, q_name< Class_C, Class_A, Class_E > > class_type;
+  typedef
+    i_class_type< som, q_name< Class_C, Class_A, Class_E > >::type class_type;
 
-  class_type::type bObj;
+  class_type obj;
 
-  BOOST_CHECK( bObj.get_param_handle<A1>() > 0 );
-  BOOST_CHECK( bObj.get_param_handle<A2>() > 0 );
-  BOOST_CHECK( bObj.get_param_handle<A3>() > 0 );
+  BOOST_CHECK( obj.get_param_handle<A1>() > 0 );
+  BOOST_CHECK( obj.get_param_handle<A2>() > 0 );
+  BOOST_CHECK( obj.get_param_handle<A3>() > 0 );
 }
+
+/******************************************************************************/
 
 BOOST_AUTO_TEST_CASE( test_i_class_type_param_mutators )
 {
   typedef protox::hla::som< null_o_class, i_class_table > som;
 
-  RTI::RTIambassador rtiAmb;  
+  RTI::RTIambassador rtiAmb;
   som::init_handles(rtiAmb);
 
-  typedef i_class_type< som, q_name< Class_C, Class_A, Class_E > > class_type;
+  typedef
+    i_class_type< som, q_name< Class_C, Class_A, Class_E > >::type class_type;
 
-  class_type::type bObj;
+  class_type obj;
 
-  bObj.p_<A1>() = 5;
-  bObj.p_<A2>() = 10;
-  bObj.p_<A3>() = 3.145;
+  obj.p_<A1>() = 5;
+  obj.p_<A2>() = 10;
+  obj.p_<A3>() = 3.145f;
 
-  BOOST_CHECK( bObj.p_<A1>() == 5 );
-  BOOST_CHECK( bObj.p_<A2>() == 10 );
-  BOOST_CHECK( (bObj.p_<A3>() - 3.145) < 0.00001 );
+  BOOST_CHECK( obj.p_<A1>() == 5 );
+  BOOST_CHECK( obj.p_<A2>() == 10 );
+  BOOST_CHECK( (obj.p_<A3>() - 3.145f) < 0.00001f );
+}
+
+/******************************************************************************/
+
+BOOST_AUTO_TEST_CASE( test_i_class_type_publish )
+{
+  typedef protox::hla::som< null_o_class, i_class_table > som;
+
+  RTI::RTIambassador rtiAmb;
+  som::init_handles(rtiAmb);
+
+  typedef
+    i_class_type< som, q_name< Class_C, Class_A, Class_E > >::type class_type;
+
+  class_type::publish(rtiAmb);
+}
+
+/******************************************************************************/
+
+BOOST_AUTO_TEST_CASE( test_i_class_type_send )
+{
+  typedef protox::hla::som< null_o_class, i_class_table > som;
+
+  RTI::RTIambassador rtiAmb;
+  som::init_handles(rtiAmb);
+
+  typedef
+    i_class_type< som, q_name< Class_C, Class_A, Class_E > >::type class_type;
+
+  class_type::publish(rtiAmb);
+
+  class_type obj(rtiAmb);
+
+  obj.p_<A1>() = 5;
+  obj.p_<A2>() = 10;
+  obj.p_<A3>() = 3.145f;
+
+  obj.send();
 }
 
 /******************************************************************************/
