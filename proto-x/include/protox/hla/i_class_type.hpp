@@ -14,9 +14,13 @@
 
 #include <string>
 
+#include <boost/shared_ptr.hpp>
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/inherit_linearly.hpp>
 #include <boost/mpl/placeholders.hpp>
+#include <boost/mpl/size.hpp>
+
+#include <RTI.hh>
 
 #include <protox/hla/i_class_param_vector.hpp>
 #include <protox/hla/x_class_vector.hpp>
@@ -58,6 +62,8 @@ template<
           QUALIFIED_NAME_VECTOR
         >::type x_class_vector_type;
 
+      RTI::RTIambassador *rti_amb;
+
     public:
       static const std::string &get_name()
       {
@@ -88,9 +94,50 @@ template<
         return handle;
       }
 
-      type()
+      static void publish(RTI::RTIambassador &rti_amb)
+      {
+        rti_amb.publishInteractionClass(type::get_handle());
+      }
+
+      static void unpublish(RTI::RTIambassador &rti_amb)
+      {
+        rti_amb.unpublishInteractionClass(type::get_handle());
+      }
+
+      static unsigned long get_num_parameters()
+      {
+        return boost::mpl::size<param_vector_type>::value;
+      }
+
+      type() : rti_amb(0)
       {
         params_type::template init_handles< SOM >(type::get_name());
+      }
+
+      type(RTI::RTIambassador &rti_amb) : rti_amb(&rti_amb)
+      {
+        params_type::template init_handles< SOM >(type::get_name());
+      }
+
+      void set_rti(RTI::RTIambassador &rti_amb)
+      {
+        this->rti_amb = &rti_amb;
+      }
+
+      void send()
+      {
+        if (rti_amb == 0)
+        {
+          // TODO: throw exception
+          return;
+        }
+
+        RTI::ParameterHandleValuePairSet *set
+          = RTI::ParameterSetFactory::create(type::get_num_parameters());
+
+        boost::shared_ptr<RTI::ParameterHandleValuePairSet> set_ptr(set);
+
+        params_type::add_values(set_ptr);
       }
   };
 };

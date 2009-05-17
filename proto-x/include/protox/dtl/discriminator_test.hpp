@@ -21,7 +21,7 @@ namespace protox { namespace dtl {
 
 /******************************************************************************/
 
-struct _in_enumerator_set_false
+struct in_enumerator_set_false
 {
   template< typename T >
   static bool is_equal(const T &) { return false; };
@@ -30,7 +30,7 @@ struct _in_enumerator_set_false
 /******************************************************************************/
 
 template< typename E, typename Base >
-struct _in_enumerator_set
+struct in_enumerator_set
 {
   template< typename T >
   static bool is_equal(const T &d)
@@ -49,8 +49,8 @@ struct discriminator_test
 {
   typedef typename boost::mpl::fold<
     typename D::enumerator_vector,
-    _in_enumerator_set_false,
-    _in_enumerator_set<
+    in_enumerator_set_false,
+    in_enumerator_set<
       boost::mpl::placeholders::_2,
       boost::mpl::placeholders::_1 >
   >::type type;

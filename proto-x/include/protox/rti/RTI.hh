@@ -104,6 +104,26 @@ public:
 
       return map[whichClass][theName];
     }
+
+    void publishInteractionClass(InteractionClassHandle theInteraction) {}
+    void unpublishInteractionClass(InteractionClassHandle theInteraction) {}
+  };
+
+  class ParameterHandleValuePairSet
+  {
+  public:
+    ParameterHandleValuePairSet() {}
+
+    void add(RTI::ParameterHandle h, const char* buff, unsigned long length) {}
+  };
+
+  class ParameterSetFactory
+  {
+  public:
+    static ParameterHandleValuePairSet* create(unsigned long count)
+    {
+      return new ParameterHandleValuePairSet();
+    }
   };
 };
 

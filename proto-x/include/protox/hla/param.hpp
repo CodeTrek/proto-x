@@ -16,7 +16,10 @@
 
 #include <RTI.hh>
 
+#include <boost/shared_ptr.hpp>
 #include <boost/mpl/empty_base.hpp>
+
+#include <protox/io/byte_data_sink.hpp>
 
 /******************************************************************************/
 
@@ -41,6 +44,16 @@ protected:
   void init_handle(const std::string &class_name)
   {
     handle = S::get_param_handle(class_name, name());;
+  }
+
+  void add_value(boost::shared_ptr<RTI::ParameterHandleValuePairSet> set_ptr)
+  {
+    protox::io::byte_data_sink sink;
+    sink.encode(value);
+    set_ptr->add(
+      handle,
+      sink.getDataBuffer(),
+      (unsigned long) sink.getDataBufferSize());
   }
 };
 
@@ -68,6 +81,11 @@ protected:
   {
     A::template init_handle< T >(class_name);
   }
+
+  void add_values(boost::shared_ptr<RTI::ParameterHandleValuePairSet> set_ptr)
+  {
+    A::add_value(set_ptr);
+  }
 };
 
 /******************************************************************************/
@@ -84,6 +102,12 @@ protected:
   {
     A::template init_handle< T >(class_name);
     B::template init_handles< T >(class_name);
+  }
+
+  void add_values(boost::shared_ptr<RTI::ParameterHandleValuePairSet> set_ptr)
+  {
+    A::add_value(set_ptr);
+    B::add_values(set_ptr);
   }
 
 public:

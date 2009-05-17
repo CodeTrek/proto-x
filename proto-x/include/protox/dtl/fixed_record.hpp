@@ -127,11 +127,6 @@ struct fixed_record : public boost::mpl::reverse_fold<
     }
   };
 
-  /**
-   * @brief Tests for equality.
-   *
-   * Performs a field-by-field comparison of two fixed records.
-   */
   inline bool operator == (const fixed_record &rhs) const
   {
     typedef typename boost::mpl::fold<
