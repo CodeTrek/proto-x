@@ -344,7 +344,7 @@ class RTI_EXPORT ParameterHandleValuePairSet {
 // use by the RTI only within the scope of the Update Attribute Values or Send
 // Interaction service invocation.  
 public:
-  ParameterHandleValuePairSet(ULONG count) {}
+  ParameterHandleValuePairSet(ULong count) {}
 
   virtual ~ParameterHandleValuePairSet() { ; }
 

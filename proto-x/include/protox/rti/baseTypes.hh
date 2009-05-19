@@ -26,11 +26,11 @@ public:
   ULong _serial;
   char *_reason;
   const char *_name;
-  Exception (const char *reason);
-  Exception (ULong serial, const char *reason=NULL);
-  Exception (const Exception &toCopy);
-  virtual ~Exception ();
-  Exception & operator = (const Exception &);
+  Exception (const char *reason) {}
+  Exception (ULong serial, const char *reason=NULL) {}
+  Exception (const Exception &toCopy) {}
+  virtual ~Exception () {}
+  Exception & operator = (const Exception &) { return *this; }
   //
   // Added for RTI 1.3 NG to workaround a Sun 4.2 C++ compiler bug.
   // These are used internally to pass exceptions between threads.
