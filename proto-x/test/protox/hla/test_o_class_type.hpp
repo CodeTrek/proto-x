@@ -107,7 +107,20 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_definition )
 {
   typedef protox::hla::som< o_class_table > som;
 
-  RTI::RTIambassador rtiAmb;  
+  RTI::RTIambassador rtiAmb;
+  rtiAmb.o_class_to_handle_map["Class_A"] = 1;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B"] = 2;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_E"] = 3;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_F"] = 4;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_C"] = 5;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C"] = 6;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C.Class_A"] = 7;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C.Class_A.Class_E"] = 12;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C.Class_C"] = 8;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C.Class_E"] = 13;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_D"] = 9;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_D.Class_G"] = 10;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
   som::init_handles(rtiAmb);
 
   typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > > class_type;
@@ -122,6 +135,17 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_ctor )
   typedef protox::hla::som< o_class_table > som;
 
   RTI::RTIambassador rtiAmb;  
+  rtiAmb.o_class_to_handle_map["Class_A"] = 1;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B"] = 2;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_E"] = 3;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_F"] = 4;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_C"] = 5;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C"] = 6;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C.Class_A"] = 7;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C.Class_C"] = 8;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_D"] = 9;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_D.Class_G"] = 10;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
   som::init_handles(rtiAmb);
 
   typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > > class_type;
@@ -138,6 +162,17 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_attr_mutators )
   typedef protox::hla::som< o_class_table > som;
 
   RTI::RTIambassador rtiAmb;  
+  rtiAmb.o_class_to_handle_map["Class_A"] = 1;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B"] = 2;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_E"] = 3;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_F"] = 4;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_C"] = 5;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C"] = 6;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C.Class_A"] = 7;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C.Class_C"] = 8;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_D"] = 9;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_D.Class_G"] = 10;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
   som::init_handles(rtiAmb);
 
   typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > > class_type;
