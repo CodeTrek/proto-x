@@ -56,12 +56,12 @@ namespace protox { namespace hla {
 struct init_param_handle
 {
   RTI::RTIambassador &rtiAmb;
-  RTI::ObjectClassHandle class_handle;
+  RTI::InteractionClassHandle class_handle;
   i_class_handle_to_param_map &map;
   
   init_param_handle(
     RTI::RTIambassador &rtiAmb,
-    RTI::ObjectClassHandle ch,
+    RTI::InteractionClassHandle ch,
     i_class_handle_to_param_map &m
   ) :
     rtiAmb(rtiAmb),
@@ -162,9 +162,15 @@ struct param_dft_children< true, Children, Stack >
   {
     std::string full_name;
     boost::mpl::for_each< Stack >(build_full_name(full_name, REVERSED));
+
+    // No interaction classes?
+    if (full_name.empty())
+    {
+      return;
+    }
     
-    RTI::ObjectClassHandle class_handle =
-      rtiAmb.getObjectClassHandle(full_name.c_str());
+    RTI::InteractionClassHandle class_handle =
+      rtiAmb.getInteractionClassHandle(full_name.c_str());
 
     class_map[full_name] = class_handle;
     

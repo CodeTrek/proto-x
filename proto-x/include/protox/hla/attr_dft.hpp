@@ -162,6 +162,12 @@ struct attr_dft_children< true, Children, Stack >
   {
     std::string full_name;
     boost::mpl::for_each< Stack >(build_full_name(full_name, REVERSED));
+
+    // No object classes?
+    if (full_name.empty())
+    {
+      return;
+    }
     
     RTI::ObjectClassHandle class_handle =
       rtiAmb.getObjectClassHandle(full_name.c_str());

@@ -1096,16 +1096,12 @@ throw (
   ConcurrentAccessAttempted,
   RTIinternalError)
 {
-  static int next_handle = 0;
+  RTI::o_class_to_handle_map_type::iterator it
+    = o_class_to_handle_map.find(theName);
 
-  typedef std::map<std::string, ObjectClassHandle> name_to_handle_map_type;
-  static name_to_handle_map_type map;
-
-  name_to_handle_map_type::iterator it = map.find(theName);
-
-  if (it == map.end())
+  if (it == o_class_to_handle_map.end())
   {
-    return ++next_handle;
+    throw NameNotFound("Name not found"); 
   }
 
   return ((*it).second);

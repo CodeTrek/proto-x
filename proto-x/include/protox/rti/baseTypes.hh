@@ -39,16 +39,15 @@ public:
   virtual void        throwSelf() const         = 0;
 };
 
-#define RTI_EXCEPT(A)   \
-class A : public Exception {       \
-public: \
-  static RTI_EXPORT const char *_ex;  \
-  A (const char *reason) : Exception (reason)  { _name = _ex; }   \
-  A (ULong serial, const char *reason=NULL)        \
-    : Exception (serial, reason)  { _name = _ex; }        \
-  A (A const & toCopy) : Exception(toCopy) { _name = _ex; } \
+#define RTI_EXCEPT(A)                                                \
+class A : public Exception {                                         \
+public:                                                              \
+  A (const char *reason) : Exception (reason)  {}                    \
+  A (ULong serial, const char *reason=NULL)                          \
+    : Exception (serial, reason)  {}                                 \
+  A (A const & toCopy) : Exception(toCopy) {}                        \
   Exception * cloneSelf() const throw() { return (new A(_reason)); } \
-  void        throwSelf() const         { throw *this; } \
+  void        throwSelf() const         { throw *this; }             \
 };
 
 
