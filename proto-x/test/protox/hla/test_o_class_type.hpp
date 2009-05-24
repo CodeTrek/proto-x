@@ -50,9 +50,10 @@ namespace t1
   struct Class_H { HLA_NAME("Class_H") };
 
   // Attribute names
-  struct A1 : protox::hla::attr< int > { HLA_NAME("A1") };
-  struct A2 : protox::hla::attr< int > { HLA_NAME("A2") };
+  struct A1 : protox::hla::attr< int >    { HLA_NAME("A1") };
+  struct A2 : protox::hla::attr< int >    { HLA_NAME("A2") };
   struct A3 : protox::hla::attr< double > { HLA_NAME("A3") };
+  struct A4 : protox::hla::attr< double > { HLA_NAME("A4") };
 
   // Structure
   struct o_class_table : 
@@ -61,7 +62,7 @@ namespace t1
       attrs< A3 >,
 //                    +-------------------------+
                         child< o_class< Class_B,
-                          attrs< A1, A2 >,
+                          attrs< A1, A2, A4 >,
 //                                              +--------------------------+
                                                   child< o_class< Class_E >,
 //                                              +--------------------------+
@@ -70,8 +71,8 @@ namespace t1
                                                          o_class< Class_C > > >,
 //                                              +--------------------------+
 //                    +-------------------------+
-                        o_class< Class_C,
-                          attrs< A1, A2 >,
+                               o_class< Class_C,
+                                 attrs< A1, A2 >,
 //                                              +--------------------------+
                                                   child< o_class< Class_A,
                                                     none,
@@ -84,8 +85,8 @@ namespace t1
                                                          o_class< Class_E > > >,
 //                                              +--------------------------+
 //                    +-------------------------+
-                        o_class< Class_D,
-                          attrs< A1, A2 >,
+                               o_class< Class_D,
+                                 attrs< A1, A2 >,
 //                                              +--------------------------+
                                                   child< o_class< Class_G >,
 //                                              +--------------------------+
@@ -123,11 +124,16 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_definition )
   rtiAmb.o_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
   som::init_handles(rtiAmb);
 
-  typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > > class_type;
+  typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > >::type c1;
 
-  BOOST_CHECK( class_type::type::get_name()
-    == "Class_A.Class_C.Class_A.Class_E" );
-  BOOST_CHECK( class_type::type::get_handle() > 0 ); 
+  BOOST_CHECK( c1::get_name() == "Class_A.Class_C.Class_A.Class_E" );
+  BOOST_CHECK( c1::get_handle() == 12 );
+  BOOST_CHECK( c1::get_num_attrs() == 3 );
+  
+  typedef o_class_type< som, q_name< Class_B > >::type c2;
+  BOOST_CHECK( c2::get_name() == "Class_A.Class_B" );
+  BOOST_CHECK( c2::get_handle() == 2 );
+  BOOST_CHECK( c2::get_num_attrs() == 4 );
 }
 
 BOOST_AUTO_TEST_CASE( test_o_class_type_ctor )
