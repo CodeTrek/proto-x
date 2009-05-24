@@ -10,7 +10,6 @@
 #include <boost/test/included/unit_test_framework.hpp>
 #include <boost/test/auto_unit_test.hpp>
 
-#if 0
 // Data type language (DTL) tests
 #include "test/protox/dtl/compute_octet_boundary.hpp"
 #include "test/protox/dtl/basic.hpp"
@@ -29,7 +28,6 @@
 #include "test/protox/hla/test_keywords.hpp"
 #include "test/protox/hla/test_o_class.hpp"
 #include "test/protox/hla/test_i_class.hpp"
-#endif
 
 #include "test/protox/hla/test_som.hpp"
 
