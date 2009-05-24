@@ -57,7 +57,7 @@ namespace t1
   struct Class_G { HLA_NAME("Class_G") };
   struct Class_H { HLA_NAME("Class_H") };
 
-  // Attribute names
+  // Parameter names
   struct A1 : protox::hla::param< simple_int > { HLA_NAME("A1") };
   struct A2 : protox::hla::param< simple_int > { HLA_NAME("A2") };
   struct A3 : protox::hla::param< simple_float > { HLA_NAME("A3") };
@@ -116,6 +116,21 @@ BOOST_AUTO_TEST_CASE( test_i_class_type_definition )
   typedef protox::hla::som< null_o_class, i_class_table > som;
 
   RTI::RTIambassador rtiAmb;  
+  
+  rtiAmb.i_class_to_handle_map["Class_A"] = 1;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B"] = 2;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_E"] = 3;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_F"] = 4;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_C"] = 5;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C"] = 6;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_A"] = 7;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_A.Class_E"] = 12;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_C"] = 8;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_E"] = 13;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D"] = 9;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_G"] = 10;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
+
   som::init_handles(rtiAmb);
 
   typedef
@@ -123,7 +138,7 @@ BOOST_AUTO_TEST_CASE( test_i_class_type_definition )
 
   BOOST_CHECK( class_type::get_name()
     == "Class_A.Class_C.Class_A.Class_E" );
-  BOOST_CHECK( class_type::get_handle() > 0 );
+  BOOST_CHECK( class_type::get_handle() == 12 );
   BOOST_CHECK( class_type::get_num_parameters() == 3 );
 }
 
@@ -133,7 +148,22 @@ BOOST_AUTO_TEST_CASE( test_i_class_type_ctor )
 {
   typedef protox::hla::som< null_o_class, i_class_table > som;
 
-  RTI::RTIambassador rtiAmb;  
+  RTI::RTIambassador rtiAmb;
+  
+  rtiAmb.i_class_to_handle_map["Class_A"] = 1;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B"] = 2;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_E"] = 3;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_F"] = 4;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_C"] = 5;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C"] = 6;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_A"] = 7;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_A.Class_E"] = 12;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_C"] = 8;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_E"] = 13;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D"] = 9;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_G"] = 10;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
+  
   som::init_handles(rtiAmb);
 
   typedef
@@ -153,6 +183,21 @@ BOOST_AUTO_TEST_CASE( test_i_class_type_param_mutators )
   typedef protox::hla::som< null_o_class, i_class_table > som;
 
   RTI::RTIambassador rtiAmb;
+  
+  rtiAmb.i_class_to_handle_map["Class_A"] = 1;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B"] = 2;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_E"] = 3;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_F"] = 4;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_C"] = 5;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C"] = 6;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_A"] = 7;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_A.Class_E"] = 12;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_C"] = 8;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_E"] = 13;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D"] = 9;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_G"] = 10;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
+  
   som::init_handles(rtiAmb);
 
   typedef
@@ -176,6 +221,21 @@ BOOST_AUTO_TEST_CASE( test_i_class_type_publish )
   typedef protox::hla::som< null_o_class, i_class_table > som;
 
   RTI::RTIambassador rtiAmb;
+  
+  rtiAmb.i_class_to_handle_map["Class_A"] = 1;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B"] = 2;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_E"] = 3;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_F"] = 4;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_C"] = 5;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C"] = 6;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_A"] = 7;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_A.Class_E"] = 12;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_C"] = 8;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_E"] = 13;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D"] = 9;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_G"] = 10;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
+  
   som::init_handles(rtiAmb);
 
   typedef
@@ -191,6 +251,21 @@ BOOST_AUTO_TEST_CASE( test_i_class_type_send )
   typedef protox::hla::som< null_o_class, i_class_table > som;
 
   RTI::RTIambassador rtiAmb;
+  
+  rtiAmb.i_class_to_handle_map["Class_A"] = 1;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B"] = 2;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_E"] = 3;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_F"] = 4;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_C"] = 5;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C"] = 6;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_A"] = 7;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_A.Class_E"] = 12;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_C"] = 8;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_E"] = 13;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D"] = 9;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_G"] = 10;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
+  
   som::init_handles(rtiAmb);
 
   typedef

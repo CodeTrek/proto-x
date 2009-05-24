@@ -119,17 +119,17 @@ BOOST_AUTO_TEST_CASE( test_som_init_class_handles )
 
   BOOST_CHECK( som::get_num_object_classes() == 11 ); 
 
-  BOOST_CHECK( som::get_object_class_handle("Class_A") > 0 );
-  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_B") > 0 );
-  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_B.Class_E") > 0 );
-  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_B.Class_F") > 0 );
-  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_B.Class_C") > 0 );
-  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_C") > 0 );
-  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_C.Class_A") > 0 );
-  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_C.Class_C") > 0 );
-  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_D") > 0 );
-  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_D.Class_G") > 0 );
-  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_D.Class_H") > 0 );
+  BOOST_CHECK( som::get_object_class_handle("Class_A") == 1 );
+  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_B") == 2 );
+  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_B.Class_E") == 3 );
+  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_B.Class_F") == 4 );
+  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_B.Class_C") == 5 );
+  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_C") == 6 );
+  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_C.Class_A") == 7 );
+  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_C.Class_C") == 8 );
+  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_D") == 9 );
+  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_D.Class_G") == 10 );
+  BOOST_CHECK( som::get_object_class_handle("Class_A.Class_D.Class_H") == 11 );
 
   //som::print_object_class_handle_map();
   //som::print_attr_handle_map();
@@ -322,17 +322,17 @@ BOOST_AUTO_TEST_CASE( test_som_init_param_handles )
   typedef hla::som< null_o_class, inter_class_table > som;
   
   RTI::RTIambassador rtiAmb;  
-  rtiAmb.o_class_to_handle_map["Class_A"] = 1;
-  rtiAmb.o_class_to_handle_map["Class_A.Class_B"] = 2;
-  rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_E"] = 3;
-  rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_F"] = 4;
-  rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_C"] = 5;
-  rtiAmb.o_class_to_handle_map["Class_A.Class_C"] = 6;
-  rtiAmb.o_class_to_handle_map["Class_A.Class_C.Class_A"] = 7;
-  rtiAmb.o_class_to_handle_map["Class_A.Class_C.Class_C"] = 8;
-  rtiAmb.o_class_to_handle_map["Class_A.Class_D"] = 9;
-  rtiAmb.o_class_to_handle_map["Class_A.Class_D.Class_G"] = 10;
-  rtiAmb.o_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
+  rtiAmb.i_class_to_handle_map["Class_A"] = 1;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B"] = 2;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_E"] = 3;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_F"] = 4;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_C"] = 5;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C"] = 6;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_A"] = 7;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_C.Class_C"] = 8;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D"] = 9;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_G"] = 10;
+  rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
   som::init_handles(rtiAmb);
 
   BOOST_CHECK( som::get_num_interaction_classes() == 11 ); 
@@ -455,6 +455,7 @@ BOOST_AUTO_TEST_CASE( test_som_init_handles )
   typedef hla::som< obj_class_table, inter_class_table > som;
   
   RTI::RTIambassador rtiAmb;
+  
   rtiAmb.o_class_to_handle_map["HLAobjectRoot"] = 1;
   rtiAmb.o_class_to_handle_map["HLAobjectRoot.Employee"] = 2;
   rtiAmb.o_class_to_handle_map["HLAobjectRoot.Employee.Waiter"] = 3;
@@ -464,13 +465,41 @@ BOOST_AUTO_TEST_CASE( test_som_init_handles )
   rtiAmb.o_class_to_handle_map["HLAobjectRoot.Food.Entree.Beef"] = 7;
   rtiAmb.o_class_to_handle_map["HLAobjectRoot.Food.Entree.Seafood"] = 8;
   rtiAmb.o_class_to_handle_map["HLAobjectRoot.Food.Dessert"] = 9;
+  
+  rtiAmb.i_class_to_handle_map["HLAinteractionRoot"] = 1;
+  rtiAmb.i_class_to_handle_map["HLAinteractionRoot.CustomerTransaction"] = 2;
+  rtiAmb.i_class_to_handle_map["HLAinteractionRoot.CustomerTransaction.CustomerSeated"] = 3;
+  rtiAmb.i_class_to_handle_map["HLAinteractionRoot.CustomerTransaction.FoodServed"] = 4;
+  
   som::init_handles(rtiAmb);
 
+  // Check object and attribute handles
   BOOST_CHECK( som::get_num_object_classes() == 9 ); 
-  BOOST_CHECK( som::get_num_interaction_classes() == 4 ); 
-
+  
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot") == 1 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Employee") == 2 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Employee.Waiter") == 3 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Employee.DishWasher") == 4 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Food") == 5 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Food.Entree") == 6 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Food.Entree.Beef") == 7 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Food.Entree.Seafood") == 8 );
+  BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Food.Dessert") == 9 );
+  
   BOOST_CHECK( som::get_attr_handle("HLAobjectRoot.Employee.DishWasher", "HLAprivilegeToDeleteObject") > 0 );
   BOOST_CHECK( som::get_attr_handle("HLAobjectRoot.Employee.DishWasher", "HomeAddress") > 0 );
+  
+  // Check interaction and parameter handles
+  BOOST_CHECK( som::get_num_interaction_classes() == 4 ); 
+  
+  BOOST_CHECK( som::get_interaction_class_handle("HLAinteractionRoot") == 1 );
+  BOOST_CHECK( som::get_interaction_class_handle("HLAinteractionRoot.CustomerTransaction") == 2 );
+  BOOST_CHECK( som::get_interaction_class_handle("HLAinteractionRoot.CustomerTransaction.CustomerSeated") == 3 );
+  BOOST_CHECK( som::get_interaction_class_handle("HLAinteractionRoot.CustomerTransaction.FoodServed") == 4);
+  
+  BOOST_CHECK( som::get_param_handle("HLAinteractionRoot.CustomerTransaction.CustomerSeated", "TimeSeated") > 0 );
+  BOOST_CHECK( som::get_param_handle("HLAinteractionRoot.CustomerTransaction.FoodServed", "TimelinessOk") > 0 );
+
 }
 
 /**************************************************************************************************/
