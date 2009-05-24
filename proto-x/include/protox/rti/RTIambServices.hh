@@ -220,7 +220,9 @@ throw (
   ConcurrentAccessAttempted,
   SaveInProgress,
   RestoreInProgress,
-  RTIinternalError) {}
+  RTIinternalError)
+{
+}
 
 // 5.5
 void unpublishInteractionClass (
@@ -1096,7 +1098,7 @@ throw (
   ConcurrentAccessAttempted,
   RTIinternalError)
 {
-  RTI::o_class_to_handle_map_type::iterator it
+  RTI::o_class_to_handle_map_t::iterator it
     = o_class_to_handle_map.find(theName);
 
   if (it == o_class_to_handle_map.end())
@@ -1131,21 +1133,21 @@ throw (
 {
   static int next_handle = 0;
 
-  typedef std::map<std::string, AttributeHandle> attr_to_handle_map_type;
-  typedef std::map<ObjectClassHandle, attr_to_handle_map_type> class_to_attr_map_type;
+  typedef std::map<std::string, AttributeHandle> attr_to_handle_map_t;
+  typedef std::map<ObjectClassHandle, attr_to_handle_map_t> class_to_attr_map_t;
 
-  static class_to_attr_map_type map;
+  static class_to_attr_map_t map;
 
-  class_to_attr_map_type::iterator it1 = map.find(whichClass);
+  class_to_attr_map_t::iterator it1 = map.find(whichClass);
 
   if (it1 == map.end())
   {
-    map[whichClass] = attr_to_handle_map_type();
+    map[whichClass] = attr_to_handle_map_t();
     map[whichClass][theName] = (++next_handle);
     return map[whichClass][theName];
   }
 
-  attr_to_handle_map_type::iterator it2 = (*it1).second.find(theName);
+  attr_to_handle_map_t::iterator it2 = (*it1).second.find(theName);
 
   if (it2 == (*it1).second.end())
   {
@@ -1177,19 +1179,15 @@ throw (
   ConcurrentAccessAttempted,
   RTIinternalError)
 {
-      static int next_handle = 0;
+  RTI::i_class_to_handle_map_t::iterator it
+    = i_class_to_handle_map.find(theName);
 
-      typedef std::map<std::string, InteractionClassHandle> name_to_handle_map_type;
-      static name_to_handle_map_type map;
+  if (it == i_class_to_handle_map.end())
+  {
+    throw NameNotFound("Name not found"); 
+  }
 
-      name_to_handle_map_type::iterator it = map.find(theName);
-
-      if (it == map.end())
-      {
-        return ++next_handle;
-      }
-
-      return ((*it).second);
+  return ((*it).second);
 }
 
 // 10.7
@@ -1216,21 +1214,21 @@ throw (
 {
       static int next_handle = 0;
 
-      typedef std::map<std::string, ParameterHandle> param_to_handle_map_type;
-      typedef std::map<InteractionClassHandle, param_to_handle_map_type> class_to_param_map_type;
+      typedef std::map<std::string, ParameterHandle> param_to_handle_map_t;
+      typedef std::map<InteractionClassHandle, param_to_handle_map_t> class_to_param_map_t;
 
-      static class_to_param_map_type map;
+      static class_to_param_map_t map;
 
-      class_to_param_map_type::iterator it1 = map.find(whichClass);
+      class_to_param_map_t::iterator it1 = map.find(whichClass);
 
       if (it1 == map.end())
       {
-        map[whichClass] = param_to_handle_map_type();
+        map[whichClass] = param_to_handle_map_t();
         map[whichClass][theName] = (++next_handle);
         return map[whichClass][theName];
       }
 
-      param_to_handle_map_type::iterator it2 = (*it1).second.find(theName);
+      param_to_handle_map_t::iterator it2 = (*it1).second.find(theName);
 
       if (it2 == (*it1).second.end())
       {
