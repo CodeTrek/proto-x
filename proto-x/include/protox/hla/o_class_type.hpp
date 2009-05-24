@@ -14,6 +14,8 @@
 
 #include <string>
 
+#include <RTI.hh>
+
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/inherit_linearly.hpp>
 #include <boost/mpl/placeholders.hpp>
@@ -86,6 +88,19 @@ template<
         }
 
         return handle;
+      }
+      
+      static unsigned int get_num_attrs()
+      {
+        return attrs_type::count_attrs();
+      }
+      
+      /**
+       * Publish all class attributes.
+       */
+      static void publish(RTI::RTIambassador &rtiAmb)
+      {
+        //attrs_type::publish_all(rtiAmb, get_handle());
       }
 
       type()

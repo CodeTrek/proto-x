@@ -68,6 +68,11 @@ protected:
   {
     A::template init_handle< T >(class_name);
   }
+  
+  static unsigned int count_attrs()
+  {
+    return 1;
+  }
 };
 
 /******************************************************************************/
@@ -84,6 +89,12 @@ protected:
   {
     A::template init_handle< T >(class_name);
     B::template init_handles< T >(class_name);
+  }
+  
+  static unsigned int count_attrs()
+  {
+    unsigned int total = 1 + B::count_attrs();
+    return total;
   }
 
 public:
