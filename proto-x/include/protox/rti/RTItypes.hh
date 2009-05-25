@@ -262,29 +262,39 @@ public:
       HandleValuePairMaximumExceeded);
 };
 
-class RTI_EXPORT AttributeHandleSet {
+class RTI_EXPORT AttributeHandleSet
+{
+private:
+  const ULong count;
 public:
-  virtual ~AttributeHandleSet() { ; }
+  AttributeHandleSet(ULong count) : count(count) {}
+  
+  virtual ~AttributeHandleSet() {}
 
-  virtual ULong size() const = 0;
+  virtual ULong size() const {return count;} 
 
   virtual AttributeHandle getHandle(ULong i) const
     throw (
-      ArrayIndexOutOfBounds) = 0;
+      ArrayIndexOutOfBounds)
+  {
+    return 0;
+  }
   
   virtual void add(AttributeHandle h)
     throw (
       ArrayIndexOutOfBounds,
-      AttributeNotDefined) = 0;
+      AttributeNotDefined)
+  {}
   
   virtual void remove(AttributeHandle h)
     throw (			// not guaranteed safe while iterating
-      AttributeNotDefined) = 0;
+      AttributeNotDefined)
+  {}
   
-  virtual void empty() = 0; // Empty the Set
+  virtual void empty() {} // Empty the Set
 
-  virtual Boolean isEmpty() const = 0;  //is set empty?
-  virtual Boolean isMember(AttributeHandle h) const = 0;
+  virtual Boolean isEmpty() const {return RTI::RTI_TRUE;} //is set empty?
+  virtual Boolean isMember(AttributeHandle h) const {return RTI::RTI_FALSE;}
 };
 
 
@@ -294,7 +304,10 @@ public:
     ULong count)
     throw(
       MemoryExhausted,
-      ValueCountExceeded);
+      ValueCountExceeded)
+  {
+      return new AttributeHandleSet(count);
+  }
 };
 
 class RTI_EXPORT FederateHandleSet {

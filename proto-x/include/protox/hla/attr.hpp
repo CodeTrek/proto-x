@@ -42,6 +42,11 @@ protected:
   {
     handle = S::get_attr_handle(class_name, name());;
   }
+  
+  void add_handle(RTI::AttributeHandleSet &ahs)
+  {
+    ahs.add(handle);
+  }
 };
 
 /******************************************************************************/
@@ -69,7 +74,15 @@ protected:
     A::template init_handle< T >(class_name);
   }
   
-  static unsigned int count_attrs()
+  template< typename T >
+  static void collect_handles(const std::string &class_name,
+    RTI::AttributeHandleSet &ahs)
+  {
+    RTI::AttributeHandle handle = T::get_attr_handle(class_name, A::name());
+    ahs.add(handle);
+  }
+  
+  static RTI::ULong count_attrs()
   {
     return 1;
   }
@@ -91,10 +104,19 @@ protected:
     B::template init_handles< T >(class_name);
   }
   
-  static unsigned int count_attrs()
+  static RTI::ULong count_attrs()
   {
     unsigned int total = 1 + B::count_attrs();
     return total;
+  }
+
+  template< typename T >
+  static void collect_handles(const std::string &class_name,
+    RTI::AttributeHandleSet &ahs)
+  {
+    RTI::AttributeHandle handle = T::get_attr_handle(class_name, A::name());
+    ahs.add(handle);
+    B::template collect_handles< T >(class_name, ahs);
   }
 
 public:

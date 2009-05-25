@@ -16,6 +16,7 @@
 
 #include <RTI.hh>
 
+#include <boost/shared_ptr.hpp>
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/inherit_linearly.hpp>
 #include <boost/mpl/placeholders.hpp>
@@ -90,7 +91,7 @@ template<
         return handle;
       }
       
-      static unsigned int get_num_attrs()
+      static RTI::ULong get_num_attrs()
       {
         return attrs_type::count_attrs();
       }
@@ -100,7 +101,11 @@ template<
        */
       static void publish(RTI::RTIambassador &rtiAmb)
       {
-        //attrs_type::publish_all(rtiAmb, get_handle());
+        boost::shared_ptr<RTI::AttributeHandleSet>
+          ahs(RTI::AttributeHandleSetFactory::create(type::get_num_attrs()));
+          
+        attrs_type::template collect_handles< SOM >(type::get_name(), *ahs);
+        rtiAmb.publishObjectClass(type::get_handle(), *ahs);
       }
 
       type()

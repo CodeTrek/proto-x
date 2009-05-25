@@ -196,7 +196,8 @@ throw (
   ConcurrentAccessAttempted,
   SaveInProgress,
   RestoreInProgress,
-  RTIinternalError);
+  RTIinternalError)
+{}
 
 // 5.3
 void unpublishObjectClass (
