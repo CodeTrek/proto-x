@@ -130,10 +130,14 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_definition )
   BOOST_CHECK( c1::get_handle() == 12 );
   BOOST_CHECK( c1::get_num_attrs() == 3 );
   
+  c1::publish(rtiAmb);
+  
   typedef o_class_type< som, q_name< Class_B > >::type c2;
   BOOST_CHECK( c2::get_name() == "Class_A.Class_B" );
   BOOST_CHECK( c2::get_handle() == 2 );
   BOOST_CHECK( c2::get_num_attrs() == 4 );
+  
+  c2::publish(rtiAmb);
 }
 
 BOOST_AUTO_TEST_CASE( test_o_class_type_ctor )
