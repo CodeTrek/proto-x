@@ -32,12 +32,12 @@ namespace test_protox_hla_som {
 BOOST_AUTO_TEST_CASE( test_som_empty )
 {
   typedef protox::hla::som<> som;
-  
-  //RTI::RTIambassador rtiAmb;  
+
+  //RTI::RTIambassador rtiAmb;
   //som::init_handles(rtiAmb);
 
-  BOOST_CHECK( som::get_num_object_classes() == 0 ); 
-  BOOST_CHECK( som::get_num_interaction_classes() == 0 ); 
+  BOOST_CHECK( som::get_num_object_classes() == 0 );
+  BOOST_CHECK( som::get_num_interaction_classes() == 0 );
 }
 
 /**************************************************************************************************/
@@ -46,7 +46,7 @@ namespace t1
 {
   using namespace protox::hla;
 
-  // Class names 
+  // Class names
   struct Class_A { HLA_NAME("Class_A") };
   struct Class_B { HLA_NAME("Class_B") };
   struct Class_C { HLA_NAME("Class_C") };
@@ -55,9 +55,9 @@ namespace t1
   struct Class_F { HLA_NAME("Class_F") };
   struct Class_G { HLA_NAME("Class_G") };
   struct Class_H { HLA_NAME("Class_H") };
-  
- 
-  struct obj_class_table : 
+
+
+  struct obj_class_table :
 // +-------------------+
      o_class< Class_A,
               none,
@@ -100,8 +100,8 @@ BOOST_AUTO_TEST_CASE( test_som_init_class_handles )
   using namespace protox;
 
   typedef hla::som< obj_class_table > som;
-  
-  RTI::RTIambassador rtiAmb;  
+
+  RTI::RTIambassador rtiAmb;
 
   rtiAmb.o_class_to_handle_map["Class_A"] = 1;
   rtiAmb.o_class_to_handle_map["Class_A.Class_B"] = 2;
@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE( test_som_init_class_handles )
 
   som::init_handles(rtiAmb);
 
-  BOOST_CHECK( som::get_num_object_classes() == 11 ); 
+  BOOST_CHECK( som::get_num_object_classes() == 11 );
 
   BOOST_CHECK( som::get_object_class_handle("Class_A") == 1 );
   BOOST_CHECK( som::get_object_class_handle("Class_A.Class_B") == 2 );
@@ -148,26 +148,26 @@ namespace t2
                                  struct a1        : attr< int >     { HLA_NAME("a1") };
                                  struct a2        : attr< int >     { HLA_NAME("a2") };
 //     +------------------------------+-----------+-----------------+-----------------+
-  struct Class_B { HLA_NAME("Class_B") };
+  struct Class_B {HLA_NAME("Class_B")};
                                  struct b1        : attr< int >     { HLA_NAME("b1") };
 //     +------------------------------+-----------+-----------------+-----------------+
-  struct Class_C { HLA_NAME("Class_C") };
+  struct Class_C {HLA_NAME("Class_C")};
 //     +------------------------------+-----------+-----------------+-----------------+
-  struct Class_D { HLA_NAME("Class_D") };
+  struct Class_D {HLA_NAME("Class_D")};
 //     +------------------------------+-----------+-----------------+-----------------+
-  struct Class_E { HLA_NAME("Class_E") };
+  struct Class_E {HLA_NAME("Class_E")};
 //     +------------------------------+-----------+-----------------+-----------------+
-  struct Class_F { HLA_NAME("Class_F") };
+  struct Class_F {HLA_NAME("Class_F")};
 //     +------------------------------+-----------+-----------------+-----------------+
-  struct Class_G { HLA_NAME("Class_G") };
+  struct Class_G {HLA_NAME("Class_G")};
                                  struct g1        : attr< int >     { HLA_NAME("g1") };
                                  struct g2        : attr< int >     { HLA_NAME("g2") };
 //     +------------------------------+-----------+-----------------+-----------------+
-  struct Class_H { HLA_NAME("Class_H") };
+  struct Class_H {HLA_NAME("Class_H")};
 //     +------------------------------+-----------+-----------------+-----------------+
-  
- 
-  struct obj_class_table : 
+
+
+  struct obj_class_table :
 // +-------------------+
      o_class< Class_A,
      attrs< a1, a2 >,
@@ -210,8 +210,8 @@ BOOST_AUTO_TEST_CASE( test_som_init_attr_handles )
   using namespace protox;
 
    typedef hla::som< obj_class_table > som;
-  
-  RTI::RTIambassador rtiAmb;  
+
+  RTI::RTIambassador rtiAmb;
   rtiAmb.o_class_to_handle_map["Class_A"] = 1;
   rtiAmb.o_class_to_handle_map["Class_A.Class_B"] = 2;
   rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_E"] = 3;
@@ -225,7 +225,7 @@ BOOST_AUTO_TEST_CASE( test_som_init_attr_handles )
   rtiAmb.o_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
   som::init_handles(rtiAmb);
 
-  BOOST_CHECK( som::get_num_object_classes() == 11 ); 
+  BOOST_CHECK( som::get_num_object_classes() == 11 );
 
   BOOST_CHECK( som::get_attr_handle("a1",
                  som::get_object_class_handle("Class_A")) > 0 );
@@ -262,9 +262,9 @@ namespace t3
   struct Class_C {HLA_NAME("Class_C")};
 //     +------------------------------+-----------+-----------------+-----------------+
   struct Class_D {HLA_NAME("Class_D")};
-//     +-----------------------------+-----------+-----------------+-----------------+
+//     +------------------------------+-----------+-----------------+-----------------+
   struct Class_E {HLA_NAME("Class_E")};
-//     +-----------------------------+-----------+-----------------+-----------------+
+//     +------------------------------+-----------+-----------------+-----------------+
   struct Class_F {HLA_NAME("Class_F")};
 //     +------------------------------+-----------+-----------------+-----------------+
   struct Class_G {HLA_NAME("Class_G")};
@@ -275,9 +275,9 @@ namespace t3
 //     +------------------------------+-----------+-----------------+-----------------+
   struct Class_H {HLA_NAME("Class_H")};
 //     +------------------------------+-----------+-----------------+-----------------+
-  
- 
-  struct inter_class_table : 
+
+
+  struct inter_class_table :
 // +-------------------+
      i_class< Class_A,
      params< a1, a2 >,
@@ -320,8 +320,8 @@ BOOST_AUTO_TEST_CASE( test_som_init_param_handles )
   using namespace protox;
 
   typedef hla::som< null_o_class, inter_class_table > som;
-  
-  RTI::RTIambassador rtiAmb;  
+
+  RTI::RTIambassador rtiAmb;
   rtiAmb.i_class_to_handle_map["Class_A"] = 1;
   rtiAmb.i_class_to_handle_map["Class_A.Class_B"] = 2;
   rtiAmb.i_class_to_handle_map["Class_A.Class_B.Class_E"] = 3;
@@ -335,7 +335,7 @@ BOOST_AUTO_TEST_CASE( test_som_init_param_handles )
   rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
   som::init_handles(rtiAmb);
 
-  BOOST_CHECK( som::get_num_interaction_classes() == 11 ); 
+  BOOST_CHECK( som::get_num_interaction_classes() == 11 );
 
   BOOST_CHECK( som::get_param_handle("a1",
                  som::get_interaction_class_handle("Class_A")) > 0 );
@@ -389,7 +389,7 @@ namespace t4
 
 
 //// Object Class Table ////////////////////////////////////////////////////////////////////////
-   struct obj_class_table : o_class< HLAobjectRoot, attrs< HLAprivilegeToDeleteObject >, child< 
+   struct obj_class_table : o_class< HLAobjectRoot, attrs< HLAprivilegeToDeleteObject >, child<
 // +--------------------+--------------------------+-------------------------+
 // | Class 1            | Class 2                  | Class 3                 |
 // +--------------------+--------------------------+-------------------------+
@@ -431,7 +431,7 @@ namespace t4
 //     +------------------------------------------------------+---------------+---------------+--------------------------+
 
 //// Interaction Class Table /////////////////////////////////////////////////
-   struct inter_class_table : i_class< HLAinteractionRoot, none, child< 
+   struct inter_class_table : i_class< HLAinteractionRoot, none, child<
 // +-------------------------------+-------------------------------+
 // | Class 1                       | Class 2                       |
 // +-------------------------------+-------------------------------+
@@ -453,9 +453,9 @@ BOOST_AUTO_TEST_CASE( test_som_init_handles )
   using namespace protox;
 
   typedef hla::som< obj_class_table, inter_class_table > som;
-  
+
   RTI::RTIambassador rtiAmb;
-  
+
   rtiAmb.o_class_to_handle_map["HLAobjectRoot"] = 1;
   rtiAmb.o_class_to_handle_map["HLAobjectRoot.Employee"] = 2;
   rtiAmb.o_class_to_handle_map["HLAobjectRoot.Employee.Waiter"] = 3;
@@ -465,17 +465,17 @@ BOOST_AUTO_TEST_CASE( test_som_init_handles )
   rtiAmb.o_class_to_handle_map["HLAobjectRoot.Food.Entree.Beef"] = 7;
   rtiAmb.o_class_to_handle_map["HLAobjectRoot.Food.Entree.Seafood"] = 8;
   rtiAmb.o_class_to_handle_map["HLAobjectRoot.Food.Dessert"] = 9;
-  
+
   rtiAmb.i_class_to_handle_map["HLAinteractionRoot"] = 1;
   rtiAmb.i_class_to_handle_map["HLAinteractionRoot.CustomerTransaction"] = 2;
   rtiAmb.i_class_to_handle_map["HLAinteractionRoot.CustomerTransaction.CustomerSeated"] = 3;
   rtiAmb.i_class_to_handle_map["HLAinteractionRoot.CustomerTransaction.FoodServed"] = 4;
-  
+
   som::init_handles(rtiAmb);
 
   // Check object and attribute handles
-  BOOST_CHECK( som::get_num_object_classes() == 9 ); 
-  
+  BOOST_CHECK( som::get_num_object_classes() == 9 );
+
   BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot") == 1 );
   BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Employee") == 2 );
   BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Employee.Waiter") == 3 );
@@ -485,18 +485,18 @@ BOOST_AUTO_TEST_CASE( test_som_init_handles )
   BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Food.Entree.Beef") == 7 );
   BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Food.Entree.Seafood") == 8 );
   BOOST_CHECK( som::get_object_class_handle("HLAobjectRoot.Food.Dessert") == 9 );
-  
+
   BOOST_CHECK( som::get_attr_handle("HLAobjectRoot.Employee.DishWasher", "HLAprivilegeToDeleteObject") > 0 );
   BOOST_CHECK( som::get_attr_handle("HLAobjectRoot.Employee.DishWasher", "HomeAddress") > 0 );
-  
+
   // Check interaction and parameter handles
-  BOOST_CHECK( som::get_num_interaction_classes() == 4 ); 
-  
+  BOOST_CHECK( som::get_num_interaction_classes() == 4 );
+
   BOOST_CHECK( som::get_interaction_class_handle("HLAinteractionRoot") == 1 );
   BOOST_CHECK( som::get_interaction_class_handle("HLAinteractionRoot.CustomerTransaction") == 2 );
   BOOST_CHECK( som::get_interaction_class_handle("HLAinteractionRoot.CustomerTransaction.CustomerSeated") == 3 );
   BOOST_CHECK( som::get_interaction_class_handle("HLAinteractionRoot.CustomerTransaction.FoodServed") == 4);
-  
+
   BOOST_CHECK( som::get_param_handle("HLAinteractionRoot.CustomerTransaction.CustomerSeated", "TimeSeated") > 0 );
   BOOST_CHECK( som::get_param_handle("HLAinteractionRoot.CustomerTransaction.FoodServed", "TimelinessOk") > 0 );
 
