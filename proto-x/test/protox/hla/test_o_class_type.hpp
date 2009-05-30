@@ -19,6 +19,11 @@
 #include <boost/mpl/deref.hpp>
 #include <boost/mpl/next.hpp>
 #include <boost/mpl/int.hpp>
+#include <boost/mpl/vector.hpp>
+
+#include <protox/dtl/simple.hpp>
+#include <protox/hla_1516/basic_data_representation_table.hpp>
+#include <protox/hla_1516/fixed_record.hpp>
 
 #include <protox/hla/o_class.hpp>
 #include <protox/hla/o_class_type.hpp>
@@ -33,12 +38,30 @@ namespace test_protox_hla_o_class_type {
 
 /******************************************************************************/
 
+using namespace boost;
+using namespace protox;
 using namespace protox::hla;
+using namespace protox::dtl;
+using namespace protox::hla_1516;
 
 /******************************************************************************/
 
-namespace t1
-{
+namespace t1 {
+
+  struct SimpleHLAoctet : simple< HLAoctet > {PROTOX_SIMPLE(SimpleHLAoctet)};
+
+  struct f1 : protox::dtl::field< SimpleHLAoctet > {};
+  struct f2 : protox::dtl::field< SimpleHLAoctet > {};
+  struct f3 : protox::dtl::field< SimpleHLAoctet > {};
+
+  typedef hla_1516::fixed_record< mpl::vector < f1, f2, f3 > > R1;
+
+  struct SimpleHLAinteger32BE : simple<HLAinteger32BE>
+    {PROTOX_SIMPLE(SimpleHLAinteger32BE)}; 
+
+  struct SimpleHLAfloat32BE : simple<HLAfloat32BE>
+    {PROTOX_SIMPLE(SimpleHLAfloat32BE)}; 
+
   // Class names 
   struct Class_A { HLA_NAME("Class_A") };
   struct Class_B { HLA_NAME("Class_B") };
@@ -50,10 +73,10 @@ namespace t1
   struct Class_H { HLA_NAME("Class_H") };
 
   // Attribute names
-  struct A1 : protox::hla::attr< int >    { HLA_NAME("A1") };
-  struct A2 : protox::hla::attr< int >    { HLA_NAME("A2") };
-  struct A3 : protox::hla::attr< double > { HLA_NAME("A3") };
-  struct A4 : protox::hla::attr< double > { HLA_NAME("A4") };
+  struct A1 : protox::hla::attr< SimpleHLAinteger32BE > { HLA_NAME("A1") };
+  struct A2 : protox::hla::attr< SimpleHLAfloat32BE   > { HLA_NAME("A2") };
+  struct A3 : protox::hla::attr< R1                   > { HLA_NAME("A3") };
+  struct A4 : protox::hla::attr< SimpleHLAinteger32BE > { HLA_NAME("A4") };
 
   // Structure
   struct o_class_table : 
@@ -99,7 +122,6 @@ namespace t1
 
 /******************************************************************************/
 
-using namespace boost;
 using namespace t1;
 
 /******************************************************************************/
@@ -130,14 +152,10 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_definition )
   BOOST_CHECK( c1::get_handle() == 12 );
   BOOST_CHECK( c1::get_num_attrs() == 3 );
   
-  c1::publish(rtiAmb);
-  
   typedef o_class_type< som, q_name< Class_B > >::type c2;
   BOOST_CHECK( c2::get_name() == "Class_A.Class_B" );
   BOOST_CHECK( c2::get_handle() == 2 );
   BOOST_CHECK( c2::get_num_attrs() == 4 );
-  
-  c2::publish(rtiAmb);
 }
 
 BOOST_AUTO_TEST_CASE( test_o_class_type_ctor )
@@ -190,12 +208,54 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_attr_mutators )
   class_type::type bObj;
 
   bObj.a_<A1>() = 5;
-  bObj.a_<A2>() = 10;
-  bObj.a_<A3>() = 3.145;
-
   BOOST_CHECK( bObj.a_<A1>() == 5 );
-  BOOST_CHECK( bObj.a_<A2>() == 10 );
-  BOOST_CHECK( (bObj.a_<A3>() - 3.145) < 0.00001 );
+
+  bObj.a_<A2>() = 3.145f;
+  BOOST_CHECK( (bObj.a_<A2>() - 3.145f) < 0.00001f );
+
+  bObj.a_<A3>().f_<f1>() = 'a';
+  bObj.a_<A3>().f_<f2>() = 'm';
+  bObj.a_<A3>().f_<f3>() = 'z';
+
+  BOOST_CHECK( bObj.a_<A3>().f_<f1>() == 'a' );
+  BOOST_CHECK( bObj.a_<A3>().f_<f2>() == 'm' );
+  BOOST_CHECK( bObj.a_<A3>().f_<f3>() == 'z' );
+}
+
+BOOST_AUTO_TEST_CASE( test_o_class_type_publish_all )
+{
+  typedef protox::hla::som< o_class_table > som;
+
+  RTI::RTIambassador rtiAmb;
+  rtiAmb.o_class_to_handle_map["Class_A"] = 1;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B"] = 2;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_E"] = 3;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_F"] = 4;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_B.Class_C"] = 5;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C"] = 6;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C.Class_A"] = 7;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C.Class_A.Class_E"] = 12;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C.Class_C"] = 8;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_C.Class_E"] = 13;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_D"] = 9;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_D.Class_G"] = 10;
+  rtiAmb.o_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
+  som::init_handles(rtiAmb);
+
+  typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > >::type c1;
+
+  BOOST_CHECK( c1::get_name() == "Class_A.Class_C.Class_A.Class_E" );
+  BOOST_CHECK( c1::get_handle() == 12 );
+  BOOST_CHECK( c1::get_num_attrs() == 3 );
+  
+  c1::publish(rtiAmb);
+  
+  typedef o_class_type< som, q_name< Class_B > >::type c2;
+  BOOST_CHECK( c2::get_name() == "Class_A.Class_B" );
+  BOOST_CHECK( c2::get_handle() == 2 );
+  BOOST_CHECK( c2::get_num_attrs() == 4 );
+  
+  c2::publish(rtiAmb);
 }
 
 /******************************************************************************/
