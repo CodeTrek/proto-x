@@ -13,6 +13,8 @@
 /******************************************************************************/
 
 #include <string>
+#include <vector>
+#include <set>
 
 #include <RTI.hh>
 
@@ -25,6 +27,8 @@
 #include <protox/hla/x_class_vector.hpp>
 #include <protox/hla/attr.hpp>
 #include <protox/hla/build_full_name.hpp>
+
+#include <protox/algorithm/string/tokenize.hpp>
 
 /******************************************************************************/
 
@@ -99,13 +103,53 @@ template<
       /**
        * Publish all class attributes.
        */
-      static void publish(RTI::RTIambassador &rtiAmb)
+      static void publish(RTI::RTIambassador &rti_amb)
       {
         boost::shared_ptr<RTI::AttributeHandleSet>
           ahs(RTI::AttributeHandleSetFactory::create(type::get_num_attrs()));
           
-        attrs_type::template collect_handles< SOM >(type::get_name(), *ahs);
-        rtiAmb.publishObjectClass(type::get_handle(), *ahs);
+        attrs_type::template collect_handles< SOM >(
+          type::get_name(),
+          std::set< std::string >(),
+          *ahs);
+
+        if (ahs->isEmpty())
+        {
+          return;
+        }
+
+        rti_amb.publishObjectClass(type::get_handle(), *ahs);
+      }
+
+      /**
+       * Publish a set of class attributes.
+       */
+      static void publish(RTI::RTIambassador &rti_amb, const std::string &attrs)
+      {
+        std::vector< std::string > names;
+        protox::algorithm::string::tokenize(attrs, '.', names);
+
+        if (names.empty())
+        {
+          return;
+        }
+
+        std::set< std::string > name_set(names.begin(), names.end());
+
+        boost::shared_ptr< RTI::AttributeHandleSet >
+          ahs(RTI::AttributeHandleSetFactory::create(type::get_num_attrs()));
+          
+        attrs_type::template collect_handles< SOM >(
+          type::get_name(),
+          name_set,
+          *ahs);
+
+        if (ahs->isEmpty())
+        {
+          return;
+        }
+
+        rti_amb.publishObjectClass(type::get_handle(), *ahs);
       }
 
       type()
