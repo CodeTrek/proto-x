@@ -119,9 +119,11 @@ struct o_class_type
       {
         boost::shared_ptr<RTI::AttributeHandleSet> ahs
           ( RTI::AttributeHandleSetFactory::create( type::get_num_attrs() ) );
+
+        std::set< std::string > empty_name_set;
           
         attrs_type::template collect_handles< SOM >( type::get_name(),
-                                                     std::set< std::string >(),
+                                                     empty_name_set,
                                                      *ahs );
 
         rti_amb.publishObjectClass( type::get_handle(), *ahs );
