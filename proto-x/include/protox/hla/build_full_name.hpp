@@ -29,27 +29,27 @@ struct build_full_name
   std::string &full_name;
   reverse_flag reverse;
   
-  build_full_name(std::string &fn, reverse_flag f = NOT_REVERSED) :
+  build_full_name( std::string &fn, reverse_flag f = NOT_REVERSED ) :
     full_name(fn),
     reverse(f)
   {}
 
   template< typename N >
-  void operator()(N)
+  void operator()( N )
   {
-    if (full_name.empty())
+    if( full_name.empty() )
     {
-      full_name = std::string(N::name_type::name()); 
+      full_name = std::string( N::name_type::name() );
     }
     else
     {
-      if (reverse == REVERSED)
+      if( reverse == REVERSED )
       {
-        full_name = std::string(N::name_type::name()) + "." + full_name; 
+        full_name = std::string( N::name_type::name() ) + "." + full_name;
       }
       else
       {
-        full_name = full_name + "." + std::string(N::name_type::name());
+        full_name = full_name + "." + std::string( N::name_type::name() );
       }
     }
   }

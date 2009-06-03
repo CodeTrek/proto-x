@@ -25,19 +25,18 @@ namespace protox { namespace hla {
 
 /******************************************************************************/
 
-template<
-  typename NAME,
-  typename PARAM_SET = protox::hla::none,
-  typename CHILD_SET = protox::hla::none >
+template< typename NAME,
+          typename PARAM_SET = protox::hla::none,
+          typename CHILD_SET = protox::hla::none >
 struct i_class
 {
   // Check for duplicate child classes.
   BOOST_STATIC_ASSERT(
-    (has_duplicate_class_names<CHILD_SET>::type::value == false) );
+    (has_duplicate_class_names< CHILD_SET >::type::value == false) );
   
   // Check for duplicate attributes.
   BOOST_STATIC_ASSERT(
-    (has_duplicate_param_names<PARAM_SET>::type::value == false) );
+    (has_duplicate_param_names< PARAM_SET >::type::value == false) );
 
   typedef NAME name_type;
  

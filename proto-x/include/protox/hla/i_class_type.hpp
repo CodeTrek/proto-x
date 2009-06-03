@@ -33,10 +33,9 @@ namespace protox { namespace hla {
 
 /******************************************************************************/
 
-template<
-  typename SOM,
-  typename QUALIFIED_NAME_VECTOR
-> struct i_class_type
+template< typename SOM,
+          typename QUALIFIED_NAME_VECTOR >
+struct i_class_type
 {
   // Construct the vector of paramibutes from the given
   // qualified name.
@@ -57,10 +56,8 @@ template<
   {
     private:
       typedef typename
-        x_class_vector<
-          typename SOM::i_class_table,
-          QUALIFIED_NAME_VECTOR
-        >::type x_class_vector_type;
+        x_class_vector< typename SOM::i_class_table,
+                        QUALIFIED_NAME_VECTOR >::type x_class_vector_type;
 
       RTI::RTIambassador *rti_amb;
 
@@ -70,9 +67,11 @@ template<
         static bool initialized = false;
         static std::string name;
 
-        if (!initialized)
+        if( !initialized )
         {
-          boost::mpl::for_each< x_class_vector_type >(build_full_name(name));
+          boost::mpl::for_each< x_class_vector_type >
+            ( build_full_name( name ) );
+
           initialized = true;
         }
 
@@ -84,60 +83,60 @@ template<
         static bool initialized = false;
         static RTI::InteractionClassHandle handle; 
 
-        if (!initialized)
+        if( !initialized )
         {
           const std::string &name = type::get_name();
-          handle = SOM::get_interaction_class_handle(name);
+          handle = SOM::get_interaction_class_handle( name );
           initialized = true;
         }
 
         return handle;
       }
 
-      static void publish(RTI::RTIambassador &rti_amb)
+      static void publish( RTI::RTIambassador &rti_amb )
       {
-        rti_amb.publishInteractionClass(type::get_handle());
+        rti_amb.publishInteractionClass( type::get_handle() );
       }
 
-      static void unpublish(RTI::RTIambassador &rti_amb)
+      static void unpublish( RTI::RTIambassador &rti_amb )
       {
-        rti_amb.unpublishInteractionClass(type::get_handle());
+        rti_amb.unpublishInteractionClass( type::get_handle() );
       }
 
       static unsigned long get_num_parameters()
       {
-        return boost::mpl::size<param_vector_type>::value;
+        return boost::mpl::size< param_vector_type >::value;
       }
 
       type() : rti_amb(0)
       {
-        params_type::template init_handles< SOM >(type::get_name());
+        params_type::template init_handles< SOM >( type::get_name() );
       }
 
-      type(RTI::RTIambassador &rti_amb) : rti_amb(&rti_amb)
+      type( RTI::RTIambassador &rti_amb ) : rti_amb(&rti_amb)
       {
-        params_type::template init_handles< SOM >(type::get_name());
+        params_type::template init_handles< SOM >( type::get_name() );
       }
 
-      void set_rti(RTI::RTIambassador &rti_amb)
+      void set_rti( RTI::RTIambassador &rti_amb )
       {
         this->rti_amb = &rti_amb;
       }
 
       void send()
       {
-        if (rti_amb == 0)
+        if( rti_amb == 0 )
         {
           // TODO: throw exception
           return;
         }
 
         RTI::ParameterHandleValuePairSet *set
-          = RTI::ParameterSetFactory::create(type::get_num_parameters());
+          = RTI::ParameterSetFactory::create( type::get_num_parameters() );
 
-        boost::shared_ptr<RTI::ParameterHandleValuePairSet> set_ptr(set);
+        boost::shared_ptr< RTI::ParameterHandleValuePairSet > set_ptr( set );
 
-        params_type::add_values(set_ptr);
+        params_type::add_values( set_ptr );
       }
   };
 };

@@ -49,11 +49,12 @@ protected:
   void add_value(boost::shared_ptr<RTI::ParameterHandleValuePairSet> set_ptr)
   {
     protox::io::byte_data_sink sink;
-    sink.encode(value);
-    set_ptr->add(
-      handle,
-      sink.getDataBuffer(),
-      (unsigned long) sink.getDataBufferSize());
+
+    sink.encode( value );
+
+    set_ptr->add( handle,
+                  sink.getDataBuffer(),
+                  (unsigned long) sink.getDataBufferSize() );
   }
 };
 

@@ -59,35 +59,33 @@ struct init_attr_handle
   RTI::ObjectClassHandle class_handle;
   o_class_handle_to_attr_map &map;
   
-  init_attr_handle(
-    RTI::RTIambassador &rtiAmb,
-    RTI::ObjectClassHandle ch,
-    o_class_handle_to_attr_map &m
-  ) :
+  init_attr_handle( RTI::RTIambassador &rtiAmb,
+                    RTI::ObjectClassHandle ch,
+                    o_class_handle_to_attr_map &m ) :
     rtiAmb(rtiAmb),
     class_handle(ch),
     map(m)
   {}
 
   template< typename N >
-  void operator()(N)
+  void operator()( N )
   {
     // Find the class handle entry
-    o_class_handle_to_attr_map::iterator i = map.find(class_handle);
+    o_class_handle_to_attr_map::iterator i = map.find( class_handle );
 
-    if (i == map.end())
+    if( i == map.end() )
     {
-      map[class_handle] = attr_name_to_handle_map();
+      map[ class_handle ] = attr_name_to_handle_map();
     }
 
     // Find the attribute handle by name
-    attr_name_to_handle_map::iterator j = map[class_handle].find(N::name());
+    attr_name_to_handle_map::iterator j = map[ class_handle ].find( N::name() );
 
     // No entry for the attribute name?
-    if (j == map[class_handle].end())
+    if( j == map[ class_handle ].end() )
     {
-      map[class_handle][N::name()]
-        = rtiAmb.getAttributeHandle(N::name(), class_handle);
+      map[ class_handle ][ N::name() ]
+        = rtiAmb.getAttributeHandle( N::name(), class_handle );
     }
   }
 };
@@ -119,11 +117,9 @@ struct attr_dft_children< false, Children, Stack >
   typedef attr_dft< first_child, Stack > stack;
 
   // Traverse the remaining children.
-  typedef attr_dft_children<
-    boost::mpl::empty<tail>::value,
-    tail,
-    typename stack::type
-  > result;
+  typedef attr_dft_children< boost::mpl::empty< tail >::value,
+                             tail,
+                             typename stack::type > result;
 
   typedef typename result::type type;
 
@@ -133,12 +129,12 @@ struct attr_dft_children< false, Children, Stack >
     result::dump_stack();
   };
   
-  static void init_o_class_handles(RTI::RTIambassador &rtiAmb,
-    name_to_o_class_handle_map &class_map,
-    o_class_handle_to_attr_map &attr_map)
+  static void init_o_class_handles( RTI::RTIambassador &rtiAmb,
+                                    name_to_o_class_handle_map &class_map,
+                                    o_class_handle_to_attr_map &attr_map )
   {
-    stack::init_o_class_handles(rtiAmb, class_map, attr_map);
-    result::init_o_class_handles(rtiAmb, class_map, attr_map);
+    stack::init_o_class_handles( rtiAmb, class_map, attr_map );
+    result::init_o_class_handles( rtiAmb, class_map, attr_map );
   }
 };
 
@@ -155,29 +151,28 @@ struct attr_dft_children< true, Children, Stack >
     std::cout << "null\n";
   }
   
-  static void init_o_class_handles(
-    RTI::RTIambassador &rtiAmb,
-    name_to_o_class_handle_map &class_map,
-    o_class_handle_to_attr_map &attr_map)
+  static void init_o_class_handles( RTI::RTIambassador &rtiAmb,
+                                    name_to_o_class_handle_map &class_map,
+                                    o_class_handle_to_attr_map &attr_map )
   {
     std::string full_name;
-    boost::mpl::for_each< Stack >(build_full_name(full_name, REVERSED));
+    boost::mpl::for_each< Stack >( build_full_name( full_name, REVERSED ) );
 
     // No object classes?
-    if (full_name.empty())
+    if( full_name.empty() )
     {
       return;
     }
     
-    RTI::ObjectClassHandle class_handle =
-      rtiAmb.getObjectClassHandle(full_name.c_str());
+    RTI::ObjectClassHandle class_handle
+      = rtiAmb.getObjectClassHandle( full_name.c_str() );
 
-    class_map[full_name] = class_handle;
+    class_map[ full_name ] = class_handle;
     
     typedef typename boost::mpl::front< Stack >::type child;
     
     boost::mpl::for_each< typename child::attr_list_type >
-      (init_attr_handle(rtiAmb, class_handle, attr_map));
+      ( init_attr_handle( rtiAmb, class_handle, attr_map ) );
   }
 };
 
@@ -206,12 +201,11 @@ struct attr_dft
     result::dump_stack();
   }
   
-  static void init_o_class_handles(
-    RTI::RTIambassador &rtiAmb,
-    name_to_o_class_handle_map &class_map,
-    o_class_handle_to_attr_map &attr_map)
+  static void init_o_class_handles( RTI::RTIambassador &rtiAmb,
+                                    name_to_o_class_handle_map &class_map,
+                                    o_class_handle_to_attr_map &attr_map )
   {
-    result::init_o_class_handles(rtiAmb, class_map, attr_map);
+    result::init_o_class_handles( rtiAmb, class_map, attr_map );
   }
 };
   

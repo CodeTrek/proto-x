@@ -28,28 +28,24 @@ namespace protox { namespace hla {
 
 /******************************************************************************/
 
-template<
-  bool INTER_CLASS_VECTOR_IS_EMPTY,
-  typename INTER_CLASS_VECTOR,
-  typename PARAM_VECTOR
-> struct i_class_param_vector_impl;
+template< bool INTER_CLASS_VECTOR_IS_EMPTY,
+          typename INTER_CLASS_VECTOR,
+          typename PARAM_VECTOR > struct i_class_param_vector_impl;
 
 /******************************************************************************/
 
-template<
-  typename INTER_CLASS_VECTOR,
-  typename PARAM_VECTOR
-> struct i_class_param_vector_impl< true, INTER_CLASS_VECTOR, PARAM_VECTOR >
+template< typename INTER_CLASS_VECTOR,
+          typename PARAM_VECTOR >
+struct i_class_param_vector_impl< true, INTER_CLASS_VECTOR, PARAM_VECTOR >
 {
   typedef PARAM_VECTOR type;
 };
 
 /******************************************************************************/
 
-template<
-  typename INTER_CLASS_VECTOR,
-  typename PARAM_VECTOR
-> struct i_class_param_vector_impl< false, INTER_CLASS_VECTOR, PARAM_VECTOR >
+template< typename INTER_CLASS_VECTOR,
+          typename PARAM_VECTOR >
+struct i_class_param_vector_impl< false, INTER_CLASS_VECTOR, PARAM_VECTOR >
 {
   typedef typename boost::mpl::front< INTER_CLASS_VECTOR >::type front_class;
   
@@ -70,9 +66,8 @@ template<
 
 /******************************************************************************/
 
-template<
-  typename i_class,
-  typename NAME_VECTOR >
+template< typename i_class,
+          typename NAME_VECTOR >
 struct i_class_param_vector
 {
   typedef typename x_class_vector< i_class, NAME_VECTOR >::type class_vector;

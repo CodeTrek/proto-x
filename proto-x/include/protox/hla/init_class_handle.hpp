@@ -31,9 +31,9 @@ struct init_class_handle
   {}
   
   template< typename C >
-  void operator()(C)
+  void operator()( C )
   {
-    C::init_handles(rtiAmb, parentName);
+    C::init_handles( rtiAmb, parentName );
   }
 };
 

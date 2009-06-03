@@ -49,7 +49,7 @@ struct has_duplicate_param_names_impl< false, SET >
   // Count each unique attr name.
   typedef typename boost::mpl::transform_view<
     SET,
-    typename element_counter<SET>::template op< boost::mpl::placeholders::_1 >
+    typename element_counter< SET >::template op< boost::mpl::placeholders::_1 >
   >::type name_counts;
 
   // Get the max number of occurances of any name in SET.
@@ -60,9 +60,8 @@ struct has_duplicate_param_names_impl< false, SET >
 
   // No duplicate names (i.e., max_count is 1)?
   typedef typename
-    boost::mpl::equal_to<
-      max_count, boost::mpl::int_< 1 >
-    >::type no_duplicates;
+    boost::mpl::equal_to< max_count,
+                          boost::mpl::int_< 1 > >::type no_duplicates;
 
   // Has duplicates = !no_duplicates.
   typedef typename boost::mpl::bool_< !no_duplicates::value >::type type;
@@ -73,8 +72,7 @@ struct has_duplicate_param_names_impl< false, SET >
 template< typename SET >
 struct has_duplicate_param_names
 {
-  typedef typename
-    has_duplicate_param_names_impl<
+  typedef typename has_duplicate_param_names_impl<
       boost::mpl::empty<SET>::value, SET
     >::type type;
 };

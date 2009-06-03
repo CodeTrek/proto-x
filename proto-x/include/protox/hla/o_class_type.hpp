@@ -36,10 +36,9 @@ namespace protox { namespace hla {
 
 /******************************************************************************/
 
-template<
-  typename SOM,
-  typename QUALIFIED_NAME_VECTOR
-> struct o_class_type
+template< typename SOM,
+          typename QUALIFIED_NAME_VECTOR >
+struct o_class_type
 {
   // Construct the vector of attributes from the given
   // qualified name.
@@ -51,19 +50,30 @@ template<
   // Construct the inheritence tree from the attribute vector.
   typedef typename boost::mpl::inherit_linearly<
     attr_vector_type,
-    attr_inherit<
-      attr_base< boost::mpl::placeholders::_2 >,
-      boost::mpl::placeholders::_1 >
+    attr_inherit< attr_base< boost::mpl::placeholders::_2 >,
+                  boost::mpl::placeholders::_1 >
   >::type attrs_type;
 
   struct type : attrs_type
   {
     private:
       typedef typename
-        x_class_vector<
-          typename SOM::o_class_table,
-          QUALIFIED_NAME_VECTOR
-        >::type x_class_vector_type;
+        x_class_vector< typename SOM::o_class_table,
+                        QUALIFIED_NAME_VECTOR >::type x_class_vector_type;
+
+      static void make_set( const std::string &names,
+                            std::set< std::string > &name_set )
+      {
+        std::vector< std::string > name_vec;
+        protox::algorithm::string::tokenize( names, '.', name_vec );
+
+        if( name_vec.empty() )
+        {
+          return;
+        }
+
+        name_set.insert( name_vec.begin(), name_vec.end() );
+      }
 
     public:
       static const std::string &get_name()
@@ -71,9 +81,11 @@ template<
         static bool initialized = false;
         static std::string name;
 
-        if (!initialized)
+        if( !initialized )
         {
-          boost::mpl::for_each< x_class_vector_type >(build_full_name(name));
+          boost::mpl::for_each< x_class_vector_type >
+            ( build_full_name( name ) );
+
           initialized = true;
         }
 
@@ -85,10 +97,10 @@ template<
         static bool initialized = false;
         static RTI::ObjectClassHandle handle; 
 
-        if (!initialized)
+        if( !initialized )
         {
           const std::string &name = type::get_name();
-          handle = SOM::get_object_class_handle(name);
+          handle = SOM::get_object_class_handle( name );
           initialized = true;
         }
 
@@ -103,58 +115,55 @@ template<
       /**
        * Publish all class attributes.
        */
-      static void publish(RTI::RTIambassador &rti_amb)
+      static void publish( RTI::RTIambassador &rti_amb )
       {
-        boost::shared_ptr<RTI::AttributeHandleSet>
-          ahs(RTI::AttributeHandleSetFactory::create(type::get_num_attrs()));
+        boost::shared_ptr<RTI::AttributeHandleSet> ahs
+          ( RTI::AttributeHandleSetFactory::create( type::get_num_attrs() ) );
           
-        attrs_type::template collect_handles< SOM >(
-          type::get_name(),
-          std::set< std::string >(),
-          *ahs);
+        attrs_type::template collect_handles< SOM >( type::get_name(),
+                                                     std::set< std::string >(),
+                                                     *ahs );
 
-        if (ahs->isEmpty())
-        {
-          return;
-        }
-
-        rti_amb.publishObjectClass(type::get_handle(), *ahs);
+        rti_amb.publishObjectClass( type::get_handle(), *ahs );
       }
 
       /**
        * Publish a set of class attributes.
        */
-      static void publish(RTI::RTIambassador &rti_amb, const std::string &attrs)
+      static void publish( RTI::RTIambassador &rti_amb,
+                           const std::string &attrs )
       {
-        std::vector< std::string > names;
-        protox::algorithm::string::tokenize(attrs, '.', names);
+        std::set< std::string > name_set;
+        make_set( attrs, name_set );
 
-        if (names.empty())
+        if( name_set.empty() )
         {
           return;
         }
 
-        std::set< std::string > name_set(names.begin(), names.end());
+        const RTI::ULong set_size = (RTI::ULong) name_set.size();
 
         boost::shared_ptr< RTI::AttributeHandleSet >
-          ahs(RTI::AttributeHandleSetFactory::create(type::get_num_attrs()));
+          ahs( RTI::AttributeHandleSetFactory::create( set_size ) );
           
-        attrs_type::template collect_handles< SOM >(
-          type::get_name(),
-          name_set,
-          *ahs);
+        attrs_type::template collect_handles< SOM >( type::get_name(),
+                                                     name_set,
+                                                     *ahs );
 
-        if (ahs->isEmpty())
-        {
-          return;
-        }
+        rti_amb.publishObjectClass( type::get_handle(), *ahs );
+      }
 
-        rti_amb.publishObjectClass(type::get_handle(), *ahs);
+      /**
+       * Unpublish this class.
+       */
+      static void unpublish( RTI::RTIambassador &rti_amb )
+      {
+        rti_amb.unpublishObjectClass( type::get_handle() );
       }
 
       type()
       {
-        attrs_type::template init_handles< SOM >(type::get_name());
+        attrs_type::template init_handles< SOM >( type::get_name() );
       }
   };
 };

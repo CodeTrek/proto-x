@@ -28,18 +28,15 @@ namespace protox { namespace hla {
 
 /******************************************************************************/
 
-template<
-  bool OBJ_CLASS_VECTOR_IS_EMPTY,
-  typename OBJ_CLASS_VECTOR,
-  typename ATTR_VECTOR
-> struct o_class_attr_vector_impl;
+template< bool OBJ_CLASS_VECTOR_IS_EMPTY,
+          typename OBJ_CLASS_VECTOR,
+          typename ATTR_VECTOR > struct o_class_attr_vector_impl;
 
 /******************************************************************************/
 
-template<
-  typename OBJ_CLASS_VECTOR,
-  typename ATTR_VECTOR
-> struct o_class_attr_vector_impl< true, OBJ_CLASS_VECTOR, ATTR_VECTOR >
+template< typename OBJ_CLASS_VECTOR,
+          typename ATTR_VECTOR >
+struct o_class_attr_vector_impl< true, OBJ_CLASS_VECTOR, ATTR_VECTOR >
 {
   typedef ATTR_VECTOR type;
 };

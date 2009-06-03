@@ -22,10 +22,8 @@ namespace protox { namespace hla {
 
 /******************************************************************************/
 
-typedef std::map<
-  std::string,
-  RTI::InteractionClassHandle
-> name_to_i_class_handle_map;
+typedef std::map< std::string,
+                  RTI::InteractionClassHandle > name_to_i_class_handle_map;
 
 /******************************************************************************/
 

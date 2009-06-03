@@ -57,7 +57,8 @@ struct has_duplicate_class_names_impl< false, SET >
   // Transform names into a count of each name.
   typedef typename boost::mpl::transform_view<
     names,
-    typename element_counter<names>::template op< boost::mpl::placeholders::_1 >
+    typename
+      element_counter< names >::template op< boost::mpl::placeholders::_1 >
   >::type name_counts;
 
   // Get the max number of occurances of any name in SET.
@@ -68,7 +69,9 @@ struct has_duplicate_class_names_impl< false, SET >
 
   // No duplicate names (i.e., max_count is 1)?
   typedef typename
-    boost::mpl::equal_to< max_count, boost::mpl::int_<1> >::type no_duplicates;
+    boost::mpl::equal_to<
+      max_count, boost::mpl::int_< 1 >
+    >::type no_duplicates;
 
   // Has duplicates = !no_duplicates.
   typedef typename boost::mpl::bool_< !no_duplicates::value >::type type;

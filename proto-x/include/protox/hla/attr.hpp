@@ -77,7 +77,7 @@ protected:
   
   template< typename T >
   static void collect_handles( const std::string &class_name,
-                               const std::set< std::string > &attr_names,
+                               std::set< std::string > &attr_names,
                                RTI::AttributeHandleSet &ahs )
   {
     bool in_set = true;
@@ -90,12 +90,16 @@ protected:
     if( in_set )
     {
       RTI::AttributeHandle handle = T::get_attr_handle( class_name, A::name() );
-      ahs.add(handle);
+      ahs.add( handle );
+      attr_names.erase( A::name() );
     }
-    else
+
+    // Undefined attributes?
+    if (!attr_names.empty())
     {
-      throw RTI::AttributeNotDefined
-        ( (std::string(A::name()) + " not defined").c_str() );
+      std::string name = *attr_names.begin();
+
+      throw RTI::AttributeNotDefined( (name + " not defined").c_str() );
     }
   }
   
@@ -129,25 +133,21 @@ protected:
 
   template< typename T >
   static void collect_handles( const std::string &class_name,
-                               const std::set< std::string > &attr_names,
+                               std::set< std::string > &attr_names,
                                RTI::AttributeHandleSet &ahs )
   {
     bool in_set = true;
 
     if( !attr_names.empty() )
     {
-      in_set = (attr_names.find(A::name()) != attr_names.end());
+      in_set = (attr_names.find( A::name() ) != attr_names.end());
     }
 
     if( in_set )
     {
       RTI::AttributeHandle handle = T::get_attr_handle( class_name, A::name() );
-      ahs.add(handle);
-    }
-    else
-    {
-      throw RTI::AttributeNotDefined
-        ( (std::string(A::name()) + " not defined").c_str() );
+      ahs.add( handle );
+      attr_names.erase( A::name() );
     }
 
     B::template collect_handles< T >( class_name, attr_names, ahs );

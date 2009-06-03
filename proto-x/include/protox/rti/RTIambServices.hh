@@ -210,7 +210,8 @@ throw (
   ConcurrentAccessAttempted,
   SaveInProgress,
   RestoreInProgress,
-  RTIinternalError);
+  RTIinternalError)
+{}
 
 // 5.4
 void publishInteractionClass (
