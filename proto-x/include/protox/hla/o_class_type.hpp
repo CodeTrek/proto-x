@@ -200,7 +200,7 @@ struct o_class_type
         else
         {
           set_obj_name( name );
-          obj_handle = rit_amb->registerObjectInstance( type::get_handle(),
+          obj_handle = rti_amb->registerObjectInstance( type::get_handle(),
                                                         name.c_str() );
         }
       }
