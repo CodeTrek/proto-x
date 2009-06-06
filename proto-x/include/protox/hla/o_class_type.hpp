@@ -63,6 +63,7 @@ struct o_class_type
 
       RTI::RTIambassador *rti_amb;
       RTI::ObjectHandle obj_handle;
+      std::string obj_name;
 
       static void make_set( const std::string &names,
                             std::set< std::string > &name_set )
@@ -176,6 +177,9 @@ struct o_class_type
         attrs_type::template init_handles< SOM >( type::get_name() );
       }
 
+      void set_obj_name( const std::string &name ) { obj_name = name; }
+      const std::string &get_obj_name() const { return obj_name; }
+
       void set_rti( RTI::RTIambassador &rti_amb )
       {
         this->rti_amb = &rti_amb;
@@ -195,6 +199,7 @@ struct o_class_type
         }
         else
         {
+          set_obj_name( name );
           obj_handle = RTI::registerObjectInstance( type::get_handle(),
                                                     name.c_str() );
         }
