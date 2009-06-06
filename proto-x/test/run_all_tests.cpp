@@ -33,3 +33,5 @@
 
 #include "test/protox/hla/test_o_class_type.hpp"
 #include "test/protox/hla/test_i_class_type.hpp"
+
+#include "test/protox/hla/test_object_amb.hpp"
