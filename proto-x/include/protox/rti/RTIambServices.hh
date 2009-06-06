@@ -306,7 +306,8 @@ throw (
   ConcurrentAccessAttempted,
   SaveInProgress,
   RestoreInProgress,
-  RTIinternalError);
+  RTIinternalError)
+{}
 
 ObjectHandle                         // returned C3
 registerObjectInstance (
@@ -318,7 +319,8 @@ throw (
   ConcurrentAccessAttempted,
   SaveInProgress,
   RestoreInProgress,
-  RTIinternalError);
+  RTIinternalError)
+{}
 
 // 6.4
 EventRetractionHandle                               // returned C3

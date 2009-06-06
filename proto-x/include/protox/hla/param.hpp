@@ -43,10 +43,11 @@ protected:
   template< typename S >
   void init_handle(const std::string &class_name)
   {
-    handle = S::get_param_handle(class_name, name());;
+    handle = S::get_param_handle( class_name, name() );
   }
 
-  void add_value(boost::shared_ptr<RTI::ParameterHandleValuePairSet> set_ptr)
+  void add_value
+    ( boost::shared_ptr< RTI::ParameterHandleValuePairSet > set_ptr )
   {
     protox::io::byte_data_sink sink;
 
@@ -78,14 +79,14 @@ struct param_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty_base
 {
 protected:
   template< typename T >
-  void init_handles(const std::string &class_name)
+  void init_handles( const std::string &class_name )
   {
-    A::template init_handle< T >(class_name);
+    A::template init_handle< T >( class_name );
   }
 
-  void add_values(boost::shared_ptr<RTI::ParameterHandleValuePairSet> set_ptr)
+  void add_values(boost::shared_ptr< RTI::ParameterHandleValuePairSet> set_ptr )
   {
-    A::add_value(set_ptr);
+    A::add_value( set_ptr );
   }
 };
 
@@ -99,35 +100,36 @@ struct param_inherit : A, B
 {
 protected:
   template< typename T >
-  void init_handles(const std::string &class_name)
+  void init_handles( const std::string &class_name )
   {
-    A::template init_handle< T >(class_name);
-    B::template init_handles< T >(class_name);
+    A::template init_handle< T >( class_name );
+    B::template init_handles< T >( class_name );
   }
 
-  void add_values(boost::shared_ptr<RTI::ParameterHandleValuePairSet> set_ptr)
+  void add_values
+    ( boost::shared_ptr< RTI::ParameterHandleValuePairSet > set_ptr )
   {
-    A::add_value(set_ptr);
-    B::add_values(set_ptr);
+    A::add_value( set_ptr );
+    B::add_values( set_ptr );
   }
 
 public:
   template< typename T >
   inline typename T::value_type const &p_() const
   {
-    return (static_cast< param_base< T > const & >(*this).value);
+    return( static_cast< param_base< T > const & >( *this ).value );
   }
 
   template< typename T >
   inline typename T::value_type &p_()
   {
-    return (static_cast< param_base< T > & >(*this).value);
+    return( static_cast< param_base< T > & >( *this ).value );
   }
   
   template< typename T >
   inline RTI::ParameterHandle get_param_handle()
   {
-    return (static_cast< param_base< T > & >(*this).handle);
+    return( static_cast< param_base< T > & >( *this ).handle );
   }
 };
 

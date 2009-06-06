@@ -61,6 +61,9 @@ struct o_class_type
         x_class_vector< typename SOM::o_class_table,
                         QUALIFIED_NAME_VECTOR >::type x_class_vector_type;
 
+      RTI::RTIambassador *rti_amb;
+      RTI::ObjectHandle obj_handle;
+
       static void make_set( const std::string &names,
                             std::set< std::string > &name_set )
       {
@@ -163,10 +166,41 @@ struct o_class_type
         rti_amb.unpublishObjectClass( type::get_handle() );
       }
 
-      type()
+      type() : rti_amb(0)
       {
         attrs_type::template init_handles< SOM >( type::get_name() );
       }
+
+      type( RTI::RTIambassador &rti_amb ) : rti_amb(&rti_amb)
+      {
+        attrs_type::template init_handles< SOM >( type::get_name() );
+      }
+
+      void set_rti( RTI::RTIambassador &rti_amb )
+      {
+        this->rti_amb = &rti_amb;
+      }
+
+      void register_obj( const std::string &name )
+      {
+        if( rti_amb == 0 )
+        {
+          // TODO: throw exception
+          return;
+        }
+
+        if( name.empty() )
+        {
+          obj_handle = RTI::registerObjectInstance( type::get_handle() );
+        }
+        else
+        {
+          obj_handle = RTI::registerObjectInstance( type::get_handle(),
+                                                    name.c_str() );
+        }
+      }
+
+      void register_obj() { register_obj(""); }
   };
 };
 

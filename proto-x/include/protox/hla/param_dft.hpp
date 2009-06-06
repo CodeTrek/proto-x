@@ -59,35 +59,34 @@ struct init_param_handle
   RTI::InteractionClassHandle class_handle;
   i_class_handle_to_param_map &map;
   
-  init_param_handle(
-    RTI::RTIambassador &rtiAmb,
-    RTI::InteractionClassHandle ch,
-    i_class_handle_to_param_map &m
-  ) :
+  init_param_handle( RTI::RTIambassador &rtiAmb,
+                     RTI::InteractionClassHandle ch,
+                     i_class_handle_to_param_map &m ) :
     rtiAmb(rtiAmb),
     class_handle(ch),
     map(m)
   {}
 
   template< typename N >
-  void operator()(N)
+  void operator()( N )
   {
     // Find the class handle entry
-    i_class_handle_to_param_map::iterator i = map.find(class_handle);
+    i_class_handle_to_param_map::iterator i = map.find( class_handle );
 
-    if (i == map.end())
+    if( i == map.end() )
     {
-      map[class_handle] = param_name_to_handle_map();
+      map[ class_handle ] = param_name_to_handle_map();
     }
 
     // Find the paramibute handle by name
-    param_name_to_handle_map::iterator j = map[class_handle].find(N::name());
+    param_name_to_handle_map::iterator j
+      = map[ class_handle ].find( N::name() );
 
     // No entry for the paramibute name?
-    if (j == map[class_handle].end())
+    if( j == map[ class_handle ].end() )
     {
-      map[class_handle][N::name()]
-        = rtiAmb.getParameterHandle(N::name(), class_handle);
+      map[ class_handle ][ N::name() ]
+        = rtiAmb.getParameterHandle( N::name(), class_handle );
     }
   }
 };
@@ -119,11 +118,9 @@ struct param_dft_children< false, Children, Stack >
   typedef param_dft< first_child, Stack > stack;
 
   // Traverse the remaining children.
-  typedef param_dft_children<
-    boost::mpl::empty<tail>::value,
-    tail,
-    typename stack::type
-  > result;
+  typedef param_dft_children< boost::mpl::empty< tail >::value,
+                              tail,
+                              typename stack::type > result;
 
   typedef typename result::type type;
 
@@ -133,12 +130,12 @@ struct param_dft_children< false, Children, Stack >
     result::dump_stack();
   };
   
-  static void init_i_class_handles(RTI::RTIambassador &rtiAmb,
-    name_to_i_class_handle_map &class_map,
-    i_class_handle_to_param_map &param_map)
+  static void init_i_class_handles( RTI::RTIambassador &rtiAmb,
+                                    name_to_i_class_handle_map &class_map,
+                                    i_class_handle_to_param_map &param_map )
   {
-    stack::init_i_class_handles(rtiAmb, class_map, param_map);
-    result::init_i_class_handles(rtiAmb, class_map, param_map);
+    stack::init_i_class_handles( rtiAmb, class_map, param_map );
+    result::init_i_class_handles( rtiAmb, class_map, param_map );
   }
 };
 
@@ -155,24 +152,23 @@ struct param_dft_children< true, Children, Stack >
     std::cout << "null\n";
   }
   
-  static void init_i_class_handles(
-    RTI::RTIambassador &rtiAmb,
-    name_to_i_class_handle_map &class_map,
-    i_class_handle_to_param_map &param_map)
+  static void init_i_class_handles( RTI::RTIambassador &rtiAmb,
+                                    name_to_i_class_handle_map &class_map,
+                                    i_class_handle_to_param_map &param_map )
   {
     std::string full_name;
-    boost::mpl::for_each< Stack >(build_full_name(full_name, REVERSED));
+    boost::mpl::for_each< Stack >( build_full_name( full_name, REVERSED ) );
 
     // No interaction classes?
-    if (full_name.empty())
+    if( full_name.empty() )
     {
       return;
     }
     
-    RTI::InteractionClassHandle class_handle =
-      rtiAmb.getInteractionClassHandle(full_name.c_str());
+    RTI::InteractionClassHandle class_handle
+      = rtiAmb.getInteractionClassHandle( full_name.c_str() );
 
-    class_map[full_name] = class_handle;
+    class_map[ full_name ] = class_handle;
     
     typedef typename boost::mpl::front< Stack >::type child;
     
@@ -206,12 +202,11 @@ struct param_dft
     result::dump_stack();
   }
   
-  static void init_i_class_handles(
-    RTI::RTIambassador &rtiAmb,
-    name_to_i_class_handle_map &class_map,
-    i_class_handle_to_param_map &param_map)
+  static void init_i_class_handles( RTI::RTIambassador &rtiAmb,
+                                    name_to_i_class_handle_map &class_map,
+                                    i_class_handle_to_param_map &param_map )
   {
-    result::init_i_class_handles(rtiAmb, class_map, param_map);
+    result::init_i_class_handles( rtiAmb, class_map, param_map );
   }
 };
   

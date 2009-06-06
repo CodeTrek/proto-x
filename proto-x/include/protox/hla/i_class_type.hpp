@@ -37,14 +37,13 @@ template< typename SOM,
           typename QUALIFIED_NAME_VECTOR >
 struct i_class_type
 {
-  // Construct the vector of paramibutes from the given
-  // qualified name.
+  // Construct the vector of parameters from the given qualified name.
   typedef typename i_class_param_vector<
     typename SOM::i_class_table,
     QUALIFIED_NAME_VECTOR
   >::type param_vector_type;
 
-  // Construct the inheritence tree from the paramibute vector.
+  // Construct the inheritence tree from the parameter vector.
   typedef typename boost::mpl::inherit_linearly<
     param_vector_type,
     param_inherit<

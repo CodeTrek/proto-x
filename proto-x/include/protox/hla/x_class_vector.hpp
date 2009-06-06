@@ -37,21 +37,18 @@ namespace protox { namespace hla {
 
 // Use the given qualified name vector NAME_VECTOR to construct another vector
 // of object classes (CLASS_VECTOR) from the given root class X_CLASS.
-template<
-  bool NAME_VECTOR_IS_EMPTY,
-  typename X_CLASS,
-  typename NAME_VECTOR, // Qualified name
-  typename CLASS_VECTOR
-> struct x_class_vector_impl;
+template< bool NAME_VECTOR_IS_EMPTY,
+          typename X_CLASS,
+          typename NAME_VECTOR, // Qualified name
+          typename CLASS_VECTOR > struct x_class_vector_impl;
 
 /******************************************************************************/
 
 // Empty class_vector case.
-template<
-  typename X_CLASS,
-  typename NAME_VECTOR,
-  typename CLASS_VECTOR
-> struct x_class_vector_impl< true, X_CLASS, NAME_VECTOR, CLASS_VECTOR >
+template< typename X_CLASS,
+          typename NAME_VECTOR,
+          typename CLASS_VECTOR >
+struct x_class_vector_impl< true, X_CLASS, NAME_VECTOR, CLASS_VECTOR >
 {
   BOOST_STATIC_ASSERT(( boost::mpl::size< NAME_VECTOR >::value == 0 ));
   typedef CLASS_VECTOR type;
@@ -60,11 +57,10 @@ template<
 /******************************************************************************/
 
 // Non-empty class_vector case.
-template<
-  typename X_CLASS,
-  typename NAME_VECTOR,
-  typename CLASS_VECTOR
-> struct x_class_vector_impl< false, X_CLASS, NAME_VECTOR, CLASS_VECTOR >
+template< typename X_CLASS,
+          typename NAME_VECTOR,
+          typename CLASS_VECTOR >
+struct x_class_vector_impl< false, X_CLASS, NAME_VECTOR, CLASS_VECTOR >
 {
   BOOST_STATIC_ASSERT(( boost::mpl::size< NAME_VECTOR >::value > 0 ));
     
@@ -96,7 +92,7 @@ template<
   typedef typename boost::mpl::pop_front< NAME_VECTOR >::type name_vector_tail;
 
   typedef typename x_class_vector_impl<
-    (boost::mpl::empty<name_vector_tail>::value),
+    ( boost::mpl::empty< name_vector_tail >::value ),
     obj_class_type,
     name_vector_tail,
     class_vector_type
