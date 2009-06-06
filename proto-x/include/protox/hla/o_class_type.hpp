@@ -99,7 +99,7 @@ struct o_class_type
       static RTI::ObjectClassHandle get_handle()
       {
         static bool initialized = false;
-        static RTI::ObjectClassHandle handle; 
+        static RTI::ObjectClassHandle handle;
 
         if( !initialized )
         {
@@ -110,12 +110,12 @@ struct o_class_type
 
         return handle;
       }
-      
+
       static RTI::ULong get_num_attrs()
       {
         return attrs_type::count_attrs();
       }
-      
+
       /**
        * Publish all class attributes.
        */
@@ -125,7 +125,7 @@ struct o_class_type
           ( RTI::AttributeHandleSetFactory::create( type::get_num_attrs() ) );
 
         std::set< std::string > empty_name_set;
-          
+
         attrs_type::template collect_handles< SOM >( type::get_name(),
                                                      empty_name_set,
                                                      *ahs );
@@ -151,7 +151,7 @@ struct o_class_type
 
         boost::shared_ptr< RTI::AttributeHandleSet >
           ahs( RTI::AttributeHandleSetFactory::create( set_size ) );
-          
+
         attrs_type::template collect_handles< SOM >( type::get_name(),
                                                      name_set,
                                                      *ahs );
@@ -195,13 +195,13 @@ struct o_class_type
 
         if( name.empty() )
         {
-          obj_handle = RTI::registerObjectInstance( type::get_handle() );
+          obj_handle = rti_amb->registerObjectInstance( type::get_handle() );
         }
         else
         {
           set_obj_name( name );
-          obj_handle = RTI::registerObjectInstance( type::get_handle(),
-                                                    name.c_str() );
+          obj_handle = rit_amb->registerObjectInstance( type::get_handle(),
+                                                        name.c_str() );
         }
       }
 
