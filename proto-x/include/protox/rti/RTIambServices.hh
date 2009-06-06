@@ -29,7 +29,7 @@ typedef FederateAmbassador *FederateAmbassadorPtr;
 // 4.2
 void createFederationExecution (
   const char *executionName, // supplied C4
-  const char *FED)           // supplied C4      
+  const char *FED)           // supplied C4
 throw (
   FederationExecutionAlreadyExists,
   CouldNotOpenFED,
@@ -42,7 +42,7 @@ void destroyFederationExecution (
   const char *executionName) // supplied C4
 throw (
   FederatesCurrentlyJoined,
-  FederationExecutionDoesNotExist, 
+  FederationExecutionDoesNotExist,
   ConcurrentAccessAttempted,
   RTIinternalError);
 
@@ -73,7 +73,7 @@ throw (
   RTIinternalError);
 
 // 4.6
-void registerFederationSynchronizationPoint (       
+void registerFederationSynchronizationPoint (
   const char *label,  // supplied C4
   const char *theTag) // supplied C4
 throw (
@@ -83,10 +83,10 @@ throw (
   RestoreInProgress,
   RTIinternalError);
 
-void registerFederationSynchronizationPoint (       
+void registerFederationSynchronizationPoint (
   const char                *label,    // supplied C4
   const char                *theTag,   // supplied C4
-  const FederateHandleSet&   syncSet)  // supplied C4      
+  const FederateHandleSet&   syncSet)  // supplied C4
 throw (
   FederateNotExecutionMember,
   ConcurrentAccessAttempted,
@@ -95,7 +95,7 @@ throw (
   RTIinternalError);
 
 // 4.9
-void synchronizationPointAchieved (      
+void synchronizationPointAchieved (
   const char *label) // supplied C4
 throw (
   SynchronizationPointLabelWasNotAnnounced,
@@ -106,11 +106,11 @@ throw (
   RTIinternalError);
 
 // 4.11
-void requestFederationSave (    
+void requestFederationSave (
   const char     *label,   // supplied C4
   const FedTime&  theTime) // supplied C4
 throw (
-  FederationTimeAlreadyPassed, 
+  FederationTimeAlreadyPassed,
   InvalidFederationTime,
   FederateNotExecutionMember,
   ConcurrentAccessAttempted,
@@ -118,7 +118,7 @@ throw (
   RestoreInProgress,
   RTIinternalError);
 
-void requestFederationSave ( 
+void requestFederationSave (
   const char *label)     // supplied C4
   throw (
     FederateNotExecutionMember,
@@ -154,7 +154,7 @@ throw (
   RTIinternalError);
 
 // 4.16
-void requestFederationRestore (    
+void requestFederationRestore (
   const char *label) // supplied C4
 throw (
   FederateNotExecutionMember,
@@ -203,7 +203,7 @@ throw (
 void unpublishObjectClass (
   ObjectClassHandle theClass) // supplied C1
 throw (
-  ObjectClassNotDefined, 
+  ObjectClassNotDefined,
   ObjectClassNotPublished,
   OwnershipAcquisitionPending,
   FederateNotExecutionMember,
@@ -244,7 +244,7 @@ void subscribeObjectClassAttributes (
   const AttributeHandleSet& attributeList, // supplied C4
         Boolean        active = RTI_TRUE)
 throw (
-  ObjectClassNotDefined, 
+  ObjectClassNotDefined,
   AttributeNotDefined,
   FederateNotExecutionMember,
   ConcurrentAccessAttempted,
@@ -307,7 +307,9 @@ throw (
   SaveInProgress,
   RestoreInProgress,
   RTIinternalError)
-{}
+{
+  return 0;
+}
 
 ObjectHandle                         // returned C3
 registerObjectInstance (
@@ -320,7 +322,9 @@ throw (
   SaveInProgress,
   RestoreInProgress,
   RTIinternalError)
-{}
+{
+  return 0;
+}
 
 // 6.4
 EventRetractionHandle                               // returned C3
@@ -473,7 +477,7 @@ void requestClassAttributeValueUpdate (
         ObjectClassHandle   theClass,      // supplied C1
   const AttributeHandleSet& theAttributes) // supplied C4
 throw (
-  ObjectClassNotDefined, 
+  ObjectClassNotDefined,
   AttributeNotDefined,
   FederateNotExecutionMember,
   ConcurrentAccessAttempted,
@@ -490,7 +494,7 @@ void unconditionalAttributeOwnershipDivestiture (
         ObjectHandle                  theObject,     // supplied C1
   const AttributeHandleSet&           theAttributes) // supplied C4
 throw (
-  ObjectNotKnown, 
+  ObjectNotKnown,
   AttributeNotDefined,
   AttributeNotOwned,
   FederateNotExecutionMember,
@@ -727,7 +731,7 @@ throw (
   FederationTimeAlreadyPassed,
   TimeAdvanceAlreadyInProgress,
   EnableTimeRegulationPending,
-  EnableTimeConstrainedPending,  
+  EnableTimeConstrainedPending,
   FederateNotExecutionMember,
   ConcurrentAccessAttempted,
   SaveInProgress,
@@ -742,7 +746,7 @@ throw (
   FederationTimeAlreadyPassed,
   TimeAdvanceAlreadyInProgress,
   EnableTimeRegulationPending,
-  EnableTimeConstrainedPending,  
+  EnableTimeConstrainedPending,
   FederateNotExecutionMember,
   ConcurrentAccessAttempted,
   SaveInProgress,
@@ -1079,7 +1083,7 @@ void requestClassAttributeValueUpdateWithRegion (
   const AttributeHandleSet &theAttributes, // supplied C4
   const Region             &theRegion)     // supplied C4
 throw (
-  ObjectClassNotDefined, 
+  ObjectClassNotDefined,
   AttributeNotDefined,
   RegionNotKnown,
   FederateNotExecutionMember,
@@ -1107,14 +1111,14 @@ throw (
 
   if (it == o_class_to_handle_map.end())
   {
-    throw NameNotFound("Name not found"); 
+    throw NameNotFound("Name not found");
   }
 
   return ((*it).second);
 }
 
 // 10.3
-char *                         // returned C6    
+char *                         // returned C6
 getObjectClassName (
   ObjectClassHandle theHandle) // supplied C1
 throw (
@@ -1162,7 +1166,7 @@ throw (
 }
 
 // 10.5
-char *                          // returned C6 
+char *                          // returned C6
 getAttributeName (
   AttributeHandle   theHandle,  // supplied C1
   ObjectClassHandle whichClass) // supplied C1
@@ -1188,14 +1192,14 @@ throw (
 
   if (it == i_class_to_handle_map.end())
   {
-    throw NameNotFound("Name not found"); 
+    throw NameNotFound("Name not found");
   }
 
   return ((*it).second);
 }
 
 // 10.7
-char *                              // returned C6 
+char *                              // returned C6
 getInteractionClassName (
   InteractionClassHandle theHandle) // supplied C1
 throw (
@@ -1241,7 +1245,7 @@ throw (
 
       return map[whichClass][theName];
 }
-    
+
 // 10.9
 char *                               // returned C6
 getParameterName (
@@ -1265,7 +1269,7 @@ throw (
     RTIinternalError);
 
 // 10.11
-char *                     // returned C6  
+char *                     // returned C6
 getObjectInstanceName (
   ObjectHandle theHandle)  // supplied C1
 throw (
@@ -1310,7 +1314,7 @@ throw (
   FederateNotExecutionMember,
   ConcurrentAccessAttempted,
   RTIinternalError);
-    
+
 // 10.15
 char *                        // returned C6
 getDimensionName (
@@ -1366,7 +1370,7 @@ throw (
   RTIinternalError);
 
 // 10.20
-char *                            // returned C6 
+char *                            // returned C6
 getTransportationName (
   TransportationHandle theHandle) // supplied C1
 throw (
@@ -1386,7 +1390,7 @@ throw (
   RTIinternalError);
 
 // 10.22
-char *                      // returned C6 
+char *                      // returned C6
 getOrderingName (
   OrderingHandle theHandle) // supplied C1
 throw (
@@ -1467,7 +1471,7 @@ throw(
   RestoreInProgress,
   RTIinternalError);
 
-// 
+//
 Boolean // returned C3
 tick ()
 throw (
