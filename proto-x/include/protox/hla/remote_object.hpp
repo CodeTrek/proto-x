@@ -50,7 +50,7 @@ struct remote_object_base
 
     if( object_name != 0 )
     {
-      objects[ object_handle ].set_obj_name( std::string( object_name ) ); 
+      objects[ object_handle ].set_obj_name( std::string( object_name ) );
     }
 
     return true;
@@ -60,7 +60,7 @@ struct remote_object_base
                 const RTI::AttributeHandleValuePairSet &attrs,
                 const char *tag )
   {
-    map_type::iterator it = objects.find( object_handle );
+    typename map_type::iterator it = objects.find( object_handle );
 
     if( it == objects.end() )
     {
