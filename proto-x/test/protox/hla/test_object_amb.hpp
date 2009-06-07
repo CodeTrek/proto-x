@@ -12,9 +12,12 @@
 
 /******************************************************************************/
 
+#include <math.h>
+
 #include <RTI.hh>
 
 #include <boost/mpl/vector.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <protox/dtl/simple.hpp>
 #include <protox/hla_1516/basic_data_representation_table.hpp>
@@ -179,6 +182,72 @@ BOOST_AUTO_TEST_CASE( test_discover_object )
 
   BOOST_CHECK_THROW( obj_amb.discover_object( 9, 1, "cx_1" ),
                      RTI::ObjectClassNotKnown );
+}
+
+BOOST_AUTO_TEST_CASE( test_reflect_object )
+{
+  typedef protox::hla::som< o_class_table > som;
+
+  RTI::RTIambassador rti_amb;
+  rti_amb.o_class_to_handle_map[ "Class_A"                         ] =  1;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_B"                 ] =  2;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_B.Class_E"         ] =  3;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_B.Class_F"         ] =  4;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_B.Class_C"         ] =  5;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_C"                 ] =  6;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_C.Class_A"         ] =  7;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_C.Class_A.Class_E" ] = 12;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_C.Class_C"         ] =  8;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_C.Class_E"         ] = 13;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_D"                 ] =  9;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_D.Class_G"         ] = 10;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_D.Class_H"         ] = 11;
+  som::init_handles( rti_amb );
+
+  typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > >::type c1_t;
+  typedef o_class_type< som, q_name< Class_D, Class_H > >::type c2_t;
+  typedef o_class_type< som, q_name< Class_B > >::type c3_t;
+
+  hla::object_amb< mpl::vector< c1_t, c2_t, c3_t > >::type obj_amb;
+
+  BOOST_CHECK( obj_amb.empty< c1_t >() == true );
+  BOOST_CHECK( obj_amb.empty< c2_t >() == true );
+  BOOST_CHECK( obj_amb.empty< c3_t >() == true );
+
+  obj_amb.discover_object( 12, 1, "c1_1" );
+
+  const int V1 = 2552;
+  const float V2 = 3.14156f;
+  const float E = 0.000001f;
+
+  BOOST_CHECK( obj_amb.begin< c1_t >()->second.a_< A1 >() != V1 );
+  BOOST_CHECK( fabs( obj_amb.begin< c1_t >()->second.a_< A2 >() - V2 ) > E );
+
+  boost::shared_ptr< RTI::AttributeHandleValuePairSet >
+    ah_set( RTI::AttributeSetFactory::create( 2 ) );
+
+  // Encode some values and add them to n attribute handle value pair set.
+  SimpleHLAinteger32BE v1 = 2552;
+
+  protox::io::byte_data_sink sink;
+  sink.encode( v1 );
+
+  ah_set->add( c1_t().get_attr_handle< A1 >(),
+               sink.getDataBuffer(),
+               (RTI::ULong) sink.getDataBufferSize() );
+
+  sink.clear();
+  SimpleHLAfloat32BE v2 = V2;
+  sink.encode( v2 );
+
+  ah_set->add( c1_t().get_attr_handle< A2 >(),
+               sink.getDataBuffer(),
+               (RTI::ULong) sink.getDataBufferSize() );
+
+  obj_amb.reflect_object( 1, *ah_set,  "" );
+
+  BOOST_CHECK( obj_amb.begin< c1_t >()->second.a_< A1 >() == 2552 );
+  BOOST_CHECK( fabs( obj_amb.begin< c1_t >()->second.a_< A2 >() - V2 ) <= E );
 }
 
 /******************************************************************************/
