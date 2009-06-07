@@ -19,6 +19,8 @@
 
 #include <boost/mpl/empty_base.hpp>
 
+#include <protox/io/byte_data_source.hpp>
+
 /******************************************************************************/
 
 namespace protox { namespace hla {
@@ -47,6 +49,24 @@ protected:
   void add_handle( RTI::AttributeHandleSet &ahs )
   {
     ahs.add( handle );
+  }
+
+  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set )
+  {
+    for( RTI::ULong i = 0; i < ahv_set.size(); ++i )
+    {
+      RTI::AttributeHandle h = ahv_set.getHandle( i );
+
+      if( h == this->handle )
+      {
+        RTI::ULong length = 0;
+        char *data = ahv_set.getValuePointer( i, length );
+        protox::io::byte_data_source ds( data, length );
+        ds.decode( this->value );
+
+        return;
+      }
+    }
   }
 };
 
@@ -106,6 +126,11 @@ protected:
   static RTI::ULong count_attrs()
   {
     return 1;
+  }
+
+  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set )
+  {
+    A::reflect( ahv_set );
   }
 };
 
@@ -170,6 +195,12 @@ public:
   inline RTI::AttributeHandle get_attr_handle()
   {
     return (static_cast< attr_base< T > & >( *this ).handle);
+  }
+
+  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set )
+  {
+    A::reflect( ahv_set );
+    B::reflect( ahv_set );
   }
 };
 

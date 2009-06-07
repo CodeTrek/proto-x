@@ -4,6 +4,7 @@
 #ifndef RTITYPES_HH_INCLUDED
 #define RTITYPES_HH_INCLUDED
 
+#include <vector>
 
 #define MAX_FEDERATION                "macro variable is deprecated" 
 #define MAX_FEDERATE                  "macro variable is deprecated"
@@ -180,49 +181,93 @@ class RTI_EXPORT AttributeHandleValuePairSet {
 // to the RTI, the memory used to store attribute/parameter values is valid for
 // use by the RTI only within the scope of the Update Attribute Values or Send
 // Interaction service invocation.  
-public:
-  virtual ~AttributeHandleValuePairSet() { ; }
+private:
+  struct pair
+  {
+    Handle handle;
+    std::vector< char > value;
+  };
 
-  virtual ULong size() const = 0;
+  std::vector< pair > hv_set;
+
+public:
+  AttributeHandleValuePairSet( ULong count ) {}
+
+  virtual ~AttributeHandleValuePairSet() {}
+
+  virtual ULong size() const
+  {
+    return( (ULong) hv_set.size() );
+  }
   
   virtual Handle getHandle(
     ULong i) const
     throw (
-      ArrayIndexOutOfBounds) = 0;
+      ArrayIndexOutOfBounds)
+  {
+    return hv_set[ i ].handle;
+  }
   
   virtual ULong getValueLength(
     ULong i) const
     throw (
-      ArrayIndexOutOfBounds) = 0;
+      ArrayIndexOutOfBounds)
+  {
+    return( (ULong) hv_set[ i ].value.size() );
+  }
   
   virtual void getValue(
     ULong i,
     char*      buff,
     ULong&     valueLength) const
     throw (
-      ArrayIndexOutOfBounds) = 0;
+      ArrayIndexOutOfBounds)
+  {
+    for( ULong it = 0; it < valueLength; ++it )
+    {
+      buff[ it ] = hv_set[ i ].value[ it ];
+    }
+  }
   
   virtual char *getValuePointer(
     ULong i,
     ULong&     valueLength) const
     throw (
-      ArrayIndexOutOfBounds) = 0;
+      ArrayIndexOutOfBounds)
+  {
+    valueLength = (ULong) hv_set[ i ].value.size();
+    char *buf = (char *) &hv_set[ i ].value[0];
+
+    return buf;
+  }
   
   virtual TransportType getTransportType( ULong i) const
     throw (
       ArrayIndexOutOfBounds,
-      InvalidHandleValuePairSetContext) = 0;
+      InvalidHandleValuePairSetContext)
+  {
+    assert( false ); // not implemented.
+    return 0;
+  }
   
   virtual OrderType getOrderType( ULong i) const
     throw (
       ArrayIndexOutOfBounds,
-      InvalidHandleValuePairSetContext) = 0;
+      InvalidHandleValuePairSetContext)
+  {
+    assert( false ); // not implemented.
+    return 0;
+  }
   
   virtual Region *getRegion(
     ULong i) const
     throw (
       ArrayIndexOutOfBounds,
-      InvalidHandleValuePairSetContext) = 0;
+      InvalidHandleValuePairSetContext)
+  {
+    assert( false ); // not implemented.
+    return 0;
+  }
   
   virtual void add(
     Handle      h,
@@ -230,25 +275,46 @@ public:
     ULong       valueLength)
     throw (
       ValueLengthExceeded,
-      ValueCountExceeded) = 0;
+      ValueCountExceeded)
+  {
+    pair new_pair;
+    new_pair.handle = h;
+
+    for( unsigned i = 0; i < valueLength; ++i )
+    {
+      new_pair.value.push_back( buff[ i ] );
+    }
+
+    hv_set.push_back( new_pair );
+  }
   
   virtual void remove(		// not guaranteed safe while iterating
     Handle      h)
     throw (
-      ArrayIndexOutOfBounds) = 0;
+      ArrayIndexOutOfBounds)
+  {
+    assert( false ); // not implemented.
+  }
   
   virtual void moveFrom(
     const AttributeHandleValuePairSet& ahvps,
     ULong&               i)
     throw (
       ValueCountExceeded,
-      ArrayIndexOutOfBounds) = 0;
+      ArrayIndexOutOfBounds)
+  {
+    assert( false ); // not implemented.
+  }
   
-  virtual void empty() = 0; // Empty the Set without deallocating space.
+  // Empty the Set without deallocating space.
+  virtual void empty()
+  {
+    assert( false ); // not implemented.
+  }
 
-  virtual ULong start() const = 0;
-  virtual ULong valid(ULong i) const = 0;
-  virtual ULong next(ULong i) const = 0;
+  virtual ULong start() const { return 0; }
+  virtual ULong valid(ULong i) const { return (ULong) (i < hv_set.size()); } 
+  virtual ULong next(ULong i) const { return i + 1; }
 };
 
 
@@ -259,7 +325,10 @@ public:
     throw (
       MemoryExhausted,
       ValueCountExceeded,
-      HandleValuePairMaximumExceeded);
+      HandleValuePairMaximumExceeded)
+  {
+    return new AttributeHandleValuePairSet( count );
+  }
 };
 
 class RTI_EXPORT AttributeHandleSet

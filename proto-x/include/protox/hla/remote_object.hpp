@@ -18,6 +18,8 @@
 
 #include <boost/mpl/empty_base.hpp>
 
+#include <protox/io/byte_data_sink.hpp>
+
 /******************************************************************************/
 
 namespace protox { namespace hla {
@@ -53,6 +55,22 @@ struct remote_object_base
 
     return true;
   }
+
+  bool reflect( RTI::ObjectHandle object_handle,
+                const RTI::AttributeHandleValuePairSet &attrs,
+                const char *tag )
+  {
+    map_type::iterator it = objects.find( object_handle );
+
+    if( it == objects.end() )
+    {
+      return false;
+    }
+
+    it->second.reflect( attrs );
+
+    return true;
+  }
 };
 
 /******************************************************************************/
@@ -75,7 +93,19 @@ protected:
 
     if( !obj_added )
     {
-      throw RTI::ObjectClassNotKnown("");
+      throw RTI::ObjectClassNotKnown( "" );
+    }
+  }
+
+  void reflect_object( RTI::ObjectHandle object_handle,
+                       const RTI::AttributeHandleValuePairSet &attrs,
+                       const char *tag )
+  {
+    bool reflected = A::reflect( object_handle, attrs, tag );
+
+    if( !reflected )
+    {
+      throw RTI::ObjectNotKnown( "" );
     }
   }
 };
@@ -99,6 +129,18 @@ public:
     }
 
     B::discover_object( class_handle, object_handle, object_name );
+  }
+
+  void reflect_object( RTI::ObjectHandle object_handle,
+                       const RTI::AttributeHandleValuePairSet &attrs,
+                       const char *tag )
+  {
+    if( A::reflect( object_handle, attrs, tag ) )
+    {
+      return;
+    }
+
+    B::reflect_object( object_handle, attrs, tag );
   }
 
   template< typename T >
