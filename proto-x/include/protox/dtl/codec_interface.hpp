@@ -49,25 +49,25 @@ struct codec
 
   // Return T's runtime size in bytes
   template< typename T >
-  inline static std::size_t dynamic_size(const T &obj)
+  inline static std::size_t dynamic_size( const T &obj )
   {
-    return codec_impl< typename T::codec_tag >::dynamic_size(obj);
+    return codec_impl< typename T::codec_tag >::dynamic_size( obj );
   };
 
   template<
     typename S,  // The stream type
     typename T > // The type to be encoded
-  inline static void encode(S &s, const T &obj)
+  inline static void encode( S &s, const T &obj )
   {
-    codec_impl< typename T::codec_tag >::encode(s, obj);
+    codec_impl< typename T::codec_tag >::encode( s, obj );
   }
 
   template<
     typename S,  // The stream type
     typename T > // The type to be encoded
-  inline static void decode(T &obj, const S &s, std::size_t &offset)
+  inline static void decode( T &obj, const S &s, std::size_t &offset )
   {
-    codec_impl< typename T::codec_tag >::decode(obj, s, offset);
+    codec_impl< typename T::codec_tag >::decode( obj, s, offset );
   }
 };
 

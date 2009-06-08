@@ -99,7 +99,7 @@ struct fixed_record : public boost::mpl::reverse_fold<
     field_base< boost::mpl::placeholders::_2 >, boost::mpl::placeholders::_1 >
 >::type
 {
-  BOOST_STATIC_ASSERT( (boost::mpl::empty< FIELD_VECTOR >::value != true) );
+  BOOST_STATIC_ASSERT(( boost::mpl::empty< FIELD_VECTOR >::value != true ));
 
   typedef CODEC_TAG codec_tag;
 
@@ -108,26 +108,28 @@ struct fixed_record : public boost::mpl::reverse_fold<
   struct null_field_compare
   {
     template< typename R >
-    static bool is_equal(const R &, const R &) { return true; }
+    static bool is_equal( const R &, const R & ) { return true; }
   };
 
   template< typename T, typename Base >
   struct field_compare
   {
     template< typename R >
-    static bool is_equal(const R &lhs, const R &rhs)
+    static bool is_equal( const R &lhs, const R &rhs )
     {
       typename T::value_type const &lhs_value = lhs.template f_< T >();
       typename T::value_type const &rhs_value = rhs.template f_< T >();
 
-      if (!(lhs_value == rhs_value))
+      if( !(lhs_value == rhs_value) )
+      {
         return false;
+      }
 
-      return Base::is_equal(lhs, rhs);
+      return Base::is_equal( lhs, rhs );
     }
   };
 
-  inline bool operator == (const fixed_record &rhs) const
+  inline bool operator == ( const fixed_record &rhs ) const
   {
     typedef typename boost::mpl::fold<
       FIELD_VECTOR,
@@ -137,10 +139,10 @@ struct fixed_record : public boost::mpl::reverse_fold<
         boost::mpl::placeholders::_1 >
     >::type type;
 
-    return type::is_equal(*this, rhs);
+    return type::is_equal( *this, rhs );
   }
 
-  inline bool operator != (const fixed_record &rhs) const
+  inline bool operator != ( const fixed_record &rhs ) const
   {
     return !(*this == rhs);
   }
@@ -149,14 +151,14 @@ struct fixed_record : public boost::mpl::reverse_fold<
   template< typename T >
   inline typename T::value_type const &f_() const
   {
-    return( static_cast< const field_base< T > & >(*this).value );
+    return( static_cast< const field_base< T > & >( *this ).value );
   }
 
   // Returns a read/write reference to the field value identified by typename T.
   template< typename T >
   inline typename T::value_type &f_()
   {
-    return( static_cast< field_base< T > & >(*this).value );
+    return( static_cast< field_base< T > & >( *this ).value );
   }
 };
 

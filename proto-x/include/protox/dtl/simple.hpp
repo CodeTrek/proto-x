@@ -39,7 +39,7 @@ struct simple : T
 
   // Test for valid template arguments:
 
-  BOOST_STATIC_ASSERT( (boost::is_base_of<basic_tag, T >::value) );
+  BOOST_STATIC_ASSERT(( boost::is_base_of<basic_tag, T >::value ));
 
 /******************************************************************************/
 
@@ -51,17 +51,17 @@ struct simple : T
   simple() {}
 
   // Implicit conversion from T::value_type to basic type (i.e, T)
-  simple(typename T::value_type v) : T(v) {}
+  simple( typename T::value_type v ) : T(v) {}
 
 /******************************************************************************/
 
   // Enable numerical assignment.
   // For example, assignment of float to int, assignment int to float, etc...
   template< typename RHST >
-  simple &operator =(const RHST rhs)
+  simple &operator =( const RHST rhs )
   {
     T::value = rhs;
-    return (*this);
+    return( *this );
   }
 };
 

@@ -34,22 +34,24 @@ public:
   typedef T value_type;
 
   // Some helpful operators.
-  enumerated &operator = (const enumerated &rhs)
+  enumerated &operator = ( const enumerated &rhs )
   {
-    if (this == &rhs)
-      return (*this);
+    if( this == &rhs )
+    {
+      return( *this );
+    }
 
     value = rhs.value;
 
-    return (*this);
+    return( *this );
   }
 
-  bool operator == (const enumerated &rhs) const
+  bool operator == ( const enumerated &rhs ) const
   {
-    return E::is_equal(value, rhs.value);
+    return E::is_equal( value, rhs.value );
   }
 
-  bool operator != (const enumerated &rhs) const
+  bool operator != ( const enumerated &rhs ) const
   {
     return !(E::is_equal( value, rhs.value ));
   }
@@ -59,8 +61,8 @@ protected:
 
 protected:
   enumerated() {}
-  enumerated(const T v) : value(v) {}
-  enumerated(const enumerated &v) : value(v.value) {}
+  enumerated( const T v ) : value(v) {}
+  enumerated( const enumerated &v ) : value(v.value) {}
 };
 
 /******************************************************************************/

@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #ifndef PROTOX_IO_BYTE_DATA_SOURCE_HPP
 #define PROTOX_IO_BYTE_DATA_SOURCE_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #include <cstddef>
 #include <assert.h>
@@ -18,11 +18,11 @@
 #include <protox/io/byte_data_sink.hpp>
 #include <protox/dtl/codec.hpp>
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace protox { namespace io {
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 /**
  * A wrapper class for an array of bytes.
@@ -30,12 +30,12 @@ namespace protox { namespace io {
 class byte_data_source
 {
 public:
-  byte_data_source(const byte_data_sink &sink) :
+  byte_data_source( const byte_data_sink &sink ) :
     data_buffer(sink.getDataBuffer()),
     data_buffer_size(sink.size())
   {}
 
-  byte_data_source(const char *buffer, unsigned size) :
+  byte_data_source( const char *buffer, unsigned size ) :
     data_buffer(buffer),
     data_buffer_size(size)
   {}
@@ -47,10 +47,10 @@ public:
    * @return the number of bytes decoded.
    */
   template< typename T >
-  inline unsigned decode(T &value) const
+  inline unsigned decode( T &value ) const
   {
     std::size_t offset = 0;
-    protox::dtl::codec::decode(value, *this, offset);
+    protox::dtl::codec::decode( value, *this, offset );
 
     return (unsigned) offset;
   }
@@ -58,7 +58,7 @@ public:
   inline char operator[]( unsigned i ) const
   {
     assert( i < data_buffer_size );
-    return data_buffer[i];
+    return data_buffer[ i ];
   }
 
   void start_value() const {}
@@ -94,20 +94,19 @@ public:
   void end_enum() const {}
 
 private:
-  byte_data_source(const byte_data_source &);
-  byte_data_source &operator = (const byte_data_source &);
+  byte_data_source( const byte_data_source & );
+  byte_data_source &operator = ( const byte_data_source & );
 
   const char *data_buffer;
   const std::size_t data_buffer_size;
 };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 }} // protox::io
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
-
+/******************************************************************************/

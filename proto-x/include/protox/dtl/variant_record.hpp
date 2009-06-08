@@ -59,13 +59,13 @@ struct variant_record
   //Set this value to select an alternative value.
   discriminant_type discriminant;
 
-  template< typename OTHER_T, typename NA> struct compare_other;
+  template< typename OTHER_T, typename NA > struct compare_other;
 
   template<typename NA>
   struct compare_other< protox::dtl::discriminant_other_none, NA >
   {
     template< typename R >
-    inline static bool is_equal(const R &lhs, const R &rhs)
+    inline static bool is_equal( const R &lhs, const R &rhs )
     {
       return false;
     }
@@ -75,20 +75,24 @@ struct variant_record
   struct compare_other
   {
     template< typename R >
-    inline static bool is_equal(const R &lhs, const R &rhs)
+    inline static bool is_equal( const R &lhs, const R &rhs )
     {
       // This is the "other" case, so testing for discriminant equality
       // is not necessary.
       typename OTHER_T::value_type const *lhs_value = lhs.other_();
       typename OTHER_T::value_type const *rhs_value = rhs.other_();
 
-      if (!lhs_value)
+      if( !lhs_value )
+      {
         return false;
+      }
 
-      if (!rhs_value)
+      if( !rhs_value )
+      {
         return false;
+      }
 
-      return ((*lhs_value) == (*rhs_value));
+      return( (*lhs_value) == (*rhs_value) );
     }
   };
 
@@ -99,16 +103,20 @@ struct variant_record
       protox::dtl::discriminator_test< D >::type discriminator_test;
 
     template< typename R >
-    inline static bool is_equal(const R &lhs, const R &rhs)
+    inline static bool is_equal( const R &lhs, const R &rhs )
     {
-      if (discriminator_test::is_equal(lhs.discriminant))
+      if( discriminator_test::is_equal( lhs.discriminant ) )
       {
         // Same object?
-        if (&lhs == &rhs)
+        if( &lhs == &rhs )
+        {
           return true;
+        }
 
-        if (!(lhs.discriminant == rhs.discriminant))
+        if( !(lhs.discriminant == rhs.discriminant) )
+        {
           return false;
+        }
 
         typename D::alternative::value_type const *lhs_value
           = lhs.template alt_< D >();
@@ -117,23 +125,29 @@ struct variant_record
           = rhs.template alt_< D >();
 
         // No alternative values?
-        if ((!lhs_value) && (!rhs_value))
+        if( (!lhs_value) && (!rhs_value) )
+        {
           return true;
+        }
 
-        if (!lhs_value)
+        if( !lhs_value )
+        {
           return false;
+        }
 
-        if (!rhs_value)
+        if( !rhs_value )
+        {
           return false;
+        }
 
-        return ((*lhs_value) == (*rhs_value));
+        return( (*lhs_value) == (*rhs_value) );
       }
 
-      return BASE::is_equal(lhs, rhs);
+      return BASE::is_equal( lhs, rhs );
     }
   };
 
-  inline bool operator == (const variant_record &rhs) const
+  inline bool operator == ( const variant_record &rhs ) const
   {
     typedef typename boost::mpl::fold<
       D_VECTOR,
@@ -143,56 +157,62 @@ struct variant_record
         boost::mpl::placeholders::_1 >
     >::type type;
 
-    return type::is_equal(*this, rhs);
+    return type::is_equal( *this, rhs );
   }
 
-  inline bool operator != (const variant_record &rhs) const
+  inline bool operator != ( const variant_record &rhs ) const
   {
     return !(*this == rhs);
   }
 
   // Alternative getters and setters.
   template< typename T >
-  inline void alt_(typename get_alternative_type<T>::type::value_type const &v)
+  inline void alt_
+    ( typename get_alternative_type<T>::type::value_type const &v )
   {
-    value = static_cast<typename get_alternative_type<T>::type>(v);
+    value = static_cast< typename get_alternative_type< T >::type >( v );
   }
 
   // Gets a read/write pointer to an alternative's value
   template< typename T >
-  inline typename get_alternative_type<T>::type::value_type *alt_()
+  inline typename get_alternative_type< T >::type::value_type *alt_()
   {
-    typedef typename get_alternative_type<T>::type alternative_type;
-    alternative_type *alt_ptr = boost::get< alternative_type >(&value);
+    typedef typename get_alternative_type< T >::type alternative_type;
+    alternative_type *alt_ptr = boost::get< alternative_type >( &value );
 
-    if (alt_ptr == 0)
+    if( alt_ptr == 0 )
+    {
       return 0;
+    }
 
-    return (&(alt_ptr->value));
+    return( &(alt_ptr->value) );
   }
 
   // Gets a read-only pointer to an alternative's value
   template< typename T >
-  inline typename get_alternative_type<T>::type::value_type const *alt_() const
+  inline
+    typename get_alternative_type< T >::type::value_type const *alt_() const
   {
-    typedef typename get_alternative_type<T>::type alternative_type;
-    alternative_type const *alt_ptr = boost::get< alternative_type >(&value);
+    typedef typename get_alternative_type< T >::type alternative_type;
+    alternative_type const *alt_ptr = boost::get< alternative_type >( &value );
 
-    if (alt_ptr == 0)
+    if( alt_ptr == 0 )
+    {
       return 0;
+    }
 
-    return (&(alt_ptr->value));
+    return( &(alt_ptr->value) );
   }
 
   // Compute the HLAOTHER accessor type
-  inline void other_(typename OTHER::value_type const &v)
+  inline void other_( typename OTHER::value_type const &v )
   {
     typedef dtl::other_access<
       OTHER,
       variant_record< D_TYPE, D_VECTOR, OTHER, CODEC_TAG >
     > other;
 
-    other::set_value(*this, v);
+    other::set_value( *this, v );
   }
 
   inline typename OTHER::value_type const *other_() const
@@ -202,7 +222,7 @@ struct variant_record
       variant_record< D_TYPE, D_VECTOR, OTHER, CODEC_TAG >
     > other;
 
-    return other::get_value(*this);
+    return other::get_value( *this );
   }
 };
 

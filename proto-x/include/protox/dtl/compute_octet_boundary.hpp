@@ -59,17 +59,13 @@ struct compute_octet_boundary
 
   // Compute the Nth power of two (i.e., 1 << N ) :
   typedef typename
-    boost::mpl::shift_left<
-      boost::mpl::int_< 1 >,
-      boost::mpl::int_< N >
-    >::type nth_power_of_two;
+    boost::mpl::shift_left< boost::mpl::int_< 1 >,
+                            boost::mpl::int_< N > >::type nth_power_of_two;
 
   // Compute the product 8 * 2^N :
   typedef typename
-    boost::mpl::multiplies<
-      boost::mpl::int_< 8 >,
-      nth_power_of_two
-    >::type product;
+    boost::mpl::multiplies< boost::mpl::int_< 8 >,
+                            nth_power_of_two >::type product;
 
   typedef typename
     boost::mpl::if_<

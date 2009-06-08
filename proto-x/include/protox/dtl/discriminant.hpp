@@ -57,7 +57,7 @@ struct discriminant_other
   value_type value;
 
   discriminant_other() {}
-  discriminant_other(const T &v) : value(v) {}
+  discriminant_other( const T &v ) : value(v) {}
 };
 
 /******************************************************************************/
@@ -91,21 +91,22 @@ struct append_other< Alternatives, discriminant_other_none >
 template< typename OTHER, typename R >
 struct other_access
 {
-  inline static typename OTHER::value_type const *get_value(const R &record)
+  inline static typename OTHER::value_type const *get_value( const R &record )
   {
-    OTHER const *other_ptr = boost::get< OTHER >(&record.value);
+    OTHER const *other_ptr = boost::get< OTHER >( &record.value );
 
-    if (other_ptr == 0)
+    if( other_ptr == 0 )
+    {
       return 0;
+    }
 
     return &(other_ptr->value);
   }
 
-  inline static void set_value(
-    R &record,
-    typename OTHER::value_type const &other_value)
+  inline static void set_value( R &record,
+                                typename OTHER::value_type const &other_value )
   {
-    record.value = static_cast< OTHER >(other_value);
+    record.value = static_cast< OTHER >( other_value );
   }
 };
 

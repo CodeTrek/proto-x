@@ -85,7 +85,7 @@ struct basic : basic_tag
   basic() : value(T()) {}
 
   // Implicit conversion from T to basic
-  basic(const T v) : value(v) {}
+  basic( const T v ) : value(v) {}
 
 /******************************************************************************/
 
@@ -95,22 +95,22 @@ struct basic : basic_tag
   inline basic &operator ++()
   {
     ++value;
-    return (*this);
+    return( *this );
   }
 
-  inline basic &operator +=(const basic &v)
+  inline basic &operator +=( const basic &v )
   {
     value += v;
-    return (*this);
+    return( *this );
   }
 
   // Enable numerical assignment.
   // For example, assignment of float to int, assignment int to float, etc...
   template< typename RHST >
-  basic &operator =(const RHST rhs)
+  basic &operator =( const RHST rhs )
   {
     value = rhs;
-    return (*this);
+    return( *this );
   }
 };
 

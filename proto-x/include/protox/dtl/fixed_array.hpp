@@ -26,7 +26,7 @@ struct fixed_array
 public:
   typedef CODEC_TAG codec_tag;
 
-  BOOST_STATIC_ASSERT((N > 0));
+  BOOST_STATIC_ASSERT(( N > 0 ));
 
   static const int static_num_elements = N;
 
@@ -35,17 +35,17 @@ public:
   typedef const T& const_reference; 
 
 private:
-  T elems[N];
+  T elems[ N ];
 
   template< typename A >
-  static bool is_equal(const A &lhs, const A &rhs)
+  static bool is_equal( const A &lhs, const A &rhs )
   {
     bool result = true;
 
     // Test each element in the array for equality.
-    for (int i = 0; i < A::static_num_elements; ++i)
+    for( int i = 0; i < A::static_num_elements; ++i )
     {
-      if (!(lhs[i] == rhs[i]))
+      if( !(lhs[ i ] == rhs[ i ]) )
       {
         result = false;
         break;
@@ -56,18 +56,18 @@ private:
   }
   
 public:
-  inline reference operator [] (int i) { return elems[i]; }
+  inline reference operator [] ( int i ) { return elems[ i ]; }
   
-  inline const_reference operator [] (int i) const { return elems[i]; }
+  inline const_reference operator [] ( int i ) const { return elems[ i ]; }
     
-  inline bool operator == (const fixed_array &rhs) const
+  inline bool operator == ( const fixed_array &rhs ) const
   {
-    return is_equal(*this, rhs);
+    return is_equal( *this, rhs );
   }
 
-  inline bool operator != (const fixed_array &rhs) const
+  inline bool operator != ( const fixed_array &rhs ) const
   {
-    return !(*this == rhs); 
+    return !( *this == rhs ); 
   }
 };
 

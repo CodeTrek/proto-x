@@ -5,23 +5,23 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #ifndef PROTOX_IO_BYTE_DATA_SINK_HPP
 #define PROTOX_IO_BYTE_DATA_SINK_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #include <cstddef>
 #include <vector>
 
 #include <protox/dtl/codec.hpp>
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 namespace protox { namespace io {
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 /**
  * A container that stores bytes in contiguous memory.
@@ -35,9 +35,9 @@ public:
    * Encode the given value as an array of bytes.
    */
   template< typename T >
-  inline void encode(const T &value)
+  inline void encode( const T &value )
   {
-    protox::dtl::codec::encode(*this, value);
+    protox::dtl::codec::encode( *this, value );
   }
 
   /**
@@ -58,7 +58,7 @@ public:
 
   inline void push_back( char d )
   {
-    data.push_back(d);
+    data.push_back( d );
   }
 
   std::size_t size() const
@@ -68,15 +68,17 @@ public:
 
   inline const char *getDataBuffer() const
   {
-    if (data.empty())
+    if( data.empty() )
+    {
       return 0;
+    }
 
-    return ((const char *) &(data[0]));
+    return( (const char *) &(data[ 0 ]) );
   }
 
   inline std::size_t getDataBufferSize() const
   {
-    return (data.size() * sizeof(char));
+    return( data.size() * sizeof( char ) );
   }
 
   void start_value() {}
@@ -112,18 +114,18 @@ public:
   void end_enum() {}
 
 private:
-  byte_data_sink(const byte_data_sink &);
-  byte_data_sink &operator = (const byte_data_sink &);
+  byte_data_sink( const byte_data_sink & );
+  byte_data_sink &operator = ( const byte_data_sink & );
 
   std::vector< char > data;
 };
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 }} // protox::io
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/******************************************************************************/
