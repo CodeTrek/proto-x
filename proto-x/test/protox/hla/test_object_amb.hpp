@@ -244,7 +244,7 @@ BOOST_AUTO_TEST_CASE( test_reflect_object )
                sink.getDataBuffer(),
                (RTI::ULong) sink.getDataBufferSize() );
 
-  obj_amb.reflect_object( 1, *ah_set,  "" );
+  obj_amb.reflect_object( 1, *ah_set, 0, 0 );
 
   BOOST_CHECK( obj_amb.begin< c1_t >()->second.a_< A1 >() == 2552 );
   BOOST_CHECK( fabs( obj_amb.begin< c1_t >()->second.a_< A2 >() - V2 ) <= E );
