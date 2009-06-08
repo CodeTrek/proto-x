@@ -51,7 +51,8 @@ protected:
     ahs.add( handle );
   }
 
-  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set )
+  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set,
+                const RTI::FedTime *time )
   {
     for( RTI::ULong i = 0; i < ahv_set.size(); ++i )
     {
@@ -128,9 +129,10 @@ protected:
     return 1;
   }
 
-  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set )
+  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set,
+                const RTI::FedTime *time )
   {
-    A::reflect( ahv_set );
+    A::reflect( ahv_set, time );
   }
 };
 
@@ -197,10 +199,11 @@ public:
     return (static_cast< attr_base< T > & >( *this ).handle);
   }
 
-  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set )
+  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set,
+                const RTI::FedTime *time )
   {
-    A::reflect( ahv_set );
-    B::reflect( ahv_set );
+    A::reflect( ahv_set, time );
+    B::reflect( ahv_set, time );
   }
 };
 

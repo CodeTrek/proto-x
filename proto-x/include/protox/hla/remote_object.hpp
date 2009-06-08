@@ -58,6 +58,7 @@ struct remote_object_base
 
   bool reflect( RTI::ObjectHandle object_handle,
                 const RTI::AttributeHandleValuePairSet &attrs,
+                const RTI::FedTime *time,
                 const char *tag )
   {
     typename map_type::iterator it = objects.find( object_handle );
@@ -67,7 +68,7 @@ struct remote_object_base
       return false;
     }
 
-    it->second.reflect( attrs );
+    it->second.reflect( attrs, time );
 
     return true;
   }
@@ -99,9 +100,10 @@ protected:
 
   void reflect_object( RTI::ObjectHandle object_handle,
                        const RTI::AttributeHandleValuePairSet &attrs,
+                       const RTI::FedTime *time,
                        const char *tag )
   {
-    bool reflected = A::reflect( object_handle, attrs, tag );
+    bool reflected = A::reflect( object_handle, attrs, time, tag );
 
     if( !reflected )
     {
@@ -133,14 +135,15 @@ public:
 
   void reflect_object( RTI::ObjectHandle object_handle,
                        const RTI::AttributeHandleValuePairSet &attrs,
+                       const RTI::FedTime *time,
                        const char *tag )
   {
-    if( A::reflect( object_handle, attrs, tag ) )
+    if( A::reflect( object_handle, attrs, time, tag ) )
     {
       return;
     }
 
-    B::reflect_object( object_handle, attrs, tag );
+    B::reflect_object( object_handle, attrs, time, tag );
   }
 
   template< typename T >
