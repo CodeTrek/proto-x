@@ -137,6 +137,12 @@ struct i_class_type
 
         params_type::add_values( set_ptr );
       }
+
+      void recv( const RTI::ParameterHandleValuePairSet &params )
+      {
+        // TODO: implement
+        //assert( false ); // TODO: implement
+      }
   };
 };
 

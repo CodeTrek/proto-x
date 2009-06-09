@@ -18,8 +18,6 @@
 
 #include <boost/mpl/empty_base.hpp>
 
-#include <protox/io/byte_data_sink.hpp>
-
 /******************************************************************************/
 
 namespace protox { namespace hla {
