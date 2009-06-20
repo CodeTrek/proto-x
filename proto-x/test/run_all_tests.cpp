@@ -24,6 +24,9 @@
 #include "test/protox/hla_1516/policy_enumerated.hpp"
 #include "test/protox/hla_1516/policy_variant_record.hpp"
 
+// Custom codec tests
+#include "test/protox/custom/custom.hpp"
+
 // HLA tests
 #include "test/protox/hla/test_keywords.hpp"
 #include "test/protox/hla/test_o_class.hpp"
