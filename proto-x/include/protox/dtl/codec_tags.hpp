@@ -15,6 +15,9 @@
 // HLA 1516
 #include <protox/hla_1516/codec_tags.hpp>
 
+// Custom test tags
+#include <test/protox/custom/codec_tags.hpp>
+
 // #include <additional protocol codec tags>
 
 /******************************************************************************/

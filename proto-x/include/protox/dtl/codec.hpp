@@ -20,6 +20,9 @@
 #include <protox/hla_1516/enumerated_codec.hpp>
 #include <protox/hla_1516/variant_record_codec.hpp>
 
+// Custom test tags
+#include <test/protox/custom/custom_data_codec.hpp>
+
 // Add additional protocol codec policies here...
 
 /******************************************************************************/
