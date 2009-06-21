@@ -37,18 +37,6 @@ template<
 
 /******************************************************************************/
 
-template< typename S, bool CONVERT_ENDIAN >
-struct encode_custom< S, 1, CONVERT_ENDIAN >
-{
-  static inline void pack( S &s,
-                           protox::hla_1516::HLAoctet::value_type const *value )
-  {
-    s.push_back( value[ 0 ] );
-  }
-};
-
-/******************************************************************************/
-
 template< typename S >
 struct encode_custom< S, 2, false >
 {

@@ -40,20 +40,6 @@ template<
 
 /******************************************************************************/
 
-template< typename S, bool CONVERT_ENDIAN >
-struct decode_custom< S, 1, CONVERT_ENDIAN >
-{
-  static inline void unpack( protox::hla_1516::HLAoctet::value_type *value,
-                             const S &s,
-                             std::size_t &offset )
-  {
-    *value = s[ (unsigned int) (offset) ];
-    ++offset;
-  }
-};
-
-/******************************************************************************/
-
 template< typename S >
 struct decode_custom< S, 2, false >
 {
