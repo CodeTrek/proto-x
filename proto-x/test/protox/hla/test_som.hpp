@@ -24,9 +24,37 @@
 #include <protox/hla/name.hpp>
 #include <protox/hla/som.hpp>
 
+#include <test/protox/hla/som/boccerball/obj_class_table.hpp>
+
 /**************************************************************************************************/
 
 namespace test_protox_hla_som {
+
+/**************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE( test_boccerball_som )
+{
+  using namespace boost;
+  using namespace protox;
+
+  typedef hla::som< som::boccerball::obj_class_table > som;
+
+  RTI::RTIambassador rtiAmb;
+
+  rtiAmb.o_class_to_handle_map[ "HLAobjectRoot"] = 1;
+  rtiAmb.o_class_to_handle_map[ "HLAobjectRoot.Table"] = 2;
+  rtiAmb.o_class_to_handle_map[ "HLAobjectRoot.GameObject"] = 3;
+  rtiAmb.o_class_to_handle_map[ "HLAobjectRoot.GameObject.Target"] = 4;
+  rtiAmb.o_class_to_handle_map[ "HLAobjectRoot.GameObject.Marble"] = 5;
+  rtiAmb.o_class_to_handle_map[ "HLAobjectRoot.Player"] = 6;
+  rtiAmb.o_class_to_handle_map[ "HLAobjectRoot.Player.Human"] = 7;
+  rtiAmb.o_class_to_handle_map[ "HLAobjectRoot.Player.AI"] = 8;
+  rtiAmb.o_class_to_handle_map[ "HLAobjectRoot.Score"] = 9;
+
+  som::init_handles(rtiAmb);
+
+  BOOST_CHECK( som::get_num_object_classes() == 9 );
+}
 
 /**************************************************************************************************/
 BOOST_AUTO_TEST_CASE( test_som_empty )
