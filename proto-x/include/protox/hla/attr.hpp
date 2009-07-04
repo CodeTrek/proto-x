@@ -30,14 +30,23 @@ namespace protox { namespace hla {
 template< typename T >
 struct attr_base
 {
+  enum state { PUBLISHED = 1L << 0, MODIFIED = 1L << 1 };
+
   typedef T attr_type;
   typename T::value_type value;
 
   RTI::AttributeHandle handle;
 
+  unsigned short state_vector;
+
   static char const *name() { return T::name(); }
 
-  attr_base() : handle(0) {}
+  attr_base() : handle(0), state_vector((state) 0) {}
+
+  void set( state s ) { state_vector |= s; }
+  void clear( state s ) { state_vector &= (~s); }
+
+  bool is_set( state s ) const { return( (state_vector & s) != 0 ); }
 
 protected:
   template< typename S >
