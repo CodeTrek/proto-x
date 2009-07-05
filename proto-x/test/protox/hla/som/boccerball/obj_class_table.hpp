@@ -32,25 +32,21 @@ using namespace protox::hla;
 // +----------------------+-------------------------------+
 // | Class 1              | Class 2                       |
 // +----------------------+-------------------------------+
-     o_class< Table  >,
+     o_class< Table,                                         attrs< Width, Height > >,
 // +----------------------+
      o_class< GameObject,                                    attrs< Position, Velocity, Acceleration >,
 //                        +-------------------------------+
-                            child< o_class< Target >,
+                            child< o_class< Target,          attrs< Target::State > >,
 //                        +-------------------------------+
                                    o_class< Marble,          attrs< State > > > >,
 //                        +-------------------------------+
 // +----------------------+
-     o_class< Player,                                        attrs< Name >,
+     o_class< Player,                                        attrs< Name, Score >,
 //                        +-------------------------------+
                             child< o_class< Human >,
 //                        +-------------------------------+
-                                   o_class< AI    > > >, 
+                                   o_class< AI,              attrs< SkillLevel > > > > > > {}; 
 //                        +-------------------------------+
-// +----------------------+
-     o_class< Score  > 
-// +----------------------+
-   > > {};
 }}
 
 /**************************************************************************************************/
