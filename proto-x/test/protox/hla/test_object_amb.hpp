@@ -32,6 +32,8 @@
 
 #include <protox/hla/object_amb.hpp>
 
+#include <test/protox/hla/som/yyabc/obj_class_table.hpp>
+
 /******************************************************************************/
 
 namespace test_protox_hla_object_amb {
@@ -46,89 +48,10 @@ using namespace protox::hla_1516;
 
 /******************************************************************************/
 
-namespace t1 {
-
-  struct SimpleHLAoctet : simple< HLAoctet >
-    { PROTOX_SIMPLE( SimpleHLAoctet ) };
-
-  struct f1 : protox::dtl::field< SimpleHLAoctet > {};
-  struct f2 : protox::dtl::field< SimpleHLAoctet > {};
-  struct f3 : protox::dtl::field< SimpleHLAoctet > {};
-
-  typedef hla_1516::fixed_record< mpl::vector < f1, f2, f3 > > R1;
-
-  struct SimpleHLAinteger32BE : simple<HLAinteger32BE>
-    { PROTOX_SIMPLE( SimpleHLAinteger32BE ) }; 
-
-  struct SimpleHLAfloat32BE : simple<HLAfloat32BE>
-    { PROTOX_SIMPLE( SimpleHLAfloat32BE ) }; 
-
-  // Class names 
-  struct Class_A { HLA_NAME("Class_A") };
-  struct Class_B { HLA_NAME("Class_B") };
-  struct Class_C { HLA_NAME("Class_C") };
-  struct Class_D { HLA_NAME("Class_D") };
-  struct Class_E { HLA_NAME("Class_E") };
-  struct Class_F { HLA_NAME("Class_F") };
-  struct Class_G { HLA_NAME("Class_G") };
-  struct Class_H { HLA_NAME("Class_H") };
-
-  // Attribute names
-  struct A1 : protox::hla::attr< SimpleHLAinteger32BE > { HLA_NAME("A1") };
-  struct A2 : protox::hla::attr< SimpleHLAfloat32BE   > { HLA_NAME("A2") };
-  struct A3 : protox::hla::attr< R1                   > { HLA_NAME("A3") };
-  struct A4 : protox::hla::attr< SimpleHLAinteger32BE > { HLA_NAME("A4") };
-
-  // Structure
-  struct o_class_table : 
-// +------------------+
-    o_class< Class_A,
-      attrs< A3 >,
-//                    +-------------------------+
-                        child< o_class< Class_B,
-                          attrs< A1, A2, A4 >,
-//                                              +--------------------------+
-                                                  child< o_class< Class_E >,
-//                                              +--------------------------+
-                                                         o_class< Class_F >,
-//                                              +--------------------------+
-                                                         o_class< Class_C > > >,
-//                                              +--------------------------+
-//                    +-------------------------+
-                               o_class< Class_C,
-                                 attrs< A1, A2 >,
-//                                              +--------------------------+
-                                                  child< o_class< Class_A,
-                                                    none,
-//                                                                         +-------------------------+
-                                                                             child< o_class< Class_E > > >,
-//                                                                         +-------------------------+
-//                                              +--------------------------+
-                                                         o_class< Class_C >,
-//                                              +--------------------------+
-                                                         o_class< Class_E > > >,
-//                                              +--------------------------+
-//                    +-------------------------+
-                               o_class< Class_D,
-                                 attrs< A1, A2 >,
-//                                              +--------------------------+
-                                                  child< o_class< Class_G >,
-//                                              +--------------------------+
-                                                         o_class< Class_H > > > > > {};
-//                                              +--------------------------+
-//                    +-------------------------+
-// +------------------+
-
-} // t1
-
-/******************************************************************************/
-
-using namespace t1;
-
-/******************************************************************************/
-
 BOOST_AUTO_TEST_CASE( test_discover_object )
 {
+  using namespace soms::yyabc;
+
   typedef protox::hla::som< o_class_table > som;
 
   RTI::RTIambassador rti_amb;
@@ -186,6 +109,8 @@ BOOST_AUTO_TEST_CASE( test_discover_object )
 
 BOOST_AUTO_TEST_CASE( test_reflect_object )
 {
+  using namespace soms::yyabc;
+
   typedef protox::hla::som< o_class_table > som;
 
   RTI::RTIambassador rti_amb;

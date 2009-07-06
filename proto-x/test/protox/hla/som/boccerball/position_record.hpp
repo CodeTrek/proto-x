@@ -26,6 +26,7 @@ namespace som { namespace boccerball {
 
 using namespace boost;
 using namespace protox;
+using namespace protox::dtl;
 
 /******************************************************************************/
 
