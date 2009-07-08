@@ -14,6 +14,7 @@
 
 #include <protox/dtl/enumerated.hpp>
 #include <protox/hla_1516/codec_tags.hpp>
+#include <protox/dtl/codec_impl.hpp>
 
 /******************************************************************************/
 
