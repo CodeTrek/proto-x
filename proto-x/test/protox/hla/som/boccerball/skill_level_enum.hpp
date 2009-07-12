@@ -19,7 +19,7 @@
 
 /******************************************************************************/
 
-namespace som { namespace boccerball { namespace SkillLevelEnum {
+namespace som { namespace boccerball {
 
 /******************************************************************************/
 
@@ -27,15 +27,17 @@ using namespace protox::hla_1516;
 
 /******************************************************************************/
 
-PROTOX_ENUM_TYPE( HLAinteger16BE, enumerated );
-
-/******************************************************************************/
-
-PROTOX_ENUM_VALUE( POOR,      1 );
-PROTOX_ENUM_VALUE( GOOD,      2 );
-PROTOX_ENUM_VALUE( EXCELLENT, 3 );
-
-/******************************************************************************/
+//      +----------------+-----------------------------------------------+------------+--------+ 
+//      | Name           | Representation                                | Enumerator | Values |
+//      +----------------+-----------------------------------------------+------------+--------+
+namespace SkillLevelEnum { PROTOX_ENUM_TYPE( HLAinteger16BE, enumerated );
+//      +----------------+-----------------------------------------------+------------+--------+
+                                                        PROTOX_ENUM_VALUE( POOR,        1 );
+//                                                                       +------------+--------+
+                                                        PROTOX_ENUM_VALUE( GOOD,        2 );
+//                                                                       +------------+--------+
+                                                        PROTOX_ENUM_VALUE( EXCELLENT,   3 );
+//      +----------------+-----------------------------------------------+------------+--------+
 
 PROTOX_ENUM_EQUALITY_OPERATOR;
 PROTOX_ENUM_DEFAULT( GOOD );
