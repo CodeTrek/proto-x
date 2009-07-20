@@ -5,12 +5,13 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #ifndef TEST_PROTOX_HLA_O_CLASS_HPP
 #define TEST_PROTOX_HLA_O_CLASS_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
+
 
 #include <RTI.hh>
 
@@ -26,59 +27,35 @@
 #include <protox/hla/attr.hpp>
 #include <protox/hla/name.hpp>
 
-/**************************************************************************************************/
+#include <test/protox/hla/som/s000/obj_class_table.hpp>
+#include <test/protox/hla/som/s001/obj_class_table.hpp>
+
+/******************************************************************************/
 
 namespace test_protox_hla_o_class {
 
-/**************************************************************************************************/
-
-namespace t1
-{
-  struct Class_A { HLA_NAME("Class_A") };
-  struct c_type : protox::hla::o_class< Class_A > {};
-}
+/******************************************************************************/
 
 BOOST_AUTO_TEST_CASE( test_o_class_empty )
 {
-  using namespace t1;
+  using namespace som::s001;
 
-  BOOST_CHECK( c_type::name_type::name() == std::string("Class_A") );
-  BOOST_CHECK( c_type::name_type::name() != std::string("Class_B") );
-}
-
-namespace t2
-{
-  using namespace protox::hla;
-
-  // Class names
-  struct Class_A { HLA_NAME("Class_A") };
-  struct Class_B { HLA_NAME("Class_B") };
-  struct Class_C { HLA_NAME("Class_C") };
-  struct Class_D { HLA_NAME("Class_D") };
-
-  // Structure
-  struct c_type :
-    o_class< Class_A,
-               none,
-               child< o_class< Class_B >,
-                      o_class< Class_C >,
-                      o_class< Class_D > > > {};
-
-
+  BOOST_CHECK( obj_class_table::name_type::name() == std::string("Class_A") );
+  BOOST_CHECK( obj_class_table::name_type::name() != std::string("Class_B") );
 }
 
 BOOST_AUTO_TEST_CASE( test_o_class_children )
 {
-  using namespace t2;
+  using namespace som::s000;
   using namespace boost;
 
-  BOOST_CHECK( c_type::name_type::name() == std::string("Class_A") );
+  BOOST_CHECK( obj_class_table::name_type::name() == std::string("Class_A") );
 
   // No attributes?
-  BOOST_CHECK( mpl::size<c_type::attr_list_type>::value == 0 );
+  BOOST_CHECK( mpl::size<obj_class_table::attr_list_type>::value == 0 );
 
   // 3 child classes?
-  BOOST_CHECK( mpl::size<c_type::child_list_type>::value == 3 );
+  BOOST_CHECK( mpl::size<obj_class_table::child_list_type>::value == 3 );
 }
 
 namespace t3
