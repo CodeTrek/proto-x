@@ -12,12 +12,12 @@
 
 /******************************************************************************/
 
-
 #include <RTI.hh>
 
 #include <boost/mpl/size.hpp>
 #include <boost/mpl/at.hpp>
 #include <boost/mpl/front.hpp>
+#include <boost/mpl/back.hpp>
 #include <boost/mpl/deref.hpp>
 #include <boost/mpl/next.hpp>
 #include <boost/mpl/int.hpp>
@@ -29,6 +29,7 @@
 
 #include <test/protox/hla/som/s000/obj_class_table.hpp>
 #include <test/protox/hla/som/s001/obj_class_table.hpp>
+#include <test/protox/hla/som/s002/obj_class_table.hpp>
 
 /******************************************************************************/
 
@@ -40,13 +41,49 @@ BOOST_AUTO_TEST_CASE( test_o_class_empty )
 {
   using namespace som::s001;
 
-  BOOST_CHECK( obj_class_table::name_type::name() == std::string("Class_A") );
-  BOOST_CHECK( obj_class_table::name_type::name() != std::string("Class_B") );
+  BOOST_CHECK( obj_class_table::name_type::name() == std::string( "Class_A" ) );
+  BOOST_CHECK( obj_class_table::name_type::name() != std::string( "Class_B" ) );
 }
 
 BOOST_AUTO_TEST_CASE( test_o_class_children )
 {
+  using namespace boost;
   using namespace som::s000;
+
+  BOOST_CHECK( obj_class_table::name_type::name() == std::string( "Class_A" ) );
+
+  // No attributes?
+  BOOST_CHECK( mpl::size< obj_class_table::attr_list_type >::value == 0 );
+
+  // 3 child classes?
+  BOOST_CHECK( mpl::size< obj_class_table::child_list_type >::value == 3 );
+}
+
+template< typename T >
+static void verify_class()
+{
+  using namespace boost;
+
+  if (T::name_type::name() == std::string("Class_B"))
+  {
+    BOOST_CHECK( mpl::size< typename T::attr_list_type >::value == 0 );
+    BOOST_CHECK( mpl::size< typename T::child_list_type >::value == 3 );
+  }
+  else if (T::name_type::name() == std::string("Class_C"))
+  {
+    BOOST_CHECK( mpl::size< typename T::attr_list_type >::value == 0 );
+    BOOST_CHECK( mpl::size< typename T::child_list_type >::value == 2 );
+  }
+  else if (T::name_type::name() == std::string("Class_D"))
+  {
+    BOOST_CHECK( mpl::size< typename T::attr_list_type >::value == 0 );
+    BOOST_CHECK( mpl::size< typename T::child_list_type >::value == 2 );
+  }
+}
+
+BOOST_AUTO_TEST_CASE( test_o_class_nested_children )
+{
+  using namespace som::s002;
   using namespace boost;
 
   BOOST_CHECK( obj_class_table::name_type::name() == std::string("Class_A") );
@@ -54,74 +91,19 @@ BOOST_AUTO_TEST_CASE( test_o_class_children )
   // No attributes?
   BOOST_CHECK( mpl::size<obj_class_table::attr_list_type>::value == 0 );
 
-  // 3 child classes?
-  BOOST_CHECK( mpl::size<obj_class_table::child_list_type>::value == 3 );
-}
-
-namespace t3
-{
-  using namespace protox::hla;
-
-  // Class names
-  struct Class_A { HLA_NAME("Class_A") };
-  struct Class_B { HLA_NAME("Class_B") };
-  struct Class_C { HLA_NAME("Class_C") };
-  struct Class_D { HLA_NAME("Class_D") };
-  struct Class_E { HLA_NAME("Class_E") };
-  struct Class_F { HLA_NAME("Class_F") };
-  struct Class_G { HLA_NAME("Class_G") };
-  struct Class_H { HLA_NAME("Class_H") };
-
-  // Structure
-  struct c_type :
-    o_class< Class_A,
-               none,
-               child< o_class< Class_B,    // index 0
-                                 none,
-                                 child< o_class< Class_E >,
-                                        o_class< Class_F >,
-                                        o_class< Class_C > > >,
-                      o_class< Class_C,    // index 1
-                                 none,
-                                 child< o_class< Class_A >,
-                                        o_class< Class_C > > >,
-                      o_class< Class_D,    // index 2
-                                 none,
-                                 child< o_class< Class_G >,
-                                        o_class< Class_H > > > > > {};
-
-}
-
-BOOST_AUTO_TEST_CASE( test_o_class_nested_children )
-{
-  using namespace boost;
-  using namespace t3;
-
-  BOOST_CHECK( c_type::name_type::name() == std::string("Class_A") );
-
-  // No attributes?
-  BOOST_CHECK( mpl::size<c_type::attr_list_type>::value == 0 );
-
   // Class_A has 3 child classes?
-  BOOST_CHECK( mpl::size<c_type::child_list_type>::value == 3 );
+  BOOST_CHECK( mpl::size<obj_class_table::child_list_type>::value == 3 );
 
-#if 0
   // Class_B has 3 child classes?
-  typedef mpl::front< c_type::child_list_type >::type b_class_type;
+  //typedef mpl::front< obj_class_table::child_list_type >::type b_class_type;
 
-  BOOST_CHECK( mpl::size< b_class_type::attr_list_type >::value == 0 );
-  BOOST_CHECK( mpl::size< b_class_type::child_list_type >::value == 3 );
+  typedef mpl::deref< mpl::begin< obj_class_table::child_list_type >::type >::type class_1_type;
+  typedef mpl::deref< mpl::next< mpl::begin< obj_class_table::child_list_type >::type >::type >::type class_2_type;
+  typedef mpl::deref< mpl::next< mpl::next< mpl::begin< obj_class_table::child_list_type >::type >::type >::type >::type class_3_type;
 
-  // Class_C has 2 child classes?
-  typedef mpl::at< c_type::child_list_type, mpl::int_<1> >::type c_class_type;
-  BOOST_CHECK( mpl::size< c_class_type::attr_list_type >::value == 0 );
-  BOOST_CHECK( mpl::size< c_class_type::child_list_type >::value == 2 );
-
-  // Class_D has 2 child classes?
-  typedef mpl::at< c_type::child_list_type, mpl::int_<2> >::type d_class_type;
-  BOOST_CHECK( mpl::size< d_class_type::attr_list_type >::value == 0 );
-  BOOST_CHECK( mpl::size< d_class_type::child_list_type >::value == 2 );
-#endif
+  verify_class< class_1_type >();
+  verify_class< class_2_type >();
+  verify_class< class_3_type >();
 }
 
 namespace t4

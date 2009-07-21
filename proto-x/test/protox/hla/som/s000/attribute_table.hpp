@@ -7,8 +7,8 @@
 
 /******************************************************************************/
 
-#ifndef SOM_S000_ATTRIBUTE_TABLE_HPP
-#define SOM_S000_ATTRIBUTE_TABLE_HPP
+#ifndef SOM_S002_ATTRIBUTE_TABLE_HPP
+#define SOM_S002_ATTRIBUTE_TABLE_HPP
 
 /******************************************************************************/
 
@@ -17,7 +17,7 @@
 
 /******************************************************************************/
 
-namespace som { namespace s000 {
+namespace som { namespace s002 {
 
 /******************************************************************************/
 
@@ -29,6 +29,12 @@ namespace som { namespace s000 {
   struct Class_B {HLA_NAME( "Class_B" )};
   struct Class_C {HLA_NAME( "Class_C" )};
   struct Class_D {HLA_NAME( "Class_D" )};
+  struct Class_E {HLA_NAME( "Class_E" )};
+  struct Class_F {HLA_NAME( "Class_F" )};
+  struct Class_G {HLA_NAME( "Class_G" )};
+  struct Class_H {HLA_NAME( "Class_H" )};
+
+/******************************************************************************/
 
 }}
 
