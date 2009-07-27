@@ -7,25 +7,33 @@
 
 /******************************************************************************/
 
-#ifndef SOM_S001_ATTRIBUTE_TABLE_HPP
-#define SOM_S001_ATTRIBUTE_TABLE_HPP
+#ifndef SOM_S005_OBJ_CLASS_TABLE_HPP
+#define SOM_S005_OBJ_CLASS_TABLE_HPP
 
 /******************************************************************************/
 
+#include <protox/hla/i_class.hpp>
 #include <protox/hla/keywords.hpp>
-#include <protox/hla/name.hpp>
+
+#include <test/protox/hla/som/s005/param_table.hpp>
 
 /******************************************************************************/
 
-namespace som_s001 {
+namespace som_s005 {
 
 /******************************************************************************/
 
-////// Attribute Table /////////////////////////////////////////////////////////
-//     +----------- --------------------+
-//     | Name                           |
-//     +--------------------------------+
-  struct Class_A {HLA_NAME( "Class_A" )};
+using namespace protox::hla;
+
+//// Interaction Class Table ///////////////////////////////////////////////////
+  struct inter_class_table :
+// +------------------+
+// | Class 1          |
+// +------------------+
+     i_class< Class_A > {};
+// +------------------+
+
+/******************************************************************************/
 
 }
 

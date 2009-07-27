@@ -26,24 +26,20 @@
 #include <protox/hla/param.hpp>
 #include <protox/hla/name.hpp>
 
-/**************************************************************************************************/
+#include <test/protox/hla/som/s005/inter_class_table.hpp>
+
+/******************************************************************************/
 
 namespace test_protox_hla_i_class {
 
-/**************************************************************************************************/
-
-namespace t1
-{
-  struct Class_A { HLA_NAME("Class_A") };
-  struct c_type : protox::hla::i_class< Class_A > {};
-}
+/******************************************************************************/
 
 BOOST_AUTO_TEST_CASE( test_i_class_empty )
 {
-  using namespace t1;
+  using namespace som_s005;
 
-  BOOST_CHECK( c_type::name_type::name() == std::string("Class_A") );
-  BOOST_CHECK( c_type::name_type::name() != std::string("Class_B") );
+  BOOST_CHECK( inter_class_table::name_type::name() == std::string( "Class_A" ) );
+  BOOST_CHECK( inter_class_table::name_type::name() != std::string( "Class_B" ) );
 }
 
 namespace t2

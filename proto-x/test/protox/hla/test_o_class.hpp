@@ -34,7 +34,7 @@ namespace test_protox_hla_o_class {
 
 BOOST_AUTO_TEST_CASE( test_o_class_empty )
 {
-  using namespace som::s001;
+  using namespace som_s001;
 
   BOOST_CHECK( obj_class_table::name_type::name() == std::string( "Class_A" ) );
   BOOST_CHECK( obj_class_table::name_type::name() != std::string( "Class_B" ) );
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE( test_o_class_empty )
 BOOST_AUTO_TEST_CASE( test_o_class_children )
 {
   using namespace boost;
-  using namespace som::s000;
+  using namespace som_s000;
 
   BOOST_CHECK( obj_class_table::name_type::name() == std::string( "Class_A" ) );
 
@@ -78,7 +78,7 @@ static void verify_class()
 
 BOOST_AUTO_TEST_CASE( test_o_class_nested_children )
 {
-  using namespace som::s002;
+  using namespace som_s002;
   using namespace boost;
 
   BOOST_CHECK( obj_class_table::name_type::name() == std::string( "Class_A" ) );
@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_CASE( test_o_class_nested_children )
 BOOST_AUTO_TEST_CASE( test_o_class_children_with_attrs )
 {
   using namespace boost;
-  using namespace som::s003;
+  using namespace som_s003;
 
   BOOST_CHECK( mpl::size< obj_class_table::attr_list_type >::value == 2 );
 }
