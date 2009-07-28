@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #ifndef TEST_PROTOX_HLA_I_CLASS_HPP
 #define TEST_PROTOX_HLA_I_CLASS_HPP
 
-/**************************************************************************************************/
+/******************************************************************************/
 
 #include <RTI.hh>
 
@@ -27,6 +27,8 @@
 #include <protox/hla/name.hpp>
 
 #include <test/protox/hla/som/s005/inter_class_table.hpp>
+#include <test/protox/hla/som/s006/inter_class_table.hpp>
+#include <test/protox/hla/som/s007/inter_class_table.hpp>
 
 /******************************************************************************/
 
@@ -42,87 +44,32 @@ BOOST_AUTO_TEST_CASE( test_i_class_empty )
   BOOST_CHECK( inter_class_table::name_type::name() != std::string( "Class_B" ) );
 }
 
-namespace t2
-{
-  using namespace protox::hla;
-
-  // Class names
-  struct Class_A { HLA_NAME("Class_A") };
-  struct Class_B { HLA_NAME("Class_B") };
-  struct Class_C { HLA_NAME("Class_C") };
-  struct Class_D { HLA_NAME("Class_D") };
-
-  // Structure
-  struct c_type :
-    i_class< Class_A,
-               none,
-               child< i_class< Class_B >,
-                      i_class< Class_C >,
-                      i_class< Class_D > > > {};
-
-
-}
-
 BOOST_AUTO_TEST_CASE( test_i_class_children )
 {
-  using namespace t2;
+  using namespace som_s006;
   using namespace boost;
 
-  BOOST_CHECK( c_type::name_type::name() == std::string("Class_A") );
+  BOOST_CHECK( inter_class_table::name_type::name() == std::string("Class_A") );
 
   // No parameters?
-  BOOST_CHECK( mpl::size<c_type::param_list_type>::value == 0 );
+  BOOST_CHECK( mpl::size<inter_class_table::param_list_type>::value == 0 );
 
   // 3 child classes?
-  BOOST_CHECK( mpl::size<c_type::child_list_type>::value == 3 );
-}
-
-namespace t3
-{
-  using namespace protox::hla;
-
-  // Class names
-  struct Class_A { HLA_NAME("Class_A") };
-  struct Class_B { HLA_NAME("Class_B") };
-  struct Class_C { HLA_NAME("Class_C") };
-  struct Class_D { HLA_NAME("Class_D") };
-  struct Class_E { HLA_NAME("Class_E") };
-  struct Class_F { HLA_NAME("Class_F") };
-  struct Class_G { HLA_NAME("Class_G") };
-  struct Class_H { HLA_NAME("Class_H") };
-
-  // Structure
-  struct c_type :
-    i_class< Class_A,
-               none,
-               child< i_class< Class_B,    // index 0
-                                 none,
-                                 child< i_class< Class_E >,
-                                        i_class< Class_F >,
-                                        i_class< Class_C > > >,
-                      i_class< Class_C,    // index 1
-                                 none,
-                                 child< i_class< Class_A >,
-                                        i_class< Class_C > > >,
-                      i_class< Class_D,    // index 2
-                                 none,
-                                 child< i_class< Class_G >,
-                                        i_class< Class_H > > > > > {};
-
+  BOOST_CHECK( mpl::size<inter_class_table::child_list_type>::value == 3 );
 }
 
 BOOST_AUTO_TEST_CASE( test_i_class_nested_children )
 {
   using namespace boost;
-  using namespace t3;
+  using namespace som_s007;
 
-  BOOST_CHECK( c_type::name_type::name() == std::string("Class_A") );
+  BOOST_CHECK( inter_class_table::name_type::name() == std::string("Class_A") );
 
   // No parameters?
-  BOOST_CHECK( mpl::size<c_type::param_list_type>::value == 0 );
+  BOOST_CHECK( mpl::size<inter_class_table::param_list_type>::value == 0 );
 
   // Class_A has 3 child classes?
-  BOOST_CHECK( mpl::size<c_type::child_list_type>::value == 3 );
+  BOOST_CHECK( mpl::size<inter_class_table::child_list_type>::value == 3 );
 
 #if 0
   // Class_B has 3 child classes?
