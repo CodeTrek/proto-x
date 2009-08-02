@@ -13,17 +13,27 @@
 
 #include "protox/hla_1516/basic_data_representation_table.hpp"
 
-namespace test_hla1516 { namespace ColorEnum16
-{
-  PROTOX_ENUM_TYPE( protox::hla_1516::HLAinteger16BE, protox::hla_1516::enumerated );
+namespace test_hla1516 {
 
-  PROTOX_ENUM_VALUE( Red, 1 );
-  PROTOX_ENUM_VALUE( Green, 2 );
-  PROTOX_ENUM_VALUE( Blue, 3 );
-  PROTOX_ENUM_VALUE( Yellow, 4 );
+using namespace protox::hla_1516;
+  
+//      +----------------+-----------------------------------------------+------------+--------+ 
+//      | Name           | Representation                                | Enumerator | Values |
+//      +----------------+-----------------------------------------------+------------+--------+
+namespace ColorEnum16    {PROTOX_ENUM_TYPE( HLAinteger16BE, enumerated );
+//      +----------------+-----------------------------------------------+------------+--------+
+                                                        PROTOX_ENUM_VALUE( Red,         1 );
+//                                                                       +------------+--------+
+                                                        PROTOX_ENUM_VALUE( Green,       2 );
+//                                                                       +------------+--------+
+                                                        PROTOX_ENUM_VALUE( Blue,        3 );
+//                                                                       +------------+--------+
+                                                        PROTOX_ENUM_VALUE( Yellow,      4 );
+//      +----------------+-----------------------------------------------+------------+--------+
 
   PROTOX_ENUM_EQUALITY_OPERATOR;
   PROTOX_ENUM_DEFAULT( Blue );
+
 }}
 
 #endif
