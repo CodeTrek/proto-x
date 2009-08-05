@@ -7,8 +7,8 @@
 
 /******************************************************************************/
 
-#ifndef SOMS_YYABC_R1_RECORD_HPP
-#define SOMS_YYABC_R1_RECORD_HPP
+#ifndef SOM_S012_R1_RECORD_HPP
+#define SOM_S012_R1_RECORD_HPP
 
 /******************************************************************************/
 
@@ -16,11 +16,11 @@
 
 #include <protox/hla_1516/fixed_record.hpp>
 
-#include <test/protox/hla/som/yyabc/simple_datatype_table.hpp>
+#include <test/protox/hla/som/s012/simple_datatype_table.hpp>
 
 /******************************************************************************/
 
-namespace soms { namespace yyabc {
+namespace som_s012 {
 
 /******************************************************************************/
 
@@ -47,7 +47,7 @@ namespace R1             {
 
 /******************************************************************************/
 
-}}
+}
 
 /******************************************************************************/
 

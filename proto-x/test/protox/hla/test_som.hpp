@@ -25,10 +25,10 @@
 #include <protox/hla/som.hpp>
 
 #include <test/protox/hla/som/boccerball/obj_class_table.hpp>
-#include <test/protox/hla/som/abc/obj_class_table.hpp>
+#include <test/protox/hla/som/s010/obj_class_table.hpp>
 
-#include <test/protox/hla/som/abc_populated/obj_class_table.hpp>
-#include <test/protox/hla/som/abc_populated/inter_class_table.hpp>
+#include <test/protox/hla/som/s011/obj_class_table.hpp>
+#include <test/protox/hla/som/s011/inter_class_table.hpp>
 
 #include <test/protox/hla/som/restaurant/inter_class_table.hpp>
 #include <test/protox/hla/som/restaurant/obj_class_table.hpp>
@@ -77,8 +77,9 @@ BOOST_AUTO_TEST_CASE( test_som_init_class_handles )
 {
   using namespace boost;
   using namespace protox;
+  using namespace som_s010;
 
-  typedef hla::som< som::abc::obj_class_table > som;
+  typedef hla::som< obj_class_table > som;
 
   RTI::RTIambassador rtiAmb;
 
@@ -117,8 +118,9 @@ BOOST_AUTO_TEST_CASE( test_som_init_attr_handles )
 {
   using namespace boost;
   using namespace protox;
+  using namespace som_s011;
 
-  typedef hla::som< som::abc_populated::obj_class_table > som;
+  typedef hla::som< obj_class_table > som;
 
   RTI::RTIambassador rtiAmb;
   rtiAmb.o_class_to_handle_map["Class_A"] = 1;
@@ -152,8 +154,9 @@ BOOST_AUTO_TEST_CASE( test_som_init_param_handles )
 {
   using namespace boost;
   using namespace protox;
+  using namespace som_s011;
 
-  typedef hla::som< hla::null_o_class, som::abc_populated::inter_class_table > som;
+  typedef hla::som< hla::null_o_class, inter_class_table > som;
 
   RTI::RTIambassador rtiAmb;
   rtiAmb.i_class_to_handle_map["IClass_A"] = 1;
@@ -239,7 +242,7 @@ BOOST_AUTO_TEST_CASE( test_som_init_handles )
 
 /**************************************************************************************************/
 
-} // namespace test_protox_hla_o_class
+}
 
 /**************************************************************************************************/
 

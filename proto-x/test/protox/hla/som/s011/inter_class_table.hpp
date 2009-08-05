@@ -7,63 +7,63 @@
 
 /******************************************************************************/
 
-#ifndef SOM_ABC_OBJ_CLASS_TABLE_HPP
-#define SOM_ABC_OBJ_CLASS_TABLE_HPP
+#ifndef SOM_S011_INTER_CLASS_TABLE_HPP
+#define SOM_S011_INTER_CLASS_TABLE_HPP
 
 /******************************************************************************/
 
-#include <protox/hla/o_class.hpp>
+#include <protox/hla/i_class.hpp>
 #include <protox/hla/keywords.hpp>
 
-#include <test/protox/hla/som/abc/attribute_table.hpp>
+#include <test/protox/hla/som/s011/parameter_table.hpp>
 
 /******************************************************************************/
 
-namespace som { namespace abc {
+namespace som_s011 {
 
 /******************************************************************************/
 
 using namespace protox::hla;
 
-//// Object Class Table ////////////////////////////////////////////////////////
-  struct obj_class_table :
-// +-------------------+--------------------------+-------------------------------+
-// | Class 1           | Class 2                  | Class 3                       |
-// +-------------------+--------------------------+-------------------------------+
-     o_class< Class_A,
-              none,
+// +-------------------+-------------------------+--------------------------------+
+// | Class 1           | Class 2                 | Class 3                        |
+// +-------------------+-------------------------+--------------------------------+
+  struct inter_class_table :
+// +-------------------+
+     i_class< IClass_A,
+     params< pa1, pa2 >,
 //                     +-------------------------+
-                         child< o_class< Class_B,
-                                         none,
+                         child< i_class< IClass_B,
+                         params< pb1 >,
 //                                               +--------------------------------+
-                                                   child< o_class< Class_E >,
+                                                   child< i_class< IClass_E >,
 //                                               +--------------------------------+
-                                                          o_class< Class_F >,
+                                                          i_class< IClass_F >,
 //                                               +--------------------------------+
-                                                          o_class< Class_C > > >,
+                                                          i_class< IClass_C > > >,
 //                                               +--------------------------------+
 //                     +-------------------------+
-                               o_class< Class_C,
+                               i_class< IClass_C,
                                         none,
 //                                               +--------------------------------+
-                                                   child< o_class< Class_A >,
+                                                   child< i_class< IClass_A >,
 //                                               +--------------------------------+
-                                                          o_class< Class_C > > >,
+                                                          i_class< IClass_C > > >,
 //                                               +--------------------------------+
 //                     +-------------------------+
-                               o_class< Class_D,
+                               i_class< IClass_D,
                                         none,
 //                                               +--------------------------------+
-                                                   child< o_class< Class_G >,
+                                                   child< i_class< IClass_G, params< pg1, pg2 > >,
 //                                               +--------------------------------+
-                                                          o_class< Class_H > > > > > {};
+                                                          i_class< IClass_H > > > > > {};
 //                                               +--------------------------------+
 //                     +-------------------------+
 // +-------------------+
 
 /******************************************************************************/
 
-}}
+}
 
 /******************************************************************************/
 

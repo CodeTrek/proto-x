@@ -7,19 +7,19 @@
 
 /******************************************************************************/
 
-#ifndef SOMS_YYABC_OBJ_CLASS_TABLE_HPP
-#define SOMS_YYABC_OBJ_CLASS_TABLE_HPP
+#ifndef SOM_S012_OBJ_CLASS_TABLE_HPP
+#define SOM_S012_OBJ_CLASS_TABLE_HPP
 
 /******************************************************************************/
 
 #include <protox/hla/o_class.hpp>
 #include <protox/hla/keywords.hpp>
 
-#include <test/protox/hla/som/yyabc/attribute_table.hpp>
+#include <test/protox/hla/som/s012/attribute_table.hpp>
 
 /******************************************************************************/
 
-namespace soms { namespace yyabc {
+namespace som_s012 {
 
 /******************************************************************************/
 
@@ -54,7 +54,7 @@ struct o_class_table :
 
 /******************************************************************************/
 
-}}
+}
 
 /******************************************************************************/
 

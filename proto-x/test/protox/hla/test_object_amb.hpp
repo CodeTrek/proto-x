@@ -32,7 +32,7 @@
 
 #include <protox/hla/object_amb.hpp>
 
-#include <test/protox/hla/som/yyabc/obj_class_table.hpp>
+#include <test/protox/hla/som/s012/obj_class_table.hpp>
 
 /******************************************************************************/
 
@@ -50,7 +50,7 @@ using namespace protox::hla_1516;
 
 BOOST_AUTO_TEST_CASE( test_discover_object )
 {
-  using namespace soms::yyabc;
+  using namespace som_s012;
 
   typedef protox::hla::som< o_class_table > som;
 
@@ -109,7 +109,7 @@ BOOST_AUTO_TEST_CASE( test_discover_object )
 
 BOOST_AUTO_TEST_CASE( test_reflect_object )
 {
-  using namespace soms::yyabc;
+  using namespace som_s012;
 
   typedef protox::hla::som< o_class_table > som;
 
@@ -177,7 +177,7 @@ BOOST_AUTO_TEST_CASE( test_reflect_object )
 
 /******************************************************************************/
 
-} // test_protox_hla_o_class_type
+}
 
 /******************************************************************************/
 

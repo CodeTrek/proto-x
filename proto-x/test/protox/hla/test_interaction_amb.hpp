@@ -29,79 +29,19 @@
 #include <protox/dtl/simple.hpp>
 #include <protox/hla_1516/basic_data_representation_table.hpp>
 
+#include <test/protox/hla/som/s009/inter_class_table.hpp>
+
 /******************************************************************************/
 
 namespace test_protox_hla_interaction_amb {
 
 /******************************************************************************/
 
-using namespace protox::hla;
-using namespace protox::dtl;
-using namespace protox::hla_1516;
-
-/******************************************************************************/
-
 namespace t1
 {
-  struct simple_int : simple<HLAinteger16BE> {PROTOX_SIMPLE(simple_int)}; 
-  struct simple_float : simple<HLAfloat32BE> {PROTOX_SIMPLE(simple_float)}; 
+  using namespace som_s009;
 
-  // Class names 
-  struct Class_A { HLA_NAME("Class_A") };
-  struct Class_B { HLA_NAME("Class_B") };
-  struct Class_C { HLA_NAME("Class_C") };
-  struct Class_D { HLA_NAME("Class_D") };
-  struct Class_E { HLA_NAME("Class_E") };
-  struct Class_F { HLA_NAME("Class_F") };
-  struct Class_G { HLA_NAME("Class_G") };
-  struct Class_H { HLA_NAME("Class_H") };
-
-  // Parameter names
-  struct A1 : protox::hla::param< simple_int > { HLA_NAME("A1") };
-  struct A2 : protox::hla::param< simple_int > { HLA_NAME("A2") };
-  struct A3 : protox::hla::param< simple_float > { HLA_NAME("A3") };
-
-  // Structure
-  struct i_class_table : 
-// +------------------+
-    i_class< Class_A,
-      params< A3 >,
-//                    +-------------------------+
-                        child< i_class< Class_B,
-                          params< A1, A2 >,
-//                                              +--------------------------+
-                                                  child< i_class< Class_E >,
-//                                              +--------------------------+
-                                                         i_class< Class_F >,
-//                                              +--------------------------+
-                                                         i_class< Class_C > > >,
-//                                              +--------------------------+
-//                    +-------------------------+
-                        i_class< Class_C,
-                          params< A1, A2 >,
-//                                              +--------------------------+
-                                                  child< i_class< Class_A,
-                                                    none,
-//                                                                         +-------------------------+
-                                                                             child< i_class< Class_E > > >,
-//                                                                         +-------------------------+
-//                                              +--------------------------+
-                                                         i_class< Class_C >,
-//                                              +--------------------------+
-                                                         i_class< Class_E > > >,
-//                                              +--------------------------+
-//                    +-------------------------+
-                        i_class< Class_D,
-                          params< A1, A2 >,
-//                                              +--------------------------+
-                                                  child< i_class< Class_G >,
-//                                              +--------------------------+
-                                                         i_class< Class_H > > > > > {};
-//                                              +--------------------------+
-//                    +-------------------------+
-// +------------------+
-
-  typedef protox::hla::som< null_o_class, i_class_table > som;
+  typedef protox::hla::som< null_o_class, inter_class_table > som;
 
   typedef i_class_type< som, q_name< Class_C, Class_A, Class_E > >::type i1_t;
   typedef i_class_type< som, q_name< Class_D, Class_H > >::type i2_t;
@@ -127,8 +67,8 @@ namespace t1
 /******************************************************************************/
 
 using namespace boost;
-using namespace t1;
 using namespace protox;
+using namespace t1;
 
 /******************************************************************************/
 

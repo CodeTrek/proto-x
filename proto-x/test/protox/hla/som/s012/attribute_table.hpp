@@ -7,8 +7,8 @@
 
 /******************************************************************************/
 
-#ifndef SOMS_YYABC_ATTRIBUTE_TABLE_HPP
-#define SOMS_YYABC_ATTRIBUTE_TABLE_HPP
+#ifndef SOM_S012_ATTRIBUTE_TABLE_HPP
+#define SOM_S012_ATTRIBUTE_TABLE_HPP
 
 /******************************************************************************/
 
@@ -16,12 +16,12 @@
 #include <protox/hla/keywords.hpp>
 #include <protox/hla/name.hpp>
 
-#include <test/protox/hla/som/yyabc/simple_datatype_table.hpp>
-#include <test/protox/hla/som/yyabc/r1_record.hpp>
+#include <test/protox/hla/som/s012/simple_datatype_table.hpp>
+#include <test/protox/hla/som/s012/r1_record.hpp>
 
 /******************************************************************************/
 
-namespace soms { namespace yyabc {
+namespace som_s012 {
 
 /******************************************************************************/
 
@@ -62,7 +62,7 @@ struct Class_G {HLA_NAME( "Class_G" )};
 struct Class_H {HLA_NAME( "Class_H" )};
 //   +--------------------------------+
 
-}}
+}
 
 /******************************************************************************/
 

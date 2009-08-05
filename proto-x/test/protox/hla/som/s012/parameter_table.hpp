@@ -7,35 +7,31 @@
 
 /******************************************************************************/
 
-#ifndef SOM_ABC_ATTRIBUTE_TABLE_HPP
-#define SOM_ABC_ATTRIBUTE_TABLE_HPP
+#ifndef SOMS_S012_PARAMETER_TABLE_HPP
+#define SOMS_S012_PARAMETER_TABLE_HPP
 
 /******************************************************************************/
 
-#include <protox/hla/attr.hpp>
+#include <protox/hla/param.hpp>
 #include <protox/hla/keywords.hpp>
 #include <protox/hla/name.hpp>
 
 /******************************************************************************/
 
-namespace som { namespace abc {
+namespace som_s012 {
 
 /******************************************************************************/
 
-////// Attribute Table /////////////////////////////////////////////////////////
-//     +----------- --------------------+
-//     | Name                           |
-//     +--------------------------------+
-  struct Class_A {HLA_NAME( "Class_A" )};
-  struct Class_B {HLA_NAME( "Class_B" )};
-  struct Class_C {HLA_NAME( "Class_C" )};
-  struct Class_D {HLA_NAME( "Class_D" )};
-  struct Class_E {HLA_NAME( "Class_E" )};
-  struct Class_F {HLA_NAME( "Class_F" )};
-  struct Class_G {HLA_NAME( "Class_G" )};
-  struct Class_H {HLA_NAME( "Class_H" )};
+using namespace protox::hla;
 
-}}
+/******************************************************************************/
+
+////// Parameter Table /////////////////////////////////////////////////////////
+//     +------------------------------+-----------+-----------------+-----------------+
+//     | Name                         | Attribute | Datatype        | String Name     |
+//     +------------------------------+-----------+-----------------+-----------------+
+
+}
 
 /******************************************************************************/
 

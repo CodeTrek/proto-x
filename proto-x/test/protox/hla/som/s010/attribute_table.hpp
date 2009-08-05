@@ -7,31 +7,35 @@
 
 /******************************************************************************/
 
-#ifndef SOMS_YYABC_INTER_CLASS_TABLE_HPP
-#define SOMS_YYABC_INTER_CLASS_TABLE_HPP
+#ifndef SOM_S010_ATTRIBUTE_TABLE_HPP
+#define SOM_S010_ATTRIBUTE_TABLE_HPP
 
 /******************************************************************************/
 
-#include <protox/hla/i_class.hpp>
+#include <protox/hla/attr.hpp>
 #include <protox/hla/keywords.hpp>
-
-#include <test/protox/hla/som/yyabc/parameter_table.hpp>
-
-/******************************************************************************/
-
-namespace soms { namespace yyabc {
+#include <protox/hla/name.hpp>
 
 /******************************************************************************/
 
-using namespace protox::hla;
-
-// +-------------------+-------------------------+--------------------------------+
-// | Class 1           | Class 2                 | Class 3                        |
-// +-------------------+-------------------------+--------------------------------+
+namespace som_s010 {
 
 /******************************************************************************/
 
-}}
+////// Attribute Table /////////////////////////////////////////////////////////
+//     +----------- --------------------+
+//     | Name                           |
+//     +--------------------------------+
+  struct Class_A {HLA_NAME( "Class_A" )};
+  struct Class_B {HLA_NAME( "Class_B" )};
+  struct Class_C {HLA_NAME( "Class_C" )};
+  struct Class_D {HLA_NAME( "Class_D" )};
+  struct Class_E {HLA_NAME( "Class_E" )};
+  struct Class_F {HLA_NAME( "Class_F" )};
+  struct Class_G {HLA_NAME( "Class_G" )};
+  struct Class_H {HLA_NAME( "Class_H" )};
+
+}
 
 /******************************************************************************/
 
