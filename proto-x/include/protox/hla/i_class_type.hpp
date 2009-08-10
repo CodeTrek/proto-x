@@ -140,8 +140,7 @@ struct i_class_type
 
       void recv( const RTI::ParameterHandleValuePairSet &params )
       {
-        // TODO: implement
-        //assert( false ); // TODO: implement
+        params_type::recv_values( params ); 
       }
   };
 };

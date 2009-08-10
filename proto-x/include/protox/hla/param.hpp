@@ -20,6 +20,7 @@
 #include <boost/mpl/empty_base.hpp>
 
 #include <protox/io/byte_data_sink.hpp>
+#include <protox/io/byte_data_source.hpp>
 
 /******************************************************************************/
 
@@ -57,6 +58,27 @@ protected:
                   sink.getDataBuffer(),
                   (unsigned long) sink.getDataBufferSize() );
   }
+  
+  void recv_value( const RTI::ParameterHandleValuePairSet ph_set )
+  {
+    for( RTI::ULong i = ph_set.start();
+         ph_set.valid( i );
+         i = ph_set.next( i ) )
+    {
+      const RTI::Handle h = ph_set.getHandle( i );
+      
+      if( handle == h )
+      {
+        RTI::ULong length = 0;
+        char *buff = ph_set.getValuePointer( i, length );
+        
+        protox::io::byte_data_source source( buff, length );
+        source.decode( value );
+        
+        break;
+      }
+    }
+  }
 };
 
 /******************************************************************************/
@@ -84,9 +106,15 @@ protected:
     A::template init_handle< T >( class_name );
   }
 
-  void add_values(boost::shared_ptr< RTI::ParameterHandleValuePairSet> set_ptr )
+  void add_values
+    ( boost::shared_ptr< RTI::ParameterHandleValuePairSet> set_ptr )
   {
     A::add_value( set_ptr );
+  }
+  
+  void recv_values( const RTI::ParameterHandleValuePairSet &ph_set )
+  {
+    A::recv_value( ph_set );
   }
 };
 
@@ -111,6 +139,12 @@ protected:
   {
     A::add_value( set_ptr );
     B::add_values( set_ptr );
+  }
+  
+  void recv_values( const RTI::ParameterHandleValuePairSet ph_set )
+  {
+    A::recv_value( ph_set );
+    B::recv_values( ph_set );
   }
 
 public:

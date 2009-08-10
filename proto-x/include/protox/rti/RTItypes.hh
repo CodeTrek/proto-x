@@ -424,36 +424,66 @@ class RTI_EXPORT ParameterHandleValuePairSet {
 // Symmetrically, for instances of HandleValuePairSet provided by the Federate
 // to the RTI, the memory used to store attribute/parameter values is valid for
 // use by the RTI only within the scope of the Update Attribute Values or Send
-// Interaction service invocation.  
+// Interaction service invocation.
+private:
+  struct pair
+  {
+    Handle handle;
+    std::vector< char > value;
+  };
+
+  std::vector< pair > hv_set;
+
 public:
   ParameterHandleValuePairSet(ULong count) {}
 
   virtual ~ParameterHandleValuePairSet() { ; }
 
-  virtual ULong size() const { return 0; }
+  virtual ULong size() const
+  {
+    return( (ULong) hv_set.size() );
+  }
   
   virtual Handle getHandle(
     ULong i) const
     throw (
-      ArrayIndexOutOfBounds) { return 0; }
+      ArrayIndexOutOfBounds)
+  {
+    return hv_set[ i ].handle;
+  }
   
   virtual ULong getValueLength(
     ULong i) const
     throw (
-      ArrayIndexOutOfBounds) { return 0; }
+      ArrayIndexOutOfBounds)
+  {
+    return( (ULong) hv_set[ i ].value.size() );
+  }
   
   virtual void getValue(
     ULong i,
     char*      buff,
     ULong&     valueLength) const
     throw (
-      ArrayIndexOutOfBounds) {}
+      ArrayIndexOutOfBounds)
+  {
+    for( ULong it = 0; it < valueLength; ++it )
+    {
+      buff[ it ] = hv_set[ i ].value[ it ];
+    }
+  }
   
   virtual char *getValuePointer(
     ULong i,
     ULong&     valueLength) const
     throw (
-      ArrayIndexOutOfBounds) { return 0; }
+      ArrayIndexOutOfBounds)
+  {
+    valueLength = (ULong) hv_set[ i ].value.size();
+    char *buf = (char *) &hv_set[ i ].value[0];
+
+    return buf;
+  }
   
   virtual TransportType getTransportType(void) const
     throw ( InvalidHandleValuePairSetContext) { return (TransportType) 0; }
@@ -470,7 +500,18 @@ public:
     ULong       valueLength)
     throw (
       ValueLengthExceeded,
-      ValueCountExceeded) {}
+      ValueCountExceeded)
+  {
+    pair new_pair;
+    new_pair.handle = h;
+
+    for( unsigned i = 0; i < valueLength; ++i )
+    {
+      new_pair.value.push_back( buff[ i ] );
+    }
+
+    hv_set.push_back( new_pair );
+  }
   
   virtual void remove(		// not guaranteed safe while iterating
     Handle      h)
@@ -487,8 +528,8 @@ public:
   virtual void empty() {} // Empty the Set without deallocating space.
 
   virtual ULong start() const { return 0; }
-  virtual ULong valid(ULong i) const { return 0; }
-  virtual ULong next(ULong i) const { return 0; }
+  virtual ULong valid(ULong i) const { return (ULong) (i < hv_set.size()); } 
+  virtual ULong next(ULong i) const { return i + 1; }
 };
 
 class RTI_EXPORT ParameterSetFactory {
