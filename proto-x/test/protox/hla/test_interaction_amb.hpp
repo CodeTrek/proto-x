@@ -49,12 +49,15 @@ namespace t1
 
   void i1_handler( const i1_t &interaction, const RTI::FedTime *, const char * )
   {
-    std::cout << "i1_handler " << interaction.p_< A3 >() << "\n";;
+    std::cout << "i1_handler A1 = " << interaction.p_< A1 >() << "\n";;
+    std::cout << "i1_handler A2 = " << interaction.p_< A2 >() << "\n";;
+    std::cout << "i1_handler A3 = " << interaction.p_< A3 >() << "\n";;
   }
 
   void i2_handler( const i2_t &interaction, const RTI::FedTime *, const char * )
   {
-    std::cout << "i2_handler " << interaction.p_< A1 >() << "\n";;
+    std::cout << "i2_handler A1 = " << interaction.p_< A1 >() << "\n";;
+    std::cout << "i2_handler A2 = " << interaction.p_< A2 >() << "\n";;
   }
 
   void i3_handler( const i3_t &interaction, const RTI::FedTime *, const char * )
@@ -74,6 +77,8 @@ using namespace t1;
 
 BOOST_AUTO_TEST_CASE( test_interaction_amb_recv )
 {
+  using namespace som_s009;
+  
   RTI::RTIambassador rtiAmb;  
   
   rtiAmb.i_class_to_handle_map["Class_A"] = 1;
@@ -89,6 +94,10 @@ BOOST_AUTO_TEST_CASE( test_interaction_amb_recv )
   rtiAmb.i_class_to_handle_map["Class_A.Class_D"] = 9;
   rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_G"] = 10;
   rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
+  
+  const int V1 = 2552;
+  const float V2 = 3.14156f;
+  const float E = 0.000001f;
 
   som::init_handles(rtiAmb);
 
@@ -99,11 +108,46 @@ BOOST_AUTO_TEST_CASE( test_interaction_amb_recv )
   inter_amb.set_handler< i3_t >( i3_handler );
 
   boost::shared_ptr< RTI::ParameterHandleValuePairSet >
-     param_set( RTI::ParameterSetFactory::create( 2 ) );
+    ph_set1( RTI::ParameterSetFactory::create( 2 ) );
 
-  inter_amb.recv_interaction( 12, *param_set, 0, 0 );
-  inter_amb.recv_interaction( 11, *param_set, 0, 0 );
-  inter_amb.recv_interaction(  2, *param_set, 0, 0 );
+  // Encode some values and add them to n attribute handle value pair set.
+  simple_int v1 = 2552;
+
+  protox::io::byte_data_sink sink;
+  sink.encode( v1 );
+
+  ph_set1->add( i1_t().get_param_handle< A1 >(),
+               sink.getDataBuffer(),
+               (RTI::ULong) sink.getDataBufferSize() );
+
+  sink.clear();
+  simple_float v2 = V2;
+  sink.encode( v2 );
+
+  ph_set1->add( i1_t().get_param_handle< A2 >(),
+               sink.getDataBuffer(),
+               (RTI::ULong) sink.getDataBufferSize() );
+               
+  boost::shared_ptr< RTI::ParameterHandleValuePairSet >
+    ph_set2( RTI::ParameterSetFactory::create( 2 ) );
+    
+  sink.clear();
+  sink.encode( (simple_int) 1024 );
+  
+  ph_set2->add( i2_t().get_param_handle< A1 >(),
+               sink.getDataBuffer(),
+               (RTI::ULong) sink.getDataBufferSize() );
+               
+  sink.clear();
+  sink.encode( v2 );
+  
+  ph_set2->add( i2_t().get_param_handle< A2 >(),
+               sink.getDataBuffer(),
+               (RTI::ULong) sink.getDataBufferSize() );
+               
+  inter_amb.recv_interaction( 12, *ph_set1, 0, 0 );
+  inter_amb.recv_interaction( 11, *ph_set2, 0, 0 );
+  inter_amb.recv_interaction(  2, *ph_set1, 0, 0 );
 }
 
 /******************************************************************************/
