@@ -12,6 +12,8 @@
 
 /******************************************************************************/
 
+#include <math.h>
+
 #include <RTI.hh>
 
 #include <boost/mpl/vector.hpp>
@@ -46,23 +48,40 @@ namespace t1
   typedef i_class_type< som, q_name< Class_C, Class_A, Class_E > >::type i1_t;
   typedef i_class_type< som, q_name< Class_D, Class_H > >::type i2_t;
   typedef i_class_type< som, q_name< Class_B > >::type i3_t;
+  
+  const int V1 = 2552;
+  const float V2 = 3.14156f;
+  const float V3 = 0.12345f;
+  const float E = 0.000001f;
+  
+  bool i1_handler_called = false;
+  bool i2_handler_called = false;
+  bool i3_handler_called = false;
 
   void i1_handler( const i1_t &interaction, const RTI::FedTime *, const char * )
   {
-    std::cout << "i1_handler A1 = " << interaction.p_< A1 >() << "\n";;
-    std::cout << "i1_handler A2 = " << interaction.p_< A2 >() << "\n";;
-    std::cout << "i1_handler A3 = " << interaction.p_< A3 >() << "\n";;
+    i1_handler_called = true;
+  
+    BOOST_CHECK( (interaction.p_< A1 >() - V1) == 0    ); 
+    BOOST_CHECK( (interaction.p_< A2 >() - V2) <= E    ); 
+    BOOST_CHECK( interaction.p_< A3 >()        == 0.0f ); 
   }
 
   void i2_handler( const i2_t &interaction, const RTI::FedTime *, const char * )
   {
-    std::cout << "i2_handler A1 = " << interaction.p_< A1 >() << "\n";;
-    std::cout << "i2_handler A2 = " << interaction.p_< A2 >() << "\n";;
+    i2_handler_called = true;
+    
+    BOOST_CHECK( (interaction.p_< A1 >() - V1) == 0 ); 
+    BOOST_CHECK( (interaction.p_< A2 >() - V2) <= E ); 
   }
 
   void i3_handler( const i3_t &interaction, const RTI::FedTime *, const char * )
   {
-    std::cout << "i3_handler " << interaction.p_< A2 >() << "\n";;
+    i3_handler_called = true;
+    
+    BOOST_CHECK( (interaction.p_< A1 >() - V1) == 0 ); 
+    BOOST_CHECK( (interaction.p_< A2 >() - V2) <= E ); 
+    BOOST_CHECK( (interaction.p_< A3 >() - V3) <= E ); 
   }
 
 } // t1
@@ -95,9 +114,6 @@ BOOST_AUTO_TEST_CASE( test_interaction_amb_recv )
   rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_G"] = 10;
   rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
   
-  const int V1 = 2552;
-  const float V2 = 3.14156f;
-  const float E = 0.000001f;
 
   som::init_handles(rtiAmb);
 
@@ -132,7 +148,7 @@ BOOST_AUTO_TEST_CASE( test_interaction_amb_recv )
     ph_set2( RTI::ParameterSetFactory::create( 2 ) );
     
   sink.clear();
-  sink.encode( (simple_int) 1024 );
+  sink.encode( v1 );
   
   ph_set2->add( i2_t().get_param_handle< A1 >(),
                sink.getDataBuffer(),
@@ -145,14 +161,44 @@ BOOST_AUTO_TEST_CASE( test_interaction_amb_recv )
                sink.getDataBuffer(),
                (RTI::ULong) sink.getDataBufferSize() );
                
+  boost::shared_ptr< RTI::ParameterHandleValuePairSet >
+    ph_set3( RTI::ParameterSetFactory::create( 3 ) );
+    
+  sink.clear();
+  sink.encode( v1 );
+  
+  ph_set3->add( i3_t().get_param_handle< A1 >(),
+               sink.getDataBuffer(),
+               (RTI::ULong) sink.getDataBufferSize() );
+               
+  sink.clear();
+  sink.encode( v2 );
+  
+  ph_set3->add( i3_t().get_param_handle< A2 >(),
+               sink.getDataBuffer(),
+               (RTI::ULong) sink.getDataBufferSize() );
+               
+  simple_float v3 = V3;
+               
+  sink.clear();
+  sink.encode( v3 );
+  
+  ph_set3->add( i3_t().get_param_handle< A3 >(),
+               sink.getDataBuffer(),
+               (RTI::ULong) sink.getDataBufferSize() );
+               
   inter_amb.recv_interaction( 12, *ph_set1, 0, 0 );
   inter_amb.recv_interaction( 11, *ph_set2, 0, 0 );
-  inter_amb.recv_interaction(  2, *ph_set1, 0, 0 );
+  inter_amb.recv_interaction(  2, *ph_set3, 0, 0 );
+  
+  BOOST_CHECK( i1_handler_called );
+  BOOST_CHECK( i2_handler_called );
+  BOOST_CHECK( i3_handler_called );
 }
 
 /******************************************************************************/
 
-} // test_protox_hla_i_class_type
+}
 
 /******************************************************************************/
 
