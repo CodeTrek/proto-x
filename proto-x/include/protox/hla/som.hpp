@@ -14,6 +14,7 @@
 
 #include <RTI.hh>
 
+#include <assert.h>
 #include <string>
 #include <iostream>
 

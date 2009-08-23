@@ -59,7 +59,7 @@ protected:
                   (unsigned long) sink.getDataBufferSize() );
   }
   
-  void recv_value( const RTI::ParameterHandleValuePairSet ph_set )
+  void recv_value( const RTI::ParameterHandleValuePairSet &ph_set )
   {
     for( RTI::ULong i = ph_set.start();
          ph_set.valid( i );
@@ -141,7 +141,7 @@ protected:
     B::add_values( set_ptr );
   }
   
-  void recv_values( const RTI::ParameterHandleValuePairSet ph_set )
+  void recv_values( const RTI::ParameterHandleValuePairSet &ph_set )
   {
     A::recv_value( ph_set );
     B::recv_values( ph_set );
