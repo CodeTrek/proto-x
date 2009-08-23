@@ -136,6 +136,8 @@ struct i_class_type
         boost::shared_ptr< RTI::ParameterHandleValuePairSet > set_ptr( set );
 
         params_type::add_values( set_ptr );
+
+        rti_amb->sendInteraction( type::get_handle(), *set_ptr, "" );
       }
 
       void recv( const RTI::ParameterHandleValuePairSet &params )

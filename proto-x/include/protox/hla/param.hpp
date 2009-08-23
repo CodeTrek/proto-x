@@ -116,6 +116,25 @@ protected:
   {
     A::recv_value( ph_set );
   }
+
+public:
+  template< typename T >
+  inline typename T::value_type const &p_() const
+  {
+    return( static_cast< param_base< T > const & >( *this ).value );
+  }
+
+  template< typename T >
+  inline typename T::value_type &p_()
+  {
+    return( static_cast< param_base< T > & >( *this ).value );
+  }
+  
+  template< typename T >
+  inline RTI::ParameterHandle get_param_handle()
+  {
+    return( static_cast< param_base< T > & >( *this ).handle );
+  }
 };
 
 /******************************************************************************/

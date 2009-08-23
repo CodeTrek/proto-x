@@ -374,7 +374,7 @@ throw (
   ConcurrentAccessAttempted,
   SaveInProgress,
   RestoreInProgress,
-  RTIinternalError);
+  RTIinternalError) {}
 
 void sendInteraction (
         InteractionClassHandle       theInteraction, // supplied C1
@@ -388,7 +388,7 @@ throw (
   ConcurrentAccessAttempted,
   SaveInProgress,
   RestoreInProgress,
-  RTIinternalError);
+  RTIinternalError) {}
 
 // 6.8
 EventRetractionHandle                 // returned C3
