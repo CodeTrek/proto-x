@@ -1,0 +1,31 @@
+(FED
+  (Federation hw_federation)
+
+  (FEDversion v1.3)
+
+  (spaces)
+
+  (objects 
+    (class ObjectRoot
+      (attribute privilegeToDelete  reliable timestamp)
+      (class RTIprivate)
+      (class HLAobjectRoot
+        (attribute HLAprivilegeToDeleteObject best_effort timestamp)
+      )
+    )
+  )
+
+  (interactions 
+    (class InteractionRoot  reliable timestamp
+      (class RTIprivate  reliable timestamp)
+      (class HLAinteractionRoot best_effort receive
+        (class Greeting best_effort receive
+          (parameter message)
+        )
+        (class Response best_effort receive
+          (parameter message)
+        )
+      )
+    )
+  )
+)
