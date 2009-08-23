@@ -29,6 +29,7 @@ using namespace protox::hla;
 // | Class 1          |
 // +------------------+
    i_class< Greeting,   params< Greeting::message > >,
+// +------------------+
    i_class< Response,   params< Response::message > > > > {}; 
 // +------------------+
 
