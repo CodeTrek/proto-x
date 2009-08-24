@@ -49,11 +49,9 @@ int main( int argc, char *argv[] )
   std::cout << "param handle = " << greeter.get_param_handle< Greeting::message >() << "\n";
 
   const std::string hw("Hello, world");
-  for( unsigned i = 0; i < hw.length(); ++i )
-  {
-    const char c = hw.c_str()[ i ];
-    greeter.p_< Greeting::message >().push_back( hw.c_str()[ i ] );
-  }
+
+  typedef std::vector< ASCIIchar > str_type;
+  (str_type &) greeter.p_<Greeting::message >() = str_type( hw.begin(), hw.end() ); 
 
   greeter.send();
 
