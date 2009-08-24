@@ -1,10 +1,18 @@
 #include <iostream>
+#include <string>
 
 #include <protox/hla/i_class_type.hpp>
 
 #include "hw_fed_amb.hpp"
 
 #include "hw_som.hpp"
+
+static void wait_for_user()
+{
+	std::cout << " >>>>>>>>>> Press Enter to Continue <<<<<<<<<<\n";
+	std::string line;
+	std::getline( std::cin, line );
+}
 
 int main( int argc, char *argv[] )
 {
@@ -19,6 +27,7 @@ int main( int argc, char *argv[] )
 
   RTI::RTIambassador rti_amb;
 
+  // Create federation
 	try
 	{
 		rti_amb.createFederationExecution( "hw_federation", "hello_world.fed" );
@@ -29,13 +38,35 @@ int main( int argc, char *argv[] )
     std::cout << "Federation already exists.\n";
 	}
 
+  // Join federation
   hw_fed_amb fed_amb;
 	rti_amb.joinFederationExecution( fed_name, "hw_federation", &fed_amb );
   std::cout << "Federation joined.\n";
 
+  // Initialize handles
   hw_som::init_handles( rti_amb );
   std::cout << "Handles initialized.\n";
+ 
+  // Register sync point 
+	const char *READY_TO_RUN = "ReadyToRun";
+	rti_amb.registerFederationSynchronizationPoint( READY_TO_RUN, "" );
+	
+	while( fed_amb.is_announced == false )
+	{
+		rti_amb.tick();
+	}
 
+  // Wait for user (i.e., let other federates join before moving on)
+  wait_for_user();
+
+  // Announce sync point achieved
+  rti_amb.synchronizationPointAchieved( READY_TO_RUN );
+	while( fed_amb.is_ready_to_run == false )
+	{
+		rti_amb.tick();
+	}
+
+  // Publish/subscribe
   typedef i_class_type< hw_som, q_name< Greeting > >::type greeting_type;
 
   greeting_type::publish( rti_amb );
@@ -43,8 +74,8 @@ int main( int argc, char *argv[] )
 
   greeting_type greeter( rti_amb );
 
-  std::cout << "name = " << greeting_type::get_name() << "\n";
-  std::cout << "hanlde = " << greeting_type::get_handle() << "\n";
+  std::cout << "class name = " << greeting_type::get_name() << "\n";
+  std::cout << "class handle = " << greeting_type::get_handle() << "\n";
   std::cout << "num params = " << greeting_type::get_num_parameters() << "\n";
   std::cout << "param handle = " << greeter.get_param_handle< Greeting::message >() << "\n";
 
