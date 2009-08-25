@@ -14,6 +14,51 @@ static void wait_for_user()
 	std::getline( std::cin, line );
 }
 
+static void advance_time( double timestep,
+                          RTI::RTIambassador &rti_amb,
+                          hw_fed_amb &fed_amb )
+{
+	// request the advance
+	fed_amb.is_advancing = true;
+	const RTIfedTime new_time = (fed_amb.fed_time + timestep);
+	rti_amb.timeAdvanceRequest( new_time );
+
+	// wait for the time advance to be granted. ticking will tell the
+	// LRC to start delivering callbacks to the federate
+	while( fed_amb.is_advancing )
+	{
+		rti_amb.tick();
+	}
+}
+
+static void enable_time_policy( RTI::RTIambassador &rti_amb,
+                                const hw_fed_amb &fed_amb )
+{
+	////////////////////////////
+	// enable time regulation //
+	////////////////////////////
+	const RTIfedTime fed_time = fed_amb.fed_time;
+	const RTIfedTime lookahead = fed_amb.fed_lookahead_time;
+	rti_amb.enableTimeRegulation( fed_time, lookahead );
+
+	// tick until we get the callback
+	while( fed_amb.is_regulating == false )
+	{
+    rti_amb.tick();
+	}
+
+	/////////////////////////////
+	// enable time constrained //
+	/////////////////////////////
+	rti_amb.enableTimeConstrained();
+
+	// tick until we get the callback
+	while( fed_amb.is_constrained == false )
+	{
+		rti_amb.tick();
+	}
+}
+
 int main( int argc, char *argv[] )
 {
   using namespace protox::hla;
@@ -66,6 +111,9 @@ int main( int argc, char *argv[] )
 		rti_amb.tick();
 	}
 
+  // enable time policy
+  enable_time_policy( rti_amb, fed_amb );
+
   // Publish/subscribe
   typedef i_class_type< hw_som, q_name< Greeting > >::type greeting_type;
 
@@ -79,12 +127,18 @@ int main( int argc, char *argv[] )
   std::cout << "num params = " << greeting_type::get_num_parameters() << "\n";
   std::cout << "param handle = " << greeter.get_param_handle< Greeting::message >() << "\n";
 
-  const std::string hw("Hello, world");
+  for( int i = 0; i < 20; ++i )
+  {
+    const std::string hw("Hello, world");
 
-  typedef std::vector< ASCIIchar > str_type;
-  (str_type &) greeter.p_<Greeting::message >() = str_type( hw.begin(), hw.end() ); 
+    typedef std::vector< ASCIIchar > str_type;
+    (str_type &) greeter.p_<Greeting::message >() = str_type( hw.begin(), hw.end() ); 
 
-  greeter.send();
+    greeter.send();
+
+		advance_time( 1.0, rti_amb, fed_amb );
+		std::cout << "Time Advanced to " << fed_amb.fed_time << std::endl;
+  }
 
 	rti_amb.resignFederationExecution( RTI::NO_ACTION );
   std::cout << "Resigned from federation.\n";

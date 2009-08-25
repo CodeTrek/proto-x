@@ -16,6 +16,7 @@
 #include <iostream>
 #include <string>
 
+#include <fedtime.hh>
 #include <RTI.hh>
 #include <NullFederateAmbassador.hh>
 
@@ -23,11 +24,31 @@
 
 class hw_fed_amb : public NullFederateAmbassador
 {
+private:
+  static double convert_time( const RTI::FedTime &the_time )
+  {
+	  return ((RTIfedTime) the_time).getTime();
+  }
+
 public:
+  double fed_time;
+  double fed_lookahead_time;
+
   bool is_announced;
   bool is_ready_to_run;
+  bool is_regulating;
+  bool is_constrained;
+  bool is_advancing;
   
-  hw_fed_amb() : is_announced( false ), is_ready_to_run( false ) {}
+  hw_fed_amb() :
+    fed_time( 0.0 ),
+    fed_lookahead_time( 1.0 ),
+    is_announced( false ),
+    is_ready_to_run( false ),
+    is_regulating( false ),
+    is_constrained( false ),
+    is_advancing( false )
+  {}
 
   virtual ~hw_fed_amb() throw( RTI::FederateInternalError ) {} 
   
@@ -49,6 +70,27 @@ public:
     {
 	  	is_ready_to_run = true;
     }
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////// Time Callbacks ///////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////
+  virtual void timeRegulationEnabled( const RTI::FedTime &theFederateTime )
+  {
+  	is_regulating = true;
+  	fed_time = convert_time( theFederateTime );
+  }
+
+  virtual void timeConstrainedEnabled( const RTI::FedTime &theFederateTime )
+  {
+  	is_constrained = true;
+  	fed_time = convert_time( theFederateTime );
+  }
+
+  virtual void timeAdvanceGrant( const RTI::FedTime &theTime )
+  {
+  	is_advancing = false;
+  	fed_time = convert_time( theTime );
   }
 };
 
