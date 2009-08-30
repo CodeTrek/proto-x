@@ -20,13 +20,14 @@
 #include <RTI.hh>
 #include <NullFederateAmbassador.hh>
 
+#include "inter_fed_amb.hpp"
+
 /******************************************************************************/
 
-template< typename T >
 class hw_fed_amb : public NullFederateAmbassador
 {
 private:
-  T *inter_amb;
+  inter_amb_type &inter_amb;
 
 private:
   static double convert_time( const RTI::FedTime &the_time )
@@ -44,8 +45,8 @@ public:
   bool is_constrained;
   bool is_advancing;
   
-  hw_fed_amb() :
-    inter_amb(0),
+  hw_fed_amb( inter_amb_type &inter_amb ) :
+    inter_amb( inter_amb ),
     fed_time( 0.0 ),
     fed_lookahead_time( 1.0 ),
     is_announced( false ),
@@ -54,11 +55,6 @@ public:
     is_constrained( false ),
     is_advancing( false )
   {}
-
-  void set_inter_amb( T &inter_amb )
-  {
-    this->inter_amb = &inter_amb;
-  }
 
   virtual ~hw_fed_amb() throw( RTI::FederateInternalError ) {} 
   
@@ -110,7 +106,7 @@ public:
       const char *theTag,
       RTI::EventRetractionHandle        theHandle )
   {
-    inter_amb->recv_interaction( theInteraction, theParameters, &theTime, theTag );
+    inter_amb.recv_interaction( theInteraction, theParameters, &theTime, theTag );
   }
 
   virtual void receiveInteraction
@@ -120,7 +116,7 @@ public:
   {
     unsigned count = theParameters.size();
 
-    inter_amb->recv_interaction( theInteraction, theParameters, 0, theTag );
+    inter_amb.recv_interaction( theInteraction, theParameters, 0, theTag );
   }
 };
 

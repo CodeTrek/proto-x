@@ -10,12 +10,14 @@
 
 #include "hw_som.hpp"
 
+#include "inter_fed_amb.hpp"
+
 using namespace protox::hla;
 using namespace boost;
 
-typedef i_class_type< hw_som, q_name< Greeting > >::type greeting_type;
+//typedef i_class_type< hw_som, q_name< Greeting > >::type greeting_type;
 
-typedef hla::interaction_amb< mpl::vector< greeting_type > >::type inter_amb_type;
+//typedef hla::interaction_amb< mpl::vector< greeting_type > >::type inter_amb_type;
 
 static void wait_for_user()
 {
@@ -24,10 +26,9 @@ static void wait_for_user()
 	std::getline( std::cin, line );
 }
 
-template< typename T >
 static void advance_time( double timestep,
                           RTI::RTIambassador &rti_amb,
-                          hw_fed_amb< T > &fed_amb )
+                          hw_fed_amb &fed_amb )
 {
 	// request the advance
 	fed_amb.is_advancing = true;
@@ -42,9 +43,8 @@ static void advance_time( double timestep,
 	}
 }
 
-template< typename T >
 static void enable_time_policy( RTI::RTIambassador &rti_amb,
-                                const hw_fed_amb< T > &fed_amb )
+                                const hw_fed_amb &fed_amb )
 {
 	////////////////////////////
 	// enable time regulation //
@@ -71,12 +71,17 @@ static void enable_time_policy( RTI::RTIambassador &rti_amb,
 	}
 }
 
-
+static bool goodbye = false;
 
 void greeting_handler( const greeting_type &greeting, const RTI::FedTime *, const char * )
 {
   std::string str( greeting.p_< Greeting::message >().begin(), greeting.p_< Greeting::message >().end() );
   std::cout << "received " << str.c_str() << "\n"; 
+
+  if (str == "Goodbye")
+  {
+    goodbye = true;
+  }
 }
 
 int main( int argc, char *argv[] )
@@ -101,8 +106,12 @@ int main( int argc, char *argv[] )
     std::cout << "Federation already exists.\n";
 	}
 
+  // Interaction ambassador
+  inter_amb_type inter_amb;
+  inter_amb.set_handler< greeting_type >( greeting_handler );
+
   // Join federation
-  hw_fed_amb< inter_amb_type > fed_amb;
+  hw_fed_amb fed_amb( inter_amb );
 	rti_amb.joinFederationExecution( fed_name, "hw_federation", &fed_amb );
   std::cout << "Federation joined.\n";
 
@@ -136,16 +145,10 @@ int main( int argc, char *argv[] )
   greeting_type::subscribe( rti_amb );
   std::cout << "Subscriptions completed.\n";
 
-  inter_amb_type inter_amb;
-  inter_amb.set_handler< greeting_type >( greeting_handler );
-
-  fed_amb.set_inter_amb( inter_amb );
-
   //for( int i = 0; i < 20; ++i )
-  while( true )
+  while( !goodbye )
   {
 		advance_time( 1.0, rti_amb, fed_amb );
-		std::cout << "Time Advanced to " << fed_amb.fed_time << std::endl;
   }
 
 	rti_amb.resignFederationExecution( RTI::NO_ACTION );

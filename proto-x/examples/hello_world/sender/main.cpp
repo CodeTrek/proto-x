@@ -127,18 +127,21 @@ int main( int argc, char *argv[] )
   std::cout << "num params = " << greeting_type::get_num_parameters() << "\n";
   std::cout << "param handle = " << greeter.get_param_handle< Greeting::message >() << "\n";
 
+  typedef std::vector< ASCIIchar > str_type;
+  const std::string hw("Hello, world");
+
   for( int i = 0; i < 20; ++i )
   {
-    const std::string hw("Hello, world");
-
-    typedef std::vector< ASCIIchar > str_type;
     (str_type &) greeter.p_<Greeting::message >() = str_type( hw.begin(), hw.end() ); 
-
     greeter.send();
 
 		advance_time( 1.0, rti_amb, fed_amb );
 		std::cout << "Time Advanced to " << fed_amb.fed_time << std::endl;
   }
+
+  const std::string goodbye("Goodbye");
+  (str_type &) greeter.p_<Greeting::message >() = str_type( goodbye.begin(), goodbye.end() ); 
+  greeter.send();
 
 	rti_amb.resignFederationExecution( RTI::NO_ACTION );
   std::cout << "Resigned from federation.\n";
