@@ -63,7 +63,7 @@ int main( int argc, char *argv[] )
 {
   using namespace protox::hla;
 
-	char *fed_name = "exampleFederate";
+	char *fed_name = "sender";
 
 	if( argc > 1 )
   {
