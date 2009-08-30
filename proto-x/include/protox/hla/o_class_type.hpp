@@ -167,6 +167,57 @@ struct o_class_type
         rti_amb.unpublishObjectClass( type::get_handle() );
       }
 
+      /**
+       * Subscribe all class attributes.
+       */
+      static void subscribe( RTI::RTIambassador &rti_amb )
+      {
+        boost::shared_ptr<RTI::AttributeHandleSet> ahs
+          ( RTI::AttributeHandleSetFactory::create( type::get_num_attrs() ) );
+
+        std::set< std::string > empty_name_set;
+
+        attrs_type::template collect_handles< SOM >( type::get_name(),
+                                                     empty_name_set,
+                                                     *ahs );
+
+        rti_amb.subscribeObjectClass( type::get_handle(), *ahs );
+      }
+
+      /**
+       * Subscribe a set of class attributes.
+       */
+      static void subscribe( RTI::RTIambassador &rti_amb,
+                             const std::string &attrs )
+      {
+        std::set< std::string > name_set;
+        make_set( attrs, name_set );
+
+        if( name_set.empty() )
+        {
+          return;
+        }
+
+        const RTI::ULong set_size = (RTI::ULong) name_set.size();
+
+        boost::shared_ptr< RTI::AttributeHandleSet >
+          ahs( RTI::AttributeHandleSetFactory::create( set_size ) );
+
+        attrs_type::template collect_handles< SOM >( type::get_name(),
+                                                     name_set,
+                                                     *ahs );
+
+        rti_amb.subscribeObjectClass( type::get_handle(), *ahs );
+      }
+
+      /**
+       * Unsubscribe this class.
+       */
+      static void unsubscribe( RTI::RTIambassador &rti_amb )
+      {
+        rti_amb.unsubscribeObjectClass( type::get_handle() );
+      }
+
       type() : rti_amb(0)
       {
         attrs_type::template init_handles< SOM >( type::get_name() );
@@ -206,6 +257,41 @@ struct o_class_type
       }
 
       void register_obj() { register_obj(""); }
+    
+      void update( RTI::FedTime *time = 0 )
+      {
+        if( rti_amb == 0 )
+        {
+          // TODO: throw exception
+          return;
+        }
+
+        std::vector< RTI::AttributeHandle > attr_handles;
+
+        // Get updated attributes
+        attrs_type::collect_updated_attrs( attr_handles );
+
+        if( attr_handles.empty() )
+        {
+          return;
+        }
+
+        RTI::AttributeHandleValuePairSet *set
+          = RTI::AttributeSetFactory::create( attr_handles.size() );
+
+        boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr( set );
+
+        attrs_type::add_values( set_ptr );
+
+        if( time == 0 )
+        {
+          rti_amb->updateAttributeValues( type::get_handle(), *set_ptr, "" );
+        }
+        else
+        {
+          rti_amb->updateAttributeValues( type::get_handle(), *set_ptr, *time, "" );
+        }
+      }
   };
 };
 

@@ -27,26 +27,38 @@ namespace protox { namespace hla {
 
 /******************************************************************************/
 
+enum attr_state { PUBLISHED = 1L << 0, SUBSCRIBED = 1L << 1 };
+
+/******************************************************************************/
+
 template< typename T >
 struct attr_base
 {
-  enum state { PUBLISHED = 1L << 0, MODIFIED = 1L << 1 };
+private:
+  bool updated;
 
+  unsigned short &get_state_vector()
+  {
+    static unsigned short state_vector = 0;
+    return state_vector;
+  }
+
+public:
   typedef T attr_type;
   typename T::value_type value;
 
   RTI::AttributeHandle handle;
 
-  unsigned short state_vector;
-
   static char const *name() { return T::name(); }
 
-  attr_base() : handle(0), state_vector((state) 0) {}
+  attr_base() : handle(0), updated(false) {}
 
-  void set( state s ) { state_vector |= s; }
-  void clear( state s ) { state_vector &= (~s); }
+  static void set( attr_state s ) { get_state_vector() |= s; }
+  static void clear( attr_state s ) { get_state_vector() &= (~s); }
 
-  bool is_set( state s ) const { return( (state_vector & s) != 0 ); }
+  static bool is_set( attr_state s ) { return( (get_state_vector() & s) != 0 ); }
+
+  void set_updated( bool f ) { updated = f; }
 
 protected:
   template< typename S >
@@ -78,6 +90,8 @@ protected:
       }
     }
   }
+
+  bool is_updated() const { return updated; }
 };
 
 /******************************************************************************/
@@ -143,6 +157,34 @@ protected:
   {
     A::reflect( ahv_set, time );
   }
+
+  static void set_state( attr_state s )
+  {
+    A::set( s );
+  }
+
+  void collect_updated_attrs( std::vector< RTI::AttributeHandle > &handles )
+  {
+    if( A::is_updated() )
+    {
+      handles.push_back( A::handle ); 
+      A::set_updated( false );
+    }
+  }
+
+public:
+  template< typename T >
+  inline typename T::value_type const &a_() const
+  {
+    return (static_cast< attr_base< T > const & >( *this ).value);
+  }
+
+  template< typename T >
+  inline typename T::value_type &a_()
+  {
+    static_cast< attr_base< T > & >( *this ).set_updated( true );
+    return (static_cast< attr_base< T > & >( *this ).value);
+  }
 };
 
 /******************************************************************************/
@@ -189,6 +231,23 @@ protected:
     B::template collect_handles< T >( class_name, attr_names, ahs );
   }
 
+  static void set_state( attr_state s )
+  {
+    A::set( s );
+    B::set_state( s );
+  }
+
+  void collect_updated_attrs( std::vector< RTI::AttributeHandle > &handles )
+  {
+    if( A::is_updated() )
+    {
+      handles.push_back( A::handle ); 
+      A::set_updated( false );
+    }
+
+    B::collect_updated_attrs( handles );
+  }
+
 public:
   template< typename T >
   inline typename T::value_type const &a_() const
@@ -199,6 +258,7 @@ public:
   template< typename T >
   inline typename T::value_type &a_()
   {
+    static_cast< attr_base< T > & >( *this ).set_updated( true );
     return (static_cast< attr_base< T > & >( *this ).value);
   }
   
@@ -214,6 +274,7 @@ public:
     A::reflect( ahv_set, time );
     B::reflect( ahv_set, time );
   }
+
 };
 
 /******************************************************************************/

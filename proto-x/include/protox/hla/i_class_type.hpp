@@ -132,7 +132,7 @@ struct i_class_type
         this->rti_amb = &rti_amb;
       }
 
-      void send()
+      void send( const RTI::FedTime *time = 0 )
       {
         if( rti_amb == 0 )
         {
@@ -147,7 +147,14 @@ struct i_class_type
 
         params_type::add_values( set_ptr );
 
-        rti_amb->sendInteraction( type::get_handle(), *set_ptr, "" );
+        if( time == 0 )
+        {
+          rti_amb->sendInteraction( type::get_handle(), *set_ptr, "" );
+        }
+        else
+        {
+          rti_amb->sendInteraction( type::get_handle(), *set_ptr, *time, "" );
+        }
       }
 
       void recv( const RTI::ParameterHandleValuePairSet &params )
