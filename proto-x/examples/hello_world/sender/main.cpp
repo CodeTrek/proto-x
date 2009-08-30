@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <string>
 
 #include <protox/hla/i_class_type.hpp>
@@ -128,11 +129,15 @@ int main( int argc, char *argv[] )
   std::cout << "param handle = " << greeter.get_param_handle< Greeting::message >() << "\n";
 
   typedef std::vector< ASCIIchar > str_type;
-  const std::string hw("Hello, world");
 
   for( int i = 0; i < 20; ++i )
   {
+    std::stringstream str;
+    str << "Hello, world [" << i << "]";
+    std::string hw = str.str();
+
     (str_type &) greeter.p_<Greeting::message >() = str_type( hw.begin(), hw.end() ); 
+
     greeter.send();
 
 		advance_time( 1.0, rti_amb, fed_amb );
