@@ -61,9 +61,7 @@ protected:
   
   void recv_value( const RTI::ParameterHandleValuePairSet &ph_set )
   {
-    for( RTI::ULong i = ph_set.start();
-         ph_set.valid( i );
-         i = ph_set.next( i ) )
+    for( RTI::ULong i = 0; i < ph_set.size(); ++i )
     {
       const RTI::Handle h = ph_set.getHandle( i );
       

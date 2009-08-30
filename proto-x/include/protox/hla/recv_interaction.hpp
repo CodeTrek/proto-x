@@ -62,6 +62,13 @@ template< typename A >
 struct recv_interaction_inherit< A, boost::mpl::empty_base > :
   A, boost::mpl::empty_base
 {
+  template< typename T >
+  inline void set_handler
+    ( void (*h)( const T &, const RTI::FedTime *, const char *tag ) )
+  {
+    static_cast< recv_interaction_base< T > & >( *this ).handler = h;
+  }
+
   void recv_interaction( RTI::InteractionClassHandle interaction_handle,
                          const RTI::ParameterHandleValuePairSet &params,
                          const RTI::FedTime *time,

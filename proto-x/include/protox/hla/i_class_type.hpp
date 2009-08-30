@@ -102,6 +102,16 @@ struct i_class_type
         rti_amb.unpublishInteractionClass( type::get_handle() );
       }
 
+      static void subscribe( RTI::RTIambassador &rti_amb )
+      {
+        rti_amb.subscribeInteractionClass( type::get_handle() );
+      }
+
+      static void unsubscribe( RTI::RTIambassador &rti_amb )
+      {
+        rti_amb.unsubscribeInteractionClass( type::get_handle() );
+      }
+
       static unsigned long get_num_parameters()
       {
         return boost::mpl::size< param_vector_type >::value;
