@@ -181,7 +181,7 @@ struct o_class_type
                                                      empty_name_set,
                                                      *ahs );
 
-        rti_amb.subscribeObjectClass( type::get_handle(), *ahs );
+        rti_amb.subscribeObjectClassAttributes( type::get_handle(), *ahs );
       }
 
       /**
@@ -207,7 +207,7 @@ struct o_class_type
                                                      name_set,
                                                      *ahs );
 
-        rti_amb.subscribeObjectClass( type::get_handle(), *ahs );
+        rti_amb.subscribeObjectClassAttributes( type::get_handle(), *ahs );
       }
 
       /**

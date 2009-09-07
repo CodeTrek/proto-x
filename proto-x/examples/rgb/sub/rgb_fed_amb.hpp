@@ -20,10 +20,15 @@
 #include <RTI.hh>
 #include <NullFederateAmbassador.hh>
 
+#include "obj_fed_amb.hpp"
+
 /******************************************************************************/
 
 class rgb_fed_amb : public NullFederateAmbassador
 {
+private:
+  obj_amb_type &obj_amb;
+
 private:
   static double convert_time( const RTI::FedTime &the_time )
   {
@@ -40,7 +45,8 @@ public:
   bool is_constrained;
   bool is_advancing;
   
-  rgb_fed_amb() :
+  rgb_fed_amb( obj_amb_type &obj_amb ) :
+    obj_amb( obj_amb ),
     fed_time( 0.0 ),
     fed_lookahead_time( 1.0 ),
     is_announced( false ),
@@ -92,6 +98,32 @@ public:
   	is_advancing = false;
   	fed_time = convert_time( theTime );
   }
+
+  ////////////////////////////////
+  // Object Management Services //
+  ////////////////////////////////
+
+  virtual void discoverObjectInstance (
+          RTI::ObjectHandle          theObject,      // supplied C1
+          RTI::ObjectClassHandle     theObjectClass, // supplied C1
+    const char*                      theObjectName)  // supplied C4  
+  {
+    obj_amb.discover_object( theObjectClass, theObject, theObjectName );
+  }
+
+  virtual void reflectAttributeValues (
+          RTI::ObjectHandle                 theObject,     // supplied C1
+    const RTI::AttributeHandleValuePairSet& theAttributes, // supplied C4
+    const RTI::FedTime&                     theTime,       // supplied C1
+    const char                             *theTag,        // supplied C4
+          RTI::EventRetractionHandle        theHandle)     // supplied C1
+  {}
+
+  virtual void reflectAttributeValues (
+          RTI::ObjectHandle                 theObject,     // supplied C1
+    const RTI::AttributeHandleValuePairSet& theAttributes, // supplied C4
+    const char                             *theTag)        // supplied C4
+  {}
 };
 
 /******************************************************************************/

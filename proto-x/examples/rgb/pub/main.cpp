@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 #include <protox/hla/o_class_type.hpp>
 #include <protox/hla/i_class_type.hpp>
@@ -62,10 +63,12 @@ static void enable_time_policy( RTI::RTIambassador &rti_amb,
 }
 
 static bool waiting_for_quantity;
+static int num_platforms;
 
 void start_msg_handler( const start_msg_type &start_msg, const RTI::FedTime *, const char * )
 {
   std::cout << "Start msg received. Quantity = " << start_msg.p_< quantity >() << "\n";
+  num_platforms = start_msg.p_< quantity >();
   waiting_for_quantity = false;
 }
 
@@ -76,6 +79,7 @@ int main( int argc, char *argv[] )
   using namespace protox::hla;
 
   waiting_for_quantity = true;
+  num_platforms = 0;
 
 	char *fed_name = "rgb_pub";
 
@@ -140,6 +144,23 @@ int main( int argc, char *argv[] )
   enable_time_policy( rti_amb, fed_amb );
 
   while( waiting_for_quantity )
+  {
+		advance_time( 1.0, rti_amb, fed_amb );
+  }
+
+  std::vector< platform_type > platforms( num_platforms );
+
+  for( unsigned i = 0; i < platforms.size(); ++i )
+  {
+    std::stringstream str;
+    str << "Platform [" << i << "]";
+    std::string name = str.str();
+
+    platforms[ i ].set_rti( rti_amb );
+    platforms[ i ].register_obj( name.c_str() );
+  }
+
+  while( true )
   {
 		advance_time( 1.0, rti_amb, fed_amb );
   }

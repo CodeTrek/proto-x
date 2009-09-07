@@ -88,13 +88,22 @@ int main( int argc, char *argv[] )
 	}
 
   // Join federation
-  rgb_fed_amb fed_amb;
+  obj_amb_type obj_amb;
+  rgb_fed_amb fed_amb( obj_amb );
 	rti_amb.joinFederationExecution( fed_name, FEDERATION_NAME, &fed_amb );
   std::cout << "Federation joined.\n";
 
   // Initialize handles
   rgb_som::init_handles( rti_amb );
   std::cout << "Handles initialized.\n";
+
+  // Publish/subscribe
+  typedef i_class_type< rgb_som, q_name< StartMsg > >::type start_msg_type;
+
+  start_msg_type::publish( rti_amb );
+  platform_type::subscribe( rti_amb );
+
+  std::cout << "Publications/subscription completed.\n";
  
   // Register sync point 
 	const char *READY_TO_RUN = "ReadyToRun";
@@ -118,20 +127,25 @@ int main( int argc, char *argv[] )
   // enable time policy
   enable_time_policy( rti_amb, fed_amb );
 
-  // Publish/subscribe
-  typedef i_class_type< rgb_som, q_name< StartMsg > >::type start_msg_type;
-
-  start_msg_type::publish( rti_amb );
-
-  std::cout << "Publications/subscription completed.\n";
 
   start_msg_type start_msg( rti_amb );
 
-  start_msg.p_< quantity >() = 12;
+  const unsigned NUM_PLATFORMS = 12;
+
+  start_msg.p_< quantity >() = NUM_PLATFORMS;
 
   start_msg.send();
 
-  advance_time( 1.0, rti_amb, fed_amb );
+  while( true )
+  {
+    if( obj_amb.size< platform_type >() == NUM_PLATFORMS )
+    {
+      std::cout << "Discovered " << NUM_PLATFORMS << " platform objects\n";
+      break;
+    }
+
+    advance_time( 1.0, rti_amb, fed_amb );
+  }
 
 	rti_amb.resignFederationExecution( RTI::NO_ACTION );
   std::cout << "Resigned from federation.\n";

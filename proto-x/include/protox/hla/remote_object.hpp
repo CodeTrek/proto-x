@@ -83,7 +83,6 @@ template< typename A >
 struct remote_object_inherit< A, boost::mpl::empty_base > :
   A, boost::mpl::empty_base
 {
-protected:
   void discover_object( RTI::ObjectClassHandle class_handle,
                         RTI::ObjectHandle object_handle,
                         const char *object_name )
@@ -107,6 +106,34 @@ protected:
     {
       throw RTI::ObjectNotKnown( "" );
     }
+  }
+
+  template< typename T >
+  inline typename remote_object_base< T >::const_it begin() const
+  {
+    return( static_cast< remote_object_base< T > const & >( *this )
+      .objects.begin() );
+  }
+
+  template< typename T >
+  inline typename remote_object_base< T >::const_it end() const
+  {
+    return (static_cast< remote_object_base< T > const & >( *this )
+      .objects.end() );
+  }
+
+  template< typename T >
+  inline std::size_t size() const
+  {
+    return (static_cast< remote_object_base< T > const & >( *this )
+      .objects.size() );
+  }
+
+  template< typename T >
+  inline bool empty() const
+  {
+    return (static_cast< remote_object_base< T > const & >( *this )
+      .objects.empty() );
   }
 };
 
