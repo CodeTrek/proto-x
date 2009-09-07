@@ -54,6 +54,11 @@ struct remote_object_base
     return true;
   }
 
+  bool delete_object( RTI::ObjectHandle object_handle )
+  {
+    return( objects.erase( object_handle ) == 1 );
+  }
+
   bool reflect( RTI::ObjectHandle object_handle,
                 const RTI::AttributeHandleValuePairSet &attrs,
                 const RTI::FedTime *time,
@@ -93,6 +98,11 @@ struct remote_object_inherit< A, boost::mpl::empty_base > :
     {
       throw RTI::ObjectClassNotKnown( "" );
     }
+  }
+
+  void remove_object( RTI::ObjectHandle object_handle )
+  {
+    A::delete_object( object_handle );
   }
 
   void reflect_object( RTI::ObjectHandle object_handle,
@@ -156,6 +166,16 @@ public:
     }
 
     B::discover_object( class_handle, object_handle, object_name );
+  }
+
+  void remove_object( RTI::ObjectHandle object_handle )
+  {
+    if( A::remove_object( object_handle ) )
+    {
+      return;
+    }
+
+    B::remove_object( object_handle );
   }
 
   void reflect_object( RTI::ObjectHandle object_handle,

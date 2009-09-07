@@ -124,6 +124,23 @@ public:
     const RTI::AttributeHandleValuePairSet& theAttributes, // supplied C4
     const char                             *theTag)        // supplied C4
   {}
+
+  virtual void removeObjectInstance (
+          RTI::ObjectHandle          theObject, // supplied C1
+    const RTI::FedTime&              theTime,   // supplied C4
+    const char                      *theTag,    // supplied C4
+          RTI::EventRetractionHandle theHandle) // supplied C1
+  {
+    // Ignore time
+    removeObjectInstance( theObject, theTag );
+  }
+
+  virtual void removeObjectInstance (
+          RTI::ObjectHandle          theObject, // supplied C1
+    const char                      *theTag)    // supplied C4
+  {
+    obj_amb.remove_object( theObject );
+  }
 };
 
 /******************************************************************************/
