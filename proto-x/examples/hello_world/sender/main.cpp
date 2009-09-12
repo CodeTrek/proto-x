@@ -4,113 +4,34 @@
 
 #include <protox/hla/i_class_type.hpp>
 
+#include "utils/utils.hpp"
+
 #include "hw_fed_amb.hpp"
-
 #include "hw_som.hpp"
-
-static void wait_for_user()
-{
-	std::cout << " >>>>>>>>>> Press Enter to Continue <<<<<<<<<<\n";
-	std::string line;
-	std::getline( std::cin, line );
-}
-
-static void advance_time( double timestep,
-                          RTI::RTIambassador &rti_amb,
-                          hw_fed_amb &fed_amb )
-{
-	// request the advance
-	fed_amb.is_advancing = true;
-	const RTIfedTime new_time = (fed_amb.fed_time + timestep);
-	rti_amb.timeAdvanceRequest( new_time );
-
-	// wait for the time advance to be granted. ticking will tell the
-	// LRC to start delivering callbacks to the federate
-	while( fed_amb.is_advancing )
-	{
-		rti_amb.tick();
-	}
-}
-
-static void enable_time_policy( RTI::RTIambassador &rti_amb,
-                                const hw_fed_amb &fed_amb )
-{
-	////////////////////////////
-	// enable time regulation //
-	////////////////////////////
-	const RTIfedTime fed_time = fed_amb.fed_time;
-	const RTIfedTime lookahead = fed_amb.fed_lookahead_time;
-	rti_amb.enableTimeRegulation( fed_time, lookahead );
-
-	// tick until we get the callback
-	while( fed_amb.is_regulating == false )
-	{
-    rti_amb.tick();
-	}
-
-	/////////////////////////////
-	// enable time constrained //
-	/////////////////////////////
-	rti_amb.enableTimeConstrained();
-
-	// tick until we get the callback
-	while( fed_amb.is_constrained == false )
-	{
-		rti_amb.tick();
-	}
-}
 
 int main( int argc, char *argv[] )
 {
   using namespace protox::hla;
 
-	char *fed_name = "sender";
-
-	if( argc > 1 )
-  {
-		fed_name = argv[ 1 ];
-  }
-
   RTI::RTIambassador rti_amb;
-
-  // Create federation
-	try
-	{
-		rti_amb.createFederationExecution( "hw_federation", "hello_world.fed" );
-    std::cout << "Federation created.\n";
-	}
-	catch( RTI::FederationExecutionAlreadyExists )
-	{
-    std::cout << "Federation already exists.\n";
-	}
-
-  // Join federation
   hw_fed_amb fed_amb;
-	rti_amb.joinFederationExecution( fed_name, "hw_federation", &fed_amb );
+
+  // Create and join the federation
+  create_federation_execution( rti_amb, "hw_federation", "hello_world.fed" );
+	rti_amb.joinFederationExecution( "hw_sender", "hw_federation", &fed_amb );
+
   std::cout << "Federation joined.\n";
 
   // Initialize handles
   hw_som::init_handles( rti_amb );
   std::cout << "Handles initialized.\n";
- 
-  // Register sync point 
-	const char *READY_TO_RUN = "ReadyToRun";
-	rti_amb.registerFederationSynchronizationPoint( READY_TO_RUN, "" );
-	
-	while( fed_amb.is_announced == false )
-	{
-		rti_amb.tick();
-	}
 
+  register_ready_to_run( rti_amb, fed_amb );
+ 
   // Wait for user (i.e., let other federates join before moving on)
   wait_for_user();
 
-  // Announce sync point achieved
-  rti_amb.synchronizationPointAchieved( READY_TO_RUN );
-	while( fed_amb.is_ready_to_run == false )
-	{
-		rti_amb.tick();
-	}
+  ready_to_run_achieved( rti_amb, fed_amb );
 
   // enable time policy
   enable_time_policy( rti_amb, fed_amb );
@@ -123,20 +44,15 @@ int main( int argc, char *argv[] )
 
   greeting_type greeter( rti_amb );
 
-  std::cout << "class name = " << greeting_type::get_name() << "\n";
-  std::cout << "class handle = " << greeting_type::get_handle() << "\n";
-  std::cout << "num params = " << greeting_type::get_num_parameters() << "\n";
-  std::cout << "param handle = " << greeter.get_param_handle< Greeting::message >() << "\n";
-
   typedef std::vector< ASCIIchar > str_type;
 
   for( int i = 0; i < 20; ++i )
   {
-    std::stringstream str;
-    str << "Hello, world [" << i << "]";
-    std::string hw = str.str();
+    std::stringstream hw;
+    hw << "Hello, world [" << i << "]";
 
-    (str_type &) greeter.p_<Greeting::message >() = str_type( hw.begin(), hw.end() ); 
+    (str_type &) greeter.p_<Greeting::message >()
+       = str_type( hw.str().begin(), hw.str().end() ); 
 
     greeter.send();
 
@@ -149,21 +65,9 @@ int main( int argc, char *argv[] )
   greeter.send();
 
 	rti_amb.resignFederationExecution( RTI::NO_ACTION );
-  std::cout << "Resigned from federation.\n";
+  destroy_federation_execution( rti_amb, "hw_federation" ); 
 
-	try
-	{
-		rti_amb.destroyFederationExecution( "hw_federation" );
-    std::cout << "Federation destroyed.\n";
-	}
-	catch( RTI::FederationExecutionDoesNotExist )
-	{
-		std::cout << "Federtion does not exist.\n";
-	}
-	catch( RTI::FederatesCurrentlyJoined )
-	{
-		std::cout << "Federation not destroyed - other federates are joined.\n";
-	}
+  std::cout << "Resigned from federation.\n";
 
 	return 0;
 }
