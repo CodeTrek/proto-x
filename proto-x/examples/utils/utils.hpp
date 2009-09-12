@@ -19,9 +19,9 @@
 
 static void wait_for_user()
 {
-	std::cout << " >>>>>>>>>> Press Enter to Continue <<<<<<<<<<\n";
-	std::string line;
-	std::getline( std::cin, line );
+  std::cout << " >>>>>>>>>> Press Enter to Continue <<<<<<<<<<\n";
+  std::string line;
+  std::getline( std::cin, line );
 }
 
 static void advance_time( double timestep,

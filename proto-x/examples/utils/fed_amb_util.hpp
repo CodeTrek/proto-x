@@ -27,7 +27,7 @@ class fed_amb_util : public NullFederateAmbassador
 private:
   static double convert_time( const RTI::FedTime &the_time )
   {
-	  return ((RTIfedTime) the_time).getTime();
+    return ((RTIfedTime) the_time).getTime();
   }
 
 public:
@@ -54,20 +54,20 @@ public:
   
   virtual void announceSynchronizationPoint( const char *label, const char *)
   {
-	  std::cout << "Synchronization point announced: " << label << std::endl;
+    std::cout << "Synchronization point announced: " << label << std::endl;
 
     if( std::string(label) == "ReadyToRun" )	
-	  {
-		  is_announced = true;
+    {
+      is_announced = true;
     }
   }
 
   virtual void federationSynchronized( const char *label )
   {
-	  std::cout << "Federation Synchronized: " << label << std::endl;
+    std::cout << "Federation Synchronized: " << label << std::endl;
     if( std::string(label) == "ReadyToRun" )
     {
-	  	is_ready_to_run = true;
+      is_ready_to_run = true;
     }
   }
 
@@ -76,20 +76,20 @@ public:
   //////////////////////////////////////////////////////////////////////////////
   virtual void timeRegulationEnabled( const RTI::FedTime &theFederateTime )
   {
-  	is_regulating = true;
-  	fed_time = convert_time( theFederateTime );
+    is_regulating = true;
+    fed_time = convert_time( theFederateTime );
   }
 
   virtual void timeConstrainedEnabled( const RTI::FedTime &theFederateTime )
   {
-  	is_constrained = true;
-  	fed_time = convert_time( theFederateTime );
+    is_constrained = true;
+    fed_time = convert_time( theFederateTime );
   }
 
   virtual void timeAdvanceGrant( const RTI::FedTime &theTime )
   {
-  	is_advancing = false;
-  	fed_time = convert_time( theTime );
+    is_advancing = false;
+    fed_time = convert_time( theTime );
   }
 };
 
