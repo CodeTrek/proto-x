@@ -51,8 +51,10 @@ int main( int argc, char *argv[] )
     std::stringstream hw;
     hw << "Hello, world [" << i << "]";
 
+    const std::string &hw_str = hw.str(); 
+
     (str_type &) greeter.p_<Greeting::message >()
-       = str_type( hw.str().begin(), hw.str().end() ); 
+      = str_type( hw_str.begin(), hw_str.end() );
 
     greeter.send();
 
