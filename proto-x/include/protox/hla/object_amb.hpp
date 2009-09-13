@@ -38,8 +38,12 @@ struct object_amb
 
   struct type : remote_objects_type
   {
+    template< typename T >
+    struct const_it
+    {
+      typedef typename remote_object_base< T >::const_it type;
+    };
   };
-
 };
   
 /******************************************************************************/

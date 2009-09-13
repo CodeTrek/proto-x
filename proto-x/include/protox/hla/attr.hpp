@@ -20,6 +20,7 @@
 #include <boost/mpl/empty_base.hpp>
 
 #include <protox/io/byte_data_source.hpp>
+#include <protox/io/byte_data_sink.hpp>
 
 /******************************************************************************/
 
@@ -72,6 +73,18 @@ protected:
     ahs.add( handle );
   }
 
+  void update_value
+    ( boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr )
+  {
+    protox::io::byte_data_sink sink;
+
+    sink.encode( value );
+
+    set_ptr->add( handle,
+                  sink.getDataBuffer(),
+                  (unsigned long) sink.getDataBufferSize() );
+  }
+
   void reflect( const RTI::AttributeHandleValuePairSet &ahv_set,
                 const RTI::FedTime *time )
   {
@@ -117,6 +130,12 @@ protected:
   void init_handles( const std::string &class_name )
   {
     A::template init_handle< T >( class_name );
+  }
+
+  void update_values
+    ( boost::shared_ptr< RTI::AttributeHandleValuePairSet> set_ptr )
+  {
+    A::update_value( set_ptr );
   }
   
   template< typename T >
@@ -201,6 +220,13 @@ protected:
   {
     A::template init_handle< T >( class_name );
     B::template init_handles< T >( class_name );
+  }
+
+  void update_values
+    ( boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr )
+  {
+    A::update_value( set_ptr );
+    B::update_values( set_ptr );
   }
   
   static RTI::ULong count_attrs()

@@ -277,20 +277,23 @@ struct o_class_type
         }
 
         RTI::AttributeHandleValuePairSet *set
-          = RTI::AttributeSetFactory::create( attr_handles.size() );
+          = RTI::AttributeSetFactory::create
+            ( (RTI::ULong) attr_handles.size() );
 
         boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr( set );
 
-        attrs_type::add_values( set_ptr );
+        attrs_type::update_values( set_ptr );
+        //attrs_type::clear_modified_flag( set_ptr );
 
         if( time == 0 )
         {
-          rti_amb->updateAttributeValues( type::get_handle(), *set_ptr, "" );
+          rti_amb->updateAttributeValues( obj_handle, *set_ptr, "" );
         }
         else
         {
-          rti_amb->updateAttributeValues( type::get_handle(), *set_ptr, *time, "" );
+          rti_amb->updateAttributeValues( obj_handle, *set_ptr, *time, "" );
         }
+
       }
   };
 };

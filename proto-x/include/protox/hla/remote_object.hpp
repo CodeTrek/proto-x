@@ -118,6 +118,7 @@ struct remote_object_inherit< A, boost::mpl::empty_base > :
     }
   }
 
+
   template< typename T >
   inline typename remote_object_base< T >::const_it begin() const
   {
