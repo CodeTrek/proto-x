@@ -79,6 +79,8 @@ int main( int argc, char *argv[] )
 
   std::vector< platform_type > platforms( num_platforms );
 
+  using namespace PositionVector;
+
   for( unsigned i = 0; i < platforms.size(); ++i )
   {
     std::stringstream str;
@@ -87,6 +89,13 @@ int main( int argc, char *argv[] )
 
     platforms[ i ].set_rti( rti_amb );
     platforms[ i ].register_obj( name.c_str() );
+
+    platforms[ i ].a_< Position >().f_< X >() = 25.5f;
+    platforms[ i ].a_< Position >().f_< Y >() = 35.5f;
+
+    platforms[ i ].a_< Color >() = ColorEnum::RED::value();
+
+    platforms[ i ].update();
   }
 
   while( true )

@@ -67,6 +67,20 @@ int main( int argc, char *argv[] )
     advance_time( 1.0, rti_amb, fed_amb );
   }
 
+  using namespace PositionVector;
+
+  while( true )
+  {
+    obj_amb_type::const_it< platform_type >::type it;
+
+    for( it = obj_amb.begin< platform_type >(); it != obj_amb.end< platform_type >(); ++it )
+    {
+      std::cout << "x = " << it->second.a_< Position >().f_< X >() << "\n";
+    }
+
+    advance_time( 1.0, rti_amb, fed_amb );
+  }
+
 	rti_amb.resignFederationExecution( RTI::NO_ACTION );
   std::cout << "Resigned from federation.\n";
 

@@ -21,6 +21,7 @@
 
 /******************************************************************************/
 
+using namespace protox;
 using namespace protox::hla;
 
 /******************************************************************************/
@@ -30,7 +31,7 @@ using namespace protox::hla;
 //     | Name                                       | Attribute                  | Datatype                         | String Name                               |
 //     +--------------------------------------------+----------------------------+----------------------------------+-------------------------------------------+
   struct HLAobjectRoot {HLA_NAME( "HLAobjectRoot" )};
-                                               struct HLAprivilegeToDeleteObject : attr< int                  >       {HLA_NAME( "HLAprivilegeToDeleteObject" )};
+                                               struct HLAprivilegeToDeleteObject : attr< hla_1516::HLAoctet   >       {HLA_NAME( "HLAprivilegeToDeleteObject" )};
 //     +--------------------------------------------+----------------------------+----------------------------------+-------------------------------------------+
   struct Platform      {HLA_NAME( "Platform" )};
                                                struct Position                   : attr< PositionVector::type >       {HLA_NAME( "Position"                   )};

@@ -54,13 +54,17 @@ public:
     const RTI::FedTime&                     theTime,       // supplied C1
     const char                             *theTag,        // supplied C4
           RTI::EventRetractionHandle        theHandle)     // supplied C1
-  {}
+  {
+    obj_amb.reflect_object( theObject, theAttributes, &theTime, theTag );
+  }
 
   virtual void reflectAttributeValues (
           RTI::ObjectHandle                 theObject,     // supplied C1
     const RTI::AttributeHandleValuePairSet& theAttributes, // supplied C4
     const char                             *theTag)        // supplied C4
-  {}
+  {
+    obj_amb.reflect_object( theObject, theAttributes, 0, theTag );
+  }
 
   virtual void removeObjectInstance (
           RTI::ObjectHandle          theObject, // supplied C1
