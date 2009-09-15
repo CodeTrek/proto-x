@@ -18,29 +18,14 @@
 #include <iostream>
 
 #include <boost/mpl/vector.hpp>
-#include <boost/mpl/set.hpp>
 #include <boost/mpl/erase.hpp>
-#include <boost/mpl/push_back.hpp>
 #include <boost/mpl/front.hpp>
 #include <boost/mpl/pop_front.hpp>
-#include <boost/mpl/map.hpp>
+#include <boost/mpl/push_front.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/for_each.hpp>
-#include <boost/mpl/find_if.hpp>
-#include <boost/mpl/size.hpp>
-#include <boost/mpl/inherit.hpp>
-#include <boost/mpl/inherit_linearly.hpp>
-#include <boost/mpl/placeholders.hpp>
-#include <boost/mpl/transform.hpp>
-#include <boost/mpl/transform_view.hpp>
-#include <boost/mpl/back_inserter.hpp>
-#include <boost/mpl/map.hpp>
-#include <boost/mpl/lambda.hpp>
-#include <boost/mpl/copy.hpp>
 #include <boost/mpl/empty.hpp>
-#include <boost/mpl/back_inserter.hpp>
 #include <boost/static_assert.hpp>
-#include <boost/type_traits/is_same.hpp>
 
 #include <protox/hla/name_to_o_class_handle_map.hpp>
 #include <protox/hla/class_handle_to_attr_handle_map.hpp>
