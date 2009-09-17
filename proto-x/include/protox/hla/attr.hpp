@@ -172,12 +172,6 @@ protected:
     return 1;
   }
 
-  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set,
-                const RTI::FedTime *time )
-  {
-    A::reflect( ahv_set, time );
-  }
-
   static void set_state( attr_state s )
   {
     A::set( s );
@@ -193,6 +187,12 @@ protected:
   }
 
 public:
+  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set,
+                const RTI::FedTime *time )
+  {
+    A::reflect( ahv_set, time );
+  }
+
   template< typename T >
   inline typename T::value_type const &a_() const
   {

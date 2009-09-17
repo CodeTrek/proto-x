@@ -12,9 +12,71 @@
 
 #include "utils/utils.hpp"
 #include "fed_mgr_som.hpp"
+#include "obj_fed_amb.hpp"
+
+using namespace boost;
 
 class fed_mgr_fed_amb : public NullFederateAmbassador
 {
+private:
+  RTI::RTIambassador &rti_amb;
+  obj_amb_type &obj_amb;
+
+public:
+  fed_mgr_fed_amb( RTI::RTIambassador &rti_amb,
+                   obj_amb_type &obj_amb ) :
+    rti_amb( rti_amb ),
+    obj_amb( obj_amb )
+  {}
+
+  ~fed_mgr_fed_amb() {}
+
+  ////////////////////////////////
+  // Object Management Services //
+  ////////////////////////////////
+
+  virtual void discoverObjectInstance (
+          RTI::ObjectHandle          theObject,      // supplied C1
+          RTI::ObjectClassHandle     theObjectClass, // supplied C1
+    const char*                      theObjectName)  // supplied C4  
+  {
+    obj_amb.discover_object( theObjectClass, theObject, theObjectName );
+  }
+
+  virtual void reflectAttributeValues (
+          RTI::ObjectHandle                 theObject,     // supplied C1
+    const RTI::AttributeHandleValuePairSet& theAttributes, // supplied C4
+    const RTI::FedTime&                     theTime,       // supplied C1
+    const char                             *theTag,        // supplied C4
+          RTI::EventRetractionHandle        theHandle)     // supplied C1
+  {
+    obj_amb.reflect_object( theObject, theAttributes, &theTime, theTag );
+  }
+
+  virtual void reflectAttributeValues (
+          RTI::ObjectHandle                 theObject,     // supplied C1
+    const RTI::AttributeHandleValuePairSet& theAttributes, // supplied C4
+    const char                             *theTag)        // supplied C4
+  {
+    obj_amb.reflect_object( theObject, theAttributes, 0, theTag );
+  }
+
+  virtual void removeObjectInstance (
+          RTI::ObjectHandle          theObject, // supplied C1
+    const RTI::FedTime&              theTime,   // supplied C4
+    const char                      *theTag,    // supplied C4
+          RTI::EventRetractionHandle theHandle) // supplied C1
+  {
+    // Ignore time
+    removeObjectInstance( theObject, theTag );
+  }
+
+  virtual void removeObjectInstance (
+          RTI::ObjectHandle          theObject, // supplied C1
+    const char                      *theTag)    // supplied C4
+  {
+    obj_amb.remove_object( theObject );
+  }
 };
 
 #if 0
@@ -302,7 +364,8 @@ int main( int argc, char* argv[] )
   create_federation_execution( rti_amb, FEDERATION_NAME, "example.fed" );
 
   // Join federation
-  fed_mgr_fed_amb fed_amb;
+  obj_amb_type obj_amb;
+  fed_mgr_fed_amb fed_amb( rti_amb, obj_amb );
 	rti_amb.joinFederationExecution( "fed_mgr", FEDERATION_NAME, &fed_amb );
   std::cout << "Federation joined.\n";
 
@@ -310,12 +373,8 @@ int main( int argc, char* argv[] )
   fed_mgr_som::init_handles( rti_amb );
   std::cout << "Handles initialized.\n";
 
-  std::cout << fed_mgr_som::get_attr_handle("HLAobjectRoot.HLAmanager.HLAfederate", "HLAfederateHandle") << "\n";
-
   // subscribe
-  typedef o_class_type< fed_mgr_som, q_name< HLAmanager, HLAfederate > >::type federate_class_type;
-
-  federate_class_type::subscribe( rti_amb );
+  federate_type::subscribe( rti_amb );
 
   std::cout << "Publications/subscription completed.\n";
 
