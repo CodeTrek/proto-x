@@ -1,0 +1,379 @@
+(FED
+(Federation FederationName)
+(FEDversion v1.3)
+(spaces)
+(objects 
+  (class ObjectRoot 
+    (attribute privilegeToDelete  reliable timestamp)
+    (class RTIprivate)
+    (class HLAobjectRoot
+      (attribute HLAprivilegeToDeleteObject best_effort NA)
+      (class HLAmanager
+        (class HLAfederate
+          (attribute HLAfederateHandle best_effort Receive)
+          (attribute HLAfederateType best_effort Receive)
+          (attribute HLAfederateHost best_effort Receive)
+          (attribute HLARTIversion best_effort Receive)
+          (attribute HLAFDDID best_effort Receive)
+          (attribute HLAtimeConstrained best_effort Receive)
+          (attribute HLAtimeRegulating best_effort Receive)
+          (attribute HLAasynchronousDelivery best_effort Receive)
+          (attribute HLAfederateState best_effort Receive)
+          (attribute HLAtimeManagerState best_effort Receive)
+          (attribute HLAlogicalTime best_effort Receive)
+          (attribute HLAlookahead best_effort Receive)
+          (attribute HLAGALT best_effort Receive)
+          (attribute HLALITS best_effort Receive)
+          (attribute HLAROlength best_effort Receive)
+          (attribute HLATSOlength best_effort Receive)
+          (attribute HLAreflectionsReceived best_effort Receive)
+          (attribute HLAupdatesSent best_effort Receive)
+          (attribute HLAinteractionsReceived best_effort Receive)
+          (attribute HLAinteractionsSent best_effort Receive)
+          (attribute HLAobjectInstancesThatCanBeDeleted best_effort Receive)
+          (attribute HLAobjectInstancesUpdated best_effort Receive)
+          (attribute HLAobjectInstancesReflected best_effort Receive)
+          (attribute HLAobjectInstancesDeleted best_effort Receive)
+          (attribute HLAobjectInstancesRemoved best_effort Receive)
+          (attribute HLAobjectInstancesRegistered best_effort Receive)
+          (attribute HLAobjectInstancesDiscovered best_effort Receive)
+          (attribute HLAtimeGrantedTime best_effort Receive)
+          (attribute HLAtimeAdvancingTime best_effort Receive)
+       )
+       (class HLAfederation
+         (attribute HLAfederationName best_effort Receive)
+         (attribute HLAfederatesInFederation best_effort Receive)
+         (attribute HLARTIversion best_effort Receive)
+         (attribute HLAFDDID best_effort Receive)
+         (attribute HLAlastSaveName best_effort Receive)
+         (attribute HLAlastSaveTime best_effort Receive)
+         (attribute HLAnextSaveName best_effort Receive)
+         (attribute HLAnextSaveTime best_effort Receive)
+         (attribute HLAautoProvide best_effort Receive)
+         (attribute HLAconveyRegionDesignatorSets best_effort Receive)
+       )
+     )
+   )
+  )
+)
+
+(interactions 
+    (class InteractionRoot  reliable timestamp
+       (class RTIprivate  reliable timestamp)
+  (class HLAinteractionRoot best_effort Receive
+  (class HLAmanager best_effort Receive
+     (parameter HLAfederate)
+   (class HLAfederate best_effort Receive
+  (class HLAadjust best_effort Receive
+  (class HLAsetTiming best_effort Receive
+     (parameter HLAreportPeriod)
+  )
+
+  (class HLAmodifyAttributeState best_effort Receive
+     (parameter HLAobjectInstance)
+      (parameter HLAattribute)
+      (parameter HLAattributeState)
+  )
+
+  (class HLAsetServiceReporting best_effort Receive
+     (parameter HLAreportingState)
+  )
+
+  (class HLAsetExceptionReporting best_effort Receive
+     (parameter HLAreportingState)
+  )
+
+ )
+
+  (class HLArequest best_effort Receive
+  (class HLArequestPublications best_effort Receive
+ )
+
+  (class HLArequestSubscriptions best_effort Receive
+ )
+
+  (class HLArequestObjectInstancesThatCanBeDeleted best_effort Receive
+ )
+
+  (class HLArequestObjectInstancesUpdated best_effort Receive
+ )
+
+  (class HLArequestObjectInstancesReflected best_effort Receive
+ )
+
+  (class HLArequestUpdatesSent best_effort Receive
+ )
+
+  (class HLArequestInteractionsSent best_effort Receive
+ )
+
+  (class HLArequestReflectionsReceived best_effort Receive
+ )
+
+  (class HLArequestInteractionsReceived best_effort Receive
+ )
+
+  (class HLArequestObjectInstanceInformation best_effort Receive
+     (parameter HLAobjectInstance)
+  )
+
+  (class HLArequestSynchronizationPoints best_effort Receive
+ )
+
+  (class HLArequestSynchronizationPointStatus best_effort Receive
+ )
+
+ )
+
+  (class HLAreport best_effort Receive
+  (class HLAreportObjectClassPublication best_effort Receive
+     (parameter HLAnumberOfClasses)
+      (parameter HLAobjectClass)
+      (parameter HLAattributeList)
+  )
+
+  (class HLAreportObjectClassSubscription best_effort Receive
+     (parameter HLAnumberOfClasses)
+      (parameter HLAobjectClass)
+      (parameter HLAactive)
+      (parameter HLAattributeList)
+  )
+
+  (class HLAreportInteractionPublication best_effort Receive
+     (parameter HLAinteractionClassList)
+  )
+
+  (class HLAreportInteractionSubscription best_effort Receive
+     (parameter HLAinteractionClassList)
+  )
+
+  (class HLAreportObjectInstancesThatCanBeDeleted best_effort Receive
+     (parameter HLAobjectInstanceCounts)
+  )
+
+  (class HLAreportObjectInstancesUpdated best_effort Receive
+     (parameter HLAobjectInstanceCounts)
+  )
+
+  (class HLAreportObjectInstancesReflected best_effort Receive
+     (parameter HLAobjectInstanceCounts)
+  )
+
+  (class HLAreportUpdatesSent best_effort Receive
+     (parameter HLAtransportation)
+      (parameter HLAupdateCounts)
+  )
+
+  (class HLAreportReflectionsReceived best_effort Receive
+     (parameter HLAtransportation)
+      (parameter HLAreflectCounts)
+  )
+
+  (class HLAreportInteractionsSent best_effort Receive
+     (parameter HLAtransportation)
+      (parameter HLAinteractionCounts)
+  )
+
+  (class HLAreportInteractionsReceived best_effort Receive
+     (parameter HLAtransportation)
+      (parameter HLAinteractionCounts)
+  )
+
+  (class HLAreportObjectInstanceInformation best_effort Receive
+     (parameter HLAobjectInstance)
+      (parameter HLAownedInstanceAttributeList)
+      (parameter HLAregisteredClass)
+      (parameter HLAknownClass)
+  )
+
+  (class HLAreportException best_effort Receive
+     (parameter HLAservice)
+      (parameter HLAexception)
+  )
+
+  (class HLAreportServiceInvocation best_effort Receive
+     (parameter HLAservice)
+      (parameter HLAsuccessIndicator)
+      (parameter HLAsuppliedArguments)
+      (parameter HLAreturnedArguments)
+      (parameter HLAexception)
+      (parameter HLAserialNumber)
+  )
+
+  (class HLAreportMOMexception best_effort Receive
+     (parameter HLAservice)
+      (parameter HLAexception)
+      (parameter HLAparameterError)
+  )
+
+  (class HLAreportSynchronizationPoints best_effort Receive
+     (parameter HLAsyncPoints)
+  )
+
+  (class HLAreportSynchronizationPointStatus best_effort Receive
+     (parameter HLAsyncPointName)
+      (parameter HLAsyncPointFederates)
+  )
+
+ )
+
+  (class HLAservice best_effort Receive
+  (class HLAresignFederationExecution best_effort Receive
+     (parameter HLAresignAction)
+  )
+
+  (class HLAsynchronizationPointAchieved best_effort Receive
+     (parameter HLAlabel)
+  )
+
+  (class HLAfederateSaveBegun best_effort Receive
+ )
+
+  (class HLAfederateSaveComplete best_effort Receive
+     (parameter HLAsuccessIndicator)
+  )
+
+  (class HLAfederateRestoreComplete best_effort Receive
+     (parameter HLAsuccessIndicator)
+  )
+
+  (class HLApublishObjectClassAttributes best_effort Receive
+     (parameter HLAobjectClass)
+      (parameter HLAattributeList)
+  )
+
+  (class HLAunpublishObjectClassAttributes best_effort Receive
+     (parameter HLAobjectClass)
+      (parameter HLAattributeList)
+  )
+
+  (class HLApublishInteractionClass best_effort Receive
+     (parameter HLAinteractionClass)
+  )
+
+  (class HLAunpublishInteractionClass best_effort Receive
+     (parameter HLAinteractionClass)
+  )
+
+  (class HLAsubscribeObjectClassAttributes best_effort Receive
+     (parameter HLAobjectClass)
+      (parameter HLAattributeList)
+      (parameter HLAactive)
+  )
+
+  (class HLAunsubscribeObjectClassAttributes best_effort Receive
+     (parameter HLAobjectClass)
+      (parameter HLAattributeList)
+  )
+
+  (class HLAsubscribeInteractionClass best_effort Receive
+     (parameter HLAinteractionClass)
+      (parameter HLAactive)
+  )
+
+  (class HLAunsubscribeInteractionClass best_effort Receive
+     (parameter HLAinteractionClass)
+  )
+
+  (class HLAdeleteObjectInstance best_effort Receive
+     (parameter HLAobjectInstance)
+      (parameter HLAtag)
+      (parameter HLAtimeStamp)
+  )
+
+  (class HLAlocalDeleteObjectInstance best_effort Receive
+     (parameter HLAobjectInstance)
+  )
+
+  (class HLAchangeAttributeTransportationType best_effort Receive
+     (parameter HLAobjectInstance)
+      (parameter HLAattributeList)
+      (parameter HLAtransportation)
+  )
+
+  (class HLAchangeInteractionTransportationType best_effort Receive
+     (parameter HLAinteractionClass)
+      (parameter HLAtransportation)
+  )
+
+  (class HLAunconditionalAttributeOwershipDivestiture best_effort Receive
+     (parameter HLAobjectInstance)
+      (parameter HLAattributeList)
+  )
+
+  (class HLAenableTimeRegulation best_effort Receive
+     (parameter HLAlookahead)
+  )
+
+  (class HLAdisableTimeRegulation best_effort Receive
+ )
+
+  (class HLAenableTimeConstrained best_effort Receive
+ )
+
+  (class HLAdisableTimeConstrained best_effort Receive
+ )
+
+  (class HLAtimeAdvanceRequest best_effort Receive
+     (parameter HLAtimeStamp)
+  )
+
+  (class HLAtimeAdvanceRequestAvailable best_effort Receive
+     (parameter HLAtimeStamp)
+  )
+
+  (class HLAnextMessageRequest best_effort Receive
+     (parameter HLAtimeStamp)
+  )
+
+  (class HLAnextMessageRequestAvailable best_effort Receive
+     (parameter HLAtimeStamp)
+  )
+
+  (class HLAflushQueueRequest best_effort Receive
+     (parameter HLAtimeStamp)
+  )
+
+  (class HLAenableAsynchronousDelivery best_effort Receive
+ )
+
+  (class HLAdisableAsynchronousDelivery best_effort Receive
+ )
+
+  (class HLAmodifyLookahead best_effort Receive
+     (parameter HLAtimeStamp)
+  )
+
+  (class HLAchangeAttributeOrderType best_effort Receive
+     (parameter HLAobjectInstance)
+      (parameter HLAattributeList)
+      (parameter HLAsendOrder)
+  )
+
+  (class HLAchangeInteractionOrderType best_effort Receive
+     (parameter HLAinteractionClass)
+      (parameter HLAsendOrder)
+  )
+
+ )
+
+ )
+
+  (class HLAfederation best_effort Receive
+  (class HLAadjust best_effort Receive
+  (class HLAsetSwitches best_effort Receive
+     (parameter HLAautoProvide)
+      (parameter HLAconveyRegionDesignatorSets)
+  )
+
+ )
+
+ )
+
+ )
+
+ )
+
+    )
+ )
+)

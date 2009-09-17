@@ -81,6 +81,10 @@ static void create_federation_execution
 	{
     std::cout << "Federation already exists.\n";
 	}
+  catch( RTI::Exception &ex )
+  {
+     std::cout <<  ex._name << " " << ex._reason << std::endl;
+  }
 }
 
 static void destroy_federation_execution

@@ -17,6 +17,7 @@
 
 #include <RTI.hh>
 
+#include <boost/shared_ptr.hpp>
 #include <boost/mpl/empty_base.hpp>
 
 #include <protox/io/byte_data_source.hpp>
