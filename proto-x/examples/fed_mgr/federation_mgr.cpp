@@ -3,30 +3,72 @@
 #include <string>
 
 #include <boost/shared_ptr.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <fedtime.hh>
 #include <RTI.hh>
-#include <NullFederateAmbassador.hh>
 
 #include <protox/hla/o_class_type.hpp>
 
 #include "utils/utils.hpp"
+#include "utils/fed_amb_util.hpp"
 #include "fed_mgr_som.hpp"
 #include "obj_fed_amb.hpp"
 
 using namespace boost;
 
-class fed_mgr_fed_amb : public NullFederateAmbassador
+class fed_mgr_fed_amb : public fed_amb_util
 {
 private:
   RTI::RTIambassador &rti_amb;
   obj_amb_type &obj_amb;
+  boost::shared_ptr< RTI::FederateHandleSet > federate_handle_set;
+
+  void update_federate_set()
+  {
+    assert( federate_handle_set != 0 );
+
+    obj_amb_type::const_it< federate_type >::type it;
+
+    for( it = obj_amb.begin< federate_type >();
+         it != obj_amb.end< federate_type >();
+         ++it )
+    {
+      const HLAhandle &handle = it->second.a_< HLAfederateHandle >();
+      std::string handle_str( handle.begin(),  handle.end() ); 
+
+      RTI::FederateHandle federate_handle = 0;
+      try
+      {
+        federate_handle
+          = boost::lexical_cast< RTI::FederateHandle >( handle_str.c_str() );
+      }
+      catch( bad_lexical_cast & ) { assert( false ); }
+
+      if( !federate_handle_set->isMember( federate_handle ) )
+      {
+        federate_handle_set->add( federate_handle );
+      }
+    }
+    
+    // Have the required number of federates joined?
+    if( federate_handle_set->size() < 3 )
+    {
+      return;
+    }
+    
+    // Now that everyone has joined, register the sync points
+    // used to coordinate the lifecycel of each joined federate.
+
+    // register_sync_points();
+  }
 
 public:
   fed_mgr_fed_amb( RTI::RTIambassador &rti_amb,
                    obj_amb_type &obj_amb ) :
     rti_amb( rti_amb ),
-    obj_amb( obj_amb )
+    obj_amb( obj_amb ),
+    federate_handle_set( RTI::FederateHandleSetFactory::create( 3 ) )
   {}
 
   ~fed_mgr_fed_amb() {}
@@ -41,6 +83,7 @@ public:
     const char*                      theObjectName)  // supplied C4  
   {
     obj_amb.discover_object( theObjectClass, theObject, theObjectName );
+    std::cout << "Federate " << theObjectName << " joined\n";
   }
 
   virtual void reflectAttributeValues (
@@ -51,6 +94,7 @@ public:
           RTI::EventRetractionHandle        theHandle)     // supplied C1
   {
     obj_amb.reflect_object( theObject, theAttributes, &theTime, theTag );
+    update_federate_set();
   }
 
   virtual void reflectAttributeValues (
@@ -59,6 +103,7 @@ public:
     const char                             *theTag)        // supplied C4
   {
     obj_amb.reflect_object( theObject, theAttributes, 0, theTag );
+    update_federate_set();
   }
 
   virtual void removeObjectInstance (
@@ -67,8 +112,8 @@ public:
     const char                      *theTag,    // supplied C4
           RTI::EventRetractionHandle theHandle) // supplied C1
   {
-    // Ignore time
-    removeObjectInstance( theObject, theTag );
+    obj_amb.remove_object( theObject );
+    std::cout << "Federate removed\n";
   }
 
   virtual void removeObjectInstance (
@@ -76,6 +121,7 @@ public:
     const char                      *theTag)    // supplied C4
   {
     obj_amb.remove_object( theObject );
+    std::cout << "Federate removed\n";
   }
 };
 
@@ -376,7 +422,13 @@ int main( int argc, char* argv[] )
   // subscribe
   federate_type::subscribe( rti_amb );
 
-  std::cout << "Publications/subscription completed.\n";
+  // enable time policy
+  enable_time_policy( rti_amb, fed_amb );
+
+  while( true )
+  {
+		advance_time( 1.0, rti_amb, fed_amb );
+  }
 
 	return 0;
 }
