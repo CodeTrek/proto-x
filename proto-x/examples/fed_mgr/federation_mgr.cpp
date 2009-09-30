@@ -254,9 +254,9 @@ int main( int argc, char* argv[] )
 
   while( true )
   {
-		advance_time( 1.0, rti_amb, fed_amb );
+    advance_time( 1.0, rti_amb, fed_amb );
   }
 
-	return 0;
+  return 0;
 }
 
