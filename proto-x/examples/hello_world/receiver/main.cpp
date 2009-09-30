@@ -46,7 +46,7 @@ int main( int argc, char *argv[] )
   create_federation_execution( rti_amb, "hw_federation", "hello_world.fed" );
 
   // Interaction ambassador
-	rti_amb.joinFederationExecution( "hw_receiver", "hw_federation", &fed_amb );
+  rti_amb.joinFederationExecution( "hw_receiver", "hw_federation", &fed_amb );
   std::cout << "Federation joined.\n";
 
   // Initialize handles
@@ -69,13 +69,13 @@ int main( int argc, char *argv[] )
 
   while( !goodbye )
   {
-		advance_time( 1.0, rti_amb, fed_amb );
+    advance_time( 1.0, rti_amb, fed_amb );
   }
 
-	rti_amb.resignFederationExecution( RTI::NO_ACTION );
+  rti_amb.resignFederationExecution( RTI::NO_ACTION );
   std::cout << "Resigned from federation.\n";
 
   destroy_federation_execution( rti_amb, "hw_federation" );
 
-	return 0;
+  return 0;
 }

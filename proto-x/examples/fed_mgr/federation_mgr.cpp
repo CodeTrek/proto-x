@@ -20,9 +20,30 @@ using namespace boost;
 class fed_mgr_fed_amb : public fed_amb_util
 {
 private:
+  enum {NUM_REQUIRED_JOINS = 3};
+
   RTI::RTIambassador &rti_amb;
   obj_amb_type &obj_amb;
   boost::shared_ptr< RTI::FederateHandleSet > federate_handle_set;
+  int num_sync_points_count;
+
+  void register_sync_points()
+  {
+    assert( federate_handle_set != 0 );
+    assert( federate_handle_set->size() == NUM_REQUIRED_JOINS );
+    num_sync_points_count = 0;
+
+    try
+    {
+      rti_amb.registerFederationSynchronizationPoint( "ReadyToPopulate", "", *federate_handle_set );
+      rti_amb.registerFederationSynchronizationPoint( "ReadyToRun",      "", *federate_handle_set );
+      rti_amb.registerFederationSynchronizationPoint( "ReadyToResign",   "", *federate_handle_set );
+    }
+    catch(RTI::Exception& ex)
+    {
+      std::cout << "RTI Exception: " << ex._name << " " << ex._reason << "\n";
+    }
+  } 
 
   void update_federate_set()
   {
@@ -52,15 +73,14 @@ private:
     }
     
     // Have the required number of federates joined?
-    if( federate_handle_set->size() < 3 )
+    if( federate_handle_set->size() < NUM_REQUIRED_JOINS )
     {
       return;
     }
     
     // Now that everyone has joined, register the sync points
-    // used to coordinate the lifecycel of each joined federate.
-
-    // register_sync_points();
+    // used to coordinate the lifecycle of each joined federate.
+    register_sync_points();
   }
 
 public:
@@ -123,247 +143,54 @@ public:
     obj_amb.remove_object( theObject );
     std::cout << "Federate removed\n";
   }
-};
 
-#if 0
-class FederationManager : public NullFederateAmbassador
-{
-private:
-  RTI::RTIambassador &rti_amb;
-  unsigned long const NUM_REQUIRED_JOINS;
-  //int numSyncPointsCount;
-  //RTI::FederateHandle federateHandle;
-  boost::shared_ptr< RTI::FederateHandleSet > federateHandleSet;
-  std::string const fedXName;
-
-  /**
-   * Register the required synchronization points.
-   */
-  void registerSyncPoints()
-  {
-    assert( federateHandleSet != 0 );
-    assert( federateHandleSet->size() == NUM_REQUIRED_JOINS );
-    numSyncPointsCount = 0;
-     
-    try
-    {
-      rtiAmb->registerFederationSynchronizationPoint( "ReadyToPopulate", "", *federateHandleSet );
-      rtiAmb->registerFederationSynchronizationPoint( "ReadyToRun",      "", *federateHandleSet );
-      rtiAmb->registerFederationSynchronizationPoint( "ReadyToResign",   "", *federateHandleSet );
-    }
-    catch(RTI::Exception& ex)
-    {
-      std::cout << "RTI Exception: " << ex._name << " " << ex._reason << "\n";
-    }
-  } 
-  
-  void onFederateJoined( RTI::FederateHandle const fedHandle )
-  {
-    assert( federateHandleSet != 0 );
-    
-    if ( federateHandleSet->isMember( fedHandle ) )
-      return;
-    
-    federateHandleSet->add( fedHandle );
-    
-    // Have the required number of federates joined?
-    if ( federateHandleSet->size() < NUM_REQUIRED_JOINS )
-      return;
-    
-    // Now that everyone has joined, register the sync points
-    // used to coordinate the lifecycel of each joined federate.
-    registerSyncPoints();
-  }
-  
   virtual void announceSynchronizationPoint(
     const char *label,
-    const char *tag
-  )
-  throw( RTI::FederateInternalError )
+    const char *tag)
   {
     static int const NUM_REQUIRED_SYNC_POINTS = 3;
     
-    ++numSyncPointsCount;
+    ++num_sync_points_count;
     
-    if (numSyncPointsCount < NUM_REQUIRED_SYNC_POINTS )
+    if( num_sync_points_count < NUM_REQUIRED_SYNC_POINTS )
+    {
       return;
+    }
   
     // All of the sync points have been registered and announced,
     // so assert ReadyToPopulate...
     try
     {
-      rtiAmb->synchronizationPointAchieved( "ReadyToPopulate" );
+      rti_amb.synchronizationPointAchieved( "ReadyToPopulate" );
     }
-    catch(RTI::Exception& ex)
+    catch( RTI::Exception& ex )
     {
       std::cout << "RTI Exception: "
                 << ex._name << " "
                 << ex._reason << std::endl;
-    } 
-  }
-  
-  /**
-   * This should only be called when a federate joins the federation.
-   */
-  virtual void reflectAttributeValues(
-    RTI::ObjectHandle                       theObject,     // supplied C1
-    const RTI::AttributeHandleValuePairSet& theAttributes, // supplied C4
-    const RTI::FedTime&                     theTime,       // supplied C1
-    const char                             *theTag,        // supplied C4
-    RTI::EventRetractionHandle              theHandle)     // supplied C1
-  throw(
-    RTI::ObjectNotKnown,
-    RTI::AttributeNotKnown,
-    RTI::FederateOwnsAttributes,
-    RTI::InvalidFederationTime,
-    RTI::FederateInternalError)
-  {
-    // Ignore the timestamp.
-    FederationManager::reflectAttributeValues( theObject, theAttributes, theTag );
-  }
-  
-  /**
-   * This should only be called when a federate joins the federation.
-   */
-  virtual void reflectAttributeValues(
-    RTI::ObjectHandle                       theObject,     // supplied C1
-    const RTI::AttributeHandleValuePairSet& theAttributes, // supplied C4
-    const char                             *theTag)        // supplied C4
-  throw(
-    RTI::ObjectNotKnown,
-    RTI::AttributeNotKnown,
-    RTI::FederateOwnsAttributes,
-    RTI::FederateInternalError)
-  {
-    assert( theAttributes.size() == 1 );
-    
-    RTI::Handle const attrHandle = theAttributes.getHandle( 0 );
-    RTI::Handle const classHandle = rtiAmb->getObjectClass( theObject );
-    char const *attrName = rtiAmb->getAttributeName( attrHandle, classHandle );
-    assert( std::string("FederateHandle") == attrName );
-        
-    // Get the joined federate's handle.
-
-    RTI::FederateHandle joinedFederateHandle = 0;
-    RTI::ULong sizeInBytes = 0;
-    
-    char const * const attrData = theAttributes.getValuePointer( 0, sizeInBytes );
-    
-    try
-    {
-      joinedFederateHandle = boost::lexical_cast< RTI::FederateHandle >( attrData );
     }
-    catch(bad_lexical_cast &)
-    {
-      assert( false );
-    }
-    
-    onFederateJoined( joinedFederateHandle );
-  }
-  
-  virtual void synchronizationPointRegistrationSucceeded (
-    const char *label) // supplied C4)
-  throw (RTI::FederateInternalError)
-  {
-    std::cout << "Synchronization point[ " << label << " ]successfully registered\n";
   }
 
-  virtual void synchronizationPointRegistrationFailed (
-    const char *label) // supplied C4)
-  throw (RTI::FederateInternalError)
-  {
-    std::cout << "Synchronization point[ " << label << " ]failed to register\n";
-    
-    assert( federateHandleSet != 0 );
-    assert( federateHandleSet->size() == NUM_REQUIRED_JOINS );
-
-    try
-    {
-      rtiAmb->registerFederationSynchronizationPoint( label, "", *federateHandleSet );
-    }
-    catch(RTI::Exception& ex)
-    {
-      std::cout << "RTI Exception: " << ex._name << " " << ex._reason << "\n";
-    }
-  }
-  
   /**
    * Called when all joined federates have achieved a synchronization point.
    */
-  virtual void federationSynchronized(
-    const char *label // supplied C4)
-  ) 
-  throw(
-    RTI::FederateInternalError
-  )
+  virtual void federationSynchronized( const char *label ) 
   {
-    if (std::string( "ReadyToPopulate" ) == label) {
-      rtiAmb->synchronizationPointAchieved( "ReadyToRun" );
-
+    if( std::string( "ReadyToPopulate" ) == label )
+    {
+      rti_amb.synchronizationPointAchieved( "ReadyToRun" );
     }
-    else if (std::string( "ReadyToRun" ) == label) {
-      rtiAmb->synchronizationPointAchieved( "ReadyToResign" );
+    else if( std::string( "ReadyToRun" ) == label )
+    {
+      rti_amb.synchronizationPointAchieved( "ReadyToResign" );
     }
-    else if (std::string( "ReadyToResign" ) == label) {
-    
+    else if( std::string( "ReadyToResign" ) == label )
+    {
       // Reset the federate handle set.
-      federateHandleSet->empty();
-      federateHandleSet->add( federateHandle );
-    }
-  }
-  
-public:
-  FederationManager(
-    std::string const &fedName,
-    std::string const &xName,
-    std::string const &fedFile,
-    int numRequiredJoins
-  ) :
-    rtiAmb( Hla13RtiAmbFactory::newRtiAmb() ),
-    NUM_REQUIRED_JOINS(numRequiredJoins),
-    numSyncPointsCount(0),
-    federateHandle(0),
-    federateHandleSet( RTI::FederateHandleSetFactory::create( numRequiredJoins ) ),
-    fedXName(xName)
-  {
-    assert( federateHandleSet != 0 );
-    
-    createFedEx( *rtiAmb, fedXName.c_str(), fedFile.c_str() );
-
-    try
-    {
-      federateHandle = rtiAmb->joinFederationExecution(fedName.c_str(), fedXName.c_str(), this);
-      federateHandleSet->add( federateHandle );
-      
-      // This subscription insures that the manager is notified whenever a
-      // federate joins.
-      std::vector< std::string > const subStr = list_of("Manager.Federate")
-                                                         ("FederateHandle");
-      Hla13Utils::subscribeAttributes( rtiAmb, subStr );
-    }
-    catch(RTI::Exception& ex)
-    {
-      federateHandleSet->empty();
-      federateHandle = 0;
-      std::cout << "RTI Exception: " << ex._name << " " << ex._reason << "\n";
-    }
-  }
-  
-  ~FederationManager()
-  {
-    rtiAmb->resignFederationExecution( RTI::DELETE_OBJECTS );
-    destroyFederation( *rtiAmb, fedXName.c_str() );
-  }
-  
-  void run()
-  {
-    while( true ) {
-      rtiAmb->tick();
-      Sleep( 100 );
+      federate_handle_set->empty();
     }
   }
 };
-#endif
 
 /**
  * A simple manager federate that uses synchronization points and the

@@ -31,11 +31,11 @@ int main( int argc, char *argv[] )
   waiting_for_quantity = true;
   num_platforms = 0;
 
-	char *fed_name = "rgb_pub";
+  char *fed_name = "rgb_pub";
 
-	if( argc > 1 )
+  if( argc > 1 )
   {
-		fed_name = argv[ 1 ];
+    fed_name = argv[ 1 ];
   }
 
   RTI::RTIambassador rti_amb;
@@ -47,7 +47,7 @@ int main( int argc, char *argv[] )
 
   // Join federation
   rgb_fed_amb fed_amb( inter_amb );
-	rti_amb.joinFederationExecution( fed_name, FEDERATION_NAME, &fed_amb );
+  rti_amb.joinFederationExecution( fed_name, FEDERATION_NAME, &fed_amb );
   std::cout << "Federation joined.\n";
 
   // Initialize handles
@@ -74,7 +74,7 @@ int main( int argc, char *argv[] )
 
   while( waiting_for_quantity )
   {
-		advance_time( 1.0, rti_amb, fed_amb );
+    advance_time( 1.0, rti_amb, fed_amb );
   }
 
   std::vector< platform_type > platforms( num_platforms );
@@ -100,13 +100,13 @@ int main( int argc, char *argv[] )
 
   while( true )
   {
-		advance_time( 1.0, rti_amb, fed_amb );
+    advance_time( 1.0, rti_amb, fed_amb );
   }
 
-	rti_amb.resignFederationExecution( RTI::NO_ACTION );
+  rti_amb.resignFederationExecution( RTI::NO_ACTION );
   std::cout << "Resigned from federation.\n";
 
   destroy_federation_execution( rti_amb, FEDERATION_NAME );
 
-	return 0;
+  return 0;
 }

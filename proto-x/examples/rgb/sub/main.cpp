@@ -23,7 +23,7 @@ int main( int argc, char *argv[] )
   // Join federation
   obj_amb_type obj_amb;
   rgb_fed_amb fed_amb( obj_amb );
-	rti_amb.joinFederationExecution( "rgb_sub", FEDERATION_NAME, &fed_amb );
+  rti_amb.joinFederationExecution( "rgb_sub", FEDERATION_NAME, &fed_amb );
   std::cout << "Federation joined.\n";
 
   // Initialize handles
@@ -81,10 +81,10 @@ int main( int argc, char *argv[] )
     advance_time( 1.0, rti_amb, fed_amb );
   }
 
-	rti_amb.resignFederationExecution( RTI::NO_ACTION );
+  rti_amb.resignFederationExecution( RTI::NO_ACTION );
   std::cout << "Resigned from federation.\n";
 
   destroy_federation_execution( rti_amb, FEDERATION_NAME );
 
-	return 0;
+  return 0;
 }
