@@ -23,6 +23,7 @@ namespace som_s012 {
 
 /******************************************************************************/
 
+using namespace protox;
 using namespace protox::hla;
 
 //// Object Class Table ////////////////////////////////////////////////////////
@@ -39,7 +40,7 @@ struct o_class_table :
                                                            o_class< Class_C > > >,
 //                     +--------------------------+-------------------------+
                                o_class< Class_C,                                                            attrs< A1, A2 >,
-                                                    child< o_class< Class_A,                                none,
+                                                    child< o_class< Class_A,                                hla::none,
                                                                               child< o_class< Class_E > > >,
 //                                                +-------------------------+-------------------------+
                                                            o_class< Class_C >,
