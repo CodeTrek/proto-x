@@ -1,6 +1,6 @@
 import os ;
 local BOOST_INCLUDE_PATH = [ os.environ BOOST_INCLUDE ] ;
-local RTI_INCLUDE_PATH = [ os.environ RTI_INCLUDE ] ;
+local RTI_INCLUDE_PATH = [ os.environ TEST_RTI_INCLUDE ] ;
 project
   : requirements
       <target-os>windows:<linkflags>"Ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib"
