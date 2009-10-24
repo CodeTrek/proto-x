@@ -1,18 +1,15 @@
 import os ;
-local BOOST_INCLUDE_PATH = [ os.environ BOOST_INCLUDE ] ;
+
 local RTI_HOME = [ os.environ RTI_HOME ] ;
+
 project
   : requirements
-      <target-os>windows:<linkflags>"Ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib"
-      <target-os>windows:<cxxflags>/DWIN32
       <target-os>windows:<cxxflags>/DRTI_USES_STD_FSTREAM
       <linkflags>\"$(RTI_HOME)/lib/libRTI-NG.lib\"
       <linkflags>\"$(RTI_HOME)/lib/libFedTime.lib\"
-      <include>$(BOOST_INCLUDE_PATH)
       <include>$(RTI_HOME)/include/ng6
       <include>.
       <include>..
-      <include>../include
   ;
 
 build-project fed_mgr ;
