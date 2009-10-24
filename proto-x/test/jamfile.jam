@@ -1,0 +1,11 @@
+import os ;
+using testing ;
+
+local RTI_INCLUDE_PATH = [ os.environ TEST_RTI_INCLUDE ] ;
+
+unit-test protox_unit_tests
+  : protox_unit_tests.cpp
+  : <include>$(RTI_INCLUDE_PATH)
+    <include>..
+  ;
+   
