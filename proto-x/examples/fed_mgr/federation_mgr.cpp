@@ -19,7 +19,7 @@ using namespace boost;
 class fed_mgr_fed_amb : public fed_amb_util
 {
 private:
-  enum {NUM_REQUIRED_JOINS = 3};
+  enum {NUM_REQUIRED_JOINS = 2};
 
   RTI::RTIambassador &rti_amb;
   obj_amb_type &obj_amb;
@@ -47,6 +47,7 @@ private:
   void update_federate_set()
   {
     assert( federate_handle_set != 0 );
+    federate_handle_set->empty();
 
     obj_amb_type::const_it< federate_type >::type it;
 
@@ -57,6 +58,11 @@ private:
       const HLAhandle &handle = it->second.a_< HLAfederateHandle >();
       std::string handle_str( handle.begin(),  handle.end() ); 
 
+      if( handle_str.empty() )
+      {
+        continue;
+      }
+
       RTI::FederateHandle federate_handle = 0;
       try
       {
@@ -65,10 +71,7 @@ private:
       }
       catch( bad_lexical_cast & ) { assert( false ); }
 
-      if( !federate_handle_set->isMember( federate_handle ) )
-      {
-        federate_handle_set->add( federate_handle );
-      }
+      federate_handle_set->add( federate_handle );
     }
     
     // Have the required number of federates joined?
@@ -132,6 +135,7 @@ public:
           RTI::EventRetractionHandle theHandle) // supplied C1
   {
     obj_amb.remove_object( theObject );
+    update_federate_set();
     std::cout << "Federate removed\n";
   }
 
@@ -140,6 +144,7 @@ public:
     const char                      *theTag)    // supplied C4
   {
     obj_amb.remove_object( theObject );
+    update_federate_set();
     std::cout << "Federate removed\n";
   }
 
@@ -147,6 +152,15 @@ public:
     const char *label,
     const char *tag)
   {
+    std::string label_str(label);
+
+    if (label_str.empty())
+    {
+      label = "unknown";
+    }
+
+    std::cout << "Sync point " << label_str.c_str() << " announced.\n";
+
     static int const NUM_REQUIRED_SYNC_POINTS = 3;
     
     ++num_sync_points_count;
@@ -164,9 +178,7 @@ public:
     }
     catch( RTI::Exception& ex )
     {
-      std::cout << "RTI Exception: "
-                << ex._name << " "
-                << ex._reason << std::endl;
+      std::cout << "RTI Exception: " << ex._name << " " << ex._reason << std::endl;
     }
   }
 
@@ -258,4 +270,3 @@ int main( int argc, char* argv[] )
 
   return 0;
 }
-
