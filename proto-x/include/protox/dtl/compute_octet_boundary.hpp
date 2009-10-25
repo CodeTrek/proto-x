@@ -70,8 +70,8 @@ struct compute_octet_boundary
   typedef typename
     boost::mpl::if_<
       boost::mpl::greater_equal< product, boost::mpl::int_< S > >,
-      nth_power_of_two,                                 // answer found
-      typename compute_octet_boundary< S, (N+1) >::type // keep iterating
+      nth_power_of_two,                                 // true  : answer found
+      typename compute_octet_boundary< S, (N+1) >::type // false : keep iterating
     >::type type;
 };
 
@@ -87,7 +87,7 @@ struct compute_octet_boundary< S, MAX_ITERATIONS::value >
 
 /******************************************************************************/
 
-}} // protox::dtl
+}}
 
 /******************************************************************************/
 

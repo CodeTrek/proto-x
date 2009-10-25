@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_DTL_BASIC_HPP
 #define PROTOX_DTL_BASIC_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <cstddef>
 
@@ -21,19 +21,22 @@
 #include <protox/dtl/endian_enum.hpp>
 #include <protox/dtl/basic_tag.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace dtl {
+namespace protox {
+namespace dtl {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-// This is a type generator for basic data representations. Basic data
-// representations form the foundation of the protox::dtl type sytem. All
-// simple, enumerated, and constructed types are built using basic data
-// representations.
+/**
+ * This is a type generator for basic data representations. \c basic_data
+ * representations form the foundation of the protox::dtl type system. All
+ * simple, enumerated, and constructed types are built using basic data
+ * representations.
 
-// basic associates C++ type T with the given size in bits and endian
-// representation code.
+ * basic associates C++ type T with the given size in bits and endian
+ * representation code.
+ */
 
 template<
   typename T,          // The native type used to represent the basic data
@@ -49,7 +52,7 @@ template<
 struct basic : basic_tag
 {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
   // Test for valid template arguments:
 
@@ -66,28 +69,28 @@ struct basic : basic_tag
     ( ENDIAN::value == endian::na::value     )
   );
 
-/******************************************************************************/
+/**************************************************************************************************/
 
   typedef CODEC_TAG codec_tag;
   typedef ENDIAN endian;
   typedef T value_type;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
   enum{ size_in_bits = SIZE_IN_BITS };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
   T value;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
   basic() : value(T()) {}
 
   // Implicit conversion from T to basic
   basic( const T v ) : value(v) {}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
   // Implicit conversion from basic to T
   inline operator T() const { return value; }
@@ -114,12 +117,15 @@ struct basic : basic_tag
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // protox::dtl
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
+/**
+ * Defines constructor methods for a \c basic type named \c basic_name.
+ */
 #define PROTOX_BASIC(basic_name)                      \
   basic_name() {}                                     \
   typedef protox::dtl::basic< basic_name::value_type, \
@@ -128,8 +134,8 @@ struct basic : basic_tag
     basic_name::codec_tag > base_type;                \
   basic_name(base_type::value_type v) : base_type(v) {}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

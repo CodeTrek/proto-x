@@ -131,9 +131,7 @@ struct codec_impl< hla_1516::HLA64BitTwosComplementSigned > :
 /******************************************************************************/
 
 template<>
-struct codec_impl< hla_1516::HLA32BitIEEESinglePrecision > :
-  basic_codec_impl_1516
-{};
+struct codec_impl< hla_1516::HLA32BitIEEESinglePrecision > : basic_codec_impl_1516 {};
 
 /******************************************************************************/
 
