@@ -107,8 +107,8 @@ struct basic : basic_tag
     return( *this );
   }
 
-  // Enable numerical assignment.
-  // For example, assignment of float to int, assignment int to float, etc...
+  // Enable numerical assignment. For example, assignment of float to int, assignment int to float,
+  // etc...
   template< typename RHST >
   basic &operator =( const RHST rhs )
   {

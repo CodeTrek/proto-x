@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_HLA_SOM_HPP
 #define PROTOX_HLA_SOM_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <RTI.hh>
 
@@ -26,14 +26,14 @@
 #include <protox/hla/attr_dft.hpp>
 #include <protox/hla/param_dft.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace hla {
+namespace protox {
+namespace hla {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-template< typename ROOT_O_CLASS = null_o_class,
-          typename ROOT_I_CLASS = null_i_class >
+template< typename ROOT_O_CLASS = null_o_class, typename ROOT_I_CLASS = null_i_class >
 struct som
 {
 private:
@@ -57,15 +57,15 @@ private:
 
   static void init_o_class_handles( RTI::RTIambassador &rtiAmb )
   {
-    hla::name_to_o_class_handle_map &o_class_map
-      = get_name_to_o_class_handle_map();
+    hla::name_to_o_class_handle_map &o_class_map = get_name_to_o_class_handle_map();
       
     // Maps is already populated? 
     if( !o_class_map.empty() )
+    {
       return;
+    }
       
-    hla::o_class_handle_to_attr_map &attr_map
-      = get_o_class_handle_to_attr_map();
+    hla::o_class_handle_to_attr_map &attr_map = get_o_class_handle_to_attr_map();
 
     assert( attr_map.empty() );
       
@@ -89,8 +89,7 @@ private:
 
   static void init_i_class_handles( RTI::RTIambassador &rti_amb )
   {
-    hla::name_to_i_class_handle_map &i_class_map
-      = get_name_to_i_class_handle_map();
+    hla::name_to_i_class_handle_map &i_class_map = get_name_to_i_class_handle_map();
       
     // Map is already populated? 
     if( !i_class_map.empty() )
@@ -98,8 +97,7 @@ private:
       return;
     }
       
-    hla::i_class_handle_to_param_map &param_map
-      = get_i_class_handle_to_param_map();
+    hla::i_class_handle_to_param_map &param_map = get_i_class_handle_to_param_map();
 
     assert( param_map.empty() );
       
@@ -110,8 +108,7 @@ public:
   typedef ROOT_O_CLASS o_class_table;
   typedef ROOT_I_CLASS i_class_table;
 
-  static RTI::ObjectClassHandle get_object_class_handle
-    ( const std::string &name )
+  static RTI::ObjectClassHandle get_object_class_handle( const std::string &name )
   {
     name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
     name_to_o_class_handle_map::const_iterator it = class_map.find(name);
@@ -185,8 +182,7 @@ public:
     return class_map.size();
   }
 
-  static RTI::InteractionClassHandle get_interaction_class_handle
-    ( const std::string &name )
+  static RTI::InteractionClassHandle get_interaction_class_handle( const std::string &name )
   {
     name_to_i_class_handle_map &class_map = get_name_to_i_class_handle_map();
     name_to_i_class_handle_map::const_iterator it = class_map.find( name );
@@ -200,8 +196,8 @@ public:
     return( (*it).second );
   }
 
-  static RTI::ParameterHandle get_param_handle
-    ( const std::string &name, RTI::InteractionClassHandle handle )
+  static RTI::ParameterHandle get_param_handle( const std::string &name,
+                                                RTI::InteractionClassHandle handle )
   {
     i_class_handle_to_param_map &class_map = get_i_class_handle_to_param_map();
     i_class_handle_to_param_map::const_iterator i = class_map.find( handle );
@@ -230,8 +226,7 @@ public:
       throw RTI::NameNotFound( param_name.c_str() );
     }
 
-    RTI::InteractionClassHandle class_handle
-      = get_interaction_class_handle( class_name );
+    RTI::InteractionClassHandle class_handle = get_interaction_class_handle( class_name );
 
     RTI::ParameterHandle param_handle;
 
@@ -304,12 +299,12 @@ public:
   }
 };
   
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // protox::hla
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

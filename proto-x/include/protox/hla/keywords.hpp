@@ -5,7 +5,7 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
  
 #ifndef PROTOX_HLA_KEYWORDS_HPP
 #define PROTOX_HLA_KEYWORDS_HPP
@@ -19,19 +19,20 @@
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/set.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace hla {
+namespace protox {
+namespace hla {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 struct empty {};
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // keyword: attrs
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef HLA_MAX_NUM_ATTRS
 #define HLA_MAX_NUM_ATTRS 20
@@ -40,8 +41,7 @@ struct empty {};
 #define HLA_ATTRS_DEFAULT_PARAMS(z, n, text) text##n=empty
 
 // Forward reference
-template< BOOST_PP_ENUM(HLA_MAX_NUM_ATTRS, HLA_ATTRS_DEFAULT_PARAMS, typename T) >
-struct attrs;
+template< BOOST_PP_ENUM(HLA_MAX_NUM_ATTRS, HLA_ATTRS_DEFAULT_PARAMS, typename T) > struct attrs;
 
 // Used to yield the 'text' argument
 #define HLA_ATTRS_TEXT(z, n, text) text
@@ -70,11 +70,11 @@ struct attrs : boost::mpl::set< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_ATTRS, T) > {};
 #undef HLA_ATTRS_TEXT
 #undef HLA_ATTRS
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // keyword: params
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef HLA_MAX_NUM_PARAMS
 #define HLA_MAX_NUM_PARAMS 20
@@ -83,8 +83,7 @@ struct attrs : boost::mpl::set< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_ATTRS, T) > {};
 #define HLA_PARAMS_DEFAULT_PARAMS(z, n, text) text##n=empty
 
 // Forward reference
-template< BOOST_PP_ENUM(HLA_MAX_NUM_PARAMS, HLA_PARAMS_DEFAULT_PARAMS, typename T) >
-struct params;
+template< BOOST_PP_ENUM(HLA_MAX_NUM_PARAMS, HLA_PARAMS_DEFAULT_PARAMS, typename T) > struct params;
 
 // Used to yield the 'text' argument
 #define HLA_PARAMS_TEXT(z, n, text) text
@@ -113,11 +112,11 @@ struct params : boost::mpl::set< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_PARAMS, T) > {
 #undef HLA_PARAMS_TEXT
 #undef HLA_PARAMS
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // keyword: child
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef HLA_MAX_NUM_CHILDREN
 #define HLA_MAX_NUM_CHILDREN 20
@@ -156,11 +155,11 @@ struct child : boost::mpl::set< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_CHILDREN, T) > 
 #undef HLA_CHILDREN_TEXT
 #undef HLA_CHILDREN
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // keyword: q_name
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef HLA_MAX_NUM_QNAME
 #define HLA_MAX_NUM_QNAME 20
@@ -169,8 +168,7 @@ struct child : boost::mpl::set< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_CHILDREN, T) > 
 #define HLA_QNAME_DEFAULT_PARAMS(z, n, text) text##n=empty
 
 // Forward reference
-template< BOOST_PP_ENUM(HLA_MAX_NUM_QNAME, HLA_QNAME_DEFAULT_PARAMS, typename T) >
-struct q_name;
+template< BOOST_PP_ENUM(HLA_MAX_NUM_QNAME, HLA_QNAME_DEFAULT_PARAMS, typename T) > struct q_name;
 
 // Used to yield the 'text' argument
 #define HLA_QNAME_TEXT(z, n, text) text
@@ -199,20 +197,20 @@ struct q_name : boost::mpl::vector< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_QNAME, T) >
 #undef HLA_QNAME_TEXT
 #undef HLA_QNAME
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // keyword: none
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 struct none : boost::mpl::vector<> {};
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // namespace protox::hla
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

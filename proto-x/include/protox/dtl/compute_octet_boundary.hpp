@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_DTL_COMPUTE_OCTET_BOUNDARY_HPP
 #define PROTOX_DTL_COMPUTE_OCTET_BOUNDARY_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <boost/mpl/int.hpp>
 #include <boost/mpl/if.hpp>
@@ -22,11 +22,12 @@
 
 #include <protox/platform.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace dtl {
+namespace protox {
+namespace dtl {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 typedef boost::mpl::shift_left<
   boost::mpl::int_< 1 >,
@@ -35,7 +36,7 @@ typedef boost::mpl::shift_left<
 
 typedef boost::mpl::int_< -1 > UNKNOWN_OCTET_BOUNDARY;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // Compile time computation of an octect boundary value. The octet
 // boundary value for a data type is the smallest value 2^n, where
@@ -59,13 +60,10 @@ struct compute_octet_boundary
 
   // Compute the Nth power of two (i.e., 1 << N ) :
   typedef typename
-    boost::mpl::shift_left< boost::mpl::int_< 1 >,
-                            boost::mpl::int_< N > >::type nth_power_of_two;
+    boost::mpl::shift_left< boost::mpl::int_< 1 >, boost::mpl::int_< N > >::type nth_power_of_two;
 
   // Compute the product 8 * 2^N :
-  typedef typename
-    boost::mpl::multiplies< boost::mpl::int_< 8 >,
-                            nth_power_of_two >::type product;
+  typedef typename boost::mpl::multiplies< boost::mpl::int_< 8 >, nth_power_of_two >::type product;
 
   typedef typename
     boost::mpl::if_<
@@ -75,7 +73,7 @@ struct compute_octet_boundary
     >::type type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // This specialization is reached if the octect boundary value is greater than
 // or equal to PROTOX_DTL_MAX_OCTET_ITERATIONS.
@@ -85,12 +83,12 @@ struct compute_octet_boundary< S, MAX_ITERATIONS::value >
   typedef UNKNOWN_OCTET_BOUNDARY type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 }}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

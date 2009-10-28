@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_HLA_ATTR_DFT_HPP
 #define PROTOX_HLA_ATTR_DFT_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <RTI.hh>
 
@@ -32,11 +32,12 @@
 #include <protox/hla/build_full_name.hpp>
 #include <protox/hla/print_stack.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace hla {
+namespace protox {
+namespace hla {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 struct init_attr_handle
 {
@@ -69,24 +70,22 @@ struct init_attr_handle
     // No entry for the attribute name?
     if( j == map[ class_handle ].end() )
     {
-      map[ class_handle ][ N::name() ]
-        = rtiAmb.getAttributeHandle( N::name(), class_handle );
+      map[ class_handle ][ N::name() ] = rtiAmb.getAttributeHandle( N::name(), class_handle );
     }
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // forward declaration
 template< typename T, typename Stack > struct attr_dft;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // forward declaration
-template< bool empty, typename Children, typename Stack >
-struct attr_dft_children;
+template< bool empty, typename Children, typename Stack > struct attr_dft_children;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename Children, typename Stack >
 struct attr_dft_children< false, Children, Stack >
@@ -95,16 +94,13 @@ struct attr_dft_children< false, Children, Stack >
   typedef typename boost::mpl::front< Children >::type first_child;
 
   // Get the remaining children (i.e, the tail of the child vector)
-  typedef typename
-    boost::mpl::erase< Children, boost::mpl::front< Children > >::type tail;
+  typedef typename boost::mpl::erase< Children, boost::mpl::front< Children > >::type tail;
 
   // Traverse the first child of the given Children vector.
   typedef attr_dft< first_child, Stack > stack;
 
   // Traverse the remaining children.
-  typedef attr_dft_children< boost::mpl::empty< tail >::value,
-                             tail,
-                             typename stack::type > result;
+  typedef attr_dft_children< boost::mpl::empty< tail >::value, tail, typename stack::type > result;
 
   typedef typename result::type type;
 
@@ -123,7 +119,7 @@ struct attr_dft_children< false, Children, Stack >
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename Children, typename Stack >
 struct attr_dft_children< true, Children, Stack >
@@ -149,8 +145,7 @@ struct attr_dft_children< true, Children, Stack >
       return;
     }
     
-    RTI::ObjectClassHandle class_handle
-      = rtiAmb.getObjectClassHandle( full_name.c_str() );
+    RTI::ObjectClassHandle class_handle = rtiAmb.getObjectClassHandle( full_name.c_str() );
 
     class_map[ full_name ] = class_handle;
     
@@ -161,7 +156,7 @@ struct attr_dft_children< true, Children, Stack >
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 /**
  * Perform a depth first traversal of the given tree T.  
@@ -194,12 +189,12 @@ struct attr_dft
   }
 };
   
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // protox::hla
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_HLA_I_CLASS_PARAM_VECTOR_HPP
 #define PROTOX_HLA_I_CLASS_PARAM_VECTOR_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <boost/mpl/front.hpp>
 #include <boost/mpl/copy.hpp>
@@ -22,29 +22,28 @@
 
 #include <protox/hla/x_class_vector.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace hla {
+namespace protox {
+namespace hla {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< bool INTER_CLASS_VECTOR_IS_EMPTY,
           typename INTER_CLASS_VECTOR,
           typename PARAM_VECTOR > struct i_class_param_vector_impl;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-template< typename INTER_CLASS_VECTOR,
-          typename PARAM_VECTOR >
+template< typename INTER_CLASS_VECTOR, typename PARAM_VECTOR >
 struct i_class_param_vector_impl< true, INTER_CLASS_VECTOR, PARAM_VECTOR >
 {
   typedef PARAM_VECTOR type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-template< typename INTER_CLASS_VECTOR,
-          typename PARAM_VECTOR >
+template< typename INTER_CLASS_VECTOR, typename PARAM_VECTOR >
 struct i_class_param_vector_impl< false, INTER_CLASS_VECTOR, PARAM_VECTOR >
 {
   typedef typename boost::mpl::front< INTER_CLASS_VECTOR >::type front_class;
@@ -54,8 +53,7 @@ struct i_class_param_vector_impl< false, INTER_CLASS_VECTOR, PARAM_VECTOR >
     boost::mpl::back_inserter< PARAM_VECTOR >
   >::type param_vector_type;
   
-  typedef typename
-    boost::mpl::pop_front< INTER_CLASS_VECTOR >::type class_vector_tail;
+  typedef typename boost::mpl::pop_front< INTER_CLASS_VECTOR >::type class_vector_tail;
   
   typedef typename i_class_param_vector_impl<
     (boost::mpl::empty< class_vector_tail >::value),
@@ -64,10 +62,9 @@ struct i_class_param_vector_impl< false, INTER_CLASS_VECTOR, PARAM_VECTOR >
   >::type type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-template< typename i_class,
-          typename NAME_VECTOR >
+template< typename i_class, typename NAME_VECTOR >
 struct i_class_param_vector
 {
   typedef typename x_class_vector< i_class, NAME_VECTOR >::type class_vector;
@@ -79,12 +76,12 @@ struct i_class_param_vector
   >::type type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // protox::hla
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

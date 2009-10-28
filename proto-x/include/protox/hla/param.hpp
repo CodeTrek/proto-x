@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_HLA_PARAM_HPP
 #define PROTOX_HLA_PARAM_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <string>
 
@@ -22,11 +22,12 @@
 #include <protox/io/byte_data_sink.hpp>
 #include <protox/io/byte_data_source.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace hla {
+namespace protox {
+namespace hla {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename T >
 struct param_base
@@ -47,16 +48,11 @@ protected:
     handle = S::get_param_handle( class_name, name() );
   }
 
-  void add_value
-    ( boost::shared_ptr< RTI::ParameterHandleValuePairSet > set_ptr )
+  void add_value( boost::shared_ptr< RTI::ParameterHandleValuePairSet > set_ptr )
   {
     protox::io::byte_data_sink sink;
-
     sink.encode( value );
-
-    set_ptr->add( handle,
-                  sink.getDataBuffer(),
-                  (unsigned long) sink.getDataBufferSize() );
+    set_ptr->add( handle, sink.getDataBuffer(), (unsigned long) sink.getDataBufferSize() );
   }
   
   void recv_value( const RTI::ParameterHandleValuePairSet &ph_set )
@@ -79,7 +75,7 @@ protected:
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename T >
 struct param
@@ -87,12 +83,12 @@ struct param
   typedef T value_type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // Forward declaration
 template< typename A, typename B > struct param_inherit;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename A >
 struct param_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty_base
@@ -104,8 +100,7 @@ protected:
     A::template init_handle< T >( class_name );
   }
 
-  void add_values
-    ( boost::shared_ptr< RTI::ParameterHandleValuePairSet> set_ptr )
+  void add_values( boost::shared_ptr< RTI::ParameterHandleValuePairSet> set_ptr )
   {
     A::add_value( set_ptr );
   }
@@ -135,7 +130,7 @@ public:
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 /**
  * A is an attribute and B is set of predecessor parameters.
@@ -151,8 +146,7 @@ protected:
     B::template init_handles< T >( class_name );
   }
 
-  void add_values
-    ( boost::shared_ptr< RTI::ParameterHandleValuePairSet > set_ptr )
+  void add_values( boost::shared_ptr< RTI::ParameterHandleValuePairSet > set_ptr )
   {
     A::add_value( set_ptr );
     B::add_values( set_ptr );
@@ -184,12 +178,12 @@ public:
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // protox::hla
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

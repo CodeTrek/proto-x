@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_HLA_REMOTE_OBJECT_HPP
 #define PROTOX_HLA_REMOTE_OBJECT_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <map>
 
@@ -18,11 +18,12 @@
 
 #include <boost/mpl/empty_base.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace hla {
+namespace protox {
+namespace hla {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename T >
 struct remote_object_base
@@ -77,16 +78,15 @@ struct remote_object_base
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // Forward declaration
 template< typename A, typename B > struct remote_object_inherit;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename A >
-struct remote_object_inherit< A, boost::mpl::empty_base > :
-  A, boost::mpl::empty_base
+struct remote_object_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty_base
 {
   void discover_object( RTI::ObjectClassHandle class_handle,
                         RTI::ObjectHandle object_handle,
@@ -122,33 +122,29 @@ struct remote_object_inherit< A, boost::mpl::empty_base > :
   template< typename T >
   inline typename remote_object_base< T >::const_it begin() const
   {
-    return( static_cast< remote_object_base< T > const & >( *this )
-      .objects.begin() );
+    return( static_cast< remote_object_base< T > const & >( *this ).objects.begin() );
   }
 
   template< typename T >
   inline typename remote_object_base< T >::const_it end() const
   {
-    return (static_cast< remote_object_base< T > const & >( *this )
-      .objects.end() );
+    return (static_cast< remote_object_base< T > const & >( *this ).objects.end() );
   }
 
   template< typename T >
   inline std::size_t size() const
   {
-    return (static_cast< remote_object_base< T > const & >( *this )
-      .objects.size() );
+    return (static_cast< remote_object_base< T > const & >( *this ).objects.size() );
   }
 
   template< typename T >
   inline bool empty() const
   {
-    return (static_cast< remote_object_base< T > const & >( *this )
-      .objects.empty() );
+    return (static_cast< remote_object_base< T > const & >( *this ).objects.empty() );
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 /**
  * A is remote_object and B is set of predecessor remote_objects.
@@ -202,31 +198,28 @@ public:
   template< typename T >
   inline typename remote_object_base< T >::const_it end() const
   {
-    return (static_cast< remote_object_base< T > const & >( *this )
-      .objects.end() );
+    return (static_cast< remote_object_base< T > const & >( *this ).objects.end() );
   }
 
   template< typename T >
   inline std::size_t size() const
   {
-    return (static_cast< remote_object_base< T > const & >( *this )
-      .objects.size() );
+    return (static_cast< remote_object_base< T > const & >( *this ).objects.size() );
   }
 
   template< typename T >
   inline bool empty() const
   {
-    return (static_cast< remote_object_base< T > const & >( *this )
-      .objects.empty() );
+    return (static_cast< remote_object_base< T > const & >( *this ).objects.empty() );
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // protox::hla
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

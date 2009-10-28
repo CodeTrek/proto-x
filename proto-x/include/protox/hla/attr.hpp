@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_HLA_ATTR_HPP
 #define PROTOX_HLA_ATTR_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <string>
 #include <set>
@@ -23,15 +23,16 @@
 #include <protox/io/byte_data_source.hpp>
 #include <protox/io/byte_data_sink.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace hla {
+namespace protox {
+namespace hla {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 enum attr_state { PUBLISHED = 1L << 0, SUBSCRIBED = 1L << 1 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename T >
 struct attr_base
@@ -108,7 +109,7 @@ protected:
   bool is_updated() const { return updated; }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename T >
 struct attr
@@ -116,12 +117,12 @@ struct attr
   typedef T value_type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // Forward declaration
 template< typename A, typename B > struct attr_inherit;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename A >
 struct attr_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty_base
@@ -133,8 +134,7 @@ protected:
     A::template init_handle< T >( class_name );
   }
 
-  void update_values
-    ( boost::shared_ptr< RTI::AttributeHandleValuePairSet> set_ptr )
+  void update_values( boost::shared_ptr< RTI::AttributeHandleValuePairSet> set_ptr )
   {
     A::update_value( set_ptr );
   }
@@ -159,7 +159,7 @@ protected:
     }
 
     // Undefined attributes?
-    if (!attr_names.empty())
+    if( !attr_names.empty() )
     {
       std::string name = *attr_names.begin();
 
@@ -187,8 +187,7 @@ protected:
   }
 
 public:
-  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set,
-                const RTI::FedTime *time )
+  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set, const RTI::FedTime *time )
   {
     A::reflect( ahv_set, time );
   }
@@ -207,7 +206,7 @@ public:
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 /**
  * A is an attribute and B is set of predecessor attributes.
@@ -295,21 +294,19 @@ public:
     return (static_cast< attr_base< T > & >( *this ).handle);
   }
 
-  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set,
-                const RTI::FedTime *time )
+  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set, const RTI::FedTime *time )
   {
     A::reflect( ahv_set, time );
     B::reflect( ahv_set, time );
   }
-
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // protox::hla
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

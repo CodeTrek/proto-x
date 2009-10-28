@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_DTL_DISCRIMINANT_HPP
 #define PROTOX_DTL_DISCRIMINANT_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <boost/variant/get.hpp>
 #include <boost/mpl/vector.hpp>
@@ -18,21 +18,21 @@
 
 #include <protox/dtl/alternative.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace dtl {
+namespace protox {
+namespace dtl {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 struct discriminant_other_none
 {
   typedef void * value_type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-// Defines a variant record discriminant in the form of
-// an enumerator range/alternative pair.
+// Defines a variant record discriminant in the form of an enumerator range/alternative pair.
 //
 // E_Vector An enumerator range
 // T        The datatype of the alternative
@@ -43,10 +43,10 @@ struct discriminant
   typedef dtl::alternative< T > alternative;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-// Designates the alternative type to be used by HLAOther, which denotes
-// all enumerates not explicitly included in any of the enumerator ranges.
+// Designates the alternative type to be used by HLAOther, which denotes all enumerates not
+// explicitly included in any of the enumerator ranges.
 //
 // T HLAOther alternative type
 template< typename T >
@@ -60,10 +60,9 @@ struct discriminant_other
   discriminant_other( const T &v ) : value(v) {}
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-// Construct the complete alternative set by appending the
-// HLAOther alternative type.
+// Construct the complete alternative set by appending the HLAOther alternative type.
 //
 // Alternatives The set of alternatives
 // Other        The HLAOther alternative
@@ -73,7 +72,7 @@ struct append_other
   typedef typename boost::mpl::push_back< Alternatives, Other >::type type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // This specialization handles the case when HLAOther is _not_ used.
 template< typename Alternatives >
@@ -82,7 +81,7 @@ struct append_other< Alternatives, discriminant_other_none >
   typedef Alternatives type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // Define the function used to retieve a variant record's HLAOther value.
 //
@@ -103,27 +102,25 @@ struct other_access
     return &(other_ptr->value);
   }
 
-  inline static void set_value( R &record,
-                                typename OTHER::value_type const &other_value )
+  inline static void set_value( R &record, typename OTHER::value_type const &other_value )
   {
     record.value = static_cast< OTHER >( other_value );
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // This specialization ensures that there is no function definition for
 // retrieving an HLAOther value for a variant record that has not defined
 // an HLAOther value.
-template< typename R >
-struct other_access< discriminant_other_none, R > {};
+template< typename R > struct other_access< discriminant_other_none, R > {};
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // protox::dtl
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

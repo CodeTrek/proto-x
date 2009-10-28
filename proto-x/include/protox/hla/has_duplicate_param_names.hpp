@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_HLA_HAS_DUPICATE_PARAM_NAMES_HPP
 #define PROTOX_HLA_HAS_DUPICATE_PARAM_NAMES_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <boost/mpl/count.hpp>
 #include <boost/mpl/transform_view.hpp>
@@ -24,15 +24,16 @@
 
 #include <protox/hla/element_counter.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace hla {
+namespace protox {
+namespace hla {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< bool EMPTY_SET, typename SET > struct has_duplicate_param_names_impl;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename SET >
 struct has_duplicate_param_names_impl< true, SET >
@@ -41,7 +42,7 @@ struct has_duplicate_param_names_impl< true, SET >
   typedef typename boost::mpl::bool_< false >::type type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename SET >
 struct has_duplicate_param_names_impl< false, SET >
@@ -54,35 +55,29 @@ struct has_duplicate_param_names_impl< false, SET >
 
   // Get the max number of occurances of any name in SET.
   typedef typename
-    boost::mpl::deref<
-      typename boost::mpl::max_element< name_counts >::type
-    >::type max_count;
+    boost::mpl::deref< typename boost::mpl::max_element< name_counts >::type >::type max_count;
 
   // No duplicate names (i.e., max_count is 1)?
-  typedef typename
-    boost::mpl::equal_to< max_count,
-                          boost::mpl::int_< 1 > >::type no_duplicates;
+  typedef typename boost::mpl::equal_to< max_count, boost::mpl::int_< 1 > >::type no_duplicates;
 
   // Has duplicates = !no_duplicates.
   typedef typename boost::mpl::bool_< !no_duplicates::value >::type type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename SET >
 struct has_duplicate_param_names
 {
-  typedef typename has_duplicate_param_names_impl<
-      boost::mpl::empty<SET>::value, SET
-    >::type type;
+  typedef typename has_duplicate_param_names_impl< boost::mpl::empty<SET>::value, SET >::type type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // protox.hla
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

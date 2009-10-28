@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_HLA_O_CLASS_HPP
 #define PROTOX_HLA_O_CLASS_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <boost/static_assert.hpp>
 
@@ -19,11 +19,12 @@
 #include <protox/hla/has_duplicate_attr_names.hpp>
 #include <protox/hla/name.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace hla {
+namespace protox {
+namespace hla {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename NAME,
           typename ATTR_SET = protox::hla::none,
@@ -31,12 +32,10 @@ template< typename NAME,
 struct o_class
 {
   // Check for duplicate child classes.
-  BOOST_STATIC_ASSERT(
-    (has_duplicate_class_names< CHILD_SET >::type::value == false) );
+  BOOST_STATIC_ASSERT(( has_duplicate_class_names< CHILD_SET >::type::value == false ));
   
   // Check for duplicate attributes.
-  BOOST_STATIC_ASSERT(
-    (has_duplicate_attr_names< ATTR_SET >::type::value == false) );
+  BOOST_STATIC_ASSERT(( has_duplicate_attr_names< ATTR_SET >::type::value == false ));
 
   typedef NAME name_type;
  
@@ -44,16 +43,16 @@ struct o_class
   typedef CHILD_SET child_list_type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-struct null_o_class : o_class< null_name > {};  
+struct null_o_class : o_class< null_name > {};
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // protox.hla
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

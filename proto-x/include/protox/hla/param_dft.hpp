@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_HLA_PARAM_DFT_HPP
 #define PROTOX_HLA_PARAM_DFT_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <RTI.hh>
 
@@ -32,11 +32,12 @@
 #include <protox/hla/build_full_name.hpp>
 #include <protox/hla/print_stack.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace hla {
+namespace protox {
+namespace hla {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 struct init_param_handle
 {
@@ -63,31 +64,28 @@ struct init_param_handle
       map[ class_handle ] = param_name_to_handle_map();
     }
 
-    // Find the paramibute handle by name
-    param_name_to_handle_map::iterator j
-      = map[ class_handle ].find( N::name() );
+    // Find the parameter handle by name
+    param_name_to_handle_map::iterator j = map[ class_handle ].find( N::name() );
 
-    // No entry for the paramibute name?
+    // No entry for  parameter name?
     if( j == map[ class_handle ].end() )
     {
-      map[ class_handle ][ N::name() ]
-        = rtiAmb.getParameterHandle( N::name(), class_handle );
+      map[ class_handle ][ N::name() ] = rtiAmb.getParameterHandle( N::name(), class_handle );
     }
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // forward declaration
 template< typename T, typename Stack > struct param_dft;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // forward declaration
-template< bool empty, typename Children, typename Stack >
-struct param_dft_children;
+template< bool empty, typename Children, typename Stack > struct param_dft_children;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename Children, typename Stack >
 struct param_dft_children< false, Children, Stack >
@@ -96,16 +94,13 @@ struct param_dft_children< false, Children, Stack >
   typedef typename boost::mpl::front< Children >::type first_child;
 
   // Get the remaining children (i.e, the tail of the child vector)
-  typedef typename
-    boost::mpl::erase< Children, boost::mpl::front< Children > >::type tail;
+  typedef typename boost::mpl::erase< Children, boost::mpl::front< Children > >::type tail;
 
   // Traverse the first child of the given Children vector.
   typedef param_dft< first_child, Stack > stack;
 
   // Traverse the remaining children.
-  typedef param_dft_children< boost::mpl::empty< tail >::value,
-                              tail,
-                              typename stack::type > result;
+  typedef param_dft_children< boost::mpl::empty< tail >::value, tail, typename stack::type > result;
 
   typedef typename result::type type;
 
@@ -124,7 +119,7 @@ struct param_dft_children< false, Children, Stack >
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename Children, typename Stack >
 struct param_dft_children< true, Children, Stack >
@@ -150,8 +145,8 @@ struct param_dft_children< true, Children, Stack >
       return;
     }
     
-    RTI::InteractionClassHandle class_handle
-      = rtiAmb.getInteractionClassHandle( full_name.c_str() );
+    RTI::InteractionClassHandle
+      class_handle = rtiAmb.getInteractionClassHandle( full_name.c_str() );
 
     class_map[ full_name ] = class_handle;
     
@@ -162,7 +157,7 @@ struct param_dft_children< true, Children, Stack >
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 /**
  * Perform a depth first traversal of the given tree T.  
@@ -195,12 +190,12 @@ struct param_dft
   }
 };
   
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // protox::hla
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

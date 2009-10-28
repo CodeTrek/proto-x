@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_HLA_I_CLASS_TYPE_HPP
 #define PROTOX_HLA_I_CLASS_TYPE_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <string>
 
@@ -27,14 +27,14 @@
 #include <protox/hla/param.hpp>
 #include <protox/hla/build_full_name.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace hla {
+namespace protox {
+namespace hla {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-template< typename SOM,
-          typename QUALIFIED_NAME_VECTOR >
+template< typename SOM, typename QUALIFIED_NAME_VECTOR >
 struct i_class_type
 {
   // Construct the vector of parameters from the given qualified name.
@@ -43,20 +43,17 @@ struct i_class_type
     QUALIFIED_NAME_VECTOR
   >::type param_vector_type;
 
-  // Construct the inheritence tree from the parameter vector.
+  // Construct the inheritance tree from the parameter vector.
   typedef typename boost::mpl::inherit_linearly<
     param_vector_type,
-    param_inherit<
-      param_base< boost::mpl::placeholders::_2 >,
-      boost::mpl::placeholders::_1 >
+    param_inherit< param_base< boost::mpl::placeholders::_2 >, boost::mpl::placeholders::_1 >
   >::type params_type;
 
   struct type : params_type
   {
     private:
-      typedef typename
-        x_class_vector< typename SOM::i_class_table,
-                        QUALIFIED_NAME_VECTOR >::type x_class_vector_type;
+      typedef typename x_class_vector< typename SOM::i_class_table,
+                                       QUALIFIED_NAME_VECTOR >::type x_class_vector_type;
 
       RTI::RTIambassador *rti_amb;
 
@@ -68,9 +65,7 @@ struct i_class_type
 
         if( !initialized )
         {
-          boost::mpl::for_each< x_class_vector_type >
-            ( build_full_name( name ) );
-
+          boost::mpl::for_each< x_class_vector_type >( build_full_name( name ) );
           initialized = true;
         }
 
@@ -140,8 +135,8 @@ struct i_class_type
           return;
         }
 
-        RTI::ParameterHandleValuePairSet *set
-          = RTI::ParameterSetFactory::create( type::get_num_parameters() );
+        RTI::ParameterHandleValuePairSet
+          *set = RTI::ParameterSetFactory::create( type::get_num_parameters() );
 
         boost::shared_ptr< RTI::ParameterHandleValuePairSet > set_ptr( set );
 
@@ -164,12 +159,12 @@ struct i_class_type
   };
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // protox::hla
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

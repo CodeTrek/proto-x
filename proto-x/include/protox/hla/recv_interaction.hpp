@@ -5,22 +5,23 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_HLA_RECV_INTERACTION_HPP
 #define PROTOX_HLA_RECV_INTERACTION_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <RTI.hh>
 
 #include <boost/mpl/empty_base.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace hla {
+namespace protox {
+namespace hla {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename T >
 struct recv_interaction_base
@@ -51,20 +52,18 @@ struct recv_interaction_base
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // Forward declaration
 template< typename A, typename B > struct recv_interaction_inherit;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename A >
-struct recv_interaction_inherit< A, boost::mpl::empty_base > :
-  A, boost::mpl::empty_base
+struct recv_interaction_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty_base
 {
   template< typename T >
-  inline void set_handler
-    ( void (*h)( const T &, const RTI::FedTime *, const char *tag ) )
+  inline void set_handler( void (*h)( const T &, const RTI::FedTime *, const char *tag ) )
   {
     static_cast< recv_interaction_base< T > & >( *this ).handler = h;
   }
@@ -83,7 +82,7 @@ struct recv_interaction_inherit< A, boost::mpl::empty_base > :
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 /**
  * A is recv_interaction and B is set of predecessor recv_interactions.
@@ -91,10 +90,8 @@ struct recv_interaction_inherit< A, boost::mpl::empty_base > :
 template< typename A, typename B >
 struct recv_interaction_inherit : A, B
 {
-public:
   template< typename T >
-  inline void set_handler
-    ( void (*h)( const T &, const RTI::FedTime *, const char *tag ) )
+  inline void set_handler( void (*h)( const T &, const RTI::FedTime *, const char *tag ) )
   {
     static_cast< recv_interaction_base< T > & >( *this ).handler = h;
   }
@@ -113,12 +110,12 @@ public:
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // protox::hla
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

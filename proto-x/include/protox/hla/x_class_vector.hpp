@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_HLA_X_CLASS_VECTOR_HPP
 #define PROTOX_HLA_X_CLASS_VECTOR_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/size.hpp>
@@ -29,11 +29,12 @@
 
 #include <protox/hla/get_name_type.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace hla {
+namespace protox {
+namespace hla {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // Use the given qualified name vector NAME_VECTOR to construct another vector
 // of object classes (CLASS_VECTOR) from the given root class X_CLASS.
@@ -42,7 +43,7 @@ template< bool NAME_VECTOR_IS_EMPTY,
           typename NAME_VECTOR, // Qualified name
           typename CLASS_VECTOR > struct x_class_vector_impl;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // Empty class_vector case.
 template< typename X_CLASS,
@@ -54,7 +55,7 @@ struct x_class_vector_impl< true, X_CLASS, NAME_VECTOR, CLASS_VECTOR >
   typedef CLASS_VECTOR type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // Non-empty class_vector case.
 template< typename X_CLASS,
@@ -84,10 +85,7 @@ struct x_class_vector_impl< false, X_CLASS, NAME_VECTOR, CLASS_VECTOR >
 
   typedef typename boost::mpl::deref< it >::type obj_class_type;
 
-  typedef typename boost::mpl::push_back<
-    CLASS_VECTOR,
-    obj_class_type
-  >::type class_vector_type;
+  typedef typename boost::mpl::push_back< CLASS_VECTOR, obj_class_type >::type class_vector_type;
 
   typedef typename boost::mpl::pop_front< NAME_VECTOR >::type name_vector_tail;
 
@@ -99,7 +97,7 @@ struct x_class_vector_impl< false, X_CLASS, NAME_VECTOR, CLASS_VECTOR >
   >::type type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
   
 template< typename X_CLASS, typename NAME_VECTOR >
 struct x_class_vector
@@ -112,12 +110,12 @@ struct x_class_vector
   >::type type;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
   
-}} // protox.hla
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

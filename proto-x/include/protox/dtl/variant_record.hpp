@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_DTL_VARIANT_RECORD_HPP
 #define PROTOX_DTL_VARIANT_RECORD_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <boost/mpl/placeholders.hpp>
 #include <boost/mpl/max.hpp>
@@ -21,18 +21,19 @@
 #include <protox/dtl/alternative.hpp>
 #include <protox/dtl/discriminant.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace dtl {
+namespace protox {
+namespace dtl {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template<
   typename D_TYPE,   // Discriminant type
   typename D_VECTOR, // Vector of alternatives
   typename OTHER,    // HLAOTHER case (optional)
   typename CODEC_TAG
-  >
+>
 struct variant_record
 {
   variant_record() {}
@@ -77,8 +78,7 @@ struct variant_record
     template< typename R >
     inline static bool is_equal( const R &lhs, const R &rhs )
     {
-      // This is the "other" case, so testing for discriminant equality
-      // is not necessary.
+      // This is the "other" case, so testing for discriminant equality is not necessary.
       typename OTHER_T::value_type const *lhs_value = lhs.other_();
       typename OTHER_T::value_type const *rhs_value = rhs.other_();
 
@@ -99,8 +99,7 @@ struct variant_record
   template< typename D, typename BASE >
   struct discriminant_compare
   {
-    typedef typename
-      protox::dtl::discriminator_test< D >::type discriminator_test;
+    typedef typename protox::dtl::discriminator_test< D >::type discriminator_test;
 
     template< typename R >
     inline static bool is_equal( const R &lhs, const R &rhs )
@@ -118,11 +117,8 @@ struct variant_record
           return false;
         }
 
-        typename D::alternative::value_type const *lhs_value
-          = lhs.template alt_< D >();
-
-        typename D::alternative::value_type const *rhs_value
-          = rhs.template alt_< D >();
+        typename D::alternative::value_type const *lhs_value = lhs.template alt_< D >();
+        typename D::alternative::value_type const *rhs_value = rhs.template alt_< D >();
 
         // No alternative values?
         if( (!lhs_value) && (!rhs_value) )
@@ -167,8 +163,7 @@ struct variant_record
 
   // Alternative getters and setters.
   template< typename T >
-  inline void alt_
-    ( typename get_alternative_type<T>::type::value_type const &v )
+  inline void alt_( typename get_alternative_type<T>::type::value_type const &v )
   {
     value = static_cast< typename get_alternative_type< T >::type >( v );
   }
@@ -190,8 +185,7 @@ struct variant_record
 
   // Gets a read-only pointer to an alternative's value
   template< typename T >
-  inline
-    typename get_alternative_type< T >::type::value_type const *alt_() const
+  inline typename get_alternative_type< T >::type::value_type const *alt_() const
   {
     typedef typename get_alternative_type< T >::type alternative_type;
     alternative_type const *alt_ptr = boost::get< alternative_type >( &value );
@@ -207,31 +201,25 @@ struct variant_record
   // Compute the HLAOTHER accessor type
   inline void other_( typename OTHER::value_type const &v )
   {
-    typedef dtl::other_access<
-      OTHER,
-      variant_record< D_TYPE, D_VECTOR, OTHER, CODEC_TAG >
-    > other;
+    typedef dtl::other_access< OTHER, variant_record< D_TYPE, D_VECTOR, OTHER, CODEC_TAG > > other;
 
     other::set_value( *this, v );
   }
 
   inline typename OTHER::value_type const *other_() const
   {
-    typedef dtl::other_access<
-      OTHER,
-      variant_record< D_TYPE, D_VECTOR, OTHER, CODEC_TAG >
-    > other;
+    typedef dtl::other_access< OTHER, variant_record< D_TYPE, D_VECTOR, OTHER, CODEC_TAG > > other;
 
     return other::get_value( *this );
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // protox::dtl
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/
