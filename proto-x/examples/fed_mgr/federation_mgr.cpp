@@ -51,9 +51,7 @@ private:
 
     obj_amb_type::const_it< federate_type >::type it;
 
-    for( it = obj_amb.begin< federate_type >();
-         it != obj_amb.end< federate_type >();
-         ++it )
+    for( it = obj_amb.begin< federate_type >(); it != obj_amb.end< federate_type >(); ++it )
     {
       const HLAhandle &handle = it->second.a_< HLAfederateHandle >();
       std::string handle_str( handle.begin(),  handle.end() ); 
@@ -66,8 +64,7 @@ private:
       RTI::FederateHandle federate_handle = 0;
       try
       {
-        federate_handle
-          = boost::lexical_cast< RTI::FederateHandle >( handle_str.c_str() );
+        federate_handle = boost::lexical_cast< RTI::FederateHandle >( handle_str.c_str() );
       }
       catch( bad_lexical_cast & ) { assert( false ); }
 
@@ -80,14 +77,13 @@ private:
       return;
     }
     
-    // Now that everyone has joined, register the sync points
-    // used to coordinate the lifecycle of each joined federate.
+    // Now that everyone has joined, register the sync points used to coordinate the life cycle of
+    // each joined federate.
     register_sync_points();
   }
 
 public:
-  fed_mgr_fed_amb( RTI::RTIambassador &rti_amb,
-                   obj_amb_type &obj_amb ) :
+  fed_mgr_fed_amb( RTI::RTIambassador &rti_amb, obj_amb_type &obj_amb ) :
     rti_amb( rti_amb ),
     obj_amb( obj_amb ),
     federate_handle_set( RTI::FederateHandleSetFactory::create( 3 ) )

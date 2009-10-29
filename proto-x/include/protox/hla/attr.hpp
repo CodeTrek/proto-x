@@ -58,7 +58,6 @@ public:
 
   static void set( attr_state s ) { get_state_vector() |= s; }
   static void clear( attr_state s ) { get_state_vector() &= (~s); }
-
   static bool is_set( attr_state s ) { return( (get_state_vector() & s) != 0 ); }
 
   void set_updated( bool f ) { updated = f; }
@@ -75,20 +74,14 @@ protected:
     ahs.add( handle );
   }
 
-  void update_value
-    ( boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr )
+  void update_value( boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr )
   {
     protox::io::byte_data_sink sink;
-
     sink.encode( value );
-
-    set_ptr->add( handle,
-                  sink.getDataBuffer(),
-                  (unsigned long) sink.getDataBufferSize() );
+    set_ptr->add( handle, sink.getDataBuffer(), (unsigned long) sink.getDataBufferSize() );
   }
 
-  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set,
-                const RTI::FedTime *time )
+  void reflect( const RTI::AttributeHandleValuePairSet &ahv_set, const RTI::FedTime *time )
   {
     for( RTI::ULong i = 0; i < ahv_set.size(); ++i )
     {
@@ -222,8 +215,7 @@ protected:
     B::template init_handles< T >( class_name );
   }
 
-  void update_values
-    ( boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr )
+  void update_values( boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr )
   {
     A::update_value( set_ptr );
     B::update_values( set_ptr );

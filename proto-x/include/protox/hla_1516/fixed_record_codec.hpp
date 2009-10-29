@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_HLA_1516_FIXED_RECORD_CODEC_HPP
 #define PROTOX_HLA_1516_FIXED_RECORD_CODEC_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <cstddef>
 
@@ -28,15 +28,16 @@
 #include <protox/hla_1516/static_pad.hpp>
 #include <protox/hla_1516/dynamic_pad.hpp>
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-namespace protox { namespace dtl {
+namespace protox {
+namespace dtl {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 namespace fixed_record_codec_1516 {
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 struct null_impllayout_
 {
@@ -44,7 +45,7 @@ struct null_impllayout_
   typedef boost::mpl::int_< 0 > static_offset;
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 struct null_impl
 {
@@ -54,33 +55,30 @@ struct null_impl
   typedef boost::mpl::bool_< true > has_static_size;
 
   template< typename S, typename R >
-  inline static void encode(S &, R const &) {}
+  inline static void encode( S &, R const & ) {}
 
   template< typename S, typename R >
-  inline static void decode(R &, S const &, std::size_t &) {}
+  inline static void decode( R &, S const &, std::size_t & ) {}
 
   template< typename R >
-  inline static bool is_equal(R const &, R const &) { return true; }
+  inline static bool is_equal( R const &, R const & ) { return true; }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-// This template is used to compute layout values i.e., padding and
-// offset sizes in bytes.
+// This template is used to compute layout values i.e., padding and offset sizes in bytes.
 template<
   typename T,               // The field of focus.
   typename Base,            // T's immediate predecessor.
-  bool T_Has_Static_Size,   // true, if T's size is fixed and Base's size
-                                // is fixed.
+  bool T_Has_Static_Size,   // true, if T's size is fixed and Base's size is fixed.
   bool Base_Has_Static_Size // true, if Base's size is fixed.
 > struct layout_;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-// The static size of field T and its Base determine if T's offset and
-// padding can be computed at compile time. The table below list all
-// possible combinations of T_Has_Static_Size and Base_Has_Static_Size
-// and each combinations's implication for calulating padding and offset
+// The static size of field T and its Base determine if T's offset and padding can be computed at
+// compile time. The table below list all possible combinations of T_Has_Static_Size and
+// Base_Has_Static_Size and each combinations's implication for calculating padding and offset
 // values at compile time.
 
 //   +------------------+------------------------------------------+
@@ -110,30 +108,26 @@ struct layout_< T, Base, true, true >
   > static_offset;
 
   template< typename S, typename R >
-  inline static void encode_pad(S &s, R const &, std::size_t const)
+  inline static void encode_pad( S &s, R const &, std::size_t const )
   {
-    protox::hla_1516::pad< S, static_pad::value >::encode(s);
+    protox::hla_1516::pad< S, static_pad::value >::encode( s );
   }
 
   template< typename S, typename R >
-  inline static void decode_pad(
-    R &,
-    S const &s,
-    std::size_t const base_size,
-    std::size_t &offset )
+  inline static void decode_pad( R &, S const &s, std::size_t const base_size, std::size_t &offset )
   {
-    protox::hla_1516::pad< S, static_pad::value >::decode(s, offset);
+    protox::hla_1516::pad< S, static_pad::value >::decode( s, offset );
   }
 
   template< typename R >
-  inline static std::size_t dynamic_size(R const &)
+  inline static std::size_t dynamic_size( R const & )
   {
-    return (static_offset::value
-      + dtl::codec::static_size_in_bytes<typename T::value_type>::value);
+    return
+      ( static_offset::value + dtl::codec::static_size_in_bytes< typename T::value_type >::value );
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename T, typename Base >
 struct layout_< T, Base, false, true >
@@ -151,31 +145,27 @@ struct layout_< T, Base, false, true >
   > static_offset;
 
   template< typename S, typename R >
-  inline static void encode_pad(S &s, R const &, std::size_t const)
+  inline static void encode_pad( S &s, R const &, std::size_t const )
   {
-    protox::hla_1516::pad< S, static_pad::value >::encode(s);
+    protox::hla_1516::pad< S, static_pad::value >::encode( s );
   }
 
   template< typename S, typename R >
-  inline static void decode_pad(
-    R &,
-    S const &s,
-    std::size_t const base_size,
-    std::size_t &offset)
+  inline static void decode_pad( R &, S const &s, std::size_t const base_size, std::size_t &offset )
   {
-    protox::hla_1516::pad< S, static_pad::value >::decode(s, offset);
+    protox::hla_1516::pad< S, static_pad::value >::decode( s, offset );
   }
 
   template< typename R >
-  inline static std::size_t dynamic_size(R const &obj)
+  inline static std::size_t dynamic_size( R const &obj )
   {
     typename T::value_type const &value = obj.template f_ < T > ();
     typedef typename T::impl::layout Tlayout_;
-    return (static_offset::value + Tlayout_::dynamic_size(value));
+    return( static_offset::value + Tlayout_::dynamic_size( value ) );
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename T, typename Base >
 struct layout_< T, Base, false, false >
@@ -183,17 +173,12 @@ struct layout_< T, Base, false, false >
   typedef protox::dtl::UNKNOWN_STATIC_SIZE static_offset;
 
   template< typename S, typename R >
-  inline static void encode_pad(
-    S &s,
-    R const &obj,
-    std::size_t const base_size)
+  inline static void encode_pad( S &s, R const &obj, std::size_t const base_size )
   {
-    std::size_t const pad_bytes
-      = sizeof_pad(
-          base_size,
-          codec::octet_boundary< typename T::value_type >::value);
+    std::size_t const
+      pad_bytes = sizeof_pad( base_size, codec::octet_boundary< typename T::value_type >::value );
 
-    encode_pad(s, pad_bytes);
+    encode_pad( s, pad_bytes );
   }
 
   template< typename S, typename R >
@@ -203,50 +188,44 @@ struct layout_< T, Base, false, false >
     std::size_t const base_size,
     std::size_t &offset)
   {
-    std::size_t const pad_bytes
-      = sizeof_pad(
-          base_size,
-          codec::octet_boundary< typename T::value_type >::value);
+    std::size_t const
+      pad_bytes = sizeof_pad( base_size, codec::octet_boundary< typename T::value_type >::value );
 
-    decode_pad(s, pad_bytes, offset);
+    decode_pad( s, pad_bytes, offset );
   }
 
   template< typename R >
-  inline static std::size_t dynamic_size(R const &obj)
+  inline static std::size_t dynamic_size( R const &obj )
   {
     typedef typename Base::layout baselayout_;
-    std::size_t const base_size = baselayout_::dynamic_size(obj);
-    std::size_t const pad_bytes
-      = sizeof_pad(
-        base_size,
-        codec::octet_boundary< typename T::value_type >::value);
+    std::size_t const base_size = baselayout_::dynamic_size( obj );
+    std::size_t const
+      pad_bytes = sizeof_pad( base_size, codec::octet_boundary< typename T::value_type >::value );
 
-    typename T::value_type const &value = obj.template f_< T > ();
+    typename T::value_type const &value = obj.template f_< T >();
     typedef typename T::impl::layout Tlayout_;
-    return (base_size + pad_bytes + Tlayout_::dynamic_size(value));
+    return( base_size + pad_bytes + Tlayout_::dynamic_size( value ) );
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 // _The following case should never happen_
-// Once a dynamic Base field in record R is
-// encounterd (i.e., Base::static_size is dtl::UNKNOWN_STATIC_SIZE),
-// then all subsequent fields T have unknown static sizes.
+// Once a dynamic Base field in record R is encountered (i.e., Base::static_size is
+// dtl::UNKNOWN_STATIC_SIZE), then all subsequent fields T have unknown static sizes.
 template< typename T, typename Base > struct layout_< T, Base, true, false >;
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-// Create the compile time interface for the given type pair, T and Base,
-// where T derives directly from Base.
+// Create the compile time interface for the given type pair, T and Base, where T derives directly
+// from Base.
 //
 // T represents a single field.
 // Base represents the partial record formed by T's predecessor fields.
 template< typename T, typename Base >
 struct impl_
 {
-  typedef typename
-    codec::static_size_in_bytes< typename T::value_type >::type static_size;
+  typedef typename codec::static_size_in_bytes< typename T::value_type >::type static_size;
 
   typedef typename boost::mpl::max<
     typename codec::octet_boundary< typename T::value_type >::type,
@@ -259,12 +238,7 @@ struct impl_
     (static_size::value != UNKNOWN_STATIC_SIZE::value)
   > has_static_size;
 
-  typedef layout_<
-    T,
-    Base,
-    has_static_size::value,
-    Base::has_static_size::value
-  > layout;
+  typedef layout_< T, Base, has_static_size::value, Base::has_static_size::value > layout;
 
   template< typename S, typename R >
   static void encode( S &s, R const &obj )
@@ -278,7 +252,7 @@ struct impl_
     s.start_field();
 
     typename T::value_type const &value = obj.template f_< T > ();
-    codec::encode(s, value);
+    codec::encode( s, value );
 
     s.end_field();
   }
@@ -299,36 +273,34 @@ struct impl_
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template< typename T >
 struct impl
 {
   // Compute the fixed record's required compile-time impl interface.
   //
-  // A fold meta-function is used to construct encode/decode functions
-  // that makes recursive calls down record's a field structure, computing
-  // alignment requirements along the way.
+  // A fold meta-function is used to construct encode/decode functions that makes recursive calls
+  // down record's a field structure, computing alignment requirements along the way.
   typedef typename boost::mpl::fold<
     typename T::field_vector,
     null_impl,
     impl_< boost::mpl::placeholders::_2, boost::mpl::placeholders::_1 >
   >::type type;
-  };
+};
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-} // protox::dtl::fixed_record_codec
+}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 template<> struct codec_impl< protox::hla_1516::HLAfixedRecord >
 {
   template< typename T >
   struct octet_boundary
   {
-    typedef typename
-      fixed_record_codec_1516::impl< T >::type::octet_boundary type;
+    typedef typename fixed_record_codec_1516::impl< T >::type::octet_boundary type;
   };
 
   template< typename T >
@@ -338,52 +310,48 @@ template<> struct codec_impl< protox::hla_1516::HLAfixedRecord >
 
     typedef typename boost::mpl::if_<
       // Size is not fixed?
-      boost::mpl::equal_to<
-        typename impl::static_size,
-        dtl::UNKNOWN_STATIC_SIZE >,
+      boost::mpl::equal_to< typename impl::static_size, dtl::UNKNOWN_STATIC_SIZE >,
 
       // true : unknown static size.
       protox::dtl::UNKNOWN_STATIC_SIZE,
 
       // false : compute this record's static size.
-      boost::mpl::plus<
-        typename impl::layout::static_offset,
-        typename impl::static_size >
+      boost::mpl::plus< typename impl::layout::static_offset, typename impl::static_size >
     >::type type;
   };
 
   template< typename T >
-  inline static std::size_t dynamic_size(T const &obj)
+  inline static std::size_t dynamic_size( T const &obj )
   {
     typedef typename fixed_record_codec_1516::impl< T >::type impl;
-    return impl::layout::dynamic_size(obj);
+    return impl::layout::dynamic_size( obj );
   };
 
   template< typename S, typename T >
-  inline static void encode(S &s, T const &obj)
+  inline static void encode( S &s, T const &obj )
   {
     typedef typename fixed_record_codec_1516::impl< T >::type impl;
     s.start_fixed_record();
-    impl::encode(s, obj);
+    impl::encode( s, obj );
     s.end_fixed_record();
   }
 
   template< typename S, typename T >
-  inline static void decode(T &v, S const &s, std::size_t &offset)
+  inline static void decode( T &v, S const &s, std::size_t &offset )
   {
     typedef typename fixed_record_codec_1516::impl< T >::type impl;
     s.start_fixed_record();
-    impl::decode(v, s, offset);
+    impl::decode( v, s, offset );
     s.end_fixed_record();
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-}} // protox::dtl
+}}
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

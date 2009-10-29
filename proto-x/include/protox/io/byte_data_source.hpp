@@ -42,8 +42,8 @@ public:
   {}
 
   /**
-   * Decodes this byte array into a value of type T and stores
-   * the result in value.
+   * Decodes this byte array into a value of type T and stores the result in value.
+   *
    * @param value holds the decoded value.
    * @return the number of bytes decoded.
    */

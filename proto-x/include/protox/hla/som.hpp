@@ -37,7 +37,6 @@ template< typename ROOT_O_CLASS = null_o_class, typename ROOT_I_CLASS = null_i_c
 struct som
 {
 private:
-
   // Object class support
   typedef attr_dft< ROOT_O_CLASS > attr_dft_type;
     

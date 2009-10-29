@@ -1,3 +1,10 @@
+/*
+    Copyright (c) 2009 Jay Graham
+
+    Distributed under the MIT License (see accompanying file LICENSE_1_0_0.txt
+    or http://www.opensource.org/licenses/mit-license.php)
+*/
+
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -53,8 +60,7 @@ int main( int argc, char *argv[] )
 
     const std::string &hw_str = hw.str(); 
 
-    (str_type &) greeter.p_<Greeting::message >()
-      = str_type( hw_str.begin(), hw_str.end() );
+    (str_type &) greeter.p_<Greeting::message >() = str_type( hw_str.begin(), hw_str.end() );
 
     greeter.send();
 
