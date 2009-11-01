@@ -5,17 +5,17 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_EXAMPLE_UTILS_HPP
 #define PROTOX_EXAMPLE_UTILS_HPP
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <iostream>
 #include <string>
 
-#include "fed_amb_util.hpp"
+#include "fed_amb_base.hpp"
 
 static void wait_for_user()
 {
@@ -24,25 +24,22 @@ static void wait_for_user()
   std::getline( std::cin, line );
 }
 
-static void advance_time( double timestep,
-                          RTI::RTIambassador &rti_amb,
-                          fed_amb_util &fed_amb )
+static void advance_time( double timestep, RTI::RTIambassador &rti_amb, fed_amb_base &fed_amb )
 {
 	// request the advance
 	fed_amb.is_advancing = true;
 	const RTIfedTime new_time = (fed_amb.fed_time + timestep);
 	rti_amb.timeAdvanceRequest( new_time );
 
-	// wait for the time advance to be granted. ticking will tell the
-	// LRC to start delivering callbacks to the federate
+	// wait for the time advance to be granted. ticking will tell the LRC to start delivering
+	// callbacks to the federate
 	while( fed_amb.is_advancing )
 	{
 		rti_amb.tick();
 	}
 }
 
-static void enable_time_policy( RTI::RTIambassador &rti_amb,
-                                const fed_amb_util &fed_amb )
+static void enable_time_policy( RTI::RTIambassador &rti_amb, const fed_amb_base &fed_amb )
 {
 	////////////////////////////
 	// enable time regulation //
@@ -69,8 +66,9 @@ static void enable_time_policy( RTI::RTIambassador &rti_amb,
 	}
 }
 
-static void create_federation_execution
-  ( RTI::RTIambassador &rti_amb, const char *name, const char *fed_file )
+static void create_federation_execution( RTI::RTIambassador &rti_amb,
+                                         const char *name,
+                                         const char *fed_file )
 {
 	try
 	{
@@ -87,8 +85,7 @@ static void create_federation_execution
   }
 }
 
-static void destroy_federation_execution
-  ( RTI::RTIambassador &rti_amb, const char *name )
+static void destroy_federation_execution( RTI::RTIambassador &rti_amb, const char *name )
 {
 	try
 	{
@@ -105,32 +102,8 @@ static void destroy_federation_execution
 	}
 }
 
-struct READY_TO_RUN { static const char *str() { return "ReadyToRun"; } };
-
-static void register_ready_to_run
-  ( RTI::RTIambassador &rti_amb, const fed_amb_util &fed_amb )
-{
-  rti_amb.registerFederationSynchronizationPoint( READY_TO_RUN::str(), "" );
-	
-	while( fed_amb.is_announced == false )
-	{
-		rti_amb.tick();
-	}
-}
-
-static void ready_to_run_achieved
-  ( RTI::RTIambassador &rti_amb, const fed_amb_util &fed_amb )
-{
-  rti_amb.synchronizationPointAchieved( READY_TO_RUN::str() );
-
-	while( fed_amb.is_ready_to_run == false )
-	{
-		rti_amb.tick();
-	}
-}
-
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/
