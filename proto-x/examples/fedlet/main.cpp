@@ -9,11 +9,33 @@
 
 #include <iostream>
 #include <sstream>
-#include <string>
-#include <vector>
 
-#include "utils/utils.hpp"
-#include "utils/fed_amb.hpp"
+#include "./fedlet_base.hpp"
+#include "./fed_amb.hpp"
+
+using namespace protox::examples;
+
+class test_federate : public fedlet::fedlet_base
+{
+protected:
+  virtual void populate()
+  {
+    std::cout << "TODO: populate\n";
+  }
+
+  virtual void execute()
+  {
+    std::cout << "TODO: execute\n";
+  }
+
+  virtual void resign()
+  {
+    std::cout << "TODO: resign\n";
+  }
+
+public:
+  test_federate( RTI::RTIambassador &amb ) : fedlet::fedlet_base(amb) {}
+};
 
 /**************************************************************************************************/
 
@@ -30,78 +52,10 @@ int main( int argc, char *argv[] )
 
   RTI::RTIambassador rti_amb;
 
-  // Join federation
-  protox::examples::util::fed_amb fed_amb;
-  rti_amb.joinFederationExecution( fed_name, FEDERATION_NAME, &fed_amb );
-  std::cout << "Federation joined.\n";
+  test_federate federate( rti_amb );
+  fedlet::fed_amb fed_amb;
 
-  // enable time policy
-  enable_time_policy( rti_amb, fed_amb );
-
-  bool ready_to_populate_achieved = false;
-  bool ready_to_run_achieved      = false;
-  bool ready_to_resign_achieved   = false;
-
-  while( true )
-  {
-    advance_time( 1.0, rti_amb, fed_amb );
-
-    if( (fed_amb.all_sync_points_announced) && (!ready_to_populate_achieved) )
-    {
-       try
-       {
-         rti_amb.synchronizationPointAchieved( "ReadyToPopulate" );
-         ready_to_populate_achieved = true;
-       }
-       catch( RTI::Exception& ex )
-       {
-         std::cout << "RTI Exception: " << ex._name << " " << ex._reason << std::endl;
-         break;
-       }
-    }
-
-     if( (fed_amb.is_ready_to_populate) && (!ready_to_run_achieved) )
-     {
-       std::cout << "TODO: register initial object instances...\n";
-
-       try
-       {
-         rti_amb.synchronizationPointAchieved( "ReadyToRun" );
-         ready_to_run_achieved = true;
-       }
-       catch( RTI::Exception& ex )
-       {
-         std::cout << "RTI Exception: " << ex._name << " " << ex._reason << std::endl;
-         break;
-       }
-     }
-
-     if( (fed_amb.is_ready_to_run) && (!ready_to_resign_achieved) )
-     {
-       std::cout << "TODO: run federate...\n";
-
-       try
-       {
-         rti_amb.synchronizationPointAchieved( "ReadyToResign" );
-         ready_to_resign_achieved = true;
-       }
-       catch( RTI::Exception& ex )
-       {
-         std::cout << "RTI Exception: " << ex._name << " " << ex._reason << std::endl;
-         break;
-       }
-     }
-
-     if( fed_amb.is_ready_to_resign )
-     {
-       break;
-     }
-   }
-
-  rti_amb.resignFederationExecution( RTI::NO_ACTION );
-  std::cout << "Resigned from federation.\n";
-
-  // destroy_federation_execution( rti_amb, FEDERATION_NAME );
+  federate.run( FEDERATION_NAME, fed_name, fed_amb );
 
   return 0;
 }
