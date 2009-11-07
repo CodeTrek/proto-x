@@ -133,20 +133,27 @@ static void register_sync_points( RTI::RTIambassador &rti_amb )
  */
 int main( int argc, char* argv[] )
 {
-  unsigned num_federates = 3;
-
-  if( argc > 1 )
+  if( argc != 4 )
   {
-    num_federates = atoi( argv[ 1 ] );
+    std::cout << "usage: fed_mgr federation fed_file num_federates\n";
+    std::cout << "       federation    - The name of the federation.\n";
+    std::cout << "       fed_file      - The federation execution details (FED) file.\n";
+    std::cout << "       num_federates - The total number of federates required to join, including this fed_mgr federate.\n";
+    std::cout << "\n";
+    std::cout << "Example: fed_mgr \"exmaple_federation\" \"./example.fed\" 3\n";
+
+    return -1;
   }
 
-  static const char *FEDERATION_NAME = "example_federation";
+  static const char *FEDERATION_NAME = argv[ 1 ];
+  static const char *FED_FILE_NAME = argv[ 2 ];
+  static const unsigned NUM_FEDERATES = atoi( argv[ 3 ] );
 
   using namespace protox::hla;
 
   RTI::RTIambassador rti_amb;
 
-  create_federation_execution( rti_amb, FEDERATION_NAME, "example.fed" );
+  create_federation_execution( rti_amb, FEDERATION_NAME, FED_FILE_NAME );
 
   // Join federation
   obj_amb_type obj_amb;
@@ -173,7 +180,7 @@ int main( int argc, char* argv[] )
   {
     advance_time( 1.0, rti_amb, fed_amb );
 
-    if( (obj_amb.size< federate_type >() >= num_federates) && (need_to_register_sync_points) )
+    if( (obj_amb.size< federate_type >() >= NUM_FEDERATES) && (need_to_register_sync_points) )
     {
       try
       {
