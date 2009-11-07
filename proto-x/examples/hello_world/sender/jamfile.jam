@@ -1,0 +1,7 @@
+#
+
+exe sender
+  : main.cpp
+  :  <include>.
+     <include>../object_model
+  ;
