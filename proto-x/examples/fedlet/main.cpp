@@ -18,6 +18,11 @@ using namespace protox::examples;
 class test_federate : public fedlet::fedlet_base
 {
 protected:
+  virtual void declare_interests()
+  {
+    std::cout << "TODO: declare_interests\n";
+  }
+
   virtual void populate()
   {
     std::cout << "TODO: populate\n";
@@ -34,28 +39,35 @@ protected:
   }
 
 public:
-  test_federate( RTI::RTIambassador &amb ) : fedlet::fedlet_base(amb) {}
+  test_federate( RTI::RTIambassador &rti_amb, fedlet::fed_amb &fed_amb ) :
+    fedlet::fedlet_base(rti_amb, fed_amb)
+  {}
 };
 
 /**************************************************************************************************/
 
 int main( int argc, char *argv[] )
 {
-  static const char *FEDERATION_NAME = "example_federation";
-
-  char *fed_name = "rgb_pub";
-
-  if( argc > 1 )
+  if( argc != 3 )
   {
-    fed_name = argv[ 1 ];
+    std::cout << "usage: fedlet federation federate\n";
+    std::cout << "       federation    - The name of the federation.\n";
+    std::cout << "       federate      - The name of the joining federate.\n";
+    std::cout << "\n";
+    std::cout << "Example: fedlet \"exmaple_federation\" \"fedlet_1\"\n";
+
+    return -1;
   }
 
-  RTI::RTIambassador rti_amb;
+  static const char *FEDERATION_NAME = argv[ 1 ];
+  static const char *FEDERATE_NAME = argv[ 2 ];
 
-  test_federate federate( rti_amb );
+  RTI::RTIambassador rti_amb;
   fedlet::fed_amb fed_amb;
 
-  federate.run( FEDERATION_NAME, fed_name, fed_amb );
+  test_federate federate( rti_amb, fed_amb );
+
+  federate.run( FEDERATION_NAME, FEDERATE_NAME );
 
   return 0;
 }

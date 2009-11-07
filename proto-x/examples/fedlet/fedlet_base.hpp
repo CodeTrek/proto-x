@@ -33,11 +33,12 @@ private:
   fedlet_base(const fedlet_base &);
   fedlet_base &operator=(const fedlet_base &);
 
+protected:
+  RTI::RTIambassador &rti_amb;
+  fedlet::fed_amb &fed_amb;
 
 private:
-  RTI::RTIambassador &rti_amb;
-
-  void enable_time_policy( const fedlet::fed_amb_base &fed_amb )
+  void enable_time_policy()
   {
     // enable time regulation
     const RTIfedTime fed_time = fed_amb.fed_time;
@@ -61,11 +62,12 @@ private:
   }
 
 protected:
+  virtual void declare_interests() = 0;
   virtual void populate() = 0;
   virtual void execute() = 0;
   virtual void resign() = 0;
 
-  void advance_time( double timestep, fedlet::fed_amb_base &fed_amb )
+  void advance_time( double timestep )
   {
     // request the advance
     fed_amb.is_advancing = true;
@@ -81,17 +83,22 @@ protected:
   }
 
 public:
-  fedlet_base( RTI::RTIambassador &amb ) : rti_amb(amb) {}
+  fedlet_base( RTI::RTIambassador &rti_amb, fedlet::fed_amb &fed_amb ) :
+    rti_amb(rti_amb),
+    fed_amb(fed_amb)
+  {}
 
   virtual ~fedlet_base() {}
 
-  void run(const char *federation_name, const char *federate_name, fedlet::fed_amb &fed_amb)
+  void run( const char *federation_name, const char *federate_name )
   {
     rti_amb.joinFederationExecution( federate_name, federation_name, &fed_amb );
     std::cout << "Federation joined.\n";
 
     // enable time policy
-    enable_time_policy( fed_amb );
+    enable_time_policy();
+
+    declare_interests();
 
     bool ready_to_populate_achieved = false;
     bool ready_to_run_achieved      = false;
@@ -99,7 +106,7 @@ public:
 
     while( true )
     {
-      advance_time( 1.0, fed_amb );
+      advance_time( 1.0 );
 
       if( (fed_amb.all_sync_points_announced) && (!ready_to_populate_achieved) )
       {
