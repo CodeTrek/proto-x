@@ -1,0 +1,7 @@
+#
+
+exe receiver
+  : main.cpp
+  :  <include>.
+     <include>../object_model
+  ;
