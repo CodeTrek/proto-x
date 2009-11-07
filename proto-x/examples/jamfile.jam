@@ -14,3 +14,4 @@ project
 
 build-project fed_mgr ;
 build-project fedlet ;
+build-project hello_world ;
