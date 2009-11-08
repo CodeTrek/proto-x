@@ -241,6 +241,24 @@ struct o_class_type
 
     void register_obj() { register_obj(""); }
 
+    void delete_obj( RTI::FedTime *time = 0 )
+    {
+      if( rti_amb == 0 )
+      {
+        // TODO: throw exception
+        return;
+      }
+
+      if( time == 0 )
+      {
+        rti_amb->deleteObjectInstance( obj_handle, "" );
+      }
+      else
+      {
+        rti_amb->deleteObjectInstance( obj_handle, *time, "" );
+      }
+    }
+
     void update( RTI::FedTime *time = 0 )
     {
       if( rti_amb == 0 )
