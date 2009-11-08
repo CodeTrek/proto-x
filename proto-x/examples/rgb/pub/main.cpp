@@ -89,30 +89,56 @@ protected:
   {
     using namespace PositionVector;
 
-    // Initialize platforms
-    for( unsigned i = 0; i < platforms.size(); ++i )
-    {
-      platforms[ i ].a_< Position >().f_< X >() = 25.5f;
-      platforms[ i ].a_< Position >().f_< Y >() = 35.5f;
+    unsigned i = 0;
 
-      platforms[ i ].a_< Color >() = ColorEnum::RED::value();
+    // Initialize platforms
+    std::cout << "Initialize the platforms...\n";
+
+    for( i = 0; i < platforms.size(); ++i )
+    {
+      platforms[ i ].a_< Position >().f_< X >() = (float) (i + 1);
+      platforms[ i ].a_< Position >().f_< Y >() = (float) (i + 1);
+      platforms[ i ].a_< Color    >()           = ColorEnum::GREEN::value();
 
       platforms[ i ].update();
     }
 
-    // Move platforms...
-    while( true )
+    // Move the platforms 20 times
+    std::cout << "Move the platforms...\n";
+
+    for( i = 0; i < 20; ++i )
     {
       advance_time( 1.0 );
 
-      for( unsigned i = 0; i < platforms.size(); ++i )
+      for( unsigned j = 0; j < platforms.size(); ++j )
       {
-        platforms[ i ].a_< Position >().f_< X >() += 1.5f;
-        platforms[ i ].a_< Position >().f_< Y >() += -1.5f;
+        platforms[ j ].a_< Position >().f_< X >() += 1.0f;
+        platforms[ j ].a_< Position >().f_< Y >() += 2.0f;
 
-        platforms[ i ].update();
+        platforms[ j ].update();
       }
     }
+
+    // Stop all platforms
+    std::cout << "Stop the platforms...\n";
+
+    for( i = 0; i < platforms.size(); ++i )
+    {
+      platforms[ i ].a_< Color >() = ColorEnum::RED::value();
+      platforms[ i ].update();
+    }
+
+    advance_time( 1.0 );
+
+    // Remove all platforms
+    std::cout << "Remove the platforms...\n";
+
+    for( i = 0; i < platforms.size(); ++i )
+    {
+      platforms[ i ].delete_obj();
+    }
+
+    advance_time( 1.0 );
   }
 
   virtual void resign() {}

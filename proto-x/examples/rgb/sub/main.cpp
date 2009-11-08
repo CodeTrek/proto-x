@@ -74,14 +74,30 @@ protected:
     while( true )
     {
       obj_amb_type::const_it< platform_type >::type it;
+      bool all_stopped = true;
 
       for( it = obj_amb.begin< platform_type >(); it != obj_amb.end< platform_type >(); ++it )
       {
-        std::cout << "x = " << it->second.a_< Position >().f_< X >() << "\n";
-        std::cout << "y = " << it->second.a_< Position >().f_< Y >() << "\n";
+        const bool stopped = (it->second.a_< Color >() == ColorEnum::RED::value());
+
+        if( !stopped )
+        {
+          all_stopped = false;
+
+          const float x =  it->second.a_< Position >().f_< X >();
+          const float y =  it->second.a_< Position >().f_< Y >();
+
+          std::cout << "x = " << x << "\n";
+          std::cout << "y = " << y << "\n";
+        }
       }
 
       advance_time( 1.0 );
+
+      if( all_stopped )
+      {
+        break;
+      }
     }
   }
 

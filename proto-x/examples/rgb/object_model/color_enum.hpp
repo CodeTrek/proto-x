@@ -37,7 +37,7 @@ namespace ColorEnum  { PROTOX_ENUM_TYPE( HLAinteger16BE, hla_1516::enumerated );
 //      +------------+-----------------------------------------------+------------+--------+
 
 PROTOX_ENUM_EQUALITY_OPERATOR;
-PROTOX_ENUM_DEFAULT( RED );
+PROTOX_ENUM_DEFAULT( BLUE );
 
 /**************************************************************************************************/
 
