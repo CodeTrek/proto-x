@@ -6,27 +6,28 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_EXAMPLES_RGB_FED_AMB
 #define PROTOX_EXAMPLES_RGB_FED_AMB
 
-/******************************************************************************/
-
-#include <iostream>
-#include <string>
+/**************************************************************************************************/
 
 #include <fedtime.hh>
 #include <RTI.hh>
 #include <NullFederateAmbassador.hh>
 
-#include "utils/fed_amb_util.hpp"
+#include "fedlet/fed_amb.hpp"
 
 #include "inter_fed_amb.hpp"
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-class rgb_fed_amb : public fed_amb_util
+using namespace protox::examples;
+
+/**************************************************************************************************/
+
+class rgb_fed_amb : public fedlet::fed_amb
 {
 private:
   inter_amb_type &inter_amb;
@@ -37,29 +38,25 @@ public:
 
   virtual ~rgb_fed_amb() throw( RTI::FederateInternalError ) {} 
   
-  virtual void receiveInteraction
-  ( RTI::InteractionClassHandle theInteraction,
-    const RTI::ParameterHandleValuePairSet &theParameters,
-    const RTI::FedTime &theTime,
-    const char *theTag,
-    RTI::EventRetractionHandle        theHandle )
+  virtual void receiveInteraction( RTI::InteractionClassHandle             the_interaction,
+                                   const RTI::ParameterHandleValuePairSet &the_parameters,
+                                   const RTI::FedTime                     &the_time,
+                                   const char                             *the_tag,
+                                   RTI::EventRetractionHandle              the_handle )
   {
-    inter_amb.recv_interaction( theInteraction, theParameters, &theTime, theTag );
+    inter_amb.recv_interaction( the_interaction, the_parameters, &the_time, the_tag );
   }
 
-  virtual void receiveInteraction
-  ( RTI::InteractionClassHandle theInteraction,
-    const RTI::ParameterHandleValuePairSet& theParameters,
-    const char *theTag )
+  virtual void receiveInteraction( RTI::InteractionClassHandle             the_interaction,
+                                   const RTI::ParameterHandleValuePairSet &the_parameters,
+                                   const char                             *the_tag )
   {
-    unsigned count = theParameters.size();
-
-    inter_amb.recv_interaction( theInteraction, theParameters, 0, theTag );
+    inter_amb.recv_interaction( the_interaction, the_parameters, 0, the_tag );
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

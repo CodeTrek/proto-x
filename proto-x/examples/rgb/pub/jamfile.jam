@@ -1,0 +1,7 @@
+#
+
+exe rgb_pub
+  : main.cpp
+  :  <include>.
+     <include>../object_model
+  ;
