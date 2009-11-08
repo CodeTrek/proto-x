@@ -6,12 +6,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #ifndef PROTOX_EXAMPLES_RGB_FED_AMB
 #define PROTOX_EXAMPLES_RGB_FED_AMB
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #include <iostream>
 #include <string>
@@ -22,11 +22,15 @@
 
 #include "obj_fed_amb.hpp"
 
-#include "utils/fed_amb_util.hpp"
+#include "fedlet/fed_amb.hpp"
 
-/******************************************************************************/
+/**************************************************************************************************/
 
-class rgb_fed_amb : public fed_amb_util
+using namespace protox::examples;
+
+/**************************************************************************************************/
+
+class rgb_fed_amb : public fedlet::fed_amb
 {
 private:
   obj_amb_type &obj_amb;
@@ -36,56 +40,50 @@ public:
 
   virtual ~rgb_fed_amb() throw( RTI::FederateInternalError ) {} 
   
-  ////////////////////////////////
-  // Object Management Services //
-  ////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Object Management Services
+  //////////////////////////////////////////////////////////////////////////////////////////////////
 
-  virtual void discoverObjectInstance (
-          RTI::ObjectHandle          theObject,      // supplied C1
-          RTI::ObjectClassHandle     theObjectClass, // supplied C1
-    const char*                      theObjectName)  // supplied C4  
+  virtual void discoverObjectInstance( RTI::ObjectHandle      the_object,
+                                       RTI::ObjectClassHandle the_object_class,
+                                       const char*            the_object_name )
   {
-    obj_amb.discover_object( theObjectClass, theObject, theObjectName );
+    obj_amb.discover_object( the_object_class, the_object, the_object_name );
   }
 
-  virtual void reflectAttributeValues (
-          RTI::ObjectHandle                 theObject,     // supplied C1
-    const RTI::AttributeHandleValuePairSet& theAttributes, // supplied C4
-    const RTI::FedTime&                     theTime,       // supplied C1
-    const char                             *theTag,        // supplied C4
-          RTI::EventRetractionHandle        theHandle)     // supplied C1
+  virtual void reflectAttributeValues( RTI::ObjectHandle                       the_object,
+                                       const RTI::AttributeHandleValuePairSet &the_attributes,
+                                       const RTI::FedTime&                     the_time,
+                                       const char                             *the_tag,
+                                       RTI::EventRetractionHandle              the_handle )
   {
-    obj_amb.reflect_object( theObject, theAttributes, &theTime, theTag );
+    obj_amb.reflect_object( the_object, the_attributes, &the_time, the_tag );
   }
 
-  virtual void reflectAttributeValues (
-          RTI::ObjectHandle                 theObject,     // supplied C1
-    const RTI::AttributeHandleValuePairSet& theAttributes, // supplied C4
-    const char                             *theTag)        // supplied C4
+  virtual void reflectAttributeValues( RTI::ObjectHandle                       the_object,
+                                       const RTI::AttributeHandleValuePairSet &the_attributes,
+                                       const char                             *the_tag )
   {
-    obj_amb.reflect_object( theObject, theAttributes, 0, theTag );
+    obj_amb.reflect_object( the_object, the_attributes, 0, the_tag );
   }
 
-  virtual void removeObjectInstance (
-          RTI::ObjectHandle          theObject, // supplied C1
-    const RTI::FedTime&              theTime,   // supplied C4
-    const char                      *theTag,    // supplied C4
-          RTI::EventRetractionHandle theHandle) // supplied C1
+  virtual void removeObjectInstance( RTI::ObjectHandle          the_object,
+                                     const RTI::FedTime&        the_time,
+                                     const char                *the_tag,
+                                     RTI::EventRetractionHandle the_handle )
   {
     // Ignore time
-    removeObjectInstance( theObject, theTag );
+    removeObjectInstance( the_object, the_tag );
   }
 
-  virtual void removeObjectInstance (
-          RTI::ObjectHandle          theObject, // supplied C1
-    const char                      *theTag)    // supplied C4
+  virtual void removeObjectInstance ( RTI::ObjectHandle the_object, const char *the_tag )
   {
-    obj_amb.remove_object( theObject );
+    obj_amb.remove_object( the_object );
   }
 };
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 #endif
 
-/******************************************************************************/
+/**************************************************************************************************/

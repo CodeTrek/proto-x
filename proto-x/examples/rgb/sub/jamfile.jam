@@ -1,0 +1,7 @@
+#
+
+exe rgb_sub
+  : main.cpp
+  :  <include>.
+     <include>../object_model
+  ;
