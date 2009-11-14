@@ -8,13 +8,6 @@
 
 /**************************************************************************************************/
 
-#include <iostream>
-#include <sstream>
-#include <string>
-
-#include <protox/hla/o_class_type.hpp>
-#include <protox/hla/i_class_type.hpp>
-
 #include "obj_class_table.hpp"
 
 /**************************************************************************************************/
