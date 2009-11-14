@@ -1,0 +1,7 @@
+#
+
+exe test_rpr 
+  : main.cpp
+  :  <include>.
+     <include>./object_model
+  ;
