@@ -29,31 +29,49 @@ namespace dtl {
 /**************************************************************************************************/
 
 /**
- * This is a type generator for basic data representations. \c basic_data
- * representations form the foundation of the protox::dtl type system. All
- * simple, enumerated, and constructed types are built using basic data
- * representations.
+ * This is a type generator for basic data representations. basic data representations form the
+ * foundation of the protox::dtl type system. Generally, simple, enumerated, and constructed types
+ * are built using basic data representations.
 
- * basic associates C++ type T with the given size in bits and endian
- * representation code.
+ * Use basic to associate C++ type \a T with a size in bits, endian representation, and
+ * encode/decode policy.
+ *
+ * \tparam T The native type used to represent the basic data representation being defined.
+ *
+ * \tparam SIZE_IN_BITS The size of the data representation in bits. This value does not have to
+ *                      equal size of \a T in bits.
+ *
+ * \tparam ENDIAN Specifies either big, little, or na endianess.
+ *
+ * \tparam CODEC_TAG The encode/decode policy.
+ *
+ * \sa protox::dtl::endian
+ *
+ *
+ * Example:
+ *
+ * \code
+ *       +----------------------------------------------------------------------------------------------------+
+ *       | Basic data representation table                                                                    |
+ *       +---------------------------------------+--------------+--------------+------------------------------+
+ *       | Name                                  | Size in bits | Endian       | Encoding                     |
+ *       +---------------------------------------+--------------+--------------+------------------------------+
+ *  struct HLAoctet       : basic< unsigned char,   8,            endian::na,    HLAportable                  > {PROTOX_BASIC( HLAoctet )      };
+ *       +---------------------------------------+--------------+--------------+------------------------------+
+ *  struct HLAinteger16BE : basic< unsigned short, 16,            endian::big,   HLA16BitTwosComplementSigned > {PROTOX_BASIC( HLAinteger16BE )};
+ *       +---------------------------------------+--------------+--------------+------------------------------+
+ *
+ * \endcode
+ *
  */
 
-template<
-  typename T,          // The native type used to represent the basic data
-                       // representation being defined.
-
-  int SIZE_IN_BITS,    // The size of the data representation in bits. This
-                       // value does not have to equal size of T in bits.
-
-  typename ENDIAN,     // Specifies either big, little, or na endianess.
-
-  typename CODEC_TAG > // The tag used to determine how values of this type are
-                       // encoded and decoded.
+template< typename T, int SIZE_IN_BITS, typename ENDIAN, typename CODEC_TAG >
 struct basic : basic_tag
 {
 
 /**************************************************************************************************/
 
+private:
   // Test for valid template arguments:
 
   // T is default constructable?
@@ -70,6 +88,8 @@ struct basic : basic_tag
   );
 
 /**************************************************************************************************/
+
+public:
 
   typedef CODEC_TAG codec_tag;
   typedef ENDIAN endian;
@@ -92,7 +112,9 @@ struct basic : basic_tag
 
 /**************************************************************************************************/
 
-  // Implicit conversion from basic to T
+  /**
+   * Implicit conversion from basic to \a T.
+   */
   inline operator T() const { return value; }
 
   inline basic &operator ++()
@@ -107,8 +129,10 @@ struct basic : basic_tag
     return( *this );
   }
 
-  // Enable numerical assignment. For example, assignment of float to int, assignment int to float,
-  // etc...
+  /**
+   * Enable numerical assignment. For example, assignment of float to int, assignment int to float,
+   * etc...
+   */
   template< typename RHST >
   basic &operator =( const RHST rhs )
   {
@@ -124,7 +148,10 @@ struct basic : basic_tag
 /**************************************************************************************************/
 
 /**
- * Defines constructor methods for a \c basic type named \c basic_name.
+ * \file basic.hpp
+ *
+ * \def PROTOX_BASIC(basic_name)
+ * Defines constructor methods for a basic type named \a basic_name.
  */
 #define PROTOX_BASIC(basic_name)                      \
   basic_name() {}                                     \
