@@ -7,27 +7,27 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_HLA_1516_CODEC_TAGS_HPP
-#define PROTOX_HLA_1516_CODEC_TAGS_HPP
+#ifndef PROTOX_HLA_13_CODEC_TAGS_HPP
+#define PROTOX_HLA_13_CODEC_TAGS_HPP
 
 /**************************************************************************************************/
 
 namespace protox {
-namespace hla_1516 {
+namespace hla_13 {
 
 /**************************************************************************************************/
 
-struct HLAportable {};
-struct HLA16BitTwosComplementSigned {};
-struct HLA32BitTwosComplementSigned {};
-struct HLA64BitTwosComplementSigned {};
-struct HLA32BitIEEESinglePrecision {};
-struct HLA64BitIEEEDoublePrecision {};
-struct HLAfixedRecord {};
-struct HLAfixedArray {};
-struct HLAvariableArray {};
-struct HLAenumerated {};
-struct HLAvariantRecord {};
+struct HLA13portable                     {};
+struct HLA13_16BitTwosComplementSigned   {};
+struct HLA13_32BitTwosComplementSigned   {};
+struct HLA13_16BitTwosComplementUnsigned {};
+struct HLA13_32BitTwosComplementUnsigned {};
+struct HLA13_32BitIEEESinglePrecision    {};
+struct HLA13_64BitIEEEDoublePrecision    {};
+struct HLA13complexType                  {};
+struct HLA13fixedArray                   {};
+struct HLA13variableArray                {};
+struct HLA13enumerated                   {};
 
 /**************************************************************************************************/
 

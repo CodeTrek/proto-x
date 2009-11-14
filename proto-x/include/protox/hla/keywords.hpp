@@ -16,6 +16,30 @@
 #include <boost/preprocessor/arithmetic/sub.hpp>
 #include <boost/preprocessor/iteration/local.hpp>
 
+/**************************************************************************************************/
+
+#ifndef HLA_MAX_NUM_ATTRS
+#define HLA_MAX_NUM_ATTRS 30
+#endif
+
+#ifndef HLA_MAX_NUM_PARAMS
+#define HLA_MAX_NUM_PARAMS 20
+#endif
+
+#ifndef HLA_MAX_NUM_CHILDREN
+#define HLA_MAX_NUM_CHILDREN 20
+#endif
+
+#ifndef HLA_MAX_NUM_QNAME
+#define HLA_MAX_NUM_QNAME 20
+#endif
+
+#define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
+#define BOOST_MPL_LIMIT_SET_SIZE 30
+#define BOOST_MPL_LIMIT_VECTOR_SIZE 20
+
+/**************************************************************************************************/
+
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/set.hpp>
 
@@ -33,10 +57,6 @@ struct empty {};
 // keyword: attrs
 
 /**************************************************************************************************/
-
-#ifndef HLA_MAX_NUM_ATTRS
-#define HLA_MAX_NUM_ATTRS 20
-#endif
 
 #define HLA_ATTRS_DEFAULT_PARAMS(z, n, text) text##n=empty
 
@@ -76,10 +96,6 @@ struct attrs : boost::mpl::set< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_ATTRS, T) > {};
 
 /**************************************************************************************************/
 
-#ifndef HLA_MAX_NUM_PARAMS
-#define HLA_MAX_NUM_PARAMS 20
-#endif
-
 #define HLA_PARAMS_DEFAULT_PARAMS(z, n, text) text##n=empty
 
 // Forward reference
@@ -117,10 +133,6 @@ struct params : boost::mpl::set< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_PARAMS, T) > {
 // keyword: child
 
 /**************************************************************************************************/
-
-#ifndef HLA_MAX_NUM_CHILDREN
-#define HLA_MAX_NUM_CHILDREN 20
-#endif
 
 #define HLA_CHILDREN_DEFAULT_PARAMS(z, n, text) text##n=empty
 
@@ -160,10 +172,6 @@ struct child : boost::mpl::set< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_CHILDREN, T) > 
 // keyword: q_name
 
 /**************************************************************************************************/
-
-#ifndef HLA_MAX_NUM_QNAME
-#define HLA_MAX_NUM_QNAME 20
-#endif
 
 #define HLA_QNAME_DEFAULT_PARAMS(z, n, text) text##n=empty
 

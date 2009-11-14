@@ -12,6 +12,14 @@
 
 /**************************************************************************************************/
 
+// HLA 13 codec policies
+
+#include <protox/hla_13/basic_data_codec.hpp>
+#include <protox/hla_13/complex_type_codec.hpp>
+#include <protox/hla_13/fixed_array_codec.hpp>
+#include <protox/hla_13/variable_array_codec.hpp>
+#include <protox/hla_13/enumerated_codec.hpp>
+
 // HLA 1516 codec policies
 #include <protox/hla_1516/basic_data_codec.hpp>
 #include <protox/hla_1516/fixed_record_codec.hpp>
