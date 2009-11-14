@@ -161,7 +161,15 @@ public:
       }
     }
 
-    rti_amb.resignFederationExecution( RTI::NO_ACTION );
+    try
+    {
+      rti_amb.resignFederationExecution( RTI::NO_ACTION );
+    }
+    catch( RTI::Exception& ex )
+    {
+      std::cout << "RTI Exception: " << ex._name << " " << ex._reason << std::endl;
+    }
+
     std::cout << "Resigned from federation.\n";
   }
 };
