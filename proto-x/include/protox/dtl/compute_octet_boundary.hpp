@@ -55,9 +55,11 @@ typedef boost::mpl::int_< -1 > UNKNOWN_OCTET_BOUNDARY;
 template< int S, int N = 0 >
 struct compute_octet_boundary
 {
+private:
   BOOST_STATIC_ASSERT(( S > 0 ));
   BOOST_STATIC_ASSERT(( S <= (1L << PROTOX_DTL_POW_2_MAX_BIT_SIZE) ));
 
+public:
   // Compute the Nth power of two (i.e., 1 << N ) :
   typedef typename
     boost::mpl::shift_left< boost::mpl::int_< 1 >, boost::mpl::int_< N > >::type nth_power_of_two;
