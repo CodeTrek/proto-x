@@ -4,4 +4,7 @@ exe test_rpr
   : main.cpp
   :  <include>.
      <include>./object_model
+     <define>BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS=1
+     <define>BOOST_MPL_LIMIT_SET_SIZE=50
+     <define>BOOST_MPL_LIMIT_VECTOR_SIZE=50
   ;

@@ -38,9 +38,13 @@ using namespace protox::hla_13;
 //      +---------------------+-------------------------+----------------------------------------------------+----------------------+
 namespace NamedLocationStruct {
 //      +---------------------+-------------------------+----------------------------------------------------+
-                         struct TBD                     : field< HLA13octet > {};
+                         struct StationNumber           : field< HLA13short > {};
+                         struct StationName             : field< HLA13octet > {};
+                         struct Padding                 : field< HLA13octet > {};
+                         struct RelativeLocation        : field< HLA13octet > {};
+                         struct RelativeRangeAndBearing : field< HLA13octet > {};
 //      +---------------------+-------------------------+----------------------------------------------------+
-                                                                                                 struct type : hla_13::complex_type < mpl::vector< TBD > > {}; }
+                                                                                                 struct type : hla_13::complex_type < mpl::vector< StationNumber, StationName, Padding, RelativeLocation, RelativeRangeAndBearing > > {}; }
 //      +----------------------------------------------------------------------------------------------------+----------------------+
 
 /**************************************************************************************************/
