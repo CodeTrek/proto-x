@@ -51,12 +51,12 @@ using namespace protox::hla;
 //     +                                                        +---------------------------------+------------------------------------+------------------------------------------------+
                                                            struct Spatial                         : attr< SpatialStruct::type          > {HLA_NAME( "Spatial" )};
 //     +                                                        +---------------------------------+------------------------------------+------------------------------------------------+
-                                                           struct RelativeSpatial                 : attr< hla_13::HLA13octet           > {HLA_NAME( "RelativeSpatial" )};
+                                                           struct RelativeSpatial                 : attr< SpatialStruct::type          > {HLA_NAME( "RelativeSpatial" )};
 //     +--------------------------------------------------------+---------------------------------+------------------------------------+------------------------------------------------+
   struct PhysicalEntity      {HLA_NAME( "PhysicalEntity"      )};
-                                                           struct AcousticSignatureIndex          : attr< hla_13::HLA13octet           > {HLA_NAME( "AcousticSignatureIndex" )};
+                                                           struct AcousticSignatureIndex          : attr< hla_13::HLA13short           > {HLA_NAME( "AcousticSignatureIndex" )};
 //     +                                                        +---------------------------------+------------------------------------+------------------------------------------------+
-                                                           struct AlternateEntityType             : attr< hla_13::HLA13octet           > {HLA_NAME( "AlternateEntityType" )};
+                                                           struct AlternateEntityType             : attr< EntityTypeStruct::type       > {HLA_NAME( "AlternateEntityType" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
                                                            struct ArticulatedParametersArray      : attr< hla_13::HLA13octet           > {HLA_NAME( "ArticulatedParametersArray" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
