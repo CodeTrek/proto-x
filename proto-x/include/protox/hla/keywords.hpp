@@ -19,24 +19,20 @@
 /**************************************************************************************************/
 
 #ifndef HLA_MAX_NUM_ATTRS
-#define HLA_MAX_NUM_ATTRS 30
+#define HLA_MAX_NUM_ATTRS BOOST_MPL_LIMIT_SET_SIZE
 #endif
 
 #ifndef HLA_MAX_NUM_PARAMS
-#define HLA_MAX_NUM_PARAMS 20
+#define HLA_MAX_NUM_PARAMS BOOST_MPL_LIMIT_SET_SIZE
 #endif
 
 #ifndef HLA_MAX_NUM_CHILDREN
-#define HLA_MAX_NUM_CHILDREN 20
+#define HLA_MAX_NUM_CHILDREN BOOST_MPL_LIMIT_SET_SIZE
 #endif
 
 #ifndef HLA_MAX_NUM_QNAME
-#define HLA_MAX_NUM_QNAME 20
+#define HLA_MAX_NUM_QNAME BOOST_MPL_LIMIT_VECTOR_SIZE
 #endif
-
-#define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
-#define BOOST_MPL_LIMIT_SET_SIZE 30
-#define BOOST_MPL_LIMIT_VECTOR_SIZE 20
 
 /**************************************************************************************************/
 
