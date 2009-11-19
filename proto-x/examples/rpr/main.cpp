@@ -46,6 +46,11 @@ int main( int argc, char *argv[] )
 
   aircraft_obj.a_< RunningLightsOn >() = 5;
 
+  FederateIdentifierStruct::type &fi = aircraft_obj.a_< IsPartOf >().f_< HostEntityIdentifier >().f_< FederateIdentifier >();
+
+  fi.f_< SiteID >() = 222;
+  fi.f_< ApplicationID >() = 225;
+
   aircraft_obj
     .a_< IsPartOf >()
       .f_< HostEntityIdentifier >()
