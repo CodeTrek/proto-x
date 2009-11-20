@@ -66,7 +66,7 @@ struct basic_codec_impl_13
     BOOST_STATIC_ASSERT(( boost::mpl::sizeof_< hla_13::HLA13octet::value_type >::value == 1 ));
 
     const hla_13::HLA13octet::value_type
-      *bytes = (hla_13::HLAoctet::value_type const *)( &obj.value );
+      *bytes = (hla_13::HLA13octet::value_type const *)( &obj.value );
 
     s.start_value();
 
@@ -84,7 +84,7 @@ struct basic_codec_impl_13
   {
     BOOST_STATIC_ASSERT(( boost::mpl::sizeof_< hla_13::HLA13octet::value_type >::value == 1 ));
 
-    hla_13::HLAoctet::value_type *v_ptr = (hla_13::HLA13octet::value_type *)( &v.value );
+    hla_13::HLA13octet::value_type *v_ptr = (hla_13::HLA13octet::value_type *)( &v.value );
 
     s.start_value();
 
