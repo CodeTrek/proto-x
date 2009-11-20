@@ -75,7 +75,7 @@ struct custom_codec_impl
     custom::encode_custom<
       S,
       protox::dtl::codec::static_size_in_bytes< T >::value,
-      (T::endian::value != PROTOX_DTL_PLATFORM_ENDIANESS)
+      (T::endianess::value != PROTOX_DTL_PLATFORM_ENDIANESS)
     >::pack( s, bytes );
 
     s.end_value();
@@ -95,7 +95,7 @@ struct custom_codec_impl
     custom::decode_custom<
       S,
       protox::dtl::codec::static_size_in_bytes<T>::value,
-      (T::endian::value != PROTOX_DTL_PLATFORM_ENDIANESS)
+      (T::endianess::value != PROTOX_DTL_PLATFORM_ENDIANESS)
     >::unpack( v_ptr, s, offset );
 
     s.end_value();

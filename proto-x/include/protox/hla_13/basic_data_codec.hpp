@@ -66,14 +66,14 @@ struct basic_codec_impl_13
     BOOST_STATIC_ASSERT(( boost::mpl::sizeof_< hla_13::HLA13octet::value_type >::value == 1 ));
 
     const hla_13::HLA13octet::value_type
-      *bytes = (hla_1516::HLAoctet::value_type const *)( &obj.value );
+      *bytes = (hla_13::HLAoctet::value_type const *)( &obj.value );
 
     s.start_value();
 
     hla_13::encode_basic<
       S,
       codec::static_size_in_bytes<T>::value,
-      (T::endian::value != PROTOX_DTL_PLATFORM_ENDIANESS)
+      (T::endianess::value != PROTOX_DTL_PLATFORM_ENDIANESS)
     >::pack( s, bytes );
 
     s.end_value();
@@ -91,7 +91,7 @@ struct basic_codec_impl_13
     hla_13::decode_basic<
       S,
       codec::static_size_in_bytes<T>::value,
-      (T::endian::value != PROTOX_DTL_PLATFORM_ENDIANESS)
+      (T::endianess::value != PROTOX_DTL_PLATFORM_ENDIANESS)
     >::unpack( v_ptr, s, offset );
 
     s.end_value();

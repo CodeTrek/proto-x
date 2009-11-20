@@ -73,7 +73,7 @@ struct basic_codec_impl_1516
     hla_1516::encode_basic<
       S,
       codec::static_size_in_bytes<T>::value,
-      (T::endian::value != PROTOX_DTL_PLATFORM_ENDIANESS)
+      (T::endianess::value != PROTOX_DTL_PLATFORM_ENDIANESS)
     >::pack( s, bytes );
 
     s.end_value();
@@ -91,7 +91,7 @@ struct basic_codec_impl_1516
     hla_1516::decode_basic<
       S,
       codec::static_size_in_bytes<T>::value,
-      (T::endian::value != PROTOX_DTL_PLATFORM_ENDIANESS)
+      (T::endianess::value != PROTOX_DTL_PLATFORM_ENDIANESS)
     >::unpack( v_ptr, s, offset );
 
     s.end_value();

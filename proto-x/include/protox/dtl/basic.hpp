@@ -92,7 +92,7 @@ private:
 public:
 
   typedef CODEC_TAG codec_tag;
-  typedef ENDIAN endian;
+  typedef ENDIAN endianess;
   typedef T value_type;
 
 /**************************************************************************************************/
@@ -157,7 +157,7 @@ public:
   basic_name() {}                                     \
   typedef protox::dtl::basic< basic_name::value_type, \
     basic_name::size_in_bits,                         \
-    basic_name::endian,                               \
+    basic_name::endianess,                            \
     basic_name::codec_tag > base_type;                \
   basic_name(base_type::value_type v) : base_type(v) {}
 
