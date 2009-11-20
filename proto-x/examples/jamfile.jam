@@ -10,6 +10,14 @@ project
       <include>$(RTI_HOME)/include/ng6
       <include>.
       <include>..
+
+      <target-os>linux:<cxxflags>-DRTI_USES_STD_FSTREAM
+      <linkflags>-lRTI-NG
+      <linkflags>-lFedTime
+      <linkflags>-L$(RTI_HOME)/lib
+      <include>$(RTI_HOME)/include/ng6
+      <include>.
+      <include>..
   ;
 
 build-project fed_mgr ;
