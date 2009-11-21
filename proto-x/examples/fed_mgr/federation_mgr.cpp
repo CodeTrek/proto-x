@@ -37,7 +37,7 @@ private:
 public:
   fed_mgr_fed_amb(obj_amb_type &obj_amb ) : obj_amb( obj_amb ) {}
 
-  ~fed_mgr_fed_amb() {}
+  ~fed_mgr_fed_amb() throw( RTI::FederateInternalError )  {}
 
   ////////////////////////////////
   // Object Management Services //
