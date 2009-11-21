@@ -43,6 +43,11 @@ public:
                                    const RTI::FedTime                     &the_time,
                                    const char                             *the_tag,
                                    RTI::EventRetractionHandle              the_handle )
+  throw(
+    RTI::InteractionClassNotKnown,
+    RTI::InteractionParameterNotKnown,
+    RTI::InvalidFederationTime,
+    RTI::FederateInternalError )
   {
     inter_amb.recv_interaction( the_interaction, the_parameters, &the_time, the_tag );
   }
@@ -50,6 +55,10 @@ public:
   virtual void receiveInteraction( RTI::InteractionClassHandle             the_interaction,
                                    const RTI::ParameterHandleValuePairSet &the_parameters,
                                    const char                             *the_tag )
+  throw (
+    RTI::InteractionClassNotKnown,
+    RTI::InteractionParameterNotKnown,
+    RTI::FederateInternalError)
   {
     inter_amb.recv_interaction( the_interaction, the_parameters, 0, the_tag );
   }

@@ -52,6 +52,8 @@ public:
   virtual ~fed_amb() throw( RTI::FederateInternalError ) {}
   
   virtual void announceSynchronizationPoint( const char *label, const char *tag )
+  throw (
+    RTI::FederateInternalError)
   {
     std::cout << "Synchronization point announced: " << label << std::endl;
 

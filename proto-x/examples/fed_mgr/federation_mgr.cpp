@@ -43,10 +43,10 @@ public:
   // Object Management Services //
   ////////////////////////////////
 
-  virtual void discoverObjectInstance(
-          RTI::ObjectHandle          theObject,      // supplied C1
-          RTI::ObjectClassHandle     theObjectClass, // supplied C1
-    const char*                      theObjectName)  // supplied C4  
+  virtual void discoverObjectInstance( RTI::ObjectHandle      theObject,
+                                       RTI::ObjectClassHandle theObjectClass,
+                                       const char *           theObjectName )
+  throw( RTI::CouldNotDiscover, RTI::ObjectClassNotKnown, RTI::FederateInternalError )
   {
     obj_amb.discover_object( theObjectClass, theObject, theObjectName );
     std::cout << "Federate " << theObjectName << " joined\n";
@@ -58,6 +58,11 @@ public:
     const RTI::FedTime&                     theTime,       // supplied C1
     const char                             *theTag,        // supplied C4
           RTI::EventRetractionHandle        theHandle)     // supplied C1
+  throw( RTI::ObjectNotKnown,
+         RTI::AttributeNotKnown,
+    RTI::FederateOwnsAttributes,
+    RTI::InvalidFederationTime,
+    RTI::FederateInternalError )
   {
     obj_amb.reflect_object( theObject, theAttributes, &theTime, theTag );
   }
@@ -66,6 +71,11 @@ public:
           RTI::ObjectHandle                 theObject,     // supplied C1
     const RTI::AttributeHandleValuePairSet& theAttributes, // supplied C4
     const char                             *theTag)        // supplied C4
+  throw(
+    RTI::ObjectNotKnown,
+    RTI::AttributeNotKnown,
+    RTI::FederateOwnsAttributes,
+    RTI::FederateInternalError )
   {
     obj_amb.reflect_object( theObject, theAttributes, 0, theTag );
   }
@@ -75,14 +85,17 @@ public:
     const RTI::FedTime&              theTime,   // supplied C4
     const char                      *theTag,    // supplied C4
           RTI::EventRetractionHandle theHandle) // supplied C1
+  throw(
+    RTI::ObjectNotKnown,
+    RTI::InvalidFederationTime,
+    RTI::FederateInternalError )
   {
     obj_amb.remove_object( theObject );
     std::cout << "Federate removed\n";
   }
 
-  virtual void removeObjectInstance (
-          RTI::ObjectHandle          theObject, // supplied C1
-    const char                      *theTag)    // supplied C4
+  virtual void removeObjectInstance( RTI::ObjectHandle theObject, const char *theTag )
+    throw( RTI::ObjectNotKnown, RTI::FederateInternalError )
   {
     obj_amb.remove_object( theObject );
     std::cout << "Federate removed\n";

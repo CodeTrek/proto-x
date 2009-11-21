@@ -44,6 +44,11 @@ public:
                                    const RTI::FedTime                     &theTime,
                                    const char                             *theTag,
                                    RTI::EventRetractionHandle              theHandle )
+  throw (
+    RTI::InteractionClassNotKnown,
+    RTI::InteractionParameterNotKnown,
+    RTI::InvalidFederationTime,
+    RTI::FederateInternalError)
   {
     inter_amb.recv_interaction( theInteraction, theParameters, &theTime, theTag );
   }
@@ -51,6 +56,10 @@ public:
   virtual void receiveInteraction( RTI::InteractionClassHandle theInteraction,
                                    const RTI::ParameterHandleValuePairSet& theParameters,
                                    const char *theTag )
+  throw (
+    RTI::InteractionClassNotKnown,
+    RTI::InteractionParameterNotKnown,
+    RTI::FederateInternalError)
   {
     unsigned count = theParameters.size();
     inter_amb.recv_interaction( theInteraction, theParameters, 0, theTag );
