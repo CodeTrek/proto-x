@@ -54,7 +54,7 @@ public:
 
   static char const *name() { return T::name(); }
 
-  attr_base() : handle(0), updated(false) {}
+  attr_base() : updated(false), handle(0) {}
 
   static void set( attr_state s ) { get_state_vector() |= s; }
   static void clear( attr_state s ) { get_state_vector() &= (~s); }
