@@ -67,6 +67,8 @@ public:
    * Called when all joined federates have achieved a synchronization point.
    */
   virtual void federationSynchronized( const char *label )
+  throw (
+    RTI::FederateInternalError)
   {
     if( std::string( "ReadyToPopulate" ) == label )
     {
