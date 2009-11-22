@@ -38,8 +38,7 @@ public:
   virtual ~fed_amb_util() throw( RTI::FederateInternalError ) {} 
   
   virtual void announceSynchronizationPoint( const char *label, const char *)
-  throw (
-    RTI::FederateInternalError)
+  throw( RTI::FederateInternalError )
   {
     std::cout << "Synchronization point announced: " << label << std::endl;
 
@@ -50,8 +49,7 @@ public:
   }
 
   virtual void federationSynchronized( const char *label )
-  throw (
-    RTI::FederateInternalError)
+  throw( RTI::FederateInternalError )
   {
     std::cout << "Federation Synchronized: " << label << std::endl;
     if( std::string(label) == "ReadyToRun" )

@@ -52,30 +52,27 @@ public:
   // Time Callbacks
   //////////////////////////////////////////////////////////////////////////////
   virtual void timeRegulationEnabled( const RTI::FedTime &theFederateTime )
-  throw (
-    RTI::InvalidFederationTime,
-    RTI::EnableTimeRegulationWasNotPending,
-    RTI::FederateInternalError)
+  throw( RTI::InvalidFederationTime,
+         RTI::EnableTimeRegulationWasNotPending,
+         RTI::FederateInternalError )
   {
     is_regulating = true;
     fed_time = convert_time( theFederateTime );
   }
 
   virtual void timeConstrainedEnabled( const RTI::FedTime &theFederateTime )
-  throw (
-    RTI::InvalidFederationTime,
-    RTI::EnableTimeConstrainedWasNotPending,
-    RTI::FederateInternalError)
+  throw( RTI::InvalidFederationTime,
+         RTI::EnableTimeConstrainedWasNotPending,
+         RTI::FederateInternalError )
   {
     is_constrained = true;
     fed_time = convert_time( theFederateTime );
   }
 
   virtual void timeAdvanceGrant( const RTI::FedTime &theTime )
-  throw (
-    RTI::InvalidFederationTime,
-    RTI::TimeAdvanceWasNotInProgress,
-    RTI::FederateInternalError)
+  throw( RTI::InvalidFederationTime,
+         RTI::TimeAdvanceWasNotInProgress,
+         RTI::FederateInternalError )
   {
     is_advancing = false;
     fed_time = convert_time( theTime );

@@ -52,8 +52,7 @@ public:
   virtual ~fed_amb() throw( RTI::FederateInternalError ) {}
   
   virtual void announceSynchronizationPoint( const char *label, const char *tag )
-  throw (
-    RTI::FederateInternalError)
+  throw( RTI::FederateInternalError )
   {
     std::cout << "Synchronization point announced: " << label << std::endl;
 
@@ -67,8 +66,7 @@ public:
    * Called when all joined federates have achieved a synchronization point.
    */
   virtual void federationSynchronized( const char *label )
-  throw (
-    RTI::FederateInternalError)
+  throw( RTI::FederateInternalError )
   {
     if( std::string( "ReadyToPopulate" ) == label )
     {

@@ -52,50 +52,43 @@ public:
     std::cout << "Federate " << theObjectName << " joined\n";
   }
 
-  virtual void reflectAttributeValues (
-          RTI::ObjectHandle                 theObject,     // supplied C1
-    const RTI::AttributeHandleValuePairSet& theAttributes, // supplied C4
-    const RTI::FedTime&                     theTime,       // supplied C1
-    const char                             *theTag,        // supplied C4
-          RTI::EventRetractionHandle        theHandle)     // supplied C1
+  virtual void reflectAttributeValues( RTI::ObjectHandle                       theObject,
+                                       const RTI::AttributeHandleValuePairSet &theAttributes,
+                                       const RTI::FedTime                     &theTime,
+                                       const char                             *theTag,
+                                       RTI::EventRetractionHandle              theHandle )
   throw( RTI::ObjectNotKnown,
          RTI::AttributeNotKnown,
-    RTI::FederateOwnsAttributes,
-    RTI::InvalidFederationTime,
-    RTI::FederateInternalError )
+         RTI::FederateOwnsAttributes,
+         RTI::InvalidFederationTime,
+         RTI::FederateInternalError )
   {
     obj_amb.reflect_object( theObject, theAttributes, &theTime, theTag );
   }
 
-  virtual void reflectAttributeValues (
-          RTI::ObjectHandle                 theObject,     // supplied C1
-    const RTI::AttributeHandleValuePairSet& theAttributes, // supplied C4
-    const char                             *theTag)        // supplied C4
-  throw(
-    RTI::ObjectNotKnown,
-    RTI::AttributeNotKnown,
-    RTI::FederateOwnsAttributes,
-    RTI::FederateInternalError )
+  virtual void reflectAttributeValues( RTI::ObjectHandle                       theObject,
+                                       const RTI::AttributeHandleValuePairSet &theAttributes,
+                                       const char                              *theTag )
+  throw( RTI::ObjectNotKnown,
+         RTI::AttributeNotKnown,
+         RTI::FederateOwnsAttributes,
+         RTI::FederateInternalError )
   {
     obj_amb.reflect_object( theObject, theAttributes, 0, theTag );
   }
 
-  virtual void removeObjectInstance (
-          RTI::ObjectHandle          theObject, // supplied C1
-    const RTI::FedTime&              theTime,   // supplied C4
-    const char                      *theTag,    // supplied C4
-          RTI::EventRetractionHandle theHandle) // supplied C1
-  throw(
-    RTI::ObjectNotKnown,
-    RTI::InvalidFederationTime,
-    RTI::FederateInternalError )
+  virtual void removeObjectInstance( RTI::ObjectHandle           theObject,
+                                     const RTI::FedTime         &theTime,
+                                     const char                 *theTag,
+                                     RTI::EventRetractionHandle  theHandle )
+  throw( RTI::ObjectNotKnown, RTI::InvalidFederationTime, RTI::FederateInternalError )
   {
     obj_amb.remove_object( theObject );
     std::cout << "Federate removed\n";
   }
 
   virtual void removeObjectInstance( RTI::ObjectHandle theObject, const char *theTag )
-    throw( RTI::ObjectNotKnown, RTI::FederateInternalError )
+  throw( RTI::ObjectNotKnown, RTI::FederateInternalError )
   {
     obj_amb.remove_object( theObject );
     std::cout << "Federate removed\n";

@@ -47,10 +47,9 @@ public:
   virtual void discoverObjectInstance( RTI::ObjectHandle      the_object,
                                        RTI::ObjectClassHandle the_object_class,
                                        const char*            the_object_name )
-  throw (
-    RTI::CouldNotDiscover,
-    RTI::ObjectClassNotKnown,
-    RTI::FederateInternalError)
+  throw( RTI::CouldNotDiscover,
+         RTI::ObjectClassNotKnown,
+         RTI::FederateInternalError )
   {
     obj_amb.discover_object( the_object_class, the_object, the_object_name );
   }
@@ -60,12 +59,11 @@ public:
                                        const RTI::FedTime&                     the_time,
                                        const char                             *the_tag,
                                        RTI::EventRetractionHandle              the_handle )
-  throw(
-    RTI::ObjectNotKnown,
-    RTI::AttributeNotKnown,
-    RTI::FederateOwnsAttributes,
-    RTI::InvalidFederationTime,
-    RTI::FederateInternalError)
+  throw( RTI::ObjectNotKnown,
+         RTI::AttributeNotKnown,
+         RTI::FederateOwnsAttributes,
+         RTI::InvalidFederationTime,
+         RTI::FederateInternalError )
   {
     obj_amb.reflect_object( the_object, the_attributes, &the_time, the_tag );
   }
@@ -73,11 +71,10 @@ public:
   virtual void reflectAttributeValues( RTI::ObjectHandle                       the_object,
                                        const RTI::AttributeHandleValuePairSet &the_attributes,
                                        const char                             *the_tag )
-  throw(
-    RTI::ObjectNotKnown,
-    RTI::AttributeNotKnown,
-    RTI::FederateOwnsAttributes,
-    RTI::FederateInternalError)
+  throw( RTI::ObjectNotKnown,
+         RTI::AttributeNotKnown,
+         RTI::FederateOwnsAttributes,
+         RTI::FederateInternalError )
   {
     obj_amb.reflect_object( the_object, the_attributes, 0, the_tag );
   }
@@ -86,19 +83,17 @@ public:
                                      const RTI::FedTime&        the_time,
                                      const char                *the_tag,
                                      RTI::EventRetractionHandle the_handle )
-  throw(
-    RTI::ObjectNotKnown,
-    RTI::InvalidFederationTime,
-    RTI::FederateInternalError)
+  throw( RTI::ObjectNotKnown,
+         RTI::InvalidFederationTime,
+         RTI::FederateInternalError )
   {
     // Ignore time
     removeObjectInstance( the_object, the_tag );
   }
 
   virtual void removeObjectInstance ( RTI::ObjectHandle the_object, const char *the_tag )
-  throw(
-    RTI::ObjectNotKnown,
-    RTI::FederateInternalError )
+  throw( RTI::ObjectNotKnown,
+         RTI::FederateInternalError )
   {
     obj_amb.remove_object( the_object );
   }
