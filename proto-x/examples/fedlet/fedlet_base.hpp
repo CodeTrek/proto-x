@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "./fed_amb.hpp"
+#include "./sync_points.hpp"
 
 /**************************************************************************************************/
 
@@ -40,22 +41,19 @@ protected:
 private:
   void enable_time_policy()
   {
-    // enable time regulation
     const RTIfedTime fed_time = fed_amb.fed_time;
     const RTIfedTime lookahead = fed_amb.fed_lookahead_time;
+
     rti_amb.enableTimeRegulation( fed_time, lookahead );
 
-    // tick until we get the callback
-    while( fed_amb.is_regulating == false )
+    while (fed_amb.is_regulating == false)
     {
       rti_amb.tick();
     }
 
-    // enable time constrained
     rti_amb.enableTimeConstrained();
 
-    // tick until we get the callback
-    while( fed_amb.is_constrained == false )
+    while (fed_amb.is_constrained == false)
     {
       rti_amb.tick();
     }
@@ -74,9 +72,7 @@ protected:
     const RTIfedTime new_time = (fed_amb.fed_time + timestep);
     rti_amb.timeAdvanceRequest( new_time );
 
-    // wait for the time advance to be granted. ticking will tell the LRC to start delivering
-    // callbacks to the federate
-    while( fed_amb.is_advancing )
+    while (fed_amb.is_advancing)
     {
       rti_amb.tick();
     }
@@ -104,57 +100,57 @@ public:
     bool ready_to_run_achieved      = false;
     bool ready_to_resign_achieved   = false;
 
-    while( true )
+    while (true)
     {
       advance_time( 1.0 );
 
-      if( (fed_amb.all_sync_points_announced) && (!ready_to_populate_achieved) )
+      if ((fed_amb.all_sync_points_announced) && (!ready_to_populate_achieved))
       {
         try
         {
-          rti_amb.synchronizationPointAchieved( "ReadyToPopulate" );
+          rti_amb.synchronizationPointAchieved( READY_TO_POPULATE );
           ready_to_populate_achieved = true;
         }
-        catch( RTI::Exception& ex )
+        catch (RTI::Exception& ex)
         {
           std::cout << "RTI Exception: " << ex._name << " " << ex._reason << std::endl;
           break;
         }
       }
 
-      if( (fed_amb.is_ready_to_populate) && (!ready_to_run_achieved) )
+      if ((fed_amb.is_ready_to_populate) && (!ready_to_run_achieved))
       {
         populate();
 
         try
         {
-          rti_amb.synchronizationPointAchieved( "ReadyToRun" );
+          rti_amb.synchronizationPointAchieved( READY_TO_RUN );
           ready_to_run_achieved = true;
         }
-        catch( RTI::Exception& ex )
+        catch (RTI::Exception& ex)
         {
           std::cout << "RTI Exception: " << ex._name << " " << ex._reason << std::endl;
           break;
         }
       }
 
-      if( (fed_amb.is_ready_to_run) && (!ready_to_resign_achieved) )
+      if ((fed_amb.is_ready_to_run) && (!ready_to_resign_achieved))
       {
         execute();
 
         try
         {
-          rti_amb.synchronizationPointAchieved( "ReadyToResign" );
+          rti_amb.synchronizationPointAchieved( READY_TO_RESIGN );
           ready_to_resign_achieved = true;
         }
-        catch( RTI::Exception& ex )
+        catch (RTI::Exception& ex)
         {
           std::cout << "RTI Exception: " << ex._name << " " << ex._reason << std::endl;
           break;
         }
       }
 
-      if( fed_amb.is_ready_to_resign )
+      if (fed_amb.is_ready_to_resign)
       {
         resign();
         break;
@@ -165,7 +161,7 @@ public:
     {
       rti_amb.resignFederationExecution( RTI::NO_ACTION );
     }
-    catch( RTI::Exception& ex )
+    catch (RTI::Exception& ex)
     {
       std::cout << "RTI Exception: " << ex._name << " " << ex._reason << std::endl;
     }

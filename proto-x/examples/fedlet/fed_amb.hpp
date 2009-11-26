@@ -17,6 +17,7 @@
 #include <string>
 
 #include "./fed_amb_base.hpp"
+#include "./sync_points.hpp"
 
 /**************************************************************************************************/
 
@@ -38,17 +39,17 @@ public:
   bool is_ready_to_resign;
 
   fed_amb() :
-    num_sync_points_announced( 0 ),
-    all_sync_points_announced( false ),
-    is_ready_to_populate( false ),
-    is_ready_to_run( false ),
-    is_ready_to_resign( false )
+    num_sync_points_announced(0),
+    all_sync_points_announced(false),
+    is_ready_to_populate(false),
+    is_ready_to_run(false),
+    is_ready_to_resign(false)
   {}
 
-  virtual ~fed_amb() throw( RTI::FederateInternalError ) {}
+  virtual ~fed_amb() throw (RTI::FederateInternalError) {}
   
   virtual void announceSynchronizationPoint( const char *label, const char *tag )
-  throw( RTI::FederateInternalError )
+  throw (RTI::FederateInternalError)
   {
     std::cout << "Synchronization point announced: " << label << std::endl;
 
@@ -61,18 +62,18 @@ public:
   /**
    * Called when all joined federates have achieved a synchronization point.
    */
-  virtual void federationSynchronized( const char *label )
-  throw( RTI::FederateInternalError )
+  virtual void federationSynchronized( const char *label)
+  throw (RTI::FederateInternalError)
   {
-    if( std::string( "ReadyToPopulate" ) == label )
+    if (std::string( READY_TO_POPULATE ) == label)
     {
       is_ready_to_populate = true;
     }
-    else if( std::string( "ReadyToRun" ) == label )
+    else if (std::string( READY_TO_RUN ) == label)
     {
       is_ready_to_run = true;
     }
-    else if( std::string( "ReadyToResign" ) == label )
+    else if (std::string( READY_TO_RESIGN ) == label)
     {
       is_ready_to_resign = true;
     }

@@ -45,40 +45,40 @@ public:
   bool is_advancing;
   
   fed_amb_base() :
-    fed_time( 0.0 ),
-    fed_lookahead_time( 1.0 ),
-    is_regulating( false ),
-    is_constrained( false ),
-    is_advancing( false )
+    fed_time(0.0),
+    fed_lookahead_time(1.0),
+    is_regulating(false),
+    is_constrained(false),
+    is_advancing(false)
   {}
 
-  virtual ~fed_amb_base() throw( RTI::FederateInternalError ) {}
+  virtual ~fed_amb_base() throw (RTI::FederateInternalError) {}
   
   //////////////////////////////////////////////////////////////////////////////
   // Time Callbacks
   //////////////////////////////////////////////////////////////////////////////
   virtual void timeRegulationEnabled( const RTI::FedTime &theFederateTime )
-  throw( RTI::InvalidFederationTime,
+  throw (RTI::InvalidFederationTime,
          RTI::EnableTimeRegulationWasNotPending,
-         RTI::FederateInternalError )
+         RTI::FederateInternalError)
   {
     is_regulating = true;
     fed_time = convert_time( theFederateTime );
   }
 
   virtual void timeConstrainedEnabled( const RTI::FedTime &theFederateTime )
-  throw( RTI::InvalidFederationTime,
+  throw (RTI::InvalidFederationTime,
          RTI::EnableTimeConstrainedWasNotPending,
-         RTI::FederateInternalError )
+         RTI::FederateInternalError)
   {
     is_constrained = true;
     fed_time = convert_time( theFederateTime );
   }
 
   virtual void timeAdvanceGrant( const RTI::FedTime &theTime )
-  throw( RTI::InvalidFederationTime,
+  throw (RTI::InvalidFederationTime,
          RTI::TimeAdvanceWasNotInProgress,
-         RTI::FederateInternalError )
+         RTI::FederateInternalError)
   {
     is_advancing = false;
     fed_time = convert_time( theTime );
