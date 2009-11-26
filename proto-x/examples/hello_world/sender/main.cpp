@@ -15,7 +15,6 @@
 
 #include "fedlet/fedlet_base.hpp"
 
-#include "hw_fed_amb.hpp"
 #include "hw_som.hpp"
 
 /**************************************************************************************************/
