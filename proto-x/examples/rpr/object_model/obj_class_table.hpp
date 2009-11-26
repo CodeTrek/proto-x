@@ -29,7 +29,8 @@ using namespace protox::hla;
 /**************************************************************************************************/
 
 //// Object Class Table ////////////////////////////////////////////////////////
-   struct obj_class_table : o_class< HLAobjectRoot, attrs< HLAprivilegeToDeleteObject >, child<
+//   struct obj_class_table : o_class< HLAobjectRoot, attrs< HLAprivilegeToDeleteObject >, child<
+   struct obj_class_table : o_class< HLAobjectRoot, none, child<
 // +----------------------+-------------------------------+-------------------------------+-------------------------------+
 // | Class 1              | Class 2                       | Class 3                       | Class 4                       |
 // +----------------------+-------------------------------+-------------------------------+-------------------------------+

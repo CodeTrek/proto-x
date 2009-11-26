@@ -212,9 +212,9 @@ using namespace protox::hla;
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
                                                            struct SilentAggregates                : attr< hla_13::HLA13octet   >                {HLA_NAME( "SilentAggregates" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct SilentEntities                  : attr< hla_13::HLA13octet   >                {HLA_NAME( "SubAggregateIdentifiers" )};
+                                                           struct SilentEntities                  : attr< hla_13::HLA13octet   >                {HLA_NAME( "SilentEntities" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct SubAggregateIdentifiers         : attr< hla_13::HLA13octet   >                {HLA_NAME( "TailLightsOn" )};
+                                                           struct SubAggregateIdentifiers         : attr< hla_13::HLA13octet   >                {HLA_NAME( "SubAggregateIdentifiers" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
                                                            struct VariableDatums                  : attr< hla_13::HLA13octet   >                {HLA_NAME( "VariableDatums" )};
 //     +--------------------------------------------------------+---------------------------------+------------------------------+-----------------------------------------------------+

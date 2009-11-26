@@ -46,7 +46,14 @@ protected:
        Aircraft
     > >::type aircraft_type;
 
-     rpr_som::init_handles(rti_amb);
+     try
+     {
+       rpr_som::init_handles(rti_amb);
+     }
+     catch( RTI::Exception &e )
+     {
+       std::cout << e << "\n";
+     }
 
      base_entity_type base_entity_obj;
 
@@ -73,8 +80,8 @@ protected:
             .a_< IsPartOf >()
               .f_< HostEntityIdentifier >()
                 .f_< FederateIdentifier >()
-                  .f_< SiteID >();
-
+                  .f_< SiteID >()
+       << "\n";
   }
 
   virtual void populate()
