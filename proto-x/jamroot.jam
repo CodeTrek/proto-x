@@ -14,3 +14,10 @@ project protox
 build-project test ;
 
 build-project examples ;
+
+install ../install_dir
+  : examples :
+    <variant>release:<location>../install_dir/release
+    <variant>debug:<location>../install_dir/debug
+  ;
+
