@@ -17,7 +17,7 @@
 #include <protox/hla/o_class_type.hpp>
 #include <protox/hla/object_amb.hpp>
 
-#include "fed_mgr_som.hpp"
+#include "object_model/fed_mgr_som.hpp"
 
 /**************************************************************************************************/
 

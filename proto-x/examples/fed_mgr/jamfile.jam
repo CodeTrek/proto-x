@@ -3,5 +3,5 @@
 exe fed_mgr
   : federation_mgr.cpp
   :  <include>.
-     <include>./object_model
+     <include>..
   ;

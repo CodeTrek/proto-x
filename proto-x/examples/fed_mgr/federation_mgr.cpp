@@ -18,18 +18,22 @@
 
 #include <protox/hla/o_class_type.hpp>
 
-#include "utils/utils.hpp"
-#include "utils/fed_amb.hpp"
-#include "fed_mgr_som.hpp"
+//#include "utils/utils.hpp"
+//#include "utils/fed_amb.hpp"
+
+#include "fedlet/fed_amb.hpp"
+
+#include "object_model/fed_mgr_som.hpp"
 #include "obj_fed_amb.hpp"
 
 /**************************************************************************************************/
 
 using namespace boost;
+using namespace protox::examples;
 
 /**************************************************************************************************/
 
-class fed_mgr_fed_amb : public protox::examples::util::fed_amb
+class fed_mgr_fed_amb : public fedlet::fed_amb
 {
 private:
   obj_amb_type &obj_amb;
@@ -39,9 +43,9 @@ public:
 
   ~fed_mgr_fed_amb() throw( RTI::FederateInternalError )  {}
 
-  ////////////////////////////////
-  // Object Management Services //
-  ////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Object Management Services
+  //////////////////////////////////////////////////////////////////////////////////////////////////
 
   virtual void discoverObjectInstance( RTI::ObjectHandle      theObject,
                                        RTI::ObjectClassHandle theObjectClass,
@@ -101,6 +105,85 @@ static void register_sync_points( RTI::RTIambassador &rti_amb )
   rti_amb.registerFederationSynchronizationPoint( "ReadyToPopulate", "" );
   rti_amb.registerFederationSynchronizationPoint( "ReadyToRun",      "" );
   rti_amb.registerFederationSynchronizationPoint( "ReadyToResign",   "" );
+}
+
+static void advance_time
+  ( double timestep, RTI::RTIambassador &rti_amb, fedlet::fed_amb_base &fed_amb )
+{
+  // request the advance
+  fed_amb.is_advancing = true;
+  const RTIfedTime new_time = (fed_amb.fed_time + timestep);
+  rti_amb.timeAdvanceRequest( new_time );
+
+  // wait for the time advance to be granted. ticking will tell the LRC to start delivering
+  // callbacks to the federate
+  while( fed_amb.is_advancing )
+  {
+    rti_amb.tick();
+  }
+}
+
+static void enable_time_policy( RTI::RTIambassador &rti_amb, const fedlet::fed_amb_base &fed_amb )
+{
+  ////////////////////////////
+  // enable time regulation //
+  ////////////////////////////
+  const RTIfedTime fed_time = fed_amb.fed_time;
+  const RTIfedTime lookahead = fed_amb.fed_lookahead_time;
+  rti_amb.enableTimeRegulation( fed_time, lookahead );
+
+  // tick until we get the callback
+  while( fed_amb.is_regulating == false )
+  {
+    rti_amb.tick();
+  }
+
+  /////////////////////////////
+  // enable time constrained //
+  /////////////////////////////
+  rti_amb.enableTimeConstrained();
+
+  // tick until we get the callback
+  while( fed_amb.is_constrained == false )
+  {
+    rti_amb.tick();
+  }
+}
+
+static void create_federation_execution( RTI::RTIambassador &rti_amb,
+                                         const char *name,
+                                         const char *fed_file )
+{
+  try
+  {
+    rti_amb.createFederationExecution( name, fed_file );
+    std::cout << "Federation created.\n";
+  }
+  catch( RTI::FederationExecutionAlreadyExists )
+  {
+    std::cout << "Federation already exists.\n";
+  }
+  catch( RTI::Exception &ex )
+  {
+     std::cout <<  ex._name << " " << ex._reason << std::endl;
+  }
+}
+
+static void destroy_federation_execution( RTI::RTIambassador &rti_amb, const char *name )
+{
+  try
+  {
+    rti_amb.destroyFederationExecution( name );
+    std::cout << "Federation destroyed.\n";
+  }
+  catch( RTI::FederationExecutionDoesNotExist )
+  {
+    std::cout << "Federtion does not exist.\n";
+  }
+  catch( RTI::FederatesCurrentlyJoined )
+  {
+    std::cout << "Federation not destroyed - other federates are joined.\n";
+  }
 }
 
 /**
