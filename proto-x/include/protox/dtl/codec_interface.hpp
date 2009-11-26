@@ -26,9 +26,9 @@ namespace dtl {
 /**
  * \c codec provides a uniform interface to the \c struct and function templates used to encode and
  * decode a value of type \a T. \a T must provide a member type called \c codec_tag, which is used
- * by the templates inside of \c codec to dispatch to concrete implementations that perform the
- * actual encoding and decoding functionality for the type \a T. Concrete encode/decode
- * functionality is implemented in another \c struct called \c codec_impl.
+ * by \c codec to dispatch control to the concrete implementations that perform encoding and
+ * decoding of values of type \a T. These concrete encode/decode implementations are implemented in
+ * a \c struct \c template called \c codec_impl.
  */
 struct codec
 {
@@ -82,7 +82,7 @@ struct codec
    * Encodes values of type \a T into a stream of type \a S.
    *
    * \param s The value \a obj is encoded into this stream.
-   * \param obj The type of values to be encoded.
+   * \param obj The value to be encoded.
    *
    * \tparam S the stream type.
    * \tparam T the type to be encoded.
