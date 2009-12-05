@@ -116,8 +116,12 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_attr_mutators )
 
   som::init_handles( rti_amb );
 
-  typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > >::type
-    class_type;
+  typedef o_class_type<
+    som,
+    q_name< Class_C,
+            Class_A,
+            Class_E >
+  >::type class_type;
 
   class_type eObj;
 
