@@ -1,4 +1,3 @@
-
 /*
     Copyright (c) 2009 Jay Graham
 
@@ -55,9 +54,9 @@ protected:
     start_msg.send();
     std::cout << "Start message sent requesting: " << NUM_PLATFORMS << " platform objects\n";
 
-    while( true )
+    while (true)
     {
-      if( obj_amb.size< platform_type >() == NUM_PLATFORMS )
+      if (obj_amb.size< platform_type >() == NUM_PLATFORMS)
       {
         std::cout << "Discovered " << NUM_PLATFORMS << " platform objects\n";
         break;
@@ -71,16 +70,16 @@ protected:
   {
     using namespace PositionVector;
 
-    while( true )
+    while (true)
     {
       obj_amb_type::const_it< platform_type >::type it;
       bool all_stopped = true;
 
-      for( it = obj_amb.begin< platform_type >(); it != obj_amb.end< platform_type >(); ++it )
+      for (it = obj_amb.begin< platform_type >(); it != obj_amb.end< platform_type >(); ++it)
       {
         const bool stopped = (it->second.a_< Color >() == ColorEnum::RED::value());
 
-        if( !stopped )
+        if (!stopped)
         {
           all_stopped = false;
 
@@ -94,7 +93,7 @@ protected:
 
       advance_time( 1.0 );
 
-      if( all_stopped )
+      if (all_stopped)
       {
         break;
       }

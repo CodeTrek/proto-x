@@ -40,7 +40,7 @@ void greeting_handler( const greeting_type &greeting, const RTI::FedTime *, cons
 
   std::cout << "received " << str.c_str() << "\n";
 
-  if( str == "Goodbye" )
+  if (str == "Goodbye")
   {
     goodbye = true;
   }
@@ -64,7 +64,7 @@ protected:
 
   virtual void execute()
   {
-    while( !goodbye )
+    while (!goodbye)
     {
       advance_time( 1.0 );
     }
@@ -89,7 +89,6 @@ int main( int argc, char *argv[] )
   RTI::RTIambassador rti_amb;
 
   inter_amb_type inter_amb;
-  //inter_amb.set_handler< greeting_type >( greeting_handler );
   inter_amb.set_handler( greeting_handler );
 
   hw_fed_amb fed_amb( inter_amb );

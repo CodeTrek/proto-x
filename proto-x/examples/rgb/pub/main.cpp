@@ -67,21 +67,21 @@ protected:
 
     std::cout << "Waiting for start message...\n";
 
-    while( waiting_for_quantity )
+    while (waiting_for_quantity)
     {
       advance_time( 1.0 );
     }
 
     platforms.resize( num_platforms );
 
-    for( unsigned i = 0; i < platforms.size(); ++i )
+    for (unsigned i = 0; i < platforms.size(); ++i)
     {
       std::stringstream str;
       str << "Platform [" << i << "]";
       std::string name = str.str();
 
-      platforms[ i ].set_rti( rti_amb );
-      platforms[ i ].register_obj( name.c_str() );
+      platforms[i].set_rti( rti_amb );
+      platforms[i].register_obj( name.c_str() );
     }
   }
 
@@ -94,38 +94,38 @@ protected:
     // Initialize platforms
     std::cout << "Initialize the platforms...\n";
 
-    for( i = 0; i < platforms.size(); ++i )
+    for (i = 0; i < platforms.size(); ++i)
     {
-      platforms[ i ].a_< Position >().f_< X >() = (float) (i + 1);
-      platforms[ i ].a_< Position >().f_< Y >() = (float) (i + 1);
-      platforms[ i ].a_< Color    >()           = ColorEnum::GREEN::value();
+      platforms[i].a_< Position >().f_< X >() = (float) (i + 1);
+      platforms[i].a_< Position >().f_< Y >() = (float) (i + 1);
+      platforms[i].a_< Color    >()           = ColorEnum::GREEN::value();
 
-      platforms[ i ].update();
+      platforms[i].update();
     }
 
     // Move the platforms 20 times
     std::cout << "Move the platforms...\n";
 
-    for( i = 0; i < 20; ++i )
+    for (i = 0; i < 20; ++i)
     {
       advance_time( 1.0 );
 
-      for( unsigned j = 0; j < platforms.size(); ++j )
+      for (unsigned j = 0; j < platforms.size(); ++j)
       {
-        platforms[ j ].a_< Position >().f_< X >() += 1.0f;
-        platforms[ j ].a_< Position >().f_< Y >() += 2.0f;
+        platforms[j].a_< Position >().f_< X >() += 1.0f;
+        platforms[j].a_< Position >().f_< Y >() += 2.0f;
 
-        platforms[ j ].update();
+        platforms[j].update();
       }
     }
 
     // Stop all platforms
     std::cout << "Stop the platforms...\n";
 
-    for( i = 0; i < platforms.size(); ++i )
+    for (i = 0; i < platforms.size(); ++i)
     {
-      platforms[ i ].a_< Color >() = ColorEnum::RED::value();
-      platforms[ i ].update();
+      platforms[i].a_< Color >() = ColorEnum::RED::value();
+      platforms[i].update();
     }
 
     advance_time( 1.0 );
@@ -133,9 +133,9 @@ protected:
     // Remove all platforms
     std::cout << "Remove the platforms...\n";
 
-    for( i = 0; i < platforms.size(); ++i )
+    for (i = 0; i < platforms.size(); ++i)
     {
-      platforms[ i ].delete_obj();
+      platforms[i].delete_obj();
     }
 
     advance_time( 1.0 );

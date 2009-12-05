@@ -48,7 +48,7 @@ public:
 
 int main( int argc, char *argv[] )
 {
-  if( argc != 3 )
+  if (argc != 3)
   {
     std::cout << "usage: fedlet federation federate\n";
     std::cout << "       federation    - The name of the federation.\n";
@@ -59,8 +59,8 @@ int main( int argc, char *argv[] )
     return -1;
   }
 
-  static const char *FEDERATION_NAME = argv[ 1 ];
-  static const char *FEDERATE_NAME = argv[ 2 ];
+  static const char *FEDERATION_NAME = argv[1];
+  static const char *FEDERATE_NAME   = argv[2];
 
   RTI::RTIambassador rti_amb;
   fedlet::fed_amb fed_amb;

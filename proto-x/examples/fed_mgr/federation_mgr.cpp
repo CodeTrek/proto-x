@@ -218,8 +218,8 @@ int main( int argc, char* argv[] )
     return -1;
   }
 
-  static const char    *FEDERATION_NAME = argv[ 1 ];
-  static const char    *FED_FILE_NAME   = argv[ 2 ];
+  static const char    *FEDERATION_NAME =       argv[ 1 ];
+  static const char    *FED_FILE_NAME   =       argv[ 2 ];
   static const unsigned NUM_FEDERATES   = atoi( argv[ 3 ] );
 
   using namespace protox::hla;

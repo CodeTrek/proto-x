@@ -49,7 +49,7 @@ protected:
 
     typedef std::vector< ASCIIchar > str_type;
 
-    for( int i = 0; i < 20; ++i )
+    for (int i = 0; i < 20; ++i)
     {
       std::stringstream hw;
       hw << "Hello, world [" << i << "]";
