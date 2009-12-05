@@ -29,7 +29,7 @@ void tokenize( const std::string &str, char delim, std::vector< std::string > &r
   std::istringstream iss( str );
   std::string token;
 
-  while( getline( iss, token, delim ) )
+  while (getline( iss, token, delim ))
   {
     result.push_back( token );
   }
