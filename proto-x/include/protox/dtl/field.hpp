@@ -17,16 +17,21 @@ namespace dtl {
 
 /**************************************************************************************************/
 
-// The templates field_base and field are used to represent a field in a fixed_record definition.
-
-// Holds a field's value.
+/// \cond
 template< typename T >
 struct field_base
 {
   typename T::value_type value;
 };
+/// \endcond
 
-// Defines a fixed record field type.
+/**
+ * Defines a field used in the definition of a fixed record.
+ *
+ * \tparam T The field's datatype.
+ *
+ * \sa protox::dtl::fixed_record
+ */
 template< typename T >
 struct field
 {
