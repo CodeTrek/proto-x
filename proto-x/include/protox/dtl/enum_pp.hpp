@@ -12,6 +12,52 @@
 
 /**************************************************************************************************/
 
+/**
+ * \file enum_pp.hpp
+ *
+ * A collection of macros that make defining protox compliant easier. Use these macros inside a
+ * namespace to ensure that the various \c class and \c struct definitions they produce do not
+ * conflict.
+ *
+ * Example:
+ *
+ * \code
+ * namespace skill_level_enum
+ * {
+ *   PROTOX_ENUM_TYPE( HLAinteger16BE, enumerated );
+ *
+ *   PROTOX_ENUM_VALUE( POOR,      1 );
+ *   PROTOX_ENUM_VALUE( GOOD,      2 );
+ *   PROTOX_ENUM_VALUE( EXCELLENT, 3 );
+ *
+ *   PROTOX_ENUM_EQUALITY_OPERATOR;
+ *   PROTOX_ENUM_DEFAULT( GOOD );
+ * }
+ *
+ * skill_level_enum::Type skill_level;            // defaults to GOOD
+ * skill_level = skill_level_enum::POOR::value(); // Set to POOR
+ *
+ * \endcode
+ *
+ * \def PROTOX_ENUM_TYPE(T, ENUMERATED_TYPE)
+ *
+ * This macro generates boilerplate code used to define a protox enumerated type. The output from
+ * this macro is a class named \c Type. \a T is the basic type used to represent enumerated values,
+ * and \c Type derives from \a ENUMERATED_TYPE.
+ *
+ * \def PROTOX_ENUM_EQUALITY_OPERATOR
+ *
+ * Declares and implements a default equality operator for \c Type.
+ *
+ * \def PROTOX_ENUM_VALUE(NAME, VALUE)
+ *
+ * Defines a enumerator with the given \a NAME and \a VALUE.
+ *
+ * \def PROTOX_ENUM_DEFAULT(NAME)
+ *
+ * Defines the default enumerator.
+ */
+
 #define PROTOX_ENUM_TYPE(T, ENUMERATED_TYPE)                                  \
   typedef T enum_rep_type;                                                    \
   typedef ENUMERATED_TYPE< class Type, enum_rep_type > Type_enumerated;       \
