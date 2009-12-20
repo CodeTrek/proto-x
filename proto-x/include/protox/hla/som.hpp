@@ -19,6 +19,9 @@
 #include <iostream>
 
 #include <protox/hla/name_to_o_class_handle_map.hpp>
+#include <protox/hla/name_to_i_class_handle_map.hpp>
+#include <protox/hla/o_class_child_to_parent_map.hpp>
+#include <protox/hla/i_class_child_to_parent_map.hpp>
 #include <protox/hla/class_handle_to_attr_handle_map.hpp>
 #include <protox/hla/build_full_name.hpp>
 #include <protox/hla/o_class.hpp>
@@ -80,6 +83,8 @@ private:
     return map;
   }
 
+
+
   static hla::i_class_handle_to_param_map &get_i_class_handle_to_param_map()
   {
     static hla::i_class_handle_to_param_map map;
@@ -103,9 +108,85 @@ private:
     param_dft_type::init_i_class_handles( rti_amb, i_class_map, param_map );
   }
   
+  static hla::o_class_child_to_parent_map &get_o_class_child_to_parent_map()
+  {
+    static protox::hla::o_class_child_to_parent_map map;
+    return map;
+  }
+
+  static void init_o_class_ancestors()
+  {
+    const hla::name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
+    hla::o_class_child_to_parent_map &parent_map = get_o_class_child_to_parent_map();
+
+    if (!parent_map.empty())
+    {
+      return;
+    }
+
+    attr_dft_type::init_o_class_ancestors( class_map, parent_map );
+  }
+
+  static hla::i_class_child_to_parent_map &get_i_class_child_to_parent_map()
+  {
+    static protox::hla::i_class_child_to_parent_map map;
+    return map;
+  }
+
+  static void init_i_class_ancestors()
+  {
+    const hla::name_to_i_class_handle_map &class_map = get_name_to_i_class_handle_map();
+    hla::i_class_child_to_parent_map &parent_map = get_i_class_child_to_parent_map();
+
+    if (!parent_map.empty())
+    {
+      return;
+    }
+
+    param_dft_type::init_i_class_ancestors( class_map, parent_map );
+  }
+
 public: 
   typedef ROOT_O_CLASS o_class_table;
   typedef ROOT_I_CLASS i_class_table;
+
+  static bool is_o_class_ancstor( RTI::ObjectClassHandle parent, RTI::ObjectClassHandle child )
+  {
+    hla::o_class_child_to_parent_map &parent_map = get_o_class_child_to_parent_map();
+    hla::o_class_child_to_parent_map::const_iterator it = parent_map.find( child );
+
+    if (it == parent_map.end())
+    {
+      return false;
+    }
+
+    if (it->second == parent)
+    {
+      return true;
+    }
+
+    return is_o_class_ancestor( parent, it->second );
+  }
+
+  static bool is_i_class_ancstor( RTI::InteractionClassHandle parent,
+                                  RTI::InteractionClassHandle child )
+  {
+    hla::i_class_child_to_parent_map &parent_map = get_i_class_child_to_parent_map();
+
+    hla::i_class_child_to_parent_map::const_iterator it = parent_map.find( child );
+
+    if (it == parent_map.end())
+    {
+      return false;
+    }
+
+    if (it->second == parent)
+    {
+      return true;
+    }
+
+    return is_i_class_ancestor( parent, it->second );
+  }
 
   static RTI::ObjectClassHandle get_object_class_handle( const std::string &name )
   {
@@ -259,6 +340,9 @@ public:
   {
     init_o_class_handles( rti_amb );
     init_i_class_handles( rti_amb );
+
+    init_o_class_ancestors();
+    init_i_class_ancestors();
   }
  
   // Debug methods

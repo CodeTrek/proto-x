@@ -17,15 +17,22 @@ namespace dtl {
 
 /**************************************************************************************************/
 
-// A base class for representing enumerated types. Concrete enumerated types
-// must derive from this class.
-//
-// Example:
-//
-//   class MyEnum : public dtl::enumerated< MyEnum, HLAinteger32BE > {...};
-//
-// E The concrete enumerated type.
-// T The basic data type used to represent values of the enumerated type.
+/**
+ * A base class for representing enumerated types. Concrete enumerated types must derive from
+ * this class.
+ *
+ * \tparam E The concrete enumerated type.
+ * \tparam T The basic data type used to represent values of the enumerated type.
+ * \tparam CODEC_TAG The code/decode policy.
+ *
+ * Example:
+ *
+ * \code
+ * class MyEnum : public dtl::enumerated< MyEnum, HLAinteger32BE > {...};
+ * \endcode
+ *
+ * \sa enum_pp.hpp
+ */
 
 template< typename E, typename T, typename CODEC_TAG >
 class enumerated

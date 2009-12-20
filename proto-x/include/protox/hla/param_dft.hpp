@@ -28,6 +28,7 @@
 #include <boost/static_assert.hpp>
 
 #include <protox/hla/name_to_i_class_handle_map.hpp>
+#include <protox/hla/i_class_child_to_parent_map.hpp>
 #include <protox/hla/class_handle_to_param_handle_map.hpp>
 #include <protox/hla/build_full_name.hpp>
 #include <protox/hla/print_stack.hpp>
@@ -110,6 +111,13 @@ struct param_dft_children< false, Children, Stack >
     result::dump_stack();
   };
   
+  static void init_i_class_ancestors( const name_to_i_class_handle_map  &class_map,
+                                            i_class_child_to_parent_map &parent_map )
+  {
+    stack::init_i_class_ancestors( class_map, parent_map );
+    result::init_i_class_ancestors( class_map, parent_map );
+  }
+
   static void init_i_class_handles( RTI::RTIambassador &rtiAmb,
                                     name_to_i_class_handle_map &class_map,
                                     i_class_handle_to_param_map &param_map )
@@ -132,6 +140,32 @@ struct param_dft_children< true, Children, Stack >
     std::cout << "null\n";
   }
   
+  static void init_i_class_ancestors( const name_to_i_class_handle_map  &class_map,
+                                            i_class_child_to_parent_map &parent_map )
+  {
+    std::string full_name;
+    boost::mpl::for_each< Stack >( build_full_name( full_name, REVERSED ) );
+
+    if (full_name.empty())
+    {
+      return;
+    }
+
+    const size_t dot_pos = full_name.find_last_of('.');
+
+    if (dot_pos == std::string::npos)
+    {
+      return;
+    }
+
+    assert( class_map.find( full_name ) != class_map.end() );
+
+    const std::string parent_name = full_name.substr( 0, dot_pos );
+    assert( class_map.find( parent_name ) != class_map.end() );
+
+    parent_map[ class_map.find( full_name )->second ] = class_map.find( parent_name )->second;
+  }
+
   static void init_i_class_handles( RTI::RTIambassador &rtiAmb,
                                     name_to_i_class_handle_map &class_map,
                                     i_class_handle_to_param_map &param_map )
@@ -187,6 +221,12 @@ struct param_dft
                                     i_class_handle_to_param_map &param_map )
   {
     result::init_i_class_handles( rtiAmb, class_map, param_map );
+  }
+
+  static void init_i_class_ancestors( const name_to_i_class_handle_map  &class_map,
+                                            i_class_child_to_parent_map &parent_map )
+  {
+    result::init_i_class_ancestors( class_map, parent_map );
   }
 };
   

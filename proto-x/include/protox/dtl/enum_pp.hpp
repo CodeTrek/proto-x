@@ -51,7 +51,7 @@
  *
  * \def PROTOX_ENUM_VALUE(NAME, VALUE)
  *
- * Defines a enumerator with the given \a NAME and \a VALUE.
+ * Defines an enumerator with the given \a NAME and \a VALUE.
  *
  * \def PROTOX_ENUM_DEFAULT(NAME)
  *
