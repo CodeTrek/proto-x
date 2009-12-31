@@ -1,0 +1,11 @@
+import os ;
+
+project
+  : requirements
+      <target-os>windows:<cxxflags>/wd4290
+      <include>../rtilite
+      <include>..
+  ;
+
+build-project hw ;
+build-project platform ;

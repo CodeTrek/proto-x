@@ -1,0 +1,6 @@
+#
+
+exe hw
+  : main.cpp
+  :  <include>.
+  ;

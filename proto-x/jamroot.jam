@@ -15,6 +15,10 @@ build-project test ;
 
 build-project examples ;
 
+build-project rtilite ;
+
+build-project rtilite_examples ;
+
 install ../install_dir
   : examples :
     <variant>release:<location>../install_dir/release

@@ -1,0 +1,6 @@
+#
+
+exe platform
+  : main.cpp
+  :  <include>.
+  ;
