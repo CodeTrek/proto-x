@@ -50,20 +50,20 @@ struct ASCIIString : hla_1516::variable_array< std::vector< ASCIIchar > > {}; //
 //   +-------------+--------------------------------------+-----------------+-------------+
 
 //////// Parameter Table ///////////////////////////////////////////////////////////////////////////
-//     +------------------------------------------------------+-----------+---------------------+--------------------------+
-//     | Name                                                 | Parameter | Datatype            | String Name              |
-//     +------------------------------------------------------+-----------+---------------------+--------------------------+
-  struct HLAinteractionRoot {HLA_NAME( "HLAinteractionRoot" )};
-//     +------------------------------------------------------+-----------+---------------------+--------------------------+
-  struct Greeting           {HLA_NAME( "Greeting" )
-                                                         struct message   : param < ASCIIString > {HLA_NAME( "message" )};};
-//     +------------------------------------------------------+-----------+---------------------+--------------------------+
-  struct Response           {HLA_NAME( "Response" )
-                                                         struct message   : param < ASCIIString > {HLA_NAME( "message" )};};
-//     +------------------------------------------------------+-----------+---------------------+--------------------------+
+//   +------------------------------------------------------+-----------+---------------------+--------------------------+
+//   | Name                                                 | Parameter | Datatype            | String Name              |
+//   +------------------------------------------------------+-----------+---------------------+--------------------------+
+struct HLAinteractionRoot {HLA_NAME( "HLAinteractionRoot" )};
+//   +------------------------------------------------------+-----------+---------------------+--------------------------+
+struct Greeting           {HLA_NAME( "Greeting" )
+                                                       struct message   : param < ASCIIString > {HLA_NAME( "message" )};};
+//   +------------------------------------------------------+-----------+---------------------+--------------------------+
+struct Response           {HLA_NAME( "Response" )
+                                                       struct message   : param < ASCIIString > {HLA_NAME( "message" )};};
+//   +------------------------------------------------------+-----------+---------------------+--------------------------+
 
 //// Interaction Class Table ///////////////////////////////////////////////////////////////////////
-   struct inter_class_table : i_class< HLAinteractionRoot, none, child<
+struct inter_class_table : i_class< HLAinteractionRoot, none, child<
 // +------------------+
 // | Class 1          |
 // +------------------+
@@ -188,7 +188,7 @@ int main( int argc, char *argv[] )
 
   for (int i = 0; i < 5; ++i)
   {
-    const std::string what_up = "What, up?";
+    const std::string what_up = "What up?";
 
     (str_type &) send_msg.p_< Greeting::message >() = str_type( what_up.begin(), what_up.end() );
 
