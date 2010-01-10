@@ -21,11 +21,15 @@
 
 /**************************************************************************************************/
 
+/// \cond
+
 #if defined(_PROTOX_DTL_DEBUG)
 #define PROTOX_DTL_DEBUG(x) (x)
 #else
 #define PROTOX_DTL_DEBUG(x)
 #endif
+
+/// \endcond
 
 /**
  * The value of a pad byte.
@@ -38,6 +42,9 @@
  */
 #define PROTOX_DTL_POW_2_MAX_BIT_SIZE 7  // 2^7 or 128 bits.
 
+/**
+ * Indicates unknown platform endianess.
+ */
 #define PROTOX_DTL_NA_ENDIAN     0
 
 /**
