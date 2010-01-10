@@ -574,7 +574,7 @@ WARN_LOGFILE =
 # directories like "/usr/src/myproject". Separate the files or directories 
 # with spaces.
 
-INPUT = ../proto-x/include/protox/dtl/basic.hpp ../proto-x/include/protox/dtl/basic_tag.hpp ../proto-x/include/protox/dtl/endian_enum.hpp ../proto-x/include/protox/dtl/simple.hpp ../proto-x/include/protox/platform.hpp ../proto-x/include/protox/dtl/codec_interface.hpp ../proto-x/include/protox/dtl/compute_octet_boundary.hpp ../proto-x/include/protox/dtl/field.hpp ../proto-x/include/protox/dtl/fixed_record.hpp ../proto-x/include/protox/dtl/fixed_array.hpp ../proto-x/include/protox/dtl/enum_pp.hpp 
+INPUT = ../proto-x/include/protox/main_doc_page.hpp ../proto-x/include/protox/intro_page.hpp ../proto-x/include/protox/first_example_page.hpp ../proto-x/include/protox/dtl/basic.hpp ../proto-x/include/protox/dtl/basic_tag.hpp ../proto-x/include/protox/dtl/endian_enum.hpp ../proto-x/include/protox/dtl/simple.hpp ../proto-x/include/protox/platform.hpp ../proto-x/include/protox/dtl/codec_interface.hpp ../proto-x/include/protox/dtl/compute_octet_boundary.hpp ../proto-x/include/protox/dtl/field.hpp ../proto-x/include/protox/dtl/fixed_record.hpp ../proto-x/include/protox/dtl/fixed_array.hpp ../proto-x/include/protox/dtl/enum_pp.hpp 
 
 # This tag can be used to specify the character encoding of the source files 
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is 
