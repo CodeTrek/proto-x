@@ -89,13 +89,33 @@
  * We now have all the components necessary to define our <b><i>parameter table</i></b>:
  *
  * \code
- * //   +---------------------------------+-----------+-----------------+----------------------+
- * //   | Name                            | Parameter | Datatype        | String Name          |
- * //   +---------------------------------+-----------+-----------------+----------------------+
- * struct Greeter {PROTOX_NAME("Greeter")};
- * //                                     +-----------+-----------------+----------------------+
- *                                 struct Message     : param< FixedMsg > {HLA_NAME("Message")};
- * //                                     +-----------+-----------------+----------------------+
+ * //   +-----------------------------------+-----------+-----------------+----------------------+
+ * //   | Name                              | Parameter | Datatype        | String Name          |
+ * //   +-----------------------------------+-----------+-----------------+----------------------+
+ * struct Greeting {PROTOX_NAME("Greeting")};
+ * //                                       +-----------+-----------------+----------------------+
+ *                                   struct Message     : param< FixedMsg > {HLA_NAME("Message")};
+ * //                                       +-----------+-----------------+----------------------+
  * \endcode
  *
+ * We define a single parameter called ]c Message of type \c FixedMsg. Note also how we use the
+ * paramter table to define the interaction class names. In this case, we define a single
+ * interaction call named \c Greeting.
+ *
+ * <hr width=100>
+ *
+ * Here is our <b><i>interaction class table</i></b>:
+ *
+ * \code
+ * struct inter_class_table : i_class< HLAinteractionRoot, none, child<
+ * // +-----------------+
+ * // | Class 1         |
+ * // +-----------------+
+ *   i_class< Greeting,   params< Message > > > > {};
+ * // +-----------------+
+ * \endcode
+ *
+ * This is where we establish the <i>'is-a'</i> relationsips between interaction classes. This is
+ * a very simple interaction class table with a single interaction class called \c Greeting
+ * derived from the root interaction class called \c HLAinteractionRoot.
  */
