@@ -45,7 +45,7 @@
  * read and understand (and therefore difficult to maintain and modify). Error prone coding tasks
  * such as handle management and data serialization are completely eliminated.
  *
- * Ready to get started using \c proto-x? Look \ref first_example "here" for an example that
- * shows you how \c proto-x works.
+ * Look \ref first_example "here" for an example that will give you a better feel for what
+ * \c proto-x is and how it works.
  *
  */

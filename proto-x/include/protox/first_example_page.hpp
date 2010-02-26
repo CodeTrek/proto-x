@@ -8,10 +8,10 @@
 /**************************************************************************************************/
 
 /** \page first_example First Example
- * In this example we use \c proto-x to code a simple federate that sends a \c Greeting interaction
- * that consists of a single parameter called \c Message that is a fixed array of ASCII characters.
- * To do this, we need to define the following SOM components (assume we are building a federate to
- * the HLA 1516 standard):
+ * In this example we use \c proto-x to code a simple federate that sends an interaction called
+ * \c Greeting that consists of a single parameter called \c Message that is a fixed array of ASCII
+ * characters. To do this, we need to define the following SOM components in C++ code using
+ * \c proto-x:
  *
  * -
  * A <b><i>basic data representation table</i></b> to define a basic data type that can be the bases
@@ -32,10 +32,9 @@
  * interaction class.
  *
  * <hr width=100>
- * We start with a \c proto-x definition of a <b><i>basic data representation table</i></b> with a
- * single basic data representation definition called \c HLAoctet. Note that \c include
- * directives and other non-essential code are not shown to keep the code samples small and easier
- * to read.
+ * We start with a \c proto-x definition of a <b><i>basic data representation table</i></b>
+ * containing a single basic data type called \c HLAoctet. Note that \c include directives and other
+ * non-essential code are not shown to keep the code samples small and easier to read.
  * \code
  * //   +--------------------------------+--------------+-------------+-------------+
  * //   | Name                           | Size in bits | Endian      | Encoding    |
@@ -45,9 +44,9 @@
  * \endcode
  *
  * The \c struct template <tt><b>basic</b></tt> associates various attributes with the basic
- * data representation being defined. In this case, \c HLAoctet is represented by the \c C++ native
+ * data type being defined. In this case, \c HLAoctet is represented by the \c C++ native
  * type <tt>unsigned char</tt>, has a size of 8 bits, uses big endian representation, and uses
- * the HLA 1516 portable encoding policy for serialization. The macro \c PROTO_BASIC tacked onto the
+ * the HLA portable encoding policy for serialization. The macro \c PROTO_BASIC tacked onto the
  * end generates required boilerplate code.
  *
  * The commenting style and use of white space emphasizes how you can structure your \c proto-x code
@@ -68,7 +67,7 @@
  * //   +--------------+------------------+----------+
  * \endcode
  *
- * Note how we used the basic data representation \c HLAoctet in the definition of \c HLAASCIIchar.
+ * Note how we used the basic data type \c HLAoctet in the definition of \c HLAASCIIchar.
  * Here we use the \c struct template \c simple to define our simple datatype, and the
  * \c PROTOX_SIMPLE macro to generate require boilerplate code.
  *
@@ -98,9 +97,9 @@
  * //                                       +-----------+-----------------+----------------------+
  * \endcode
  *
- * We define a single parameter called ]c Message of type \c FixedMsg. Note also how we use the
+ * We define a single parameter called \c Message of type \c FixedMsg. Note also how we use the
  * paramter table to define the interaction class names. In this case, we define a single
- * interaction call named \c Greeting.
+ * interaction class named \c Greeting.
  *
  * <hr width=100>
  *
@@ -118,4 +117,21 @@
  * This is where we establish the <i>'is-a'</i> relationsips between interaction classes. This is
  * a very simple interaction class table with a single interaction class called \c Greeting
  * derived from the root interaction class called \c HLAinteractionRoot.
+ *
+ * Now lets use our SOM components to constrcut two federates, one that sends \c Greeting
+ * interactions and one that receives them.
+ *
+ * To make life simpler, we are going to use a very lightweight implementation of the RTI
+ * API specifically designed to implement example code that demonstrates \c proto-x concepts and
+ * functionality. This implementation of the RTI provides just enough functionality to satisfy the
+ * needs of a \proto-x derived API without the additional overhead of using a real RTI e.g.,
+ * configuration files, running federates and RTI executives in seperate processes, etc...
+ *
+ * You can find this lightweight RTI implementation in the code base in a folder called \c rtilite.
+ *
+ * Before we can implement our federates, we need to define a few more types that will complete our
+ * SOM specific HLA API. Here they are:
+ *
+ *
+ *
  */
