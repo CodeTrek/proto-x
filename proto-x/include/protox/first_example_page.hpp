@@ -93,7 +93,7 @@
  * //   +-----------------------------------+-----------+-----------------+----------------------+
  * struct Greeting {PROTOX_NAME("Greeting")};
  * //                                       +-----------+-----------------+----------------------+
- *                                   struct Message     : param< FixedMsg > {HLA_NAME("Message")};
+ *                                     struct Message   : param< FixedMsg > {HLA_NAME("Message")};
  * //                                       +-----------+-----------------+----------------------+
  * \endcode
  *
@@ -154,8 +154,8 @@
  * qualified name of our interaction. The type <tt>greeting_type</tt> can now be used to
  * declare instances of a \c Greeting interaction.
  *
- * Next, we need an interaction ambassador that is capable of receiving \c Greeting interactions.
- * Here it is:
+ * Next, we need an interaction ambassador that is capable of receiving \c greeting_type
+ * interactions. Here it is:
  *
  * \code
  * // An interaction ambassador used to register callbacks that are invoked by interaction class
@@ -163,5 +163,111 @@
  * typedef hla::interaction_amb< mpl::vector< greeting_type > >::type inter_amb_type;
  * \endcode
  *
+ *
+ * We now have all of the \c proto-x types we need to complete our sample federates.
+ *
+ * Our receiving federate will need an HLA federate ambassador that forwards interactions to our
+ * \c proto-x ambassador. Here is an HLA federate ambassador that gets a reference to our
+ * interaction ambassador. Note how all received interactions our forwarded to the interaction
+ * ambassador.
+ *
+ * \code
+ * class fed_amb : public RTI::FederateAmbassador
+ * {
+ * private:
+ *   inter_amb_type &inter_amb;
+ *
+ * public:
+ *   fed_amb( inter_amb_type &inter_amb ) : inter_amb(inter_amb) {}
+ *
+ *   virtual void receiveInteraction( RTI::InteractionClassHandle             theInteraction,
+ *                                    const RTI::ParameterHandleValuePairSet &theParameters,
+ *                                    const char                             *theTag )
+ *   {
+ *     inter_amb.recv_interaction( theInteraction, theParameters, 0, theTag );
+ *   }
+ * };
+ * \endcode
+ *
+ * Our interaction ambassador lets us register a callback function that gets invoked when we
+ * receive a \c Greeting interaction. Here is our handler. It simply writes the value of the
+ * \c message parameter to standard out.
+ *
+ * \code
+ * static void greeting_handler( const greeting_type &greeting, const RTI::FedTime *, const char * )
+ * {
+ *   std::string str( greeting.p_< message >().begin(), greeting.p_< message >().end() );
+ *   std::cout << "greeting : " << str.c_str() << " ";
+ * }
+ * \endcode
+ *
+ * Finally, here is our \c main that ties everything together.
+ *
+ * \code
+ * int main( int argc, char *argv[] )
+ * {
+ *   // The "fake" RTI exec used to mimic HLA data exchanges
+ *   RTI::RTIexec rti_exec;
+ *
+ *   // Create an interaction ambassador and register our interaction callback.
+ *   inter_amb_type inter_amb;
+ *   inter_amb.set_handler( greeting_handler );
+ *
+ *   //
+ *   // Sender Federate
+ *   //
+ *   RTI::RTIambassador send_rti_amb( rti_exec );
+ *   fed_amb send_fed_amb( inter_amb );
+ *
+ *   //
+ *   // Initialize handles
+ *   //
+ *   hw_som::init_handles( send_rti_amb );
+ *
+ *   //
+ *   // Join federation
+ *   //
+ *   send_rti_amb.joinFederationExecution( "", "hw_sender", &send_fed_amb );
+ *
+ *   //
+ *   // Publish interaction
+ *   //
+ *   greeting_type::publish( send_rti_amb );
+ *
+ *
+ *
+ *
+ *   //
+ *   // Receiver Federate
+ *   //
+ *   RTI::RTIambassador recv_rti_amb( rti_exec );
+ *   fed_amb recv_fed_amb( inter_amb );
+ *
+ *   //
+ *   // Join federation
+ *   //
+ *   recv_rti_amb.joinFederationExecution( "", "hw_receiver", &recv_fed_amb );
+ *
+ *   //
+ *   // Subscribe interaction
+ *   //
+ *   greeting_type::subscribe( recv_rti_amb );
+
+
+ *
+ *   //
+ *   // Run...
+ *   //
+ *   greeting_type send_msg;
+ *
+ *   const std::string what_up = "What up?";
+ *
+ *   send_msg.p_< Message >() = ASCIIString::array_type( what_up.begin(), what_up.end() );
+ *
+ *   send_msg.send( send_rti_amb );
+ *
+ *   rti_exec.tick();
+ * }
+ * \endcode
  *
  */
