@@ -10,7 +10,7 @@
 
 #include <boost/mpl/sizeof.hpp>
 
-#include "protox/dtl/codec.hpp"
+#include "protox/codec/codecs.hpp"
 
 #include "protox/io/byte_data_sink.hpp"
 #include "protox/io/byte_data_source.hpp"

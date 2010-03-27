@@ -13,7 +13,7 @@
 
 #include <boost/mpl/vector.hpp>
 
-#include <protox/dtl/codec.hpp>
+#include <protox/codec/codecs.hpp>
 #include <protox/dtl/unknown_static_size.hpp>
 
 #include <protox/io/byte_data_sink.hpp>

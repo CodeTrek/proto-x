@@ -15,7 +15,7 @@
 #include <protox/io/byte_data_sink.hpp>
 #include <protox/io/byte_data_source.hpp>
 
-#include <protox/dtl/codec.hpp>
+#include <protox/codec/codecs.hpp>
 
 #include <protox/hla_1516/basic_data_representation_table.hpp>
 #include <protox/hla_1516/fixed_array.hpp>
