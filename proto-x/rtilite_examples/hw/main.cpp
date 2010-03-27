@@ -184,21 +184,20 @@ int main( int argc, char *argv[] )
   greeting_type send_msg( send_rti_amb );
   response_type response_msg( recv_rti_amb );
 
-  typedef std::vector< ASCIIchar > str_type;
-
   for (int i = 0; i < 5; ++i)
   {
     const std::string what_up = "What up?";
 
-    (str_type &) send_msg.p_< Greeting::message >() = str_type( what_up.begin(), what_up.end() );
+    (ASCIIString::array_type &) send_msg.p_< Greeting::message >()
+       = ASCIIString::array_type( what_up.begin(), what_up.end() );
 
     send_msg.send();
     rti_exec.tick();
 
     const std::string &not_much = "Not much";
 
-    (str_type &)
-      response_msg.p_< Response::message >() = str_type( not_much.begin(), not_much.end() );
+    (ASCIIString::array_type &) response_msg.p_< Response::message >()
+      = ASCIIString::array_type( not_much.begin(), not_much.end() );
 
     response_msg.send();
     rti_exec.tick();
