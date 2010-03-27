@@ -21,6 +21,7 @@ namespace dtl {
 template< typename T, typename CODEC_TAG >
 struct variable_array : public T
 {
+  typedef T array_type;
   typedef typename T::value_type value_type;
   typedef CODEC_TAG codec_tag;
 

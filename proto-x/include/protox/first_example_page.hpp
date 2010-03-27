@@ -124,14 +124,44 @@
  * To make life simpler, we are going to use a very lightweight implementation of the RTI
  * API specifically designed to implement example code that demonstrates \c proto-x concepts and
  * functionality. This implementation of the RTI provides just enough functionality to satisfy the
- * needs of a \proto-x derived API without the additional overhead of using a real RTI e.g.,
+ * needs of a \c proto-x derived API without the additional overhead of using a real RTI e.g.,
  * configuration files, running federates and RTI executives in seperate processes, etc...
  *
  * You can find this lightweight RTI implementation in the code base in a folder called \c rtilite.
  *
  * Before we can implement our federates, we need to define a few more types that will complete our
- * SOM specific HLA API. Here they are:
+ * SOM specific HLA API.
  *
+ * First we need a type that represents our simulation object model (SOM). We define it like this:
+ *
+ * \code
+ * // Hello world SOM type
+ * typedef protox::hla::som< null_o_class, inter_class_table > hw_som;
+ * \endcode
+ *
+ * A SOM is defined by an object class table type and an interaction class table type. In this
+ * example we don't have an object class table, so the first template argument is
+ * <tt>null_o_class</tt>. The second template argument is our interaction class table type
+ * <tt>inter_class_table</tt>.
+ *
+ * We use our SOM type <tt>hw_som</tt> to define a \c Greeting interaction type like this:
+ *
+ * \code
+ * typedef i_class_type< hw_som, q_name< Greeting > >::type greeting_type;
+ * \endcode
+ *
+ * <tt>hw_som</tt> is our SOM. The template argument <tt>q_name< Greeting ></tt> is the fully
+ * qualified name of our interaction. The type <tt>greeting_type</tt> can now be used to
+ * declare instances of a \c Greeting interaction.
+ *
+ * Next, we need an interaction ambassador that is capable of receiving \c Greeting interactions.
+ * Here it is:
+ *
+ * \code
+ * // An interaction ambassador used to register callbacks that are invoked by interaction class
+ * // type.
+ * typedef hla::interaction_amb< mpl::vector< greeting_type > >::type inter_amb_type;
+ * \endcode
  *
  *
  */
