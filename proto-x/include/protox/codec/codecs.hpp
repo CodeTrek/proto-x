@@ -7,13 +7,14 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_DTL_CODEC_HPP
-#define PROTOX_DTL_CODEC_HPP
+#ifndef PROTOX_CODEC_CODEC_HPP
+#define PROTOX_CODEC_CODEC_HPP
 
 /**************************************************************************************************/
 
 // HLA 13 codec policies
 #include <protox/hla_13/basic_data_codec.hpp>
+
 #include <protox/hla_13/complex_type_codec.hpp>
 #include <protox/hla_13/fixed_array_codec.hpp>
 #include <protox/hla_13/variable_array_codec.hpp>

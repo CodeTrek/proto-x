@@ -16,7 +16,7 @@
 #include <assert.h>
 
 #include <protox/io/byte_data_sink.hpp>
-#include <protox/dtl/codec.hpp>
+#include <protox/codec/codecs.hpp>
 
 /**************************************************************************************************/
 

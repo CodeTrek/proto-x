@@ -15,7 +15,7 @@
 #include <cstddef>
 #include <vector>
 
-#include <protox/dtl/codec.hpp>
+#include <protox/codec/codecs.hpp>
 
 /**************************************************************************************************/
 

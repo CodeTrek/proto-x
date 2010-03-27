@@ -7,8 +7,8 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_DTL_CODEC_TAGS_HPP
-#define PROTOX_DTL_CODEC_TAGS_HPP
+#ifndef PROTOX_CODEC_CODEC_TAGS_HPP
+#define PROTOX_CODEC_CODEC_TAGS_HPP
 
 /**************************************************************************************************/
 
