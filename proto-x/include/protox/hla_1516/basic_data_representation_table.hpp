@@ -19,8 +19,81 @@
 
 /**************************************************************************************************/
 
+/**
+ * \file basic_data_representation_table.hpp
+ */
+
+/**************************************************************************************************/
+
 namespace protox {
 namespace hla_1516 {
+
+/**
+ * \class HLAoctet
+ * HLAoctet
+ */
+
+/**
+ * \class HLAoctetPairBE
+ * HLAoctetPairBE
+ */
+
+/**
+ * \class HLAinteger16BE
+ * HLAinteger16BE
+ */
+
+/**
+ * \class HLAinteger32BE
+ * HLAinteger32BE
+ */
+
+
+/**
+ * \class HLAinteger64BE
+ * HLAinteger64BE
+ */
+
+/**
+ * \class HLAfloat32BE
+ * HLAfloat32BE
+ */
+
+/**
+ * \class HLAfloat64BE
+ * HLAfloat64BE
+ */
+
+/**
+ * \class HLAoctetPairLE
+ * HLAoctetPairLE
+ */
+
+/**
+ * \class HLAinteger16LE
+ * HLAinteger16LE
+ */
+
+/**
+ * \class HLAinteger32LE
+ * HLAinteger32LE
+ */
+
+/**
+ * \class HLAinteger64LE
+ * HLAinteger64LE
+ */
+
+/**
+ * \class HLAfloat32LE
+ * HLAfloat32LE
+ */
+
+/**
+ * \class HLAfloat64LE
+ * HLAfloat64LE
+ */
+
 
 /**************************************************************************************************/
 

@@ -13,53 +13,34 @@
 /**************************************************************************************************/
 
 #include <protox/dtl/enumerated.hpp>
+#include <protox/dtl/enum_pp.hpp>
 #include <protox/hla_1516/basic_data_representation_table.hpp>
 
 /**************************************************************************************************/
+
+/**
+ * \class protox::hla_1516::HLAboolean::Type
+ * HLAboolean enumerated type
+ */
 
 namespace protox {
 namespace hla_1516 {
 
 /**************************************************************************************************/
 
-typedef protox::hla_1516::enumerated<
-  class HLAboolean,
-  protox::hla_1516::HLAinteger32BE
-> HLAboolean_enumerated;
+//      +----------------+-----------------------------------------------+------------+--------+
+//      | Name           | Representation                                | Enumerator | Values |
+//      +----------------+-----------------------------------------------+------------+--------+
+namespace HLAboolean    {PROTOX_ENUM_TYPE( HLAinteger32BE, enumerated );
+//      +----------------+-----------------------------------------------+------------+--------+
+                                                        PROTOX_ENUM_VALUE( HLAfalse,        0 );
+//                                                                       +------------+--------+
+                                                        PROTOX_ENUM_VALUE( HLAtrue,         1 );
+//      +----------------+-----------------------------------------------+------------+--------+
 
-/**************************************************************************************************/
-
-class HLAboolean : public HLAboolean_enumerated
-{
-private:
-  friend struct HLAtrue;
-  friend struct HLAfalse;
-
-  HLAboolean( protox::hla_1516::HLAinteger32BE v ) : HLAboolean_enumerated(v) {}
-
-public:
-  HLAboolean() : HLAboolean_enumerated(0) {}
-  HLAboolean( HLAboolean const & v ) : HLAboolean_enumerated(v) {}
-
-  static bool is_equal( protox::hla_1516::HLAinteger32BE lhs, protox::hla_1516::HLAinteger32BE rhs )
-  {
-    return( lhs == rhs );
-  }
-};
-
-/**************************************************************************************************/
-
-struct HLAtrue
-{
-  static HLAboolean const &value() { static HLAboolean const e( 1 ); return e; }
-};
-
-/**************************************************************************************************/
-
-struct HLAfalse
-{
-  static HLAboolean const &value() { static HLAboolean const e( 0 ); return e; }
-};
+  PROTOX_ENUM_EQUALITY_OPERATOR;
+  PROTOX_ENUM_DEFAULT( HLAfalse );
+}
 
 /**************************************************************************************************/
 

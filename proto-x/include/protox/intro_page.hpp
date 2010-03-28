@@ -12,7 +12,7 @@
  * \c proto-x is a cross-platform, open source C++ library for developing high level architecture
  * (HLA) compliant simulations, tools, and utilities. \c proto-x lets you represent simulation
  * object model (SOM) component definitions directly in C++ code. You can then use these definitions
- * to derive an application programming interface (API) to the HLA simulation services provided by
+ * to derive an application programming interface (API) to the simulation services provided by
  * an implementation of the HLA run-time infrastructure (RTI).
  *
  * \c proto-x is not a framework. It is an alternative API to the standard RTI API that offers the

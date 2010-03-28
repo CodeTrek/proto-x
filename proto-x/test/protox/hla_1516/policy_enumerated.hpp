@@ -118,13 +118,16 @@ namespace test_protox_dtl_hla_1516_codec_enumerated
 
   BOOST_AUTO_TEST_CASE( test_enumerated )
   {
-    BOOST_CHECK( protox::dtl::codec::octet_boundary< HLAboolean >::value == 4 );
-    BOOST_CHECK( protox::dtl::codec::static_size_in_bytes< HLAboolean >::value == 4 );
+    BOOST_CHECK( protox::dtl::codec::octet_boundary< HLAboolean::Type >::value == 4 );
+    BOOST_CHECK( protox::dtl::codec::static_size_in_bytes< HLAboolean::Type >::value == 4 );
+
+    using namespace HLAboolean;
+
     BOOST_CHECK( protox::dtl::codec::dynamic_size(HLAtrue::value()) == 4 );
 
     protox::io::byte_data_sink sink;
 
-    HLAboolean b = HLAtrue::value();
+    HLAboolean::Type b = HLAtrue::value();
     sink.encode( b );
 
     BOOST_CHECK( sink.size() == 4 );

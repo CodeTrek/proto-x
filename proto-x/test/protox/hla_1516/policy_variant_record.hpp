@@ -27,6 +27,29 @@
 #include "protox/hla_1516/basic_data_representation_table.hpp"
 #include "protox/hla_1516/fixed_record.hpp"
 
+#if 0
+
+// +-------------+-----------------------------------------------+------------------------+------------------------+
+// |             | Alternative                                   |                        |                        |
+// | Record Name +-----------------------------------------------+ Disciminant Enumerator | Encoding               |
+// |             | Name  | Type                                  |                        |                        |
+// +-------------+-------+---------------------------------------+------------------------+------------------------+
+namespace name   {
+            struct alt_1 : dtl::discriminant<      HLAinteger16BE, mpl::vector< Sun,
+//                                                               +------------------------+
+                                                                                Tue > > {};
+//               +-------+---------------------------------------+------------------------+
+            struct alt_2 : dtl::discriminant<      HLAinteger16BE, mpl::vector< Fri > > {};
+//               +-------+---------------------------------------+------------------------+
+            struct alt_3 : dtl::discriminant<      HLAoctet,       mpl::vector< Sat > > {};
+//               +-------+---------------------------------------+------------------------+
+                                                                               struct type : hla_1516::variant_record< DaysOfWeekEnum16::Type, mpl::vector< alt_1, alt_2, alt_3 >,
+//                       +---------------------------------------+
+                           dtl::discriminant_other< HLAfloat32BE > > {};
+//                       +---------------------------------------+
+}
+#endif
+
 
 namespace test_protox_dtl_hla_1516_policy_variant_record
 {

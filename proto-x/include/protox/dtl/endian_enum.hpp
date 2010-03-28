@@ -23,10 +23,24 @@ namespace dtl {
 
 /**************************************************************************************************/
 
+/**
+ * Use these values to define a type's byte-orientation.
+ */
 struct endian
 {
+  /**
+   * Not applicable.
+   */
   typedef boost::mpl::int_< PROTOX_DTL_NA_ENDIAN     > na;
+
+  /**
+   * Little endian i.e., least significant byte first.
+   */
   typedef boost::mpl::int_< PROTOX_DTL_LITTLE_ENDIAN > little;
+
+  /**
+   * Big endian i.e., most significant byte first.
+   */
   typedef boost::mpl::int_< PROTOX_DTL_BIG_ENDIAN    > big;
 };
 

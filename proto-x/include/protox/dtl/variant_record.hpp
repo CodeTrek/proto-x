@@ -31,26 +31,26 @@ namespace dtl {
 /**
  * Constructs a variant record definition from the given vector of alternative types.
  *
- * \tparam FIELD_VECTOR This record's field vector.
+ * \tparam D_TYPE This record's disriminant type. This type must be an enumerated type.
+ * \tparam D_VECTOR This record's vector of descriminants. \sa protox::dtl::discriminant
+ * \tparam OTHER (optional) The other alternative.
  * \tparam CODEC_TAG Identifies the codec policy used to code/decode records of this type.
  *
  * Example:
  *
  * \code
+ *  struct alt_1 : dtl::discriminant< HLAinteger16LE, mpl::vector< Sun, Tue > > {};
+ *  struct alt_2 : dtl::discriminant< HLAoctet,       mpl::vector< Fri >      > {};
+ *  struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat >      > {};
  *
- *  // Define simple types
- *  struct SimpleHLAoctet       : simple< HLAoctet       > {};
- *  struct SimpleHLAinteger64BE : simple< HLAinteger64BE > {};
+ *  // Define a variable record using 1516 fixed record encoding
  *
- *  // Define field types
- *  struct f1 : protox::dtl::field< SimpleHLAoctet       > {};
- *  struct f2 : protox::dtl::field< SimpleHLAinteger64BE > {};
- *
- *  // Define a fixed record using 1516 fixed record encoding
- *  typedef fixed_record< mpl::vector < f1, f2 >, HLAfixedRecord > record_type;
+ *  typedef hla_1516::variant_record< DaysOfWeekEnum16::Type,
+ *                                    mpl::vector< alt_1, alt_2, alt_3 >,
+ *                                    dtl::discriminant_other< HLAfloat32BE > // This is optional
+ *  > var_rec_type;
  *
  * \endcode
- *
  */
 
 template<
@@ -82,7 +82,19 @@ struct variant_record
 
   typedef D_TYPE discriminant_type;
 
-  //Set this value to select an alternative value.
+  /**
+   * Set this value to select an alternative.
+   *
+   * Example:
+   *
+   * \code
+   *  var_rec_type vr;
+   *
+   *  // Select the Fri alternative
+   *  vr.discriminant = Fri::value();
+   *
+   * \endcode
+   */
   discriminant_type discriminant;
 
   template< typename OTHER_T, typename NA > struct compare_other;
@@ -168,6 +180,9 @@ struct variant_record
     }
   };
 
+  /**
+   * Equality operator
+   */
   inline bool operator == ( const variant_record &rhs ) const
   {
     typedef typename boost::mpl::fold<
@@ -181,12 +196,32 @@ struct variant_record
     return type::is_equal( *this, rhs );
   }
 
+  /**
+   * Inequality operator
+   */
   inline bool operator != ( const variant_record &rhs ) const
   {
     return !(*this == rhs);
   }
 
   // Alternative getters and setters.
+
+  /**
+   * Sets the value of the alternative identified by \a T.
+   * \tparam T The alternative type value to be set.
+   * \param v The alternative's new value.
+   *
+   * Example:
+   *
+   * \code
+   *
+   * var_rec_type vr;
+   *
+   * vr.alt_< alt_1 >( 345 );
+   * vr.alt_< alt_2 >( 'b' );
+   *
+   * \endcode
+   */
   template< typename T >
   inline void alt_( typename get_alternative_type<T>::type::value_type const &v )
   {
@@ -194,6 +229,21 @@ struct variant_record
   }
 
   // Gets a read/write pointer to an alternative's value
+
+  /**
+   * \tparam T The alternative type value to be set.
+   * \return A read/write pointer to the alternative's value, or 0 if the alternative has not been set.
+   *
+   * Example:
+   * \code
+   *
+   * var_rec_type vr;
+   * vr.alt_< alt_1 >( 345 );
+   *
+   * assert( *vr.alt_< alt_1 >() == 345 ); // true
+   *
+   * \endcode
+   */
   template< typename T >
   inline typename get_alternative_type< T >::type::value_type *alt_()
   {
@@ -208,7 +258,20 @@ struct variant_record
     return( &(alt_ptr->value) );
   }
 
-  // Gets a read-only pointer to an alternative's value
+  /**
+   * \tparam T The alternative type value to be set.
+   * \return A read-only pointer to the alternative's value, or 0 if the alternative has not been set.
+   *
+   * Example:
+   * \code
+   *
+   * var_rec_type vr;
+   * vr.alt_< alt_1 >( 345 );
+   *
+   * assert( *vr.alt_< alt_1 >() == 345 ); // true
+   *
+   * \endcode
+   */
   template< typename T >
   inline typename get_alternative_type< T >::type::value_type const *alt_() const
   {
@@ -223,7 +286,20 @@ struct variant_record
     return( &(alt_ptr->value) );
   }
 
-  // Compute the HLAOTHER accessor type
+  /**
+   * Sets the value of the other alternative.
+   * \param v The other alternative's new value.
+   *
+   * Example:
+   *
+   * \code
+   *
+   * var_rec_type vr;
+   *
+   * vr.other_( 3.1456f );
+   *
+   * \endcode
+   */
   inline void other_( typename OTHER::value_type const &v )
   {
     typedef dtl::other_access< OTHER, variant_record< D_TYPE, D_VECTOR, OTHER, CODEC_TAG > > other;
@@ -231,6 +307,19 @@ struct variant_record
     other::set_value( *this, v );
   }
 
+  /**
+   * \return A read-only pointer to the other alternative's value, or 0 if the alternative has not been set.
+   *
+   * Example:
+   * \code
+   *
+   * var_rec_type vr;
+   * vr.other_( 3.1456f );
+   *
+   * assert( *vr.other_() == 3.1456f ); // true
+   *
+   * \endcode
+   */
   inline typename OTHER::value_type const *other_() const
   {
     typedef dtl::other_access< OTHER, variant_record< D_TYPE, D_VECTOR, OTHER, CODEC_TAG > > other;

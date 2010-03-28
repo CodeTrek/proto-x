@@ -32,9 +32,16 @@ struct discriminant_other_none
 
 /**************************************************************************************************/
 
-// Defines a variant record discriminant in the form of an enumerator range/alternative pair.
+/**
+ * Defines a variant record discriminant in the form of an alternative/enumerator range pair.
+ *
+ * \tparam T The type of the alternative.
+ * \tparam E_VECTOR A vector of enumerators that used to select the alternative.
+ *
+ * \sa protox::dtl::variant_record
+ */
+
 //
-// T        The datatype of the alternative
 // E_Vector An enumerator range
 template< typename T, typename E_VECTOR >
 struct discriminant

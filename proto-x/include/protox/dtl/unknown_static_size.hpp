@@ -22,8 +22,13 @@ namespace dtl {
 /**************************************************************************************************/
 
 /**
+ * \file unknown_static_size.hpp
+ *
+ * \typedef UNKNOWN_STATIC_SIZE
+ *
  * Denotes a size that can not be computed at compile time.
  */
+
 typedef boost::mpl::int_< -1 > UNKNOWN_STATIC_SIZE;
 
 /**************************************************************************************************/

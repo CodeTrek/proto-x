@@ -8,10 +8,12 @@
 /**************************************************************************************************/
 
 /** \page first_example First Example
- * In this example we use \c proto-x to code a simple federate that sends an interaction called
- * \c Greeting that consists of a single parameter called \c Message that is a fixed array of ASCII
- * characters. To do this, we need to define the following SOM components in C++ code using
- * \c proto-x:
+ * In this example we use \c proto-x to code two simple federates. One that sends an interaction
+ * called \c Greeting that consists of a single parameter called \c Message that is a fixed array of
+ * ASCII characters. And another that receives \c Greeting interactions and prints the value of the
+ * \c Message parameter to standard out.
+ *
+ * To do this, we need to define the following SOM components in C++ code using \c proto-x:
  *
  * -
  * A <b><i>basic data representation table</i></b> to define a basic data type that can be the bases
@@ -213,9 +215,9 @@
  *   inter_amb_type inter_amb;
  *   inter_amb.set_handler( greeting_handler );
  *
- *   //
- *   // Sender Federate
- *   //
+ *   // /////////////////////////////////////////////
+ *   // SENDER FEDERATE
+ *   // /////////////////////////////////////////////
  *   RTI::RTIambassador send_rti_amb( rti_exec );
  *   fed_amb send_fed_amb( inter_amb );
  *
@@ -234,12 +236,9 @@
  *   //
  *   greeting_type::publish( send_rti_amb );
  *
- *
- *
- *
- *   //
- *   // Receiver Federate
- *   //
+ *   // /////////////////////////////////////////////
+ *   // RECEIVER FEDERATE
+ *   // /////////////////////////////////////////////
  *   RTI::RTIambassador recv_rti_amb( rti_exec );
  *   fed_amb recv_fed_amb( inter_amb );
  *
@@ -252,12 +251,10 @@
  *   // Subscribe interaction
  *   //
  *   greeting_type::subscribe( recv_rti_amb );
-
-
  *
- *   //
- *   // Run...
- *   //
+ *   // /////////////////////////////////////////////
+ *   // RUN...
+ *   // /////////////////////////////////////////////
  *   greeting_type send_msg;
  *
  *   const std::string what_up = "What up?";

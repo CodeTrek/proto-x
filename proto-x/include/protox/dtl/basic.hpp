@@ -117,12 +117,18 @@ public:
    */
   inline operator T() const { return value; }
 
+  /**
+   * Increment operator
+   */
   inline basic &operator ++()
   {
     ++value;
     return( *this );
   }
 
+  /**
+   * Increment/assign operator
+   */
   inline basic &operator +=( const basic &v )
   {
     value += v;
