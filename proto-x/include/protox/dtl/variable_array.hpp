@@ -17,7 +17,24 @@ namespace dtl {
 
 /**************************************************************************************************/
 
-// Defines a variable length array based on a container of type T.
+/**
+ * Constructs a variable size array with \a T as the container type.
+ *
+ * \tparam T The container type used to store the elements of the array.
+ * \tparam CODEC_TAG The encode/decode policy.
+ *
+ * Example:
+ *
+ * \code
+ *  // Define a simple type
+ *  struct SimpleHLAoctet : simple< HLAoctet > {};
+ *
+ *  // Define a array using 1516 variable array encoding using std::vector as the container type
+ *  typedef variable_array< std::vector< SimpleHLAoctet >, HLAvariableArray > variable_array_type;
+ *
+ * \endcode
+ *
+ */
 template< typename T, typename CODEC_TAG >
 struct variable_array : public T
 {

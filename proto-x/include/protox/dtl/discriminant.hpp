@@ -34,13 +34,13 @@ struct discriminant_other_none
 
 // Defines a variant record discriminant in the form of an enumerator range/alternative pair.
 //
-// E_Vector An enumerator range
 // T        The datatype of the alternative
-template< typename E_VECTOR, typename T >
+// E_Vector An enumerator range
+template< typename T, typename E_VECTOR >
 struct discriminant
 {
-  typedef E_VECTOR enumerator_vector;
   typedef dtl::alternative< T > alternative;
+  typedef E_VECTOR enumerator_vector;
 };
 
 /**************************************************************************************************/

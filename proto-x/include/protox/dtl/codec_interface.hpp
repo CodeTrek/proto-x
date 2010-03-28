@@ -67,7 +67,7 @@ struct codec
 
   /**
    * Compute \a T's size in bytes at run time. If \a T's size is static, then
-   * <tt>dynamic_size<T>(const T &v) == static_size_in_bytes< T >::value<\tt>
+   * <tt>dynamic_size< T >(const T &v) == static_size_in_bytes< T >::value</tt>
    * is true for any value \a v.
    *
    * \tparam T The type whose size is to be computed.

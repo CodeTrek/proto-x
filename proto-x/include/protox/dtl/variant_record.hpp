@@ -28,6 +28,31 @@ namespace dtl {
 
 /**************************************************************************************************/
 
+/**
+ * Constructs a variant record definition from the given vector of alternative types.
+ *
+ * \tparam FIELD_VECTOR This record's field vector.
+ * \tparam CODEC_TAG Identifies the codec policy used to code/decode records of this type.
+ *
+ * Example:
+ *
+ * \code
+ *
+ *  // Define simple types
+ *  struct SimpleHLAoctet       : simple< HLAoctet       > {};
+ *  struct SimpleHLAinteger64BE : simple< HLAinteger64BE > {};
+ *
+ *  // Define field types
+ *  struct f1 : protox::dtl::field< SimpleHLAoctet       > {};
+ *  struct f2 : protox::dtl::field< SimpleHLAinteger64BE > {};
+ *
+ *  // Define a fixed record using 1516 fixed record encoding
+ *  typedef fixed_record< mpl::vector < f1, f2 >, HLAfixedRecord > record_type;
+ *
+ * \endcode
+ *
+ */
+
 template<
   typename D_TYPE,   // Discriminant type
   typename D_VECTOR, // Vector of alternatives

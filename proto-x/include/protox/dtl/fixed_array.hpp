@@ -34,8 +34,8 @@ namespace dtl {
  *  // Define a simple type
  *  struct SimpleHLAoctet : simple< HLAoctet > {};
  *
- *  // Define a fixed array using 1516 fixed record encoding
- *  typedef fixed_array< HLAoctet, 10, HLAfixedArray > fixed_array_type;
+ *  // Define a fixed array using 1516 fixed array encoding
+ * struct FixedMsg : hla_1516::fixed_array< HLAASCIIchar,   5 > {};
  *
  * \endcode
  *

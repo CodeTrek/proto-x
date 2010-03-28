@@ -22,17 +22,22 @@
  * Example:
  *
  * \code
- * namespace skill_level_enum
- * {
- *   PROTOX_ENUM_TYPE( HLAinteger16BE, enumerated );
  *
- *   PROTOX_ENUM_VALUE( POOR,      1 );
- *   PROTOX_ENUM_VALUE( GOOD,      2 );
- *   PROTOX_ENUM_VALUE( EXCELLENT, 3 );
+ * //      +------------------------------------+-------------------------------+------------+--------+
+ * //      | Name                               | Representation                | Enumerator | Values |
+ * //      +------------------------------------+-------------------------------+------------+--------+
+ * namespace skill_level_enum { PROTOX_ENUM_TYPE( HLAinteger16BE, enumerated   );
+ * //      +------------------------------------+-------------------------------+------------+--------+
+ *                                                             PROTOX_ENUM_VALUE( POOR,        1     );
+ * //                                                                           +------------+--------+
+ *                                                             PROTOX_ENUM_VALUE( GOOD,        2     );
+ * //                                                                           +------------+--------+
+ *                                                             PROTOX_ENUM_VALUE( EXCELLENT,   3     );
+ * //                                                                           +------------+--------+
+ *        PROTOX_ENUM_EQUALITY_OPERATOR;
+ *        PROTOX_ENUM_DEFAULT( GOOD );
  *
- *   PROTOX_ENUM_EQUALITY_OPERATOR;
- *   PROTOX_ENUM_DEFAULT( GOOD );
- * }
+ * } // skill_level_enum
  *
  * skill_level_enum::Type skill_level;            // defaults to GOOD
  * skill_level = skill_level_enum::POOR::value(); // Set to POOR
