@@ -50,8 +50,8 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     typedef hla_1516::fixed_array< HLAfloat32BE, 3 > Vector3DArray;
     typedef hla_1516::fixed_array< Vector3DArray, 3 > Vector3DMatrix;
 
-    struct alt_1 : discriminant< mpl::vector< Sun, Tue >, HLAinteger16LE > {};
-    struct alt_2 : discriminant< mpl::vector< Fri >,      Vector3D > {};
+    struct alt_1 : discriminant< HLAinteger16LE, mpl::vector< Sun, Tue > > {};
+    struct alt_2 : discriminant< Vector3D,       mpl::vector< Fri > > {};
   }
 
   BOOST_AUTO_TEST_CASE( tests_default_constructor )
@@ -72,9 +72,9 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   namespace t2
   {
-    struct alt_1 : dtl::discriminant< mpl::vector< Sun, Tue >, HLAoctet > {};
-    struct alt_2 : dtl::discriminant< mpl::vector< Fri >,      HLAoctet > {};
-    struct alt_3 : dtl::discriminant< mpl::vector< Sat >,      HLAoctet > {};
+    struct alt_1 : dtl::discriminant< HLAoctet, mpl::vector< Sun, Tue > > {};
+    struct alt_2 : dtl::discriminant< HLAoctet, mpl::vector< Fri >      > {};
+    struct alt_3 : dtl::discriminant< HLAoctet, mpl::vector< Sat >      > {};
   }
 
   BOOST_AUTO_TEST_CASE( tests_octet_boundary_discriminant )
@@ -91,9 +91,9 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   namespace t3
   {
-    struct alt_1 : dtl::discriminant< mpl::vector< Sun, Tue >, HLAinteger16LE > {};
-    struct alt_2 : dtl::discriminant< mpl::vector< Fri >,      HLAoctet > {};
-    struct alt_3 : dtl::discriminant< mpl::vector< Sat >,      HLAoctet > {};
+    struct alt_1 : dtl::discriminant< HLAinteger16LE,  mpl::vector< Sun, Tue > > {};
+    struct alt_2 : dtl::discriminant< HLAoctet,        mpl::vector< Fri >      > {};
+    struct alt_3 : dtl::discriminant< HLAoctet,        mpl::vector< Sat >      > {};
   }
 
   BOOST_AUTO_TEST_CASE( tests_octet_boundary_2 )
@@ -111,9 +111,9 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   namespace t4
   {
-    struct alt_1 : dtl::discriminant< mpl::vector< Sun, Tue >, HLAinteger16BE > {};
-    struct alt_2 : dtl::discriminant< mpl::vector< Fri >,      HLAinteger32BE > {};
-    struct alt_3 : dtl::discriminant< mpl::vector< Sat >,      HLAoctet > {};
+    struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun, Tue >  > {};
+    struct alt_2 : dtl::discriminant< HLAinteger32BE, mpl::vector< Fri >       > {};
+    struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat >       > {};
   }
 
   BOOST_AUTO_TEST_CASE( tests_octet_boundary_4 )
@@ -130,9 +130,9 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   namespace t5
   {
-    struct alt_1 : dtl::discriminant< mpl::vector< Sun, Tue >, HLAinteger16BE > {};
-    struct alt_2 : dtl::discriminant< mpl::vector< Fri >,      HLAinteger64BE > {};
-    struct alt_3 : dtl::discriminant< mpl::vector< Sat >,      HLAoctet > {};
+    struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun, Tue >  > {};
+    struct alt_2 : dtl::discriminant< HLAinteger64BE, mpl::vector< Fri >       > {};
+    struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat >       > {};
   }
 
   BOOST_AUTO_TEST_CASE( tests_octet_boundary_8 )
@@ -149,9 +149,9 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   namespace t6
   {
-    struct alt_1 : dtl::discriminant< mpl::vector< Sun, Tue >, HLAinteger16BE > {};
-    struct alt_2 : dtl::discriminant< mpl::vector< Fri >,      HLAinteger16BE > {};
-    struct alt_3 : dtl::discriminant< mpl::vector< Sat >,      HLAoctet > {};
+    struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun, Tue >  > {};
+    struct alt_2 : dtl::discriminant< HLAinteger16BE, mpl::vector< Fri >       > {};
+    struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat >       > {};
   }
 
   BOOST_AUTO_TEST_CASE( tests_octet_boundary_other )
@@ -177,9 +177,9 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     typedef hla_1516::fixed_array< HLAfloat32BE, 3 > Vector3DArray;
     typedef hla_1516::fixed_array< Vector3DArray, 3 > Vector3DMatrix;
 
-    struct alt_1 : discriminant< mpl::vector< Sun, Tue >, HLAinteger16LE > {};
-    struct alt_2 : discriminant< mpl::vector< Fri >,      Vector3D > {};
-    struct alt_3 : dtl::discriminant< mpl::vector< Sat >,      HLAoctet > {};
+    struct alt_1 : dtl::discriminant< HLAinteger16LE, mpl::vector< Sun, Tue >  > {};
+    struct alt_2 : dtl::discriminant< Vector3D,       mpl::vector< Fri >       > {};
+    struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat >       > {};
   }
 
   BOOST_AUTO_TEST_CASE( tests_octet_boundary_composite )
@@ -196,9 +196,9 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   namespace t8
   {
-    struct alt_1 : dtl::discriminant< mpl::vector< Sun, Tue >, HLAinteger16BE > {};
-    struct alt_2 : dtl::discriminant< mpl::vector< Fri >,      HLAinteger16BE > {};
-    struct alt_3 : dtl::discriminant< mpl::vector< Sat >,      HLAoctet > {};
+    struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun, Tue >  > {};
+    struct alt_2 : dtl::discriminant< HLAinteger16BE, mpl::vector< Fri >       > {};
+    struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat >       > {};
   }
 
   BOOST_AUTO_TEST_CASE( test_equality_operator_simple )
@@ -247,9 +247,9 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   namespace t9
   {
-    struct alt_1 : dtl::discriminant< mpl::vector< Sun, Tue >, HLAinteger16BE > {};
-    struct alt_2 : dtl::discriminant< mpl::vector< Fri >,      HLAinteger16BE > {};
-    struct alt_3 : dtl::discriminant< mpl::vector< Sat >,      HLAoctet > {};
+    struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun, Tue >  > {};
+    struct alt_2 : dtl::discriminant< HLAinteger16BE, mpl::vector< Fri >       > {};
+    struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat >       > {};
 
     typedef hla_1516::variant_record<
       DaysOfWeekEnum16::Type,
@@ -257,8 +257,8 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
       dtl::discriminant_other< HLAfloat32BE > // This is optional
     > VarRecord01;
 
-    struct alt_4 : dtl::discriminant< mpl::vector< Red >,  VarRecord01 > {};
-    struct alt_5 : dtl::discriminant< mpl::vector< Blue >, HLAfloat32BE > {};
+    struct alt_4 : dtl::discriminant< VarRecord01,  mpl::vector< Red >   > {};
+    struct alt_5 : dtl::discriminant< HLAfloat32BE, mpl::vector< Blue >  > {};
 
     typedef hla_1516::variant_record<
       ColorEnum16::Type,
@@ -305,9 +305,9 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   namespace t10
   {
-    struct alt_1 : dtl::discriminant< mpl::vector< Club >,  HLAinteger32BE > {};
-    struct alt_2 : dtl::discriminant< mpl::vector< Heart >, HLAfloat64BE > {};
-    struct alt_3 : dtl::discriminant< mpl::vector< Spade >, HLAoctet > {};
+    struct alt_1 : dtl::discriminant< HLAinteger32BE,  mpl::vector< Club  > > {};
+    struct alt_2 : dtl::discriminant< HLAfloat64BE,    mpl::vector< Heart > > {};
+    struct alt_3 : dtl::discriminant< HLAoctet,        mpl::vector< Spade > > {};
   }
 
   BOOST_AUTO_TEST_CASE( test_dynamic_size_padding )
@@ -343,9 +343,9 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   namespace t11
   {
-    struct alt_1 : dtl::discriminant< mpl::vector< Sun >, HLAinteger16BE > {};
-    struct alt_2 : dtl::discriminant< mpl::vector< Fri >, HLAoctetPairBE > {};
-    struct alt_3 : dtl::discriminant< mpl::vector< Sat >, HLAoctet > {};
+    struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun > > {};
+    struct alt_2 : dtl::discriminant< HLAoctetPairBE, mpl::vector< Fri > > {};
+    struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat > > {};
   }
 
   BOOST_AUTO_TEST_CASE( test_dynamic_size_no_padding )
@@ -387,9 +387,9 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   namespace t12
   {
-    struct alt_1 : dtl::discriminant< mpl::vector< Club >,  HLAinteger32BE > {};
-    struct alt_2 : dtl::discriminant< mpl::vector< Heart >, HLAfloat64BE > {};
-    struct alt_3 : dtl::discriminant< mpl::vector< Spade >, HLAoctet > {};
+    struct alt_1 : dtl::discriminant< HLAinteger32BE,  mpl::vector< Club  > > {};
+    struct alt_2 : dtl::discriminant< HLAfloat64BE,    mpl::vector< Heart > > {};
+    struct alt_3 : dtl::discriminant< HLAoctet,        mpl::vector< Spade > > {};
   }
 
   BOOST_AUTO_TEST_CASE( test_codec_padding )
@@ -426,9 +426,9 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   namespace t13
   {
-    struct alt_1 : dtl::discriminant< mpl::vector< Sun >, HLAinteger16BE > {};
-    struct alt_2 : dtl::discriminant< mpl::vector< Fri >, HLAoctetPairBE > {};
-    struct alt_3 : dtl::discriminant< mpl::vector< Sat >, HLAoctet > {};
+    struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun > > {};
+    struct alt_2 : dtl::discriminant< HLAoctetPairBE, mpl::vector< Fri > > {};
+    struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat > > {};
   }
 
   BOOST_AUTO_TEST_CASE( test_codec_no_padding )
@@ -466,9 +466,9 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   namespace t14
   {
-    struct alt_1 : dtl::discriminant< mpl::vector< Sun >, HLAinteger16BE > {};
-    struct alt_2 : dtl::discriminant< mpl::vector< Fri >, HLAoctetPairBE > {};
-    struct alt_3 : dtl::discriminant< mpl::vector< Sat >, HLAoctet > {};
+    struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun > > {};
+    struct alt_2 : dtl::discriminant< HLAoctetPairBE, mpl::vector< Fri > > {};
+    struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat > > {};
   }
 
   BOOST_AUTO_TEST_CASE( test_codec_other )
