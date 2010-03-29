@@ -72,7 +72,10 @@ template< BOOST_PP_ENUM(HLA_MAX_NUM_ATTRS, HLA_ATTRS_DEFAULT_PARAMS, typename T)
     BOOST_PP_SUB(HLA_MAX_NUM_ATTRS,n), HLA_ATTRS_TEXT, empty) \
   > : boost::mpl::set< BOOST_PP_ENUM_PARAMS(n, T) > {};
 
-// Non-specialized structa attrs
+/**
+ * A type vector used to construct a list of attributes in object class structure table.
+ * \sa protox::hla::o_class
+ */
 template< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_ATTRS, typename T) >
 struct attrs : boost::mpl::set< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_ATTRS, T) > {};
 
@@ -149,7 +152,10 @@ struct child;
     BOOST_PP_SUB(HLA_MAX_NUM_CHILDREN,n), HLA_CHILDREN_TEXT, empty) \
   > : boost::mpl::set< BOOST_PP_ENUM_PARAMS(n, T) > {};
 
-// Non-specialized structa attrs
+/**
+ * A type vector used to construct a list of child object classes in object class structure table.
+ * \sa protox::hla::o_class
+ */
 template< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_CHILDREN, typename T) >
 struct child : boost::mpl::set< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_CHILDREN, T) > {};
 
@@ -187,7 +193,10 @@ template< BOOST_PP_ENUM(HLA_MAX_NUM_QNAME, HLA_QNAME_DEFAULT_PARAMS, typename T)
     BOOST_PP_SUB(HLA_MAX_NUM_QNAME,n), HLA_QNAME_TEXT, empty) \
   > : boost::mpl::vector< BOOST_PP_ENUM_PARAMS(n, T) > {};
 
-// Non-specialized structa attrs
+/**
+ * A type vector used to construct a fully qualified object or interaction class name.
+ * \sa protox::hla::o_class_type
+ */
 template< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_QNAME, typename T) >
 struct q_name : boost::mpl::vector< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_QNAME, T) > {};
 

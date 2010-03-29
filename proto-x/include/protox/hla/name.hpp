@@ -12,6 +12,23 @@
 
 /**************************************************************************************************/
 
+/**
+ * \file name.hpp
+ *
+ * \def HLA_NAME(N)
+ *
+ * This macro generates a name representation that can be used as part of a class, attribute, or
+ * parameter definition. The argument \a N is the string representation of the name.
+ *
+ * Example:
+ *
+ * \code
+ *
+ * HLA_NAME("HLAobjectRoot")
+ *
+ * \endcode
+ */
+
 #define HLA_NAME(N) static char const *name() { return N; }
 
 /**************************************************************************************************/

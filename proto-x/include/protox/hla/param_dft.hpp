@@ -193,9 +193,8 @@ struct param_dft_children< true, Children, Stack >
 
 /**************************************************************************************************/
 
-/**
- * Perform a depth first traversal of the given tree T.  
- */
+
+// Perform a depth first traversal of the given tree T.
 template< typename T, typename Stack = boost::mpl::vector<> >
 struct param_dft
 {

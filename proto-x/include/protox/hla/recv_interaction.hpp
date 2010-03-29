@@ -84,9 +84,7 @@ struct recv_interaction_inherit< A, boost::mpl::empty_base > : A, boost::mpl::em
 
 /**************************************************************************************************/
 
-/**
- * A is recv_interaction and B is set of predecessor recv_interactions.
- */
+ // A is recv_interaction and B is set of predecessor recv_interactions.
 template< typename A, typename B >
 struct recv_interaction_inherit : A, B
 {

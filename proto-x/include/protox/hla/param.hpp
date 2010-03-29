@@ -132,9 +132,7 @@ public:
 
 /**************************************************************************************************/
 
-/**
- * A is an attribute and B is set of predecessor parameters.
- */
+ // A is an parameter and B is set of predecessor parameters.
 template< typename A, typename B >
 struct param_inherit : A, B
 {

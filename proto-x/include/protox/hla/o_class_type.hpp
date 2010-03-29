@@ -37,6 +37,9 @@ namespace hla {
 
 /**************************************************************************************************/
 
+/**
+ * o_class_type
+ */
 template< typename SOM, typename QUALIFIED_NAME_VECTOR >
 struct o_class_type
 {
@@ -52,6 +55,9 @@ struct o_class_type
     attr_inherit< attr_base< boost::mpl::placeholders::_2 >, boost::mpl::placeholders::_1 >
   >::type attrs_type;
 
+  /**
+   * o_class_type::type
+   */
   struct type : attrs_type
   {
   private:
@@ -76,6 +82,24 @@ struct o_class_type
     }
 
   public:
+    template< typename T >
+    inline typename T::value_type const &a_() const
+    {
+      return get_attribute< T >();
+    }
+
+    template< typename T >
+    inline typename T::value_type &a_()
+    {
+      return get_attribute< T >();
+    }
+
+    template< typename T >
+    inline RTI::AttributeHandle get_attr_handle()
+    {
+      return attrs_type::get_attr_handle< T >();
+    }
+
     static const std::string &get_name()
     {
       static bool initialized = false;

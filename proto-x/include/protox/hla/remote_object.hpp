@@ -146,9 +146,7 @@ struct remote_object_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty
 
 /**************************************************************************************************/
 
-/**
- * A is remote_object and B is set of predecessor remote_objects.
- */
+// A is remote_object and B is set of predecessor remote_objects.
 template< typename A, typename B >
 struct remote_object_inherit : A, B
 {

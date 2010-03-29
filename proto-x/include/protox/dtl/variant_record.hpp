@@ -39,11 +39,13 @@ namespace dtl {
  * Example:
  *
  * \code
+ *  // Define the alternatives.
+ *
  *  struct alt_1 : dtl::discriminant< HLAinteger16LE, mpl::vector< Sun, Tue > > {};
  *  struct alt_2 : dtl::discriminant< HLAoctet,       mpl::vector< Fri >      > {};
  *  struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat >      > {};
  *
- *  // Define a variable record using 1516 fixed record encoding
+ *  // Define a variable record using 1516 variant record encoding
  *
  *  typedef hla_1516::variant_record< DaysOfWeekEnum16::Type,
  *                                    mpl::vector< alt_1, alt_2, alt_3 >,

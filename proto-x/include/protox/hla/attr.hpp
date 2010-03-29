@@ -83,11 +83,11 @@ protected:
 
   void reflect( const RTI::AttributeHandleValuePairSet &ahv_set, const RTI::FedTime *time )
   {
-    for( RTI::ULong i = 0; i < ahv_set.size(); ++i )
+    for (RTI::ULong i = 0; i < ahv_set.size(); ++i)
     {
       RTI::AttributeHandle h = ahv_set.getHandle( i );
 
-      if( h == this->handle )
+      if (h == this->handle)
       {
         RTI::ULong length = 0;
         char *data = ahv_set.getValuePointer( i, length );
@@ -104,6 +104,33 @@ protected:
 
 /**************************************************************************************************/
 
+/**
+ * Derive from this template to create an attribute definition that can be used as part of an
+ * object class definition in an attribute table.
+ *
+ * \tparam T The attribute's type.
+ *
+ * Example:
+ * \code
+ * // Define an attribute called Name of type ASCIIString.
+ * struct Name : attr< ASCIIString > {HLA_NAME( "Name" )}
+ * \endcode
+ *
+ * Example use in an attribute table:
+ * \code
+ * ////// Attribute Table /////////////////////////////////////////////////////////
+ * //     +------------------------------+-----------+-------------------+----------------------+
+ * //     | Name                         | Attribute | Datatype          | String Name          |
+ * //     +------------------------------+-----------+-------------------+----------------------+
+ *   struct Player {HLA_NAME( "Player" )};
+ *                                  struct Name      : attr< ASCIIString > {HLA_NAME( "Name"  )};
+ * //                                    +-------------------------------+----------------------+
+ *                                  struct Score     : attr< Count >       {HLA_NAME( "Score" )};
+ * //     +------------------------------------------+-------------------+----------------------+
+ *
+ * \endcode
+ *
+ */
 template< typename T >
 struct attr
 {
@@ -139,12 +166,12 @@ protected:
   {
     bool in_set = true;
 
-    if( !attr_names.empty() )
+    if (!attr_names.empty())
     {
-      in_set = (attr_names.find(A::name()) != attr_names.end());
+      in_set = (attr_names.find( A::name() ) != attr_names.end());
     }
 
-    if( in_set )
+    if (in_set)
     {
       RTI::AttributeHandle handle = T::get_attr_handle( class_name, A::name() );
       ahs.add( handle );
@@ -152,7 +179,7 @@ protected:
     }
 
     // Undefined attributes?
-    if( !attr_names.empty() )
+    if (!attr_names.empty())
     {
       std::string name = *attr_names.begin();
 
@@ -172,11 +199,24 @@ protected:
 
   void collect_updated_attrs( std::vector< RTI::AttributeHandle > &handles )
   {
-    if( A::is_updated() )
+    if (A::is_updated())
     {
       handles.push_back( A::handle ); 
       A::set_updated( false );
     }
+  }
+
+  template< typename T >
+  inline typename T::value_type const &get_attribute() const
+  {
+    return (static_cast< attr_base< T > const & >( *this ).value);
+  }
+
+  template< typename T >
+  inline typename T::value_type &get_attribute()
+  {
+    static_cast< attr_base< T > & >( *this ).set_updated( true );
+    return (static_cast< attr_base< T > & >( *this ).value);
   }
 
 public:
@@ -184,26 +224,13 @@ public:
   {
     A::reflect( ahv_set, time );
   }
-
-  template< typename T >
-  inline typename T::value_type const &a_() const
-  {
-    return (static_cast< attr_base< T > const & >( *this ).value);
-  }
-
-  template< typename T >
-  inline typename T::value_type &a_()
-  {
-    static_cast< attr_base< T > & >( *this ).set_updated( true );
-    return (static_cast< attr_base< T > & >( *this ).value);
-  }
 };
 
 /**************************************************************************************************/
 
-/**
- * A is an attribute and B is set of predecessor attributes.
- */
+//
+// A is an attribute and B is set of predecessor attributes.
+//
 template< typename A, typename B >
 struct attr_inherit : A, B
 {
@@ -234,12 +261,12 @@ protected:
   {
     bool in_set = true;
 
-    if( !attr_names.empty() )
+    if (!attr_names.empty())
     {
       in_set = (attr_names.find( A::name() ) != attr_names.end());
     }
 
-    if( in_set )
+    if (in_set)
     {
       RTI::AttributeHandle handle = T::get_attr_handle( class_name, A::name() );
       ahs.add( handle );
@@ -257,7 +284,7 @@ protected:
 
   void collect_updated_attrs( std::vector< RTI::AttributeHandle > &handles )
   {
-    if( A::is_updated() )
+    if (A::is_updated())
     {
       handles.push_back( A::handle ); 
       A::set_updated( false );
@@ -266,15 +293,14 @@ protected:
     B::collect_updated_attrs( handles );
   }
 
-public:
   template< typename T >
-  inline typename T::value_type const &a_() const
+  inline typename T::value_type const &get_attribute() const
   {
     return (static_cast< attr_base< T > const & >( *this ).value);
   }
 
   template< typename T >
-  inline typename T::value_type &a_()
+  inline typename T::value_type &get_attribute()
   {
     static_cast< attr_base< T > & >( *this ).set_updated( true );
     return (static_cast< attr_base< T > & >( *this ).value);
@@ -286,6 +312,7 @@ public:
     return (static_cast< attr_base< T > & >( *this ).handle);
   }
 
+public:
   void reflect( const RTI::AttributeHandleValuePairSet &ahv_set, const RTI::FedTime *time )
   {
     A::reflect( ahv_set, time );
