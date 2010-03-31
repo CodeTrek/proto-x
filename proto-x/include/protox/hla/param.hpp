@@ -90,10 +90,30 @@ template< typename A, typename B > struct param_inherit;
 
 /**************************************************************************************************/
 
-template< typename A >
-struct param_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty_base
+struct param_empty_base
 {
-protected:
+  static RTI::ULong count_params() { return 0; }
+
+  template< typename T >
+  void init_handles( const std::string &class_name ) {}
+
+  void recv_values( const RTI::ParameterHandleValuePairSet & ) {}
+
+  template< typename T >
+  inline RTI::ParameterHandle get_param_handle()
+  {
+    // TODO: throw attribute not found exception
+    return -1;
+  }
+
+  void add_values( boost::shared_ptr< RTI::ParameterHandleValuePairSet > ) {}
+};
+
+/**************************************************************************************************/
+
+template< typename A >
+struct param_inherit< A, param_empty_base > : A, param_empty_base
+{
   template< typename T >
   void init_handles( const std::string &class_name )
   {
@@ -110,7 +130,11 @@ protected:
     A::recv_value( ph_set );
   }
 
-public:
+  static RTI::ULong count_params()
+  {
+    return 1;
+  }
+
   template< typename T >
   inline typename T::value_type const &p_() const
   {
@@ -124,6 +148,18 @@ public:
   }
   
   template< typename T >
+  inline typename T::value_type const &get_parameter() const
+  {
+    return( static_cast< param_base< T > const & >( *this ).value );
+  }
+
+  template< typename T >
+  inline typename T::value_type &get_parameter()
+  {
+    return( static_cast< param_base< T > & >( *this ).value );
+  }
+
+  template< typename T >
   inline RTI::ParameterHandle get_param_handle()
   {
     return( static_cast< param_base< T > & >( *this ).handle );
@@ -136,7 +172,6 @@ public:
 template< typename A, typename B >
 struct param_inherit : A, B
 {
-protected:
   template< typename T >
   void init_handles( const std::string &class_name )
   {
@@ -156,7 +191,12 @@ protected:
     B::recv_values( ph_set );
   }
 
-public:
+  static RTI::ULong count_params()
+  {
+    unsigned int total = 1 + B::count_params();
+    return total;
+  }
+
   template< typename T >
   inline typename T::value_type const &p_() const
   {
@@ -169,6 +209,18 @@ public:
     return( static_cast< param_base< T > & >( *this ).value );
   }
   
+  template< typename T >
+  inline typename T::value_type const &get_parameter() const
+  {
+    return( static_cast< param_base< T > const & >( *this ).value );
+  }
+
+  template< typename T >
+  inline typename T::value_type &get_parameter()
+  {
+    return( static_cast< param_base< T > & >( *this ).value );
+  }
+
   template< typename T >
   inline RTI::ParameterHandle get_param_handle()
   {
