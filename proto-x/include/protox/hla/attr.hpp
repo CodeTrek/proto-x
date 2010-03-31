@@ -144,10 +144,45 @@ template< typename A, typename B > struct attr_inherit;
 
 /**************************************************************************************************/
 
-template< typename A >
-struct attr_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty_base
+struct attr_empty_base
 {
-protected:
+public:
+  template< typename T >
+  void init_handles( const std::string &class_name ) {}
+
+  void update_values( boost::shared_ptr< RTI::AttributeHandleValuePairSet> set_ptr ) {}
+
+  template< typename T >
+  static void collect_handles( const std::string &class_name,
+                               std::set< std::string > *attr_names,
+                               RTI::AttributeHandleSet & )
+  {}
+
+  static RTI::ULong count_attrs()
+  {
+    return 0;
+  }
+
+  static void set_state( attr_state ) {}
+
+  void collect_updated_attrs( std::vector< RTI::AttributeHandle > & ) {}
+
+public:
+  void reflect( const RTI::AttributeHandleValuePairSet &, const RTI::FedTime * ) {}
+
+  template< typename T >
+  inline RTI::AttributeHandle get_attr_handle()
+  {
+    // TODO: throw attribute not found exception
+    return -1;
+  }
+};
+
+template< typename A >
+//struct attr_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty_base
+struct attr_inherit< A, attr_empty_base > : A, attr_empty_base
+{
+public:
   template< typename T >
   void init_handles( const std::string &class_name )
   {
@@ -161,30 +196,37 @@ protected:
   
   template< typename T >
   static void collect_handles( const std::string &class_name,
-                               std::set< std::string > &attr_names,
+                               std::set< std::string > *attr_names,
                                RTI::AttributeHandleSet &ahs )
   {
     bool in_set = true;
 
-    if (!attr_names.empty())
+    if (attr_names != 0)
     {
-      in_set = (attr_names.find( A::name() ) != attr_names.end());
+      in_set = (attr_names->find( A::name() ) != attr_names->end());
     }
+    //if (!attr_names.empty())
+    //{
+    //  in_set = (attr_names.find( A::name() ) != attr_names.end());
+    //}
 
     if (in_set)
     {
       RTI::AttributeHandle handle = T::get_attr_handle( class_name, A::name() );
       ahs.add( handle );
-      attr_names.erase( A::name() );
+
+      if (attr_names != 0)
+      {
+        attr_names->erase( A::name() );
+      }
     }
 
     // Undefined attributes?
-    if (!attr_names.empty())
-    {
-      std::string name = *attr_names.begin();
-
-      throw RTI::AttributeNotDefined( (name + " not defined").c_str() );
-    }
+    //if (!attr_names.empty())
+    //{
+    //  std::string name = *attr_names.begin();
+    //  throw RTI::AttributeNotDefined( (name + " not defined").c_str() );
+    //}
   }
   
   static RTI::ULong count_attrs()
@@ -206,6 +248,7 @@ protected:
     }
   }
 
+public:
   template< typename T >
   inline typename T::value_type const &get_attribute() const
   {
@@ -219,7 +262,6 @@ protected:
     return (static_cast< attr_base< T > & >( *this ).value);
   }
 
-public:
   void reflect( const RTI::AttributeHandleValuePairSet &ahv_set, const RTI::FedTime *time )
   {
     A::reflect( ahv_set, time );
@@ -234,7 +276,7 @@ public:
 template< typename A, typename B >
 struct attr_inherit : A, B
 {
-protected:
+public:
   template< typename T >
   void init_handles( const std::string &class_name )
   {
@@ -256,21 +298,26 @@ protected:
 
   template< typename T >
   static void collect_handles( const std::string &class_name,
-                               std::set< std::string > &attr_names,
+                               std::set< std::string > *attr_names,
                                RTI::AttributeHandleSet &ahs )
   {
     bool in_set = true;
 
-    if (!attr_names.empty())
+    if (attr_names != 0)
+    //if (!attr_names.empty())
     {
-      in_set = (attr_names.find( A::name() ) != attr_names.end());
+      in_set = (attr_names->find( A::name() ) != attr_names->end());
     }
 
     if (in_set)
     {
       RTI::AttributeHandle handle = T::get_attr_handle( class_name, A::name() );
       ahs.add( handle );
-      attr_names.erase( A::name() );
+
+      if (attr_names != 0)
+      {
+        attr_names->erase( A::name() );
+      }
     }
 
     B::template collect_handles< T >( class_name, attr_names, ahs );
@@ -293,6 +340,7 @@ protected:
     B::collect_updated_attrs( handles );
   }
 
+public:
   template< typename T >
   inline typename T::value_type const &get_attribute() const
   {
@@ -312,7 +360,6 @@ protected:
     return (static_cast< attr_base< T > & >( *this ).handle);
   }
 
-public:
   void reflect( const RTI::AttributeHandleValuePairSet &ahv_set, const RTI::FedTime *time )
   {
     A::reflect( ahv_set, time );

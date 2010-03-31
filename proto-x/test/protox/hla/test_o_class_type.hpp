@@ -17,6 +17,8 @@
 #include <protox/hla/som.hpp>
 #include <protox/hla/o_class_type.hpp>
 
+#include <boost/mpl/vector.hpp>
+
 #include <test/protox/hla/som/s004/obj_class_table.hpp>
 
 /******************************************************************************/
@@ -93,6 +95,8 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_ctor )
   BOOST_CHECK( eObj.get_attr_handle< A3 >() > 0 );
 }
 
+#include <boost/type_traits/is_base_of.hpp>
+
 BOOST_AUTO_TEST_CASE( test_o_class_type_attr_mutators )
 {
   using namespace som_s004;
@@ -138,6 +142,76 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_attr_mutators )
   BOOST_CHECK( eObj.a_< A3 >().f_< f1 >() == 'a' );
   BOOST_CHECK( eObj.a_< A3 >().f_< f2 >() == 'm' );
   BOOST_CHECK( eObj.a_< A3 >().f_< f3 >() == 'z' );
+}
+
+BOOST_AUTO_TEST_CASE( test_o_class_type_inheritance )
+{
+  using namespace som_s004;
+  using namespace som_s004::R1;
+
+  typedef protox::hla::som< obj_class_table > som;
+
+  RTI::RTIambassador rti_amb;
+
+  rti_amb.o_class_to_handle_map[ "Class_A"                 ] =  1;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_B"         ] =  2;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_B.Class_E" ] =  3;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_B.Class_F" ] =  4;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_B.Class_C" ] =  5;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_C"         ] =  6;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_C.Class_A" ] =  7;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_C.Class_C" ] =  8;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_D"         ] =  9;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_D.Class_G" ] = 10;
+  rti_amb.o_class_to_handle_map[ "Class_A.Class_D.Class_H" ] = 11;
+
+  som::init_handles( rti_amb );
+
+  typedef o_class_type<
+    som,
+    q_name< Class_C >
+  >::type c_class_type;
+
+  typedef o_class_type<
+    som,
+    q_name< Class_C,
+            Class_A >
+  >::type ca_class_type;
+
+  typedef o_class_type<
+    som,
+    q_name< Class_C,
+            Class_C >
+  >::type cc_class_type;
+
+  typedef o_class_type<
+    som,
+    q_name< Class_C,
+            Class_A,
+            Class_E >
+  >::type cae_class_type;
+
+  BOOST_STATIC_ASSERT(( boost::is_base_of< c_class_type, ca_class_type >::value == true ));
+  BOOST_STATIC_ASSERT(( boost::is_base_of< c_class_type, cc_class_type >::value == true ));
+  BOOST_STATIC_ASSERT(( boost::is_base_of< c_class_type, cae_class_type >::value == true ));
+  BOOST_STATIC_ASSERT(( boost::is_base_of< ca_class_type, cae_class_type >::value == true ));
+
+  cae_class_type cae_obj;
+  ca_class_type &ca_obj = cae_obj;
+  c_class_type &c_obj = cae_obj;
+
+  cae_obj.a_< A3 >().f_< f1 >() = 'a';
+
+  BOOST_CHECK( ca_obj.a_< A3 >().f_< f1 >() == cae_obj.a_< A3 >().f_< f1 >() );
+  BOOST_CHECK( c_obj.a_< A3 >().f_< f1 >() == cae_obj.a_< A3 >().f_< f1 >() );
+
+  cae_obj.a_< A3 >().f_< f2 >() = 'z';
+
+  BOOST_CHECK( ca_obj.a_< A3 >().f_< f2 >() != 'b' );
+  BOOST_CHECK( c_obj.a_< A3 >().f_< f2 >() != 'b' );
+
+  BOOST_CHECK( ca_obj.a_< A3 >().f_< f2 >() == 'z' );
+  BOOST_CHECK( c_obj.a_< A3 >().f_< f2 >() == 'z' );
 }
 
 BOOST_AUTO_TEST_CASE( test_o_class_type_publish_all )
