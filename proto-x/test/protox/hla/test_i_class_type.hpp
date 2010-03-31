@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE( test_i_class_type_definition )
 
   BOOST_CHECK( class_type::get_name() == "Class_A.Class_C.Class_A.Class_E" );
   BOOST_CHECK( class_type::get_handle() == 12 );
-  BOOST_CHECK( class_type::get_num_parameters() == 3 );
+  BOOST_CHECK( class_type::get_num_params() == 3 );
 }
 
 /******************************************************************************/
@@ -132,6 +132,75 @@ BOOST_AUTO_TEST_CASE( test_i_class_type_param_mutators )
   BOOST_CHECK( obj.p_<A1>() == 5 );
   BOOST_CHECK( obj.p_<A2>() == 10 );
   BOOST_CHECK( (obj.p_<A3>() - 3.145f) < 0.00001f );
+}
+
+/******************************************************************************/
+
+BOOST_AUTO_TEST_CASE( test_i_class_type_inheritance )
+{
+  typedef protox::hla::som< null_o_class, inter_class_table > som;
+
+  RTI::RTIambassador rti_amb;
+
+  rti_amb.i_class_to_handle_map[ "Class_A"                 ] =  1;
+  rti_amb.i_class_to_handle_map[ "Class_A.Class_B"         ] =  2;
+  rti_amb.i_class_to_handle_map[ "Class_A.Class_B.Class_E" ] =  3;
+  rti_amb.i_class_to_handle_map[ "Class_A.Class_B.Class_F" ] =  4;
+  rti_amb.i_class_to_handle_map[ "Class_A.Class_B.Class_C" ] =  5;
+  rti_amb.i_class_to_handle_map[ "Class_A.Class_C"         ] =  6;
+  rti_amb.i_class_to_handle_map[ "Class_A.Class_C.Class_A" ] =  7;
+  rti_amb.i_class_to_handle_map[ "Class_A.Class_C.Class_C" ] =  8;
+  rti_amb.i_class_to_handle_map[ "Class_A.Class_D"         ] =  9;
+  rti_amb.i_class_to_handle_map[ "Class_A.Class_D.Class_G" ] = 10;
+  rti_amb.i_class_to_handle_map[ "Class_A.Class_D.Class_H" ] = 11;
+
+  som::init_handles( rti_amb );
+
+  typedef i_class_type<
+    som,
+    q_name< Class_C >
+  >::type c_class_type;
+
+  typedef i_class_type<
+    som,
+    q_name< Class_C,
+            Class_A >
+  >::type ca_class_type;
+
+  typedef i_class_type<
+    som,
+    q_name< Class_C,
+            Class_C >
+  >::type cc_class_type;
+
+  typedef i_class_type<
+    som,
+    q_name< Class_C,
+            Class_A,
+            Class_E >
+  >::type cae_class_type;
+
+  BOOST_STATIC_ASSERT(( boost::is_base_of< c_class_type, ca_class_type >::value == true ));
+  BOOST_STATIC_ASSERT(( boost::is_base_of< c_class_type, cc_class_type >::value == true ));
+  BOOST_STATIC_ASSERT(( boost::is_base_of< c_class_type, cae_class_type >::value == true ));
+  BOOST_STATIC_ASSERT(( boost::is_base_of< ca_class_type, cae_class_type >::value == true ));
+
+  cae_class_type cae_obj;
+  ca_class_type &ca_obj = cae_obj;
+  c_class_type &c_obj = cae_obj;
+
+  cae_obj.p_< A3 >() = 2.5f;
+
+  BOOST_CHECK( ca_obj.p_< A3 >() == cae_obj.p_< A3 >() );
+  BOOST_CHECK( c_obj.p_< A3 >() == cae_obj.p_< A3 >() );
+
+  cae_obj.p_< A3 >() = 3.5f;
+
+  BOOST_CHECK( ca_obj.p_< A3 >() != 2.5f );
+  BOOST_CHECK( c_obj.p_< A3 >() != 2.5f );
+
+  BOOST_CHECK( ca_obj.p_< A3 >() == 3.5f );
+  BOOST_CHECK( c_obj.p_< A3 >() == 3.5f );
 }
 
 /******************************************************************************/
