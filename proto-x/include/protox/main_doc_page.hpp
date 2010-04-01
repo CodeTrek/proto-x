@@ -11,6 +11,7 @@
  *
  * This manual is divided in the following sections:
  * - \subpage intro
+ * - \subpage layerd_arch
  * - \subpage getting_started
  * - \subpage first_example
  */

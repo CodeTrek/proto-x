@@ -731,6 +731,32 @@ struct o_class_type_impl
   };
 };
 
+/**
+ * Generates an object class type from the given SOM and fully qualified name.
+ *
+ * \tparam SOM A SOM that contains an interaction class table.
+ * \tparam A fully qualified name in the form of a vector of name types.
+ *
+ * \sa protox::hla::attr
+ * \sa protox::hla::o_class
+ * \sa HLA_NAME
+ *
+ * Example:
+ * \code
+ *
+ * typedef protox::hla::som< obj_class_table > som;
+ *
+ * // Generate a type for the "Entity.Platform.Aircraft" object class.
+ * typedef o_class_type< som, q_name< Entity, Platform, Aircraft > >::type aircraft_type;
+ *
+ * aircraft_type air1;
+ *
+ * // Initialize air1's position.
+ * air1.a_< Position >().f_< X >() = 0.0f;
+ * air1.a_< Position >().f_< Y >() = 0.0f;
+ *
+ * \endcode
+ */
 template< typename SOM, typename Q_NAME_VECTOR >
 struct o_class_type
 {
