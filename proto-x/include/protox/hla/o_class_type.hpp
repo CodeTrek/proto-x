@@ -148,7 +148,6 @@ struct o_class_type_impl
         return handle;
       }
 
-
       /**
        * Sets this object's name.
        *
@@ -545,7 +544,7 @@ struct o_class_type_impl
      * Publish a set of class attributes.
      *
      * \param attrs A string representation of the set of attributes to be published.
-     * \param rti_amb The RTI abmassador used to publish this class attributes.
+     * \param rti_amb The RTI abmassador used to publish the class attributes.
      *
      * \code
      *
@@ -734,7 +733,7 @@ struct o_class_type_impl
 /**
  * Generates an object class type from the given SOM and fully qualified name.
  *
- * \tparam SOM A SOM that contains an interaction class table.
+ * \tparam SOM A SOM that contains an object class table.
  * \tparam A fully qualified name in the form of a vector of name types.
  *
  * \sa protox::hla::attr
@@ -762,8 +761,7 @@ struct o_class_type
 {
   // Trim in trailing mpl::na types in the Q_NAME_VECTOR.
 
-  // Ad a garbage item to Q_NAME_VECTOR and then remove it to yield the "trimmed"
-  // Q_NAME_VECTOR.
+  // Ad a garbage item to Q_NAME_VECTOR and then remove it to yield the "trimmed" Q_NAME_VECTOR.
   typedef typename boost::mpl::push_back< Q_NAME_VECTOR, int >::type Q_NAME_VECTOR_GARBAGE;
 
   typedef typename boost::mpl::erase<

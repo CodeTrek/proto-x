@@ -31,6 +31,11 @@
 
 /**************************************************************************************************/
 
+/**
+ * \namespace protox::hla
+ *
+ * Contains the API used to define an HLA simulation object model (SOM).
+ */
 namespace protox {
 namespace hla {
 

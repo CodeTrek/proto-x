@@ -12,6 +12,13 @@
 
 /**************************************************************************************************/
 
+/**
+ * \namespace protox::dtl
+ *
+ * A domain specific language for declaring basic, simple, and structured data types in a protocol
+ * neutral way.
+ */
+
 namespace protox {
 namespace dtl {
 

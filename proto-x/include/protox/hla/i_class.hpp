@@ -26,6 +26,41 @@ namespace hla {
 
 /**************************************************************************************************/
 
+/**
+ * Use this template to build an interaction class table from interaction classes and parameters
+ * defined in a parameter table.
+ *
+ * \tparam NAME The interaction class type definition that identifies this interaction. This type
+ *              is defined in a parameter table.
+ *
+ * \tparam PARAM_SET The parameters defined for this class. \a PARAM_SET is a vector of parameter
+ *                  types defined in a parameter table.
+ *
+ * \tparam CHILD_SET The child classes defined for this class. \a CHILD_SET is a vector of
+ *                   \c i_class definitions.
+ *
+ * \sa protox::hla::param
+ *
+ * \code
+ * // Use the i_class class template to define an HLA interaction class table. Note how i_class
+ * // is recursively nested to create "is-a" class relationships.
+ *
+//// Interaction Class Table ///////////////////////////////////////
+   struct inter_class_table : i_class< HLAinteractionRoot, none, child<
+// +-------------------------------+-------------------------------+
+// | Class 1                       | Class 2                       |
+// +-------------------------------+-------------------------------+
+     i_class< CustomerTransaction,
+       none,
+//                                 +-------------------------------+
+                                     child< i_class< CustomerSeated,  params< TimeSeated > >,
+//                                 +-------------------------------+
+                                            i_class< FoodServed,      params< TemperatureOk, AccuracyOk, TimelinessOk > > > > > > {};
+// +-------------------------------+-------------------------------+
+ *
+ * \endcode
+ */
+
 template< typename NAME,
           typename PARAM_SET = protox::hla::none,
           typename CHILD_SET = protox::hla::none >

@@ -73,7 +73,7 @@ template< BOOST_PP_ENUM(HLA_MAX_NUM_ATTRS, HLA_ATTRS_DEFAULT_PARAMS, typename T)
   > : boost::mpl::set< BOOST_PP_ENUM_PARAMS(n, T) > {};
 
 /**
- * A type vector used to construct a list of attributes in object class structure table.
+ * A type vector used to construct a list of attributes in an object class structure table.
  * \sa protox::hla::o_class
  */
 template< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_ATTRS, typename T) >
@@ -113,7 +113,10 @@ template< BOOST_PP_ENUM(HLA_MAX_NUM_PARAMS, HLA_PARAMS_DEFAULT_PARAMS, typename 
     BOOST_PP_SUB(HLA_MAX_NUM_PARAMS,n), HLA_PARAMS_TEXT, empty) \
   > : boost::mpl::set< BOOST_PP_ENUM_PARAMS(n, T) > {};
 
-// Non-specialized structa attrs
+/**
+ * A type vector used to construct a list of parameters in an interaction class structure table.
+ * \sa protox::hla::i_class
+ */
 template< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_PARAMS, typename T) >
 struct params : boost::mpl::set< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_PARAMS, T) > {};
 
@@ -153,8 +156,10 @@ struct child;
   > : boost::mpl::set< BOOST_PP_ENUM_PARAMS(n, T) > {};
 
 /**
- * A type vector used to construct a list of child object classes in object class structure table.
+ * A type vector used to construct a list of child classes in object or interaction class
+ * structure table.
  * \sa protox::hla::o_class
+ * \sa protox::hla::i_class
  */
 template< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_CHILDREN, typename T) >
 struct child : boost::mpl::set< BOOST_PP_ENUM_PARAMS(HLA_MAX_NUM_CHILDREN, T) > {};

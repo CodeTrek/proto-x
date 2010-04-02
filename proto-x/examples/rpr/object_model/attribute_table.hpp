@@ -57,7 +57,7 @@ using namespace protox::hla;
                                                            struct AcousticSignatureIndex          : attr< hla_13::HLA13short           > {HLA_NAME( "AcousticSignatureIndex" )};
 //     +                                                        +---------------------------------+------------------------------------+------------------------------------------------+
                                                            struct AlternateEntityType             : attr< EntityTypeStruct::type       > {HLA_NAME( "AlternateEntityType" )};
-//     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
+//     +                                                        +---------------------------------+------------------------------------+------------------------------------------------+
                                                            struct ArticulatedParametersArray      : attr< hla_13::HLA13octet           > {HLA_NAME( "ArticulatedParametersArray" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
                                                            struct CamouflageType                  : attr< hla_13::HLA13octet           > {HLA_NAME( "CamouflageType" )};
@@ -84,25 +84,25 @@ using namespace protox::hla;
 //     +                                                        +---------------------------------+------------------------------+-----------------------------------------------------+
                                                            struct InfraredSignatureIndex          : attr< hla_13::HLA13octet           > {HLA_NAME( "InfraredSignatureIndex" )};
 //     +                                                        +---------------------------------+------------------------------+-----------------------------------------------------+
-                                                           struct IsConcealed                     : attr< hla_13::HLA13octet           >                {HLA_NAME( "IsConcealed" )};
+                                                           struct IsConcealed                     : attr< hla_13::HLA13octet           > {HLA_NAME( "IsConcealed" )};
 //     +                                                        +---------------------------------+------------------------------+-----------------------------------------------------+
-                                                           struct LiveEntityMeasuredSpeed         : attr< hla_13::HLA13octet           >                {HLA_NAME( "LiveEntityMeasuredSpeed" )};
+                                                           struct LiveEntityMeasuredSpeed         : attr< hla_13::HLA13octet           > {HLA_NAME( "LiveEntityMeasuredSpeed" )};
 //     +                                                        +---------------------------------+------------------------------+-----------------------------------------------------+
-                                                           struct Marking                         : attr< hla_13::HLA13octet           >                {HLA_NAME( "Marking" )};
+                                                           struct Marking                         : attr< hla_13::HLA13octet           > {HLA_NAME( "Marking" )};
 //     +                                                        +---------------------------------+------------------------------+-----------------------------------------------------+
-                                                           struct PowerPlantOn                    : attr< hla_13::HLA13octet           >                {HLA_NAME( "PowerPlantOn" )};
+                                                           struct PowerPlantOn                    : attr< hla_13::HLA13octet           > {HLA_NAME( "PowerPlantOn" )};
 //     +                                                        +---------------------------------+------------------------------+-----------------------------------------------------+
-                                                           struct PropulsionSystemsData           : attr< hla_13::HLA13octet           >                {HLA_NAME( "PropulsionSystemsData" )};
+                                                           struct PropulsionSystemsData           : attr< hla_13::HLA13octet           > {HLA_NAME( "PropulsionSystemsData" )};
 //     +                                                        +---------------------------------+------------------------------+-----------------------------------------------------+
-                                                           struct RadarCrossSectionSignatureIndex : attr< hla_13::HLA13octet           >                {HLA_NAME( "RadarCrossSectionSignatureIndex" )};
+                                                           struct RadarCrossSectionSignatureIndex : attr< hla_13::HLA13octet           > {HLA_NAME( "RadarCrossSectionSignatureIndex" )};
 //     +                                                        +---------------------------------+------------------------------+-----------------------------------------------------+
-                                                           struct SmokePlumePresent               : attr< hla_13::HLA13octet           >                {HLA_NAME( "SmokePlumePresent" )};
+                                                           struct SmokePlumePresent               : attr< hla_13::HLA13octet           > {HLA_NAME( "SmokePlumePresent" )};
 //     +                                                        +---------------------------------+------------------------------+-----------------------------------------------------+
-                                                           struct TentDeployed                    : attr< hla_13::HLA13octet           >                {HLA_NAME( "TentDeployed" )};
+                                                           struct TentDeployed                    : attr< hla_13::HLA13octet           > {HLA_NAME( "TentDeployed" )};
 //     +                                                        +---------------------------------+------------------------------+-----------------------------------------------------+
-                                                           struct TrailingEffectsCode             : attr< hla_13::HLA13octet           >                {HLA_NAME( "TrailingEffectsCode" )};
+                                                           struct TrailingEffectsCode             : attr< hla_13::HLA13octet           > {HLA_NAME( "TrailingEffectsCode" )};
 //     +                                                        +---------------------------------+------------------------------+-----------------------------------------------------+
-                                                           struct VectoringNozzleSystemData       : attr< hla_13::HLA13octet           >                {HLA_NAME( "VectoringNozzleSystemData" )};
+                                                           struct VectoringNozzleSystemData       : attr< hla_13::HLA13octet           > {HLA_NAME( "VectoringNozzleSystemData" )};
 //     +--------------------------------------------------------+---------------------------------+------------------------------+-----------------------------------------------------+
   struct Platform            {HLA_NAME( "Platform" )};
                                                            struct AfterburnerOn                   : attr< hla_13::HLA13octet   >                {HLA_NAME( "AfterburnerOn" )};
@@ -167,15 +167,15 @@ using namespace protox::hla;
   struct Radio               {HLA_NAME( "Radio" )};
 //     +--------------------------------------------------------+---------------------------------+------------------------------+-----------------------------------------------------+
   struct Sensor              {HLA_NAME( "Sensor" )
-                                                           struct InteriorLightsOn : attr< hla_13::HLA13octet   >                {HLA_NAME( "InteriorLightsOn" )}; };
+                                                           struct InteriorLightsOn                : attr< hla_13::HLA13octet     > {HLA_NAME( "InteriorLightsOn" )}; };
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct AntennaRaised              : attr< hla_13::HLA13octet   >                {HLA_NAME( "AntennaRaised" )};
+                                                           struct AntennaRaised                   : attr< hla_13::HLA13octet     > {HLA_NAME( "AntennaRaised" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct BlackoutLightsOn           : attr< hla_13::HLA13octet   >                {HLA_NAME( "BlackoutLightsOn" )};
+                                                           struct BlackoutLightsOn                : attr< hla_13::HLA13octet     > {HLA_NAME( "BlackoutLightsOn" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct LightsOn : attr< hla_13::HLA13octet   >                {HLA_NAME( "LightsOn" )};
+                                                           struct LightsOn                        : attr< hla_13::HLA13octet     > {HLA_NAME( "LightsOn" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct MissionKill : attr< hla_13::HLA13octet   >                {HLA_NAME( "MissionKill" )};
+                                                           struct MissionKill                     : attr< hla_13::HLA13octet     > {HLA_NAME( "MissionKill" )};
 //     +--------------------------------------------------------+---------------------------------+------------------------------+-----------------------------------------------------+
   struct Supplies            {HLA_NAME( "Supplies" )};
 //     +--------------------------------------------------------+---------------------------------+------------------------------+-----------------------------------------------------+
@@ -194,32 +194,32 @@ using namespace protox::hla;
   struct SurfaceVessel       {HLA_NAME( "SurfaceVessel" )};
 //     +--------------------------------------------------------+---------------------------------+------------------------------+-----------------------------------------------------+
   struct AggregateEntity     {HLA_NAME( "AggregateEntity" )
-                                                           struct ForceIdentifier                 : attr< hla_13::HLA13octet   >                {HLA_NAME( "ForceIdentifier" )}; };
+                                                           struct ForceIdentifier                 : attr< hla_13::HLA13octet     > {HLA_NAME( "ForceIdentifier" )}; };
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct AggregateMarking                : attr< hla_13::HLA13octet   >                {HLA_NAME( "AggregateMarking" )};
+                                                           struct AggregateMarking                : attr< hla_13::HLA13octet     > {HLA_NAME( "AggregateMarking" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct AggregateState                  : attr< hla_13::HLA13octet   >                {HLA_NAME( "AggregateState" )};
+                                                           struct AggregateState                  : attr< hla_13::HLA13octet     > {HLA_NAME( "AggregateState" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct Dimensions                      : attr< hla_13::HLA13octet   >                {HLA_NAME( "Dimensions" )};
+                                                           struct Dimensions                      : attr< hla_13::HLA13octet     > {HLA_NAME( "Dimensions" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct EntityIdentifiers               : attr< hla_13::HLA13octet   >                {HLA_NAME( "EntityIdentifiers" )};
+                                                           struct EntityIdentifiers               : attr< hla_13::HLA13octet     > {HLA_NAME( "EntityIdentifiers" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct Formation                       : attr< hla_13::HLA13octet   >                {HLA_NAME( "Formation" )};
+                                                           struct Formation                       : attr< hla_13::HLA13octet     > {HLA_NAME( "Formation" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct NumberOfSilentEntities          : attr< hla_13::HLA13octet   >                {HLA_NAME( "NumberOfSilentEntities" )};
+                                                           struct NumberOfSilentEntities          : attr< hla_13::HLA13octet     > {HLA_NAME( "NumberOfSilentEntities" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct NumberOfVariableDatums          : attr< hla_13::HLA13octet   >                {HLA_NAME( "NumberOfVariableDatums" )};
+                                                           struct NumberOfVariableDatums          : attr< hla_13::HLA13octet     > {HLA_NAME( "NumberOfVariableDatums" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct SilentAggregates                : attr< hla_13::HLA13octet   >                {HLA_NAME( "SilentAggregates" )};
+                                                           struct SilentAggregates                : attr< hla_13::HLA13octet     > {HLA_NAME( "SilentAggregates" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct SilentEntities                  : attr< hla_13::HLA13octet   >                {HLA_NAME( "SilentEntities" )};
+                                                           struct SilentEntities                  : attr< hla_13::HLA13octet     > {HLA_NAME( "SilentEntities" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct SubAggregateIdentifiers         : attr< hla_13::HLA13octet   >                {HLA_NAME( "SubAggregateIdentifiers" )};
+                                                           struct SubAggregateIdentifiers         : attr< hla_13::HLA13octet     > {HLA_NAME( "SubAggregateIdentifiers" )};
 //     +                                                        +---------------------------------+------------------------------+------------------------------------------------+
-                                                           struct VariableDatums                  : attr< hla_13::HLA13octet   >                {HLA_NAME( "VariableDatums" )};
+                                                           struct VariableDatums                  : attr< hla_13::HLA13octet     > {HLA_NAME( "VariableDatums" )};
 //     +--------------------------------------------------------+---------------------------------+------------------------------+-----------------------------------------------------+
   struct EnvironmentalEntity {HLA_NAME( "EnvironmentalEntity" )};
-                                                           struct OpacityCode                     : attr< hla_13::HLA13octet   >                {HLA_NAME( "OpacityCode" )};
+                                                           struct OpacityCode                     : attr< hla_13::HLA13octet     > {HLA_NAME( "OpacityCode" )};
 //     +--------------------------------------------------------+---------------------------------+------------------------------+-----------------------------------------------------+
 }}
 

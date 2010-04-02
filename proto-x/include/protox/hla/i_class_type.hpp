@@ -110,6 +110,9 @@ struct i_class_type_impl
         return handle;
       }
 
+      /**
+       * \return The number of parameters defined for this class.
+       */
       static RTI::ULong get_num_params()
       {
         return root_params_type::count_params();
@@ -123,18 +126,60 @@ struct i_class_type_impl
         this->rti_amb = &rti_amb;
       }
 
+      /**
+       * \return A read/write reference to the value of the parameter identified by \a T.
+       *
+       * \tparam T The type name of the parameter being retrieved.
+       *
+       * Example:
+       *
+       * \code
+       *
+       *  // Get the value of the Target parameter.
+       *  value_type &value = fire_event.p_< Target >();
+       *
+       * \endcode
+       */
       template< typename T >
       inline typename T::value_type &p_()
       {
         return params.get_parameter< T >();
       }
 
+      /**
+       * \return A read-only reference to the value of the parameter identified by \a T.
+       *
+       * \tparam T The type name of the parameter being retrieved.
+       *
+       * Example:
+       *
+       * \code
+       *
+       *  // Get the value of the Target parameter.
+       *  const value_type &value = fire_event.p_< Target >();
+       *
+       * \endcode
+       */
       template< typename T >
       inline typename T::value_type const &p_() const
       {
         return params.get_parameter< T >();
       }
 
+      /**
+       * \return The RTI handle assigned to the parameter identified by \a T.
+       *
+       * \tparam T The type name of the parameter.
+       *
+       * Example:
+       *
+       * \code
+       *
+       *  // Get the the handle of the Target parameter.
+       *  RTI::ParameterHandle handle = fire_event.get_attr_handle< Target >();
+       *
+       * \endcode
+       */
       template< typename T >
       inline RTI::ParameterHandle get_param_handle()
       {
@@ -251,6 +296,9 @@ struct i_class_type_impl
     }
 
   public:
+    /**
+     * \return This class' fully qualified name.
+     */
     static const std::string &get_name()
     {
       static bool initialized = false;
@@ -275,6 +323,20 @@ struct i_class_type_impl
       params.params_type::template init_handles< SOM >( type::get_name() );
     }
 
+    /**
+     * \return A read/write reference to the value of the parameter identified by \a T.
+     *
+     * \tparam T The type name of the parameter being retrieved.
+     *
+     * Example:
+     *
+     * \code
+     *
+     *  // Get the value of the Target parameter.
+     *  value_type &value = fire_event.p_< Target >();
+     *
+     * \endcode
+     */
     template< typename T >
     inline typename T::value_type const &p_() const
     {
@@ -282,6 +344,20 @@ struct i_class_type_impl
                                    T >::get_param( params, this  );
     }
 
+    /**
+     * \return A read-only reference to the value of the parameter identified by \a T.
+     *
+     * \tparam T The type name of the parameter being retrieved.
+     *
+     * Example:
+     *
+     * \code
+     *
+     *  // Get the value of the Target parameter.
+     *  const value_type &value = fire_event.p_< Target >();
+     *
+     * \endcode
+     */
     template< typename T >
     inline typename T::value_type &p_()
     {
@@ -289,6 +365,20 @@ struct i_class_type_impl
                                    T >::get_param( params, this  );
     }
 
+    /**
+     * \return The RTI handle assigned to the parameter identified by \a T.
+     *
+     * \tparam T The type name of the parameter.
+     *
+     * Example:
+     *
+     * \code
+     *
+     *  // Get the the handle of the Target parameter.
+     *  RTI::ParameterHandle handle = fire_event.get_attr_handle< Target >();
+     *
+     * \endcode
+     */
     template< typename T >
     inline RTI::ParameterHandle get_param_handle()
     {
@@ -296,6 +386,9 @@ struct i_class_type_impl
                                        T >::get( params, this );
     }
 
+    /**
+     * \return This class' RTI assigned handle.
+     */
     static RTI::InteractionClassHandle get_handle()
     {
       static bool initialized = false;
@@ -311,31 +404,89 @@ struct i_class_type_impl
       return handle;
     }
 
+    /**
+     * \return The number of parameters defined for this class.
+     */
     static unsigned long get_num_params()
     {
       return params_type::count_params() + parent_class_type::get_num_params();
     }
 
+    /**
+     * Publish this interaction.
+     *
+     * \param rti_amb The RTI abmassador used to publish this class.
+     *
+     * \code
+     *
+     * FireEvent::publish( rti_amb );
+     *
+     * \endcode
+     */
     static void publish( RTI::RTIambassador &rti_amb )
     {
       rti_amb.publishInteractionClass( type::get_handle() );
     }
 
+    /**
+     * Un-publish this interaction.
+     *
+     * \param rti_amb The RTI abmassador used to un-publish this class.
+     *
+     * \code
+     *
+     * FireEvent::unpublish( rti_amb );
+     *
+     * \endcode
+     */
     static void unpublish( RTI::RTIambassador &rti_amb )
     {
       rti_amb.unpublishInteractionClass( type::get_handle() );
     }
 
+    /**
+     * Subscribe this interaction.
+     *
+     * \param rti_amb The RTI abmassador used to subscribe this class.
+     *
+     * \code
+     *
+     * FireEvent::subscribe( rti_amb );
+     *
+     * \endcode
+     */
     static void subscribe( RTI::RTIambassador &rti_amb )
     {
       rti_amb.subscribeInteractionClass( type::get_handle() );
     }
 
+    /**
+     * Un-subscribe this interaction.
+     *
+     * \param rti_amb The RTI abmassador used to un-subscribe this class.
+     *
+     * \code
+     *
+     * FireEvent::unsubscribe( rti_amb );
+     *
+     * \endcode
+     */
     static void unsubscribe( RTI::RTIambassador &rti_amb )
     {
       rti_amb.unsubscribeInteractionClass( type::get_handle() );
     }
 
+    /**
+     * Send an instance of this interaction at the given time.
+     *
+     * \param time (optional) The interaction's time.
+     *
+     * \code
+     *
+     * fire_event.send( rti_amb );
+     *
+     * \endcode
+     */
     void send( const RTI::FedTime *time = 0 )
     {
       if (rti_amb == 0)
@@ -371,6 +522,31 @@ struct i_class_type_impl
 
 /**************************************************************************************************/
 
+/**
+ * Generates an interaction class type from the given SOM and fully qualified name.
+ *
+ * \tparam SOM A SOM that contains an interaction class table.
+ * \tparam A fully qualified name in the form of a vector of name types.
+ *
+ * \sa protox::hla::param
+ * \sa protox::hla::i_class
+ * \sa HLA_NAME
+ *
+ * Example:
+ * \code
+ *
+ * typedef protox::hla::som< obj_class_table, interaction_class_table > som;
+ *
+ * // Generate a type for the "Event.FireEvent" object class.
+ * typedef i_class_type< som, q_name< Event, FireEvent > >::type fire_event_type;
+ *
+ * fire_event_type fire;
+ *
+ * // Initialize fire's Target parameter.
+ * fire.p_< Target >() = 20;
+ *
+ * \endcode
+ */
 template< typename SOM, typename Q_NAME_VECTOR >
 struct i_class_type
 {

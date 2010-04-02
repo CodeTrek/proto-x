@@ -77,6 +77,34 @@ protected:
 
 /**************************************************************************************************/
 
+/**
+ * Use this template to generate an parameter definition type that can be used as part of an
+ * interaction class definition in a parameter table.
+ *
+ * \tparam T The parameter's type.
+ *
+ * Example:
+ * \code
+ * // Define an parameter called AccuracyOk of type HLAboolean.
+ * struct FoodServed : param< HLAboolean::type > {HLA_NAME("AccuracyOk")};
+ * \endcode
+ *
+ * Example use in a parameter table:
+ * \code
+ * //////// Parameter Table ////////////////////
+ * //     +------------------------------------+---------------+-------------------------+----------------------------+
+ * //     | Name                               | Parameter     | Datatype                | String Name                |
+ * //     +------------------------------------+---------------+-------------------------+----------------------------+
+ *   struct FoodServed {HLA_NAME("FoodServed")};
+ *                                        struct TemperatureOk : param< HLAboolean::type > {HLA_NAME("TemperatureOk")};
+ * //                                          +---------------+-------------------------+----------------------------+
+ *                                        struct AccuracyOk    : param< HLAboolean::type > {HLA_NAME("AccuracyOk"   )};
+ * //                                          +---------------+-------------------------+----------------------------+
+ *                                        struct TimelinessOk  : param< HLAboolean::type > {HLA_NAME("TimelinessOk" )};
+ * //     +------------------------------------+---------------+-------------------------+----------------------------+
+ * \endcode
+ *
+ */
 template< typename T >
 struct param
 {

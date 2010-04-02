@@ -60,10 +60,15 @@
  * Basic types can be further refined as simple types, which in turn are used to define enumerated
  * types and structured types including fixed and variant records, and fixed and variable arrays.
  *
+ * \sa protox::dtl
+ *
  * The <b>codec</b> layer provides protocol specific encode/decode functionality. For example,
  * the HLA 1516 codecs implements the default bit and byte encoding schemes as defined by
  * IEEE 1516.2000. This layer can be extended to include other standard encoding schemes
  * (e.g., DIS and HLA 1.3) as well as custom encoding schemes.
+ *
+ * \sa protox::hla_13
+ * \sa protox::hla_1516
  *
  * The <b>data exchange model</b> applies to those protocols that define a data model on top of the simple
  * and structured data types defined in the DTL layer. For example, both the HLA 1.3 and HLA 1516
@@ -71,5 +76,7 @@
  * a SOM is data exchange contract between a simulation and a federation of simulations. A SOM
  * defines the data exchange capabilities of a simulation, i.e., what data the simulation will
  * publicly produce and consume in the form of object and interaction classes.
+ *
+ * \sa protox::hla
  *
  */

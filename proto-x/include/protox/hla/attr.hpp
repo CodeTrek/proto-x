@@ -105,7 +105,7 @@ protected:
 /**************************************************************************************************/
 
 /**
- * Derive from this template to create an attribute definition that can be used as part of an
+ * Use this template to generate an attribute definition type that can be used as part of an
  * object class definition in an attribute table.
  *
  * \tparam T The attribute's type.
@@ -118,7 +118,7 @@ protected:
  *
  * Example use in an attribute table:
  * \code
- * ////// Attribute Table /////////////////////////////////////////////////////////
+ * ////// Attribute Table ////////////////
  * //     +------------------------------+-----------+-------------------+----------------------+
  * //     | Name                         | Attribute | Datatype          | String Name          |
  * //     +------------------------------+-----------+-------------------+----------------------+
@@ -179,7 +179,6 @@ public:
 };
 
 template< typename A >
-//struct attr_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty_base
 struct attr_inherit< A, attr_empty_base > : A, attr_empty_base
 {
 public:
@@ -205,10 +204,6 @@ public:
     {
       in_set = (attr_names->find( A::name() ) != attr_names->end());
     }
-    //if (!attr_names.empty())
-    //{
-    //  in_set = (attr_names.find( A::name() ) != attr_names.end());
-    //}
 
     if (in_set)
     {
@@ -304,7 +299,6 @@ public:
     bool in_set = true;
 
     if (attr_names != 0)
-    //if (!attr_names.empty())
     {
       in_set = (attr_names->find( A::name() ) != attr_names->end());
     }
