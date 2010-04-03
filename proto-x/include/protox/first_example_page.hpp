@@ -7,7 +7,8 @@
 
 /**************************************************************************************************/
 
-/** \page first_example First Example
+/**
+ * \page first_example First Example
  * This example uses \c proto-x to create an API for two simple federates. One that sends an
  * interaction called \c Greeting that consists of a single parameter called \c Message, a fixed
  * array of ASCII characters. And another that receives \c Greeting interactions and prints the
@@ -197,68 +198,8 @@
  * }
  * \endcode
  *
- * Here is the \c main that ties everything together.
+ * Here is the complete source code for this example:
  *
- * \code
- * int main( int argc, char *argv[] )
- * {
- *   // The "fake" RTI exec used to mimic HLA data exchanges
- *   RTI::RTIexec rti_exec;
- *
- *   // Create an interaction ambassador and register our interaction callback.
- *   inter_amb_type inter_amb;
- *   inter_amb.set_handler( greeting_handler );
- *
- *   // /////////////////////////////////////////////
- *   // SENDER FEDERATE
- *   // /////////////////////////////////////////////
- *   RTI::RTIambassador send_rti_amb( rti_exec );
- *   fed_amb send_fed_amb( inter_amb );
- *
- *   //
- *   // Initialize handles
- *   //
- *   hw_som::init_handles( send_rti_amb );
- *
- *   //
- *   // Join federation
- *   //
- *   send_rti_amb.joinFederationExecution( "", "hw_sender", &send_fed_amb );
- *
- *   //
- *   // Publish interaction
- *   //
- *   greeting_type::publish( send_rti_amb );
- *
- *   // /////////////////////////////////////////////
- *   // RECEIVER FEDERATE
- *   // /////////////////////////////////////////////
- *   RTI::RTIambassador recv_rti_amb( rti_exec );
- *   fed_amb recv_fed_amb( inter_amb );
- *
- *   //
- *   // Join federation
- *   //
- *   recv_rti_amb.joinFederationExecution( "", "hw_receiver", &recv_fed_amb );
- *
- *   //
- *   // Subscribe interaction
- *   //
- *   greeting_type::subscribe( recv_rti_amb );
- *
- *   // /////////////////////////////////////////////
- *   // RUN...
- *   // /////////////////////////////////////////////
- *   greeting_type send_msg;
- *
- *   const std::string what_up = "What up?";
- *
- *   send_msg.p_< Message >() = ASCIIString::array_type( what_up.begin(), what_up.end() );
- *
- *   send_msg.send( send_rti_amb );
- *
- *   rti_exec.tick();
- * }
- * \endcode
+ * \include first_example/main.cpp
  *
  */

@@ -7,7 +7,8 @@
 
 /**************************************************************************************************/
 
-/** \page intro Introduction
+/**
+ * \page intro Introduction
  *
  * \c proto-x is a cross-platform, open source C++ library for developing high level architecture
  * (HLA) compliant simulations, tools, and utilities. \c proto-x lets you represent simulation

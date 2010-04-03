@@ -12,6 +12,7 @@ RMDIR /S /Q ..\examples\rpr\bin
 
 RMDIR /S /Q ..\rtilite\bin
 
+RMDIR /S /Q ..\rtilite_examples\first_example\bin
 RMDIR /S /Q ..\rtilite_examples\hw\bin
 RMDIR /S /Q ..\rtilite_examples\platform\bin
 
