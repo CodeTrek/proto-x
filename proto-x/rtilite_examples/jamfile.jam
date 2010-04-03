@@ -7,5 +7,6 @@ project
       <include>..
   ;
 
+build-project first_example ;
 build-project hw ;
 build-project platform ;

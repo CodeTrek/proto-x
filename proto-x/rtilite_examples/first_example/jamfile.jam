@@ -1,0 +1,6 @@
+#
+
+exe greet 
+  : main.cpp
+  :  <include>.
+  ;
