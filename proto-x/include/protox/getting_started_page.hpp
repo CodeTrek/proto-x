@@ -29,6 +29,7 @@
  *   rtilite/           // A simple RTI designed to make implementing example code easier.
  *   rtilite_examples/  // Examples built using the rtilite RTI.
  *   test/              // Proto-x unit tests (requires Boost test header only version).
+ *   LICENSE_1_0.txt    // Proto-x is released under MIT software license.
  * \endcode
  *
  * \section get_boost Get boost libraries
