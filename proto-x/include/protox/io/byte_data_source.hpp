@@ -31,21 +31,55 @@ namespace io {
 class byte_data_source
 {
 public:
+  /**
+   * Constructs a source initialized with the data from the givne \a sink.
+   *
+   * \param sink Used to initialize this source's data buffer.
+   */
   byte_data_source( const byte_data_sink &sink ) :
     data_buffer(sink.getDataBuffer()),
     data_buffer_size(sink.size())
   {}
 
+  /**
+   * Constructs a source that uses the given \a buffer.
+   *
+   * \param buffer Pointer to an array of bytes of size \a size.
+   * \param size The size of the given \a buffer in bytes.
+   */
   byte_data_source( const char *buffer, unsigned size ) :
     data_buffer(buffer),
     data_buffer_size(size)
   {}
 
   /**
-   * Decodes this byte array into a value of type T and stores the result in value.
+   * Decodes a byte array into a value of type \c T and stores the result in \a value.
    *
-   * @param value holds the decoded value.
-   * @return the number of bytes decoded.
+   * \param value holds the decoded value.
+   * \return the number of bytes decoded.
+   *
+   * Example:
+   * \code
+   *
+   * PositionRecord pos_in;
+   *
+   * pos_in.f_< X >() = 2;
+   * pos_in.f_< Y >() = 3;
+   *
+   * byte_data_sink sink;
+   * sink.encode( pos_in );
+   *
+   * byte_data_source source( sink );
+   *
+   * PositionRecord pos_out;
+   *
+   * sorce.decode( pos_out );
+   * assert( pos_out == pos_in ); // true
+   *
+   * \endcode
+   *
+   * \sa protox::io::byte_data_sink
+   *
    */
   template< typename T >
   inline unsigned decode( T &value ) const

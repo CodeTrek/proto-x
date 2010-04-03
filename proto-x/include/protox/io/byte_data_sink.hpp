@@ -19,6 +19,14 @@
 
 /**************************************************************************************************/
 
+/**
+ * \namespace protox::io
+ *
+ * Byte buffer oriented I/O.
+ */
+
+/**************************************************************************************************/
+
 namespace protox {
 namespace io {
 
@@ -34,6 +42,30 @@ public:
 
   /**
    * Encode the given value as an array of bytes.
+   *
+   * Example:
+   * \code
+   *
+   * PositionRecord pos_in;
+   *
+   * pos_in.f_< X >() = 2;
+   * pos_in.f_< Y >() = 3;
+   *
+   * byte_data_sink sink;
+   * sink.encode( pos_in );
+   *
+   * byte_data_source source( sink );
+   *
+   * PositionRecord pos_out;
+   *
+   * sorce.decode( pos_out );
+   *
+   * assert( pos_out == pos_in ); // true
+   *
+   * \endcode
+   *
+   * \sa protox::io::byte_data_source
+   *
    */
   template< typename T >
   inline void encode( const T &value )
@@ -50,7 +82,7 @@ public:
   }
 
   /**
-   * @return a reference to encoded data memory.
+   * \return a reference to the encoded data buffer.
    */
   const std::vector< char > &getData() const
   {
@@ -62,11 +94,17 @@ public:
     data.push_back( d );
   }
 
+  /**
+   * \return The size in bytes of the buffer.
+   */
   std::size_t size() const
   {
     return data.size();
   }
 
+  /**
+   * \return a pointer to the encoded data buffer.
+   */
   inline const char *getDataBuffer() const
   {
     if( data.empty() )
