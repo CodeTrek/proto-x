@@ -23,6 +23,40 @@ namespace hla_13 {
 
 /**************************************************************************************************/
 
+/**
+ * Defines an HLA 13 enumerated type.
+ *
+ * \tparam E The concrete enumerated type.
+ * \tparam T The basic data type used to represent values of the enumerated type.
+ *
+ * Example:
+ *
+ * \code
+ * //      +----------------+-------------------------------------------+------------+--------+
+ * //      | Name           | Representation                            | Enumerator | Values |
+ * //      +----------------+-------------------------------------------+------------+--------+
+ * namespace SkillLevelEnum { PROTOX_ENUM_TYPE( HLA13short, enumerated );
+ * //      +----------------+-------------------------------------------+------------+--------+
+ *                                                     PROTOX_ENUM_VALUE( POOR,        1     );
+ * //                                                                   +------------+--------+
+ *                                                     PROTOX_ENUM_VALUE( GOOD,        2     );
+ * //                                                                   +------------+--------+
+ *                                                     PROTOX_ENUM_VALUE( EXCELLENT,   3     );
+ * //      +----------------+-------------------------------------------+------------+--------+
+ *
+ * PROTOX_ENUM_EQUALITY_OPERATOR;
+ * PROTOX_ENUM_DEFAULT( GOOD );  }
+ *
+ * using namespace SkillLevelEnum;
+ *
+ * SkillLevelEnum::type skillLevel = GOOD::value();
+ * \endcode
+ *
+ * \sa enum_pp.hpp
+ */
+
+/**************************************************************************************************/
+
 template< typename E, typename T >
 struct enumerated : protox::dtl::enumerated< E, T, HLA13enumerated >
 {

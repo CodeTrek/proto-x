@@ -22,6 +22,30 @@ namespace hla_1516 {
 
 /**************************************************************************************************/
 
+/**
+ * Defines an HLA 1516 variable size array with \a T as the container type.
+ *
+ * \tparam T The container type used to store the elements of the array.
+ *
+ * Example:
+ *
+ * \code
+ * //   +-------------+--------------------------------------+-----------------+-------------+
+ * //   | Name        | Encoding                             | Element type    | Cardinality |
+ * //   +-------------+--------------------------------------+-----------------+-------------+
+ * struct ASCIIString : hla_1516::variable_array< std::vector< ASCIIchar > > {}; // Dynamic  |
+ * //   +-------------+--------------------------------------+-----------------+-------------+
+ *
+ * const std::string hw_str = "hello, world";
+ *
+ * ASCIIString str( hw_str.begin(), hw_str.end() );
+ *
+ * \endcode
+ *
+ */
+
+/**************************************************************************************************/
+
 template< typename T >
 struct variable_array : protox::dtl::variable_array< T, HLAvariableArray > {};
 

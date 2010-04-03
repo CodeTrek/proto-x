@@ -47,9 +47,10 @@ namespace dtl {
  *
  *  // Define a variable record using 1516 variant record encoding
  *
- *  typedef hla_1516::variant_record< DaysOfWeekEnum16::Type,
- *                                    mpl::vector< alt_1, alt_2, alt_3 >,
- *                                    dtl::discriminant_other< HLAfloat32BE > // This is optional
+ *  typedef variant_record< DaysOfWeekEnum16::Type,
+ *                          mpl::vector< alt_1, alt_2, alt_3 >,
+ *                          dtl::discriminant_other< HLAfloat32BE >,
+ *                          hla1516::HLAvariantRecord >
  *  > var_rec_type;
  *
  * \endcode

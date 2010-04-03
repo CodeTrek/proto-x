@@ -25,6 +25,19 @@ namespace dtl {
 
 /**************************************************************************************************/
 
+/**
+ * Use this type to indicate that a variant record has no "other" discriminant option.
+ *
+ * Example:
+ *
+ * \code
+ * typedef variant_record< DaysOfWeekEnum16::Type,
+ *                         mpl::vector< alt_1, alt_2, alt_3 >,
+ *                         dtl::discriminant_other_none,
+ *                         hla1516::HLAvariantRecord >
+ *
+ * \endcode
+ */
 struct discriminant_other_none
 {
   typedef void * value_type;
