@@ -574,7 +574,7 @@ WARN_LOGFILE =
 # directories like "/usr/src/myproject". Separate the files or directories 
 # with spaces.
 
-INPUT = ../proto-x/include/protox/main_doc_page.hpp ../proto-x/include/protox/intro_page.hpp ../proto-x/include/protox/first_example_page.hpp ../proto-x/include/protox/platform.hpp ../proto-x/include/protox/dtl ../proto-x/include/protox/hla_1516 ../proto-x/include/protox/hla_13 ../proto-x/include/protox/hla ../proto-x/include/protox/io 
+INPUT = ../proto-x/include/protox/main_doc_page.hpp ../proto-x/include/protox/intro_page.hpp ../proto-x/include/protox/getting_started_page.hpp ../proto-x/include/protox/first_example_page.hpp ../proto-x/include/protox/platform.hpp ../proto-x/include/protox/dtl ../proto-x/include/protox/hla_1516 ../proto-x/include/protox/hla_13 ../proto-x/include/protox/hla ../proto-x/include/protox/io
 
 # This tag can be used to specify the character encoding of the source files 
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is 
@@ -631,7 +631,7 @@ EXCLUDE_SYMBOLS =
 # directories that contain example code fragments that are included (see 
 # the \include command).
 
-EXAMPLE_PATH = 
+EXAMPLE_PATH = C:\Users\jgraham\development\protox\proto-x\rtilite_examples 
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the 
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
