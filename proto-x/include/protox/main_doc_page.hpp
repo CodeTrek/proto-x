@@ -14,6 +14,9 @@
  * - \subpage layerd_arch
  * - \subpage getting_started
  * - \subpage first_example
+ * - \subpage more_advanced_example
+ * - \subpage more_advanced_som
+ * - \subpage implementing_a_custom_codec
  */
 
 /**************************************************************************************************/

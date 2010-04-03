@@ -36,6 +36,7 @@
  * Proto-x depends on the following <a href="http://www.boost.org">boost</a> libraries
  * (boost version 1.42.0 or later):
  *
+ * - Foreach
  * - MPL
  * - Smart Ptr
  * - Static Assert
@@ -49,4 +50,18 @@
  * \section build_first_example Build and run the first example
  *
  * Build and run the example found \ref first_example "here".
+ *
+ * See <a href = "http://www.boost.org/doc/tools/build/index.html">here</a> if you want to use the
+ * boost build system to build the Proto-x examples and unit tests. Here is another good source
+ * of information on the boost build system:
+ * <a href="http://www.highscore.de/cpp/boostbuild/index.html">boost build help</a>.
+ *
+ * \section install_rti Install an HLA 1.3 compliant RTI
+ *
+ * Install an HLA 1.3 RTI when you are ready to start building applications using a real RTI.
+ * See <a href="http://en.wikipedia.org/wiki/Run-Time_Infrastructure_(simulation)">here</a> for a
+ * list of RTI implementations.
+ *
+ * <a href="http://porticoproject.org/index.php?title=Main_Page">Portico</a> is a good open source
+ * solution.
  */

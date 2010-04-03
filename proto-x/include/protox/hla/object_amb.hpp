@@ -28,6 +28,78 @@ namespace hla {
 
 /**************************************************************************************************/
 
+/**
+ * Generates an ambassador that maintains a database of discovered object instances.
+ *
+ * \tparam CLASS_TYPE_VECTOR A vector of object class types to be handled.
+ *
+ * \sa protox::hla::o_class_type
+ * \sa protox::hla::remote_object_inherit
+ *
+ * Example:
+ *
+ * \code
+ * // Platform object class type
+ * typedef o_class_type< platform_som, q_name< Platform > >::type platform_type;
+ *
+ * // An object ambassador used to manage object's that are discovered during runtime.
+ * typedef hla::object_amb< mpl::vector< platform_type > >::type obj_amb_type;
+ *
+ * // Define an HLA federate ambassador used to forward object discovery and update events to a
+ * // proto-x object ambassador.
+ * class fed_amb : public RTI::FederateAmbassador
+ * {
+ * private:
+ *   obj_amb_type   &obj_amb;
+ *
+ * public:
+ *   fed_amb( obj_amb_type &obj_amb, inter_amb_type &inter_amb ) : obj_amb(obj_amb) {}
+ *
+ *  // /////////////////////////////////////////////////////////////////////////////////////////////
+ *  // Object Management Services
+ *  // /////////////////////////////////////////////////////////////////////////////////////////////
+ *
+ *   virtual void discoverObjectInstance( RTI::ObjectHandle      the_object,
+ *                                        RTI::ObjectClassHandle the_object_class,
+ *                                        const char*            the_object_name )
+ *   {
+ *     obj_amb.discover_object( the_object_class, the_object, the_object_name );
+ *   }
+ *
+ *   virtual void reflectAttributeValues( RTI::ObjectHandle                       the_object,
+ *                                        const RTI::AttributeHandleValuePairSet &the_attributes,
+ *                                        const RTI::FedTime&                     the_time,
+ *                                        const char                             *the_tag,
+ *                                        RTI::EventRetractionHandle              the_handle )
+ *   {
+ *     obj_amb.reflect_object( the_object, the_attributes, &the_time, the_tag );
+ *   }
+ *
+ *   virtual void removeObjectInstance( RTI::ObjectHandle          the_object,
+ *                                      const RTI::FedTime&        the_time,
+ *                                      const char                *the_tag,
+ *                                      RTI::EventRetractionHandle the_handle )
+ *   {
+ *     removeObjectInstance( the_object, the_tag );
+ *   }
+ * };
+ *
+ * // Use the proto-x object ambassador to iterate over all objects of type platform_type.
+ * obj_amb_type::const_it< platform_type >::type it;
+ *
+ * for (it = obj_amb.begin< platform_type >(); it != obj_amb.end< platform_type >(); ++it)
+ * {
+ *   const platform_type &p = it->second;
+ *
+ *   // Print the platform's current position.
+ *   cout << "(" << p.a_< Position >().f_< X >() << ", " << p.a_< Position >().f_< Y >() << ")\n";
+ * }
+ *
+ * \endcode
+ */
+
+/**************************************************************************************************/
+
 template< typename CLASS_TYPE_VECTOR >
 struct object_amb
 {

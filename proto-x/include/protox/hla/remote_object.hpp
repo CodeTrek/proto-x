@@ -25,11 +25,20 @@ namespace hla {
 
 /**************************************************************************************************/
 
+/**
+ * Maintains a database of discovered objects of type \a T.
+ *
+ * \tparam T The type of managed object.
+ */
 template< typename T >
 struct remote_object_base
 {
   typedef T remote_object_type;
   typedef std::map< RTI::ObjectHandle, remote_object_type > map_type;
+
+  /**
+   * Used to iterate over objects of type \a T.
+   */
   typedef typename map_type::const_iterator const_it;
 
   map_type objects;
@@ -146,11 +155,18 @@ struct remote_object_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty
 
 /**************************************************************************************************/
 
+/**
+ * Defines \c remote_object functions.
+ */
+
 // A is remote_object and B is set of predecessor remote_objects.
 template< typename A, typename B >
 struct remote_object_inherit : A, B
 {
 public:
+  /**
+   * Forward \c RTI::discoverObjectInstance callbacks to this function.
+   */
   void discover_object( RTI::ObjectClassHandle class_handle,
                         RTI::ObjectHandle object_handle,
                         const char *object_name )
@@ -163,6 +179,9 @@ public:
     B::discover_object( class_handle, object_handle, object_name );
   }
 
+  /**
+   * Forward \c RTI::removeObjectInstance callbacks to this function.
+   */
   void remove_object( RTI::ObjectHandle object_handle )
   {
     if( A::remove_object( object_handle ) )
@@ -173,6 +192,9 @@ public:
     B::remove_object( object_handle );
   }
 
+  /**
+   * Forward \c RTI::reflectAttributeValues callbacks to this function.
+   */
   void reflect_object( RTI::ObjectHandle object_handle,
                        const RTI::AttributeHandleValuePairSet &attrs,
                        const RTI::FedTime *time,
@@ -198,12 +220,18 @@ public:
     return (static_cast< remote_object_base< T > const & >( *this ).objects.end() );
   }
 
+  /**
+   * \return The number of discovered objects of type \a T.
+   */
   template< typename T >
   inline std::size_t size() const
   {
     return (static_cast< remote_object_base< T > const & >( *this ).objects.size() );
   }
 
+  /**
+   * \return true if there are no objects of the given type \a T
+   */
   template< typename T >
   inline bool empty() const
   {
