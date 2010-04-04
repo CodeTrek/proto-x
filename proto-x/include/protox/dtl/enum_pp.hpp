@@ -39,7 +39,7 @@
  *
  * } // skill_level_enum
  *
- * skill_level_enum::Type skill_level;            // defaults to GOOD
+ * skill_level_enum::type skill_level;            // defaults to GOOD
  * skill_level = skill_level_enum::POOR::value(); // Set to POOR
  *
  * \endcode
@@ -47,12 +47,12 @@
  * \def PROTOX_ENUM_TYPE(T, ENUMERATED_TYPE)
  *
  * This macro generates boilerplate code used to define a protox enumerated type. The output from
- * this macro is a class named \c Type. \a T is the basic type used to represent enumerated values,
- * and \c Type derives from \a ENUMERATED_TYPE.
+ * this macro is a class named \c type. \a T is the basic type used to represent enumerated values,
+ * and \c type derives from \a ENUMERATED_TYPE.
  *
  * \def PROTOX_ENUM_EQUALITY_OPERATOR
  *
- * Declares and implements a default equality operator for \c Type.
+ * Declares and implements a default equality operator for \c type.
  *
  * \def PROTOX_ENUM_VALUE(NAME, VALUE)
  *
@@ -63,34 +63,37 @@
  * Defines the default enumerator.
  */
 
+
 #define PROTOX_ENUM_TYPE(T, ENUMERATED_TYPE)                                  \
-  typedef T enum_rep_type;                                                    \
-  typedef ENUMERATED_TYPE< class Type, enum_rep_type > Type_enumerated;       \
                                                                               \
-  class Type : public Type_enumerated                                         \
+  typedef T enum_rep_type;                                                    \
+                                                                              \
+  class type : public ENUMERATED_TYPE< type, enum_rep_type >                  \
   {                                                                           \
   private:                                                                    \
     friend class Enum;                                                        \
                                                                               \
-    Type(enum_rep_type v) : Type_enumerated(v) {}                             \
+    type(enum_rep_type v) : ENUMERATED_TYPE< type, enum_rep_type >(v) {}      \
                                                                               \
   public:                                                                     \
-    Type();                                                                   \
-    Type(const Type & v) : Type_enumerated(v) {}                              \
-    ~Type() {}                                                                \
+    type();                                                                   \
+    type(const type & v) : ENUMERATED_TYPE< type, enum_rep_type >(v) {}       \
+    ~type() {}                                                                \
                                                                               \
     static bool is_equal(enum_rep_type lhs, enum_rep_type rhs);               \
   };                                                                          \
                                                                               \
   class Enum                                                                  \
   {                                                                           \
-    protected: static Type value(enum_rep_type v) { return Type(v); }         \
-  }
+    protected: static type value(enum_rep_type v) { return type(v); }         \
+  };                                                                          \
+                                                                              \
+  typedef ENUMERATED_TYPE< type, enum_rep_type > type_enumerated
 
 /**************************************************************************************************/
 
 #define PROTOX_ENUM_EQUALITY_OPERATOR             \
-  bool Type::is_equal(                            \
+  bool type::is_equal(                            \
     enum_rep_type lhs,                            \
     enum_rep_type rhs ) { return (lhs == rhs); }
 
@@ -99,12 +102,12 @@
 #define PROTOX_ENUM_VALUE(NAME, VALUE)                     \
   struct NAME : private Enum                               \
   {                                                        \
-    static Type value() { return( Enum::value(VALUE) ); }  \
+    static type value() { return( Enum::value(VALUE) ); }  \
   }
 
 /**************************************************************************************************/
 
-#define PROTOX_ENUM_DEFAULT(NAME) Type::Type() : Type_enumerated( NAME::value() ) {}
+#define PROTOX_ENUM_DEFAULT(NAME) type::type() : type_enumerated( NAME::value() ) {}
 
 /**************************************************************************************************/
 

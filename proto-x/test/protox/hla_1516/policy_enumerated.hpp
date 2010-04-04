@@ -118,8 +118,8 @@ namespace test_protox_dtl_hla_1516_codec_enumerated
 
   BOOST_AUTO_TEST_CASE( test_enumerated )
   {
-    BOOST_CHECK( protox::dtl::codec::octet_boundary< HLAboolean::Type >::value == 4 );
-    BOOST_CHECK( protox::dtl::codec::static_size_in_bytes< HLAboolean::Type >::value == 4 );
+    BOOST_CHECK( protox::dtl::codec::octet_boundary< HLAboolean::type >::value == 4 );
+    BOOST_CHECK( protox::dtl::codec::static_size_in_bytes< HLAboolean::type >::value == 4 );
 
     using namespace HLAboolean;
 
@@ -127,7 +127,7 @@ namespace test_protox_dtl_hla_1516_codec_enumerated
 
     protox::io::byte_data_sink sink;
 
-    HLAboolean::Type b = HLAtrue::value();
+    HLAboolean::type b = HLAtrue::value();
     sink.encode( b );
 
     BOOST_CHECK( sink.size() == 4 );
@@ -248,15 +248,15 @@ namespace test_protox_dtl_hla_1516_codec_enumerated
 
   BOOST_AUTO_TEST_CASE( test_enum_pre_processor )
   {
-    test_hla1516::DaysOfWeekEnum16::Type sun = test_hla1516::DaysOfWeekEnum16::Sun::value();
-    test_hla1516::DaysOfWeekEnum16::Type mon = test_hla1516::DaysOfWeekEnum16::Mon::value();
-    test_hla1516::DaysOfWeekEnum16::Type tue = test_hla1516::DaysOfWeekEnum16::Tue::value();
-    test_hla1516::DaysOfWeekEnum16::Type wed = test_hla1516::DaysOfWeekEnum16::Wed::value();
-    test_hla1516::DaysOfWeekEnum16::Type thr = test_hla1516::DaysOfWeekEnum16::Thr::value();
-    test_hla1516::DaysOfWeekEnum16::Type fri = test_hla1516::DaysOfWeekEnum16::Fri::value();
-    test_hla1516::DaysOfWeekEnum16::Type sat = test_hla1516::DaysOfWeekEnum16::Sat::value();
+    test_hla1516::DaysOfWeekEnum16::type sun = test_hla1516::DaysOfWeekEnum16::Sun::value();
+    test_hla1516::DaysOfWeekEnum16::type mon = test_hla1516::DaysOfWeekEnum16::Mon::value();
+    test_hla1516::DaysOfWeekEnum16::type tue = test_hla1516::DaysOfWeekEnum16::Tue::value();
+    test_hla1516::DaysOfWeekEnum16::type wed = test_hla1516::DaysOfWeekEnum16::Wed::value();
+    test_hla1516::DaysOfWeekEnum16::type thr = test_hla1516::DaysOfWeekEnum16::Thr::value();
+    test_hla1516::DaysOfWeekEnum16::type fri = test_hla1516::DaysOfWeekEnum16::Fri::value();
+    test_hla1516::DaysOfWeekEnum16::type sat = test_hla1516::DaysOfWeekEnum16::Sat::value();
 
-    test_hla1516::DaysOfWeekEnum16::Type day01 = test_hla1516::DaysOfWeekEnum16::Thr::value();
+    test_hla1516::DaysOfWeekEnum16::type day01 = test_hla1516::DaysOfWeekEnum16::Thr::value();
 
     BOOST_CHECK( sun == sun );
     BOOST_CHECK( tue == tue );

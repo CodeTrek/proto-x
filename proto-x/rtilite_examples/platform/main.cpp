@@ -96,7 +96,7 @@ struct HLAobjectRoot {HLA_NAME( "HLAobjectRoot" )};
 struct Platform      {HLA_NAME( "Platform" )};
                                              struct Position                   : attr< PositionVector::type >   {HLA_NAME( "Position"                   )};
 //                                                +----------------------------+------------------------------+-------------------------------------------+
-                                             struct Color                      : attr< ColorEnum::Type      >   {HLA_NAME( "Color"                      )};
+                                             struct Color                      : attr< ColorEnum::type      >   {HLA_NAME( "Color"                      )};
 //   +--------------------------------------------+----------------------------+------------------------------+-------------------------------------------+
 
 // /// Object Class Table //////////////////////////////////////////////////////////////////////////

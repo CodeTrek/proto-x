@@ -50,7 +50,7 @@ using namespace protox::hla;
   struct Human         {HLA_NAME( "Human" )};
 //     +--------------------------------------------+----------------------------+----------------------------------+--------------------------------------------+
   struct AI            {HLA_NAME( "AI" )};
-                                               struct SkillLevel                 : attr< SkillLevelEnum::Type >       {HLA_NAME( "SkillLevel" )};
+                                               struct SkillLevel                 : attr< SkillLevelEnum::type >       {HLA_NAME( "SkillLevel" )};
 //     +--------------------------------------------+----------------------------+----------------------------------+--------------------------------------------+
   struct Table         {HLA_NAME( "Table" )};
                                                struct Width                      : attr< Distance >                   {HLA_NAME( "Width" )};
@@ -65,10 +65,10 @@ using namespace protox::hla;
                                                struct Acceleration               : attr< AccelerationVector::type >   {HLA_NAME( "Acceleration" )};
 //     +--------------------------------------------+----------------------------+----------------------------------+--------------------------------------------+
   struct Target        {HLA_NAME( "Target" )
-                                               struct State                      : attr< TargetStateEnum::Type >      {HLA_NAME( "State" )}; };
+                                               struct State                      : attr< TargetStateEnum::type >      {HLA_NAME( "State" )}; };
 //     +--------------------------------------------+----------------------------+----------------------------------+--------------------------------------------+
   struct Marble        {HLA_NAME( "Marble" )};
-                                               struct State                      : attr< MarbleStateEnum::Type >      {HLA_NAME( "State" )};
+                                               struct State                      : attr< MarbleStateEnum::type >      {HLA_NAME( "State" )};
 //     +--------------------------------------------+----------------------------+----------------------------------+--------------------------------------------+
 
 }}

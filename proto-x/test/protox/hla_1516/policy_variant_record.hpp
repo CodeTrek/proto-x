@@ -43,7 +43,7 @@ namespace name   {
 //               +-------+---------------------------------------+------------------------+
             struct alt_3 : dtl::discriminant<      HLAoctet,       mpl::vector< Sat > > {};
 //               +-------+---------------------------------------+------------------------+
-                                                                               struct type : hla_1516::variant_record< DaysOfWeekEnum16::Type, mpl::vector< alt_1, alt_2, alt_3 >,
+                                                                               struct type : hla_1516::variant_record< DaysOfWeekEnum16::type, mpl::vector< alt_1, alt_2, alt_3 >,
 //                       +---------------------------------------+
                            dtl::discriminant_other< HLAfloat32BE > > {};
 //                       +---------------------------------------+
@@ -82,12 +82,12 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     using namespace t1;
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::Type,
+      DaysOfWeekEnum16::type,
       mpl::vector< alt_1, alt_2 >
     > VarRecord01;
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::Type,
+      DaysOfWeekEnum16::type,
       mpl::vector< alt_1, alt_2 >,
       dtl::discriminant_other< HLAfloat32BE > // This is optional
     > VarRecord02;
@@ -105,7 +105,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     using namespace t2;
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::Type,
+      DaysOfWeekEnum16::type,
       mpl::vector< alt_1, alt_2, alt_3 >
     > VarRecord01;
 
@@ -124,7 +124,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     using namespace t3;
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::Type,
+      DaysOfWeekEnum16::type,
       mpl::vector< alt_1, alt_2, alt_3 >
     > VarRecord01;
 
@@ -144,7 +144,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     using namespace t4;
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::Type,
+      DaysOfWeekEnum16::type,
       mpl::vector< alt_1, alt_2, alt_3 >
     > VarRecord01;
 
@@ -163,7 +163,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     using namespace t5;
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::Type,
+      DaysOfWeekEnum16::type,
       mpl::vector< alt_1, alt_2, alt_3 >
     > VarRecord01;
 
@@ -182,7 +182,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     using namespace t6;
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::Type,
+      DaysOfWeekEnum16::type,
       mpl::vector< alt_1, alt_2, alt_3 >,
       dtl::discriminant_other< HLAfloat32BE > // This is optional
     > VarRecord01;
@@ -210,7 +210,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     using namespace t7;
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::Type,
+      DaysOfWeekEnum16::type,
       mpl::vector< alt_1, alt_2, alt_3 >
     > VarRecord01;
 
@@ -229,7 +229,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     using namespace t8;
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::Type,
+      DaysOfWeekEnum16::type,
       mpl::vector< alt_1, alt_2, alt_3 >,
       dtl::discriminant_other< HLAfloat32BE > // This is optional
     > VarRecord01;
@@ -275,7 +275,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat >       > {};
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::Type,
+      DaysOfWeekEnum16::type,
       mpl::vector< alt_1, alt_2, alt_3 >,
       dtl::discriminant_other< HLAfloat32BE > // This is optional
     > VarRecord01;
@@ -284,7 +284,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     struct alt_5 : dtl::discriminant< HLAfloat32BE, mpl::vector< Blue >  > {};
 
     typedef hla_1516::variant_record<
-      ColorEnum16::Type,
+      ColorEnum16::type,
       mpl::vector< alt_4, alt_5 >,
       dtl::discriminant_other< HLAfloat32BE > // This is optional
     > VarRecord02;
@@ -338,7 +338,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     using namespace t10;
 
     typedef hla_1516::variant_record<
-      SuiteEnum8::Type,
+      SuiteEnum8::type,
       mpl::vector< alt_1, alt_2, alt_3 >
     > VarRecord01;
 
@@ -376,7 +376,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     using namespace t11;
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::Type,
+      DaysOfWeekEnum16::type,
       mpl::vector< alt_1, alt_2, alt_3 >,
       dtl::discriminant_other< HLAoctet > // This is optional
     > VarRecord01;
@@ -420,7 +420,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     using namespace t12;
 
     typedef hla_1516::variant_record<
-      SuiteEnum8::Type,
+      SuiteEnum8::type,
       mpl::vector< alt_1, alt_2, alt_3 >
     > VarRecord01;
 
@@ -459,7 +459,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     using namespace t13;
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::Type,
+      DaysOfWeekEnum16::type,
       mpl::vector< alt_1, alt_2, alt_3 >,
       dtl::discriminant_other< HLAoctet > // This is optional
     > VarRecord01;
@@ -499,7 +499,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     using namespace t14;
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::Type,
+      DaysOfWeekEnum16::type,
       mpl::vector< alt_1, alt_2, alt_3 >,
       dtl::discriminant_other< HLAoctet > // This is optional
     > VarRecord01;

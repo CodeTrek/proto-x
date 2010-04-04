@@ -50,6 +50,7 @@ namespace hla_1516 {
  * //                        +---------------------------------------+
  *                            dtl::discriminant_other< HLAfloat32BE > > {};
  * //                        +---------------------------------------+
+ * }
  *
  * using namespace WeekDay;
  *

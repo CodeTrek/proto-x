@@ -41,9 +41,9 @@ using namespace protox::hla_13;
 //      +-----------------------------------+----------+------------------------------------------------+----------------------+
 namespace ConstituentPartRelationshipStruct {
 //      +-----------------------------------+----------+------------------------------------------------+
-                                       struct Nature   : field< ConstituentPartNatureEnum16::Type   > {};
+                                       struct Nature   : field< ConstituentPartNatureEnum16::type   > {};
 //                                          +----------+------------------------------------------------+
-                                       struct Position : field< ConstituentPartPositionEnum16::Type > {};
+                                       struct Position : field< ConstituentPartPositionEnum16::type > {};
 //      +-----------------------------------+----------+------------------------------------------------+
                                                                                             struct type : hla_13::complex_type < mpl::vector< Nature, Position > > {}; }
 //      +-----------------------------------------------------------------------------------------------+----------------------+

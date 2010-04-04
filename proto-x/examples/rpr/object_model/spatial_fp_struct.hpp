@@ -46,7 +46,7 @@ namespace SpatialFPStruct {
 //      +---------------------+----------------+--------------------------------------+
                          struct WorldLocation  : field< WorldLocationStruct::type > {};
 //                            +----------------+--------------------------------------+
-                         struct IsFrozen       : field< BooleanEnum::Type         > {};
+                         struct IsFrozen       : field< BooleanEnum::type         > {};
 //                            +----------------+--------------------------------------+
                          struct Padding        : field< Pad_3::type               > {};
 //                            +----------------+--------------------------------------+
