@@ -18,6 +18,9 @@
 // HLA 1516
 #include <protox/hla_1516/codec_tags.hpp>
 
+// XDR
+#include <protox/xdr/codec_tags.hpp>
+
 // Custom test tags
 #include <test/protox/custom/codec_tags.hpp>
 

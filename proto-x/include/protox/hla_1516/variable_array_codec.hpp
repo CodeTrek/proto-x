@@ -266,6 +266,7 @@ template<> struct codec_impl< protox::hla_1516::HLAvariableArray >
 
     if( num_elements == 0 )
     {
+      obj.clear();
       s.end_variable_array();
       return;
     }

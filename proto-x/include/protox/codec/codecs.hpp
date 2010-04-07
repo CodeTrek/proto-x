@@ -28,6 +28,11 @@
 #include <protox/hla_1516/enumerated_codec.hpp>
 #include <protox/hla_1516/variant_record_codec.hpp>
 
+// XDR codec policies
+#include <protox/xdr/basic_data_codec.hpp>
+#include <protox/xdr/fixed_length_opaque_codec.hpp>
+#include <protox/xdr/variable_length_opaque_codec.hpp>
+
 // Custom test tags
 #include <test/protox/custom/custom_data_codec.hpp>
 

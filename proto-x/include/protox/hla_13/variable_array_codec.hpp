@@ -182,6 +182,7 @@ template<> struct codec_impl< protox::hla_13::HLA13variableArray >
 
     if( num_elements == 0 )
     {
+      obj.clear();
       s.end_variable_array();
       return;
     }
