@@ -35,12 +35,14 @@ namespace dtl {
 
 template<> struct codec_impl< protox::xdr::xdr_fixed_length_opaque >
 {
+private:
   template< int N >
   struct num_pad_bytes
   {
-    static const int value = boost::mpl::int_< (((N % 4) == 0) ? 0 : (4 - (N % 4))) >::value;
+    static const int value = boost::mpl::int_< ((4 - (N % 4)) % 4) >::value;
   };
 
+public:
   template< typename T >
   struct octet_boundary
   {

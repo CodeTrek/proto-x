@@ -39,7 +39,7 @@ template<> struct codec_impl< protox::xdr::xdr_variable_length_opaque >
 private:
   static unsigned num_pad_bytes( const unsigned N )
   {
-    return (((N % 4) == 0) ? 0 : (4 -(N % 4)));
+    return ((4 -(N % 4)) % 4);
   }
 
 public:
