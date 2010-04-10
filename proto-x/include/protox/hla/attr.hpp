@@ -63,6 +63,8 @@ public:
   void set_updated( bool f ) { updated = f; }
 
 protected:
+  bool is_updated() const { return updated; }
+
   template< typename S >
   void init_handle( const std::string &class_name )
   {
@@ -76,6 +78,13 @@ protected:
 
   void update_value( boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr )
   {
+    if (!is_updated())
+    {
+      return;
+    }
+
+    set_updated( false );
+
     protox::io::byte_data_sink sink;
     sink.encode( value );
     set_ptr->add( handle, sink.getDataBuffer(), (unsigned long) sink.getDataBufferSize() );
@@ -99,7 +108,6 @@ protected:
     }
   }
 
-  bool is_updated() const { return updated; }
 };
 
 /**************************************************************************************************/
@@ -239,7 +247,6 @@ public:
     if (A::is_updated())
     {
       handles.push_back( A::handle ); 
-      A::set_updated( false );
     }
   }
 
@@ -328,7 +335,6 @@ public:
     if (A::is_updated())
     {
       handles.push_back( A::handle ); 
-      A::set_updated( false );
     }
 
     B::collect_updated_attrs( handles );
