@@ -18,6 +18,8 @@
 
 #include <boost/mpl/empty_base.hpp>
 
+#include <protox/hla/object_event_type.hpp>
+
 /**************************************************************************************************/
 
 namespace protox {
@@ -43,22 +45,30 @@ struct remote_object_base
 
   map_type objects;
 
-  remote_object_base() {}
+  void (*handler)
+    ( const remote_object_type &, object_event_type, const RTI::FedTime *, const char *tag );
+
+  remote_object_base() : handler(0) {}
 
   bool add_object( RTI::ObjectClassHandle class_handle,
                    RTI::ObjectHandle object_handle,
                    const char *object_name )
   {
-    if( remote_object_type::get_handle() != class_handle )
+    if (remote_object_type::get_handle() != class_handle)
     {
       return false;
     }
 
     objects[ object_handle ] = remote_object_type();
 
-    if( object_name != 0 )
+    if (object_name != 0)
     {
       objects[ object_handle ].set_obj_name( std::string( object_name ) );
+    }
+
+    if (handler != 0)
+    {
+      (*handler)( objects[ object_handle ], protox::hla::OBJ_DISCOVERED, 0, 0 );
     }
 
     return true;
@@ -66,7 +76,15 @@ struct remote_object_base
 
   bool delete_object( RTI::ObjectHandle object_handle )
   {
-    return( objects.erase( object_handle ) == 1 );
+   if (objects.find( object_handle ) != objects.end())
+    {
+      if (handler != 0)
+      {
+        (*handler)( objects[ object_handle ], protox::hla::OBJ_REMOVED, 0, 0 );
+      }
+    }
+
+    return (objects.erase( object_handle ) == 1);
   }
 
   bool reflect( RTI::ObjectHandle object_handle,
@@ -76,12 +94,17 @@ struct remote_object_base
   {
     typename map_type::iterator it = objects.find( object_handle );
 
-    if( it == objects.end() )
+    if (it == objects.end())
     {
       return false;
     }
 
     it->second.reflect( attrs, time );
+
+    if (handler != 0)
+    {
+      (*handler)( objects[ object_handle ], protox::hla::OBJ_REFLECTED, time, tag );
+    }
 
     return true;
   }
@@ -97,13 +120,20 @@ template< typename A, typename B > struct remote_object_inherit;
 template< typename A >
 struct remote_object_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty_base
 {
+  template< typename T >
+  inline void set_handler
+    ( void (*h)( const T &, object_event_type, const RTI::FedTime *, const char *tag ) )
+  {
+    static_cast< remote_object_base< T > & >( *this ).handler = h;
+  }
+
   void discover_object( RTI::ObjectClassHandle class_handle,
                         RTI::ObjectHandle object_handle,
                         const char *object_name )
   {
     bool obj_added = A::add_object( class_handle, object_handle, object_name );
 
-    if( !obj_added )
+    if (!obj_added)
     {
       throw RTI::ObjectClassNotKnown( "" );
     }
@@ -119,9 +149,9 @@ struct remote_object_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty
                        const RTI::FedTime *time,
                        const char *tag )
   {
-    bool reflected = A::reflect( object_handle, attrs, time, tag );
+    const bool reflected = A::reflect( object_handle, attrs, time, tag );
 
-    if( !reflected )
+    if (!reflected)
     {
       throw RTI::ObjectNotKnown( "" );
     }
@@ -131,13 +161,13 @@ struct remote_object_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty
   template< typename T >
   inline typename remote_object_base< T >::const_it begin() const
   {
-    return( static_cast< remote_object_base< T > const & >( *this ).objects.begin() );
+    return (static_cast< remote_object_base< T > const & >( *this ).objects.begin());
   }
 
   template< typename T >
   inline typename remote_object_base< T >::const_it end() const
   {
-    return( static_cast< remote_object_base< T > const & >( *this ).objects.end() );
+    return (static_cast< remote_object_base< T > const & >( *this ).objects.end());
   }
 
   template< typename T >
@@ -149,7 +179,7 @@ struct remote_object_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty
   template< typename T >
   inline bool empty() const
   {
-    return( static_cast< remote_object_base< T > const & >( *this ).objects.empty() );
+    return (static_cast< remote_object_base< T > const & >( *this ).objects.empty());
   }
 };
 
@@ -163,7 +193,13 @@ struct remote_object_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty
 template< typename A, typename B >
 struct remote_object_inherit : A, B
 {
-public:
+  template< typename T >
+  inline void set_handler
+    ( void (*h)( const T &, object_event_type, const RTI::FedTime *, const char *tag ) )
+  {
+    static_cast< remote_object_base< T > & >( *this ).handler = h;
+  }
+
   /**
    * Forward \c RTI::discoverObjectInstance callbacks to this function.
    */
@@ -171,7 +207,7 @@ public:
                         RTI::ObjectHandle object_handle,
                         const char *object_name )
   {
-    if( A::add_object( class_handle, object_handle, object_name ) )
+    if (A::add_object( class_handle, object_handle, object_name ))
     {
       return;
     }
@@ -184,7 +220,7 @@ public:
    */
   void remove_object( RTI::ObjectHandle object_handle )
   {
-    if( A::remove_object( object_handle ) )
+    if (A::remove_object( object_handle ))
     {
       return;
     }
@@ -200,7 +236,7 @@ public:
                        const RTI::FedTime *time,
                        const char *tag )
   {
-    if( A::reflect( object_handle, attrs, time, tag ) )
+    if (A::reflect( object_handle, attrs, time, tag ))
     {
       return;
     }
@@ -211,13 +247,13 @@ public:
   template< typename T >
   inline typename remote_object_base< T >::const_it begin() const
   {
-    return( static_cast< remote_object_base< T > const & >( *this ).objects.begin() );
+    return (static_cast< remote_object_base< T > const & >( *this ).objects.begin());
   }
 
   template< typename T >
   inline typename remote_object_base< T >::const_it end() const
   {
-    return (static_cast< remote_object_base< T > const & >( *this ).objects.end() );
+    return (static_cast< remote_object_base< T > const & >( *this ).objects.end());
   }
 
   /**
@@ -226,7 +262,7 @@ public:
   template< typename T >
   inline std::size_t size() const
   {
-    return (static_cast< remote_object_base< T > const & >( *this ).objects.size() );
+    return (static_cast< remote_object_base< T > const & >( *this ).objects.size());
   }
 
   /**
@@ -235,7 +271,7 @@ public:
   template< typename T >
   inline bool empty() const
   {
-    return (static_cast< remote_object_base< T > const & >( *this ).objects.empty() );
+    return (static_cast< remote_object_base< T > const & >( *this ).objects.empty());
   }
 };
 

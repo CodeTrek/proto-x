@@ -39,7 +39,6 @@ namespace hla_1516 {
  * namespace PositionVector {
  * //      +----------------+----------+---------------------+
  *                     struct X        : field< Distance > {};
- * //                       +----------+---------------------+
  *                     struct Y        : field< Distance > {};
  * //      +----------------+----------+---------------------+
  *                                               struct type : hla_1516::fixed_record < mpl::vector< X, Y > > {}; }

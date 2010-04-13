@@ -38,9 +38,7 @@ namespace hla_1516 {
  * namespace SkillLevelEnum { PROTOX_ENUM_TYPE( HLAinteger16BE, enumerated );
  * //      +----------------+-----------------------------------------------+------------+--------+
  *                                                         PROTOX_ENUM_VALUE( POOR,        1 );
- * //                                                                       +------------+--------+
  *                                                         PROTOX_ENUM_VALUE( GOOD,        2 );
- * //                                                                       +------------+--------+
  *                                                         PROTOX_ENUM_VALUE( EXCELLENT,   3 );
  * //      +----------------+-----------------------------------------------+------------+--------+
  *

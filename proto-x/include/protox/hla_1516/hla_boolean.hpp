@@ -34,7 +34,6 @@ namespace hla_1516 {
 namespace HLAboolean    {PROTOX_ENUM_TYPE( HLAinteger32BE, enumerated );
 //      +----------------+-----------------------------------------------+------------+--------+
                                                         PROTOX_ENUM_VALUE( HLAfalse,        0 );
-//                                                                       +------------+--------+
                                                         PROTOX_ENUM_VALUE( HLAtrue,         1 );
 //      +----------------+-----------------------------------------------+------------+--------+
 
