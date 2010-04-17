@@ -30,7 +30,7 @@ namespace hla {
 
 /**
  * Generates an interaction ambassador that can be used to forward a received interaction to
- * interaction type safe handler function.
+ * an interaction type safe handler function.
  *
  * \tparam CLASS_TYPE_VECTOR A vector of interaction class types to be handled.
  *

@@ -34,9 +34,9 @@
 #include "test/protox/hla/test_som.hpp"
 #include "test/protox/hla/test_o_class_type.hpp"
 #include "test/protox/hla/test_i_class_type.hpp"
+
 #include "test/protox/hla/test_object_amb.hpp"
 #include "test/protox/hla/test_interaction_amb.hpp"
-
 
 // XDR tests
 #include "test/protox/xdr/policy_basic_data.hpp"

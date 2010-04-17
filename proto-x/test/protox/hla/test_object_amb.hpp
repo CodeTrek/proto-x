@@ -48,11 +48,48 @@ using namespace protox::hla_1516;
 
 /******************************************************************************/
 
-BOOST_AUTO_TEST_CASE( test_discover_object )
+namespace t1
 {
   using namespace som_s012;
 
   typedef protox::hla::som< o_class_table > som;
+
+  typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > >::type c1;
+  typedef o_class_type< som, q_name< Class_D, Class_H > >::type c2;
+  typedef o_class_type< som, q_name< Class_B > >::type c3;
+
+  typedef hla::object_amb< mpl::vector< c1, c2, c3 > >::type obj_amb_type;
+
+  bool c1_obj_discovered = false;
+  bool c1_obj_reflected = false;
+
+  void c1_handler( const c1 &obj,
+                   protox::hla::object_event_type event,
+                   const RTI::FedTime *,
+                   const char * )
+  {
+    switch (event)
+    {
+    case protox::hla::OBJ_DISCOVERED:
+      c1_obj_discovered = true;
+      BOOST_CHECK( obj.get_obj_name() == "c1_1" );
+      break;
+    case protox::hla::OBJ_REFLECTED:
+      c1_obj_reflected = true;
+      break;
+    }
+  }
+}
+
+/******************************************************************************/
+
+BOOST_AUTO_TEST_CASE( test_discover_object )
+{
+  //using namespace som_s012;
+
+  using namespace t1;
+
+  //typedef protox::hla::som< o_class_table > som;
 
   RTI::RTIambassador rti_amb;
   rti_amb.o_class_to_handle_map[ "Class_A"                         ] =  1;
@@ -70,11 +107,15 @@ BOOST_AUTO_TEST_CASE( test_discover_object )
   rti_amb.o_class_to_handle_map[ "Class_A.Class_D.Class_H"         ] = 11;
   som::init_handles( rti_amb );
 
-  typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > >::type c1;
-  typedef o_class_type< som, q_name< Class_D, Class_H > >::type c2;
-  typedef o_class_type< som, q_name< Class_B > >::type c3;
+  //typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > >::type c1;
+  //typedef o_class_type< som, q_name< Class_D, Class_H > >::type c2;
+  // typedef o_class_type< som, q_name< Class_B > >::type c3;
 
-  hla::object_amb< mpl::vector< c1, c2, c3 > >::type obj_amb;
+  //hla::object_amb< mpl::vector< c1, c2, c3 > >::type obj_amb;
+  obj_amb_type obj_amb;
+  obj_amb.set_handler( c1_handler );
+
+  BOOST_CHECK( c1_obj_discovered == false );
 
   BOOST_CHECK( obj_amb.empty< c1 >() == true );
   BOOST_CHECK( obj_amb.empty< c2 >() == true );
@@ -82,6 +123,7 @@ BOOST_AUTO_TEST_CASE( test_discover_object )
 
   obj_amb.discover_object( 12, 1, "c1_1" );
 
+  BOOST_CHECK( c1_obj_discovered == true );
   BOOST_CHECK( obj_amb.size< c1 >() == 1 );
 
   //const char a = obj_amb.begin< c1 >()->second.a_< A3 >().f_< f1 >();

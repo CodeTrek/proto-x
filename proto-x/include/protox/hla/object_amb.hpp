@@ -29,7 +29,9 @@ namespace hla {
 /**************************************************************************************************/
 
 /**
- * Generates an ambassador that maintains a database of discovered object instances.
+ * Generates an ambassador that maintains a database of discovered object instances. You can
+ * also register type safe callback handlers that is invoked whenever an object is discovered,
+ * relfected, or removed.
  *
  * \tparam CLASS_TYPE_VECTOR A vector of object class types to be handled.
  *
@@ -44,6 +46,8 @@ namespace hla {
  *
  * // An object ambassador used to manage object's that are discovered during runtime.
  * typedef hla::object_amb< mpl::vector< platform_type > >::type obj_amb_type;
+ *
+ * obj_amb_type obj_amb;
  *
  * // Define an HLA federate ambassador used to forward object discovery and update events to a
  * // proto-x object ambassador.
@@ -95,6 +99,28 @@ namespace hla {
  *   cout << "(" << p.a_< Position >().f_< X >() << ", " << p.a_< Position >().f_< Y >() << ")\n";
  * }
  *
+ * // Platform object type handler.
+ * static void platform_handler( const platform_type &obj,
+ *                               hla::object_event_type event,
+ *                               const RTI::FedTime *,
+ *                               const char *tag )
+ * {
+ *   switch (event)
+ *   {
+ *     case protox::hla::OBJ_DISCOVERED:
+ *       cout << "object " << obj.get_obj_name().c_str() << " discovered.\n";
+ *       break;
+ *     case protox::hla::OBJ_REFLECTED:
+ *       cout << "object " << obj.get_obj_name().c_str() << " reflected.\n";
+ *       break;
+ *     case protox::hla::OBJ_REMOVED:
+ *       cout << "object " << obj.get_obj_name().c_str() << " removed.\n";
+ *       break;
+ *   }
+ * }
+ *
+ * // Register our handler with our object ambassador.
+ * obj_amb.set_handler( platform_handler );
  * \endcode
  */
 
