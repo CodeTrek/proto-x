@@ -14,6 +14,7 @@ project
       <target-os>linux:<linkflags>-L$(RTI_HOME)/lib
       
       <include>$(RTI_HOME)/include/ng6
+      <include>$(RTI_HOME)/include
       <include>.
       <include>..
   ;
