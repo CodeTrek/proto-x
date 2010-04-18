@@ -132,7 +132,6 @@ protected:
  * //     +------------------------------+-----------+-------------------+----------------------+
  *   struct Player {HLA_NAME( "Player" )};
  *                                  struct Name      : attr< ASCIIString > {HLA_NAME( "Name"  )};
- * //                                    +-------------------------------+----------------------+
  *                                  struct Score     : attr< Count >       {HLA_NAME( "Score" )};
  * //     +------------------------------------------+-------------------+----------------------+
  *
@@ -154,35 +153,29 @@ template< typename A, typename B > struct attr_inherit;
 
 struct attr_empty_base
 {
-public:
   template< typename T >
   void init_handles( const std::string &class_name ) {}
 
   void update_values( boost::shared_ptr< RTI::AttributeHandleValuePairSet> set_ptr ) {}
 
   template< typename T >
-  static void collect_handles( const std::string &class_name,
-                               std::set< std::string > *attr_names,
+  static void collect_handles( const std::string &,
+                               std::set< std::string > *,
                                RTI::AttributeHandleSet & )
   {}
 
-  static RTI::ULong count_attrs()
-  {
-    return 0;
-  }
+  static RTI::ULong count_attrs() { return 0; }
 
   static void set_state( attr_state ) {}
 
   void collect_updated_attrs( std::vector< RTI::AttributeHandle > & ) {}
 
-public:
   void reflect( const RTI::AttributeHandleValuePairSet &, const RTI::FedTime * ) {}
 
   template< typename T >
   inline RTI::AttributeHandle get_attr_handle()
   {
-    // TODO: throw attribute not found exception
-    return -1;
+    throw RTI::AttributeNotDefined( "attribute not defined" );
   }
 };
 
@@ -223,24 +216,11 @@ public:
         attr_names->erase( A::name() );
       }
     }
-
-    // Undefined attributes?
-    //if (!attr_names.empty())
-    //{
-    //  std::string name = *attr_names.begin();
-    //  throw RTI::AttributeNotDefined( (name + " not defined").c_str() );
-    //}
   }
   
-  static RTI::ULong count_attrs()
-  {
-    return 1;
-  }
+  static RTI::ULong count_attrs() { return 1; }
 
-  static void set_state( attr_state s )
-  {
-    A::set( s );
-  }
+  static void set_state( attr_state s ) { A::set( s ); }
 
   void collect_updated_attrs( std::vector< RTI::AttributeHandle > &handles )
   {
@@ -262,6 +242,12 @@ public:
   {
     static_cast< attr_base< T > & >( *this ).set_updated( true );
     return (static_cast< attr_base< T > & >( *this ).value);
+  }
+
+  template< typename T >
+  inline RTI::AttributeHandle get_attr_handle()
+  {
+    return (static_cast< attr_base< T > & >( *this ).handle);
   }
 
   void reflect( const RTI::AttributeHandleValuePairSet &ahv_set, const RTI::FedTime *time )

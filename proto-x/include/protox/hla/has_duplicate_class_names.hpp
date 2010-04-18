@@ -74,7 +74,10 @@ struct has_duplicate_class_names_impl< false, SET >
 template< typename SET >
 struct has_duplicate_class_names
 {
-  typedef typename has_duplicate_class_names_impl< boost::mpl::empty<SET>::value, SET >::type type;
+  typedef typename has_duplicate_class_names_impl<
+    boost::mpl::empty< SET >::value,
+    SET
+  >::type type;
 };
 
 /**************************************************************************************************/

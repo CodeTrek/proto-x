@@ -42,16 +42,15 @@ namespace hla {
 
 struct init_attr_handle
 {
+private:
   RTI::RTIambassador &rti_amb;
   RTI::ObjectClassHandle class_handle;
   o_class_handle_to_attr_map &map;
-  
+
+public:
   init_attr_handle( RTI::RTIambassador &rti_amb,
                     RTI::ObjectClassHandle ch,
-                    o_class_handle_to_attr_map &m ) :
-    rti_amb(rti_amb),
-    class_handle(ch),
-    map(m)
+                    o_class_handle_to_attr_map &m ) : rti_amb(rti_amb), class_handle(ch), map(m)
   {}
 
   template< typename N >
@@ -60,7 +59,7 @@ struct init_attr_handle
     // Find the class handle entry
     o_class_handle_to_attr_map::iterator i = map.find( class_handle );
 
-    if( i == map.end() )
+    if (i == map.end())
     {
       map[ class_handle ] = attr_name_to_handle_map();
     }
@@ -69,7 +68,7 @@ struct init_attr_handle
     attr_name_to_handle_map::iterator j = map[ class_handle ].find( N::name() );
 
     // No entry for the attribute name?
-    if( j == map[ class_handle ].end() )
+    if (j == map[ class_handle ].end())
     {
       map[ class_handle ][ N::name() ] = rti_amb.getAttributeHandle( N::name(), class_handle );
     }
@@ -91,6 +90,7 @@ template< bool empty, typename Children, typename Stack > struct attr_dft_childr
 template< typename Children, typename Stack >
 struct attr_dft_children< false, Children, Stack >
 {
+private:
   // Separate the first child from the rest.
   typedef typename boost::mpl::front< Children >::type first_child;
 
@@ -103,6 +103,7 @@ struct attr_dft_children< false, Children, Stack >
   // Traverse the remaining children.
   typedef attr_dft_children< boost::mpl::empty< tail >::value, tail, typename stack::type > result;
 
+public:
   typedef typename result::type type;
 
   static void dump_stack()
@@ -174,7 +175,7 @@ struct attr_dft_children< true, Children, Stack >
     boost::mpl::for_each< Stack >( build_full_name( full_name, REVERSED ) );
 
     // No object classes?
-    if( full_name.empty() )
+    if (full_name.empty())
     {
       return;
     }
@@ -198,6 +199,7 @@ struct attr_dft_children< true, Children, Stack >
 template< typename T, typename Stack = boost::mpl::vector<> >
 struct attr_dft
 {
+private:
   // Push the root of the tree onto a stack.  
   typedef typename boost::mpl::push_front< Stack, T >::type stack;
 
@@ -208,6 +210,7 @@ struct attr_dft
     stack
   > result;
   
+public:
   typedef typename result::type type;
 
   static void dump_stack()

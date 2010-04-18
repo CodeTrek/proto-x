@@ -35,13 +35,13 @@ struct build_full_name
   template< typename N >
   void operator()( N )
   {
-    if( full_name.empty() )
+    if (full_name.empty())
     {
       full_name = std::string( N::name_type::name() );
     }
     else
     {
-      if( reverse == REVERSED )
+      if (reverse == REVERSED)
       {
         full_name = std::string( N::name_type::name() ) + "." + full_name;
       }

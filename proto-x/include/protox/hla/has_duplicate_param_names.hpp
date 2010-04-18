@@ -69,7 +69,10 @@ struct has_duplicate_param_names_impl< false, SET >
 template< typename SET >
 struct has_duplicate_param_names
 {
-  typedef typename has_duplicate_param_names_impl< boost::mpl::empty<SET>::value, SET >::type type;
+  typedef typename has_duplicate_param_names_impl<
+    boost::mpl::empty< SET >::value,
+    SET
+  >::type type;
 };
 
 /**************************************************************************************************/

@@ -429,7 +429,7 @@ public:
       std::string parent = "";
       std::string::size_type pos = class_name.find_last_of( '.' );
 
-      if( pos != std::string::npos )
+      if (pos != std::string::npos)
       {
         parent = class_name.substr( 0, pos );
       }

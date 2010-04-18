@@ -100,7 +100,7 @@ struct i_class_type_impl
         static bool initialized = false;
         static RTI::ObjectClassHandle handle;
 
-        if( !initialized )
+        if (!initialized)
         {
           const std::string &name = type::get_name();
           handle = SOM::get_interaction_class_handle( name );

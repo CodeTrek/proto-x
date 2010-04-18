@@ -57,7 +57,6 @@ namespace dtl {
  *       | Name                                  | Size in bits | Endian       | Encoding                     |
  *       +---------------------------------------+--------------+--------------+------------------------------+
  *  struct HLAoctet       : basic< unsigned char,   8,            endian::na,    HLAportable                  > {PROTOX_BASIC( HLAoctet )      };
- *       +---------------------------------------+--------------+--------------+------------------------------+
  *  struct HLAinteger16BE : basic< unsigned short, 16,            endian::big,   HLA16BitTwosComplementSigned > {PROTOX_BASIC( HLAinteger16BE )};
  *       +---------------------------------------+--------------+--------------+------------------------------+
  *

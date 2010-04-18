@@ -60,7 +60,7 @@ struct init_param_handle
     // Find the class handle entry
     i_class_handle_to_param_map::iterator i = map.find( class_handle );
 
-    if( i == map.end() )
+    if (i == map.end())
     {
       map[ class_handle ] = param_name_to_handle_map();
     }
@@ -69,7 +69,7 @@ struct init_param_handle
     param_name_to_handle_map::iterator j = map[ class_handle ].find( N::name() );
 
     // No entry for  parameter name?
-    if( j == map[ class_handle ].end() )
+    if (j == map[ class_handle ].end())
     {
       map[ class_handle ][ N::name() ] = rtiAmb.getParameterHandle( N::name(), class_handle );
     }
@@ -174,7 +174,7 @@ struct param_dft_children< true, Children, Stack >
     boost::mpl::for_each< Stack >( build_full_name( full_name, REVERSED ) );
 
     // No interaction classes?
-    if( full_name.empty() )
+    if (full_name.empty())
     {
       return;
     }

@@ -57,11 +57,11 @@ protected:
   
   void recv_value( const RTI::ParameterHandleValuePairSet &ph_set )
   {
-    for( RTI::ULong i = 0; i < ph_set.size(); ++i )
+    for (RTI::ULong i = 0; i < ph_set.size(); ++i)
     {
       const RTI::Handle h = ph_set.getHandle( i );
       
-      if( handle == h )
+      if (handle == h)
       {
         RTI::ULong length = 0;
         char *buff = ph_set.getValuePointer( i, length );
@@ -97,9 +97,7 @@ protected:
  * //     +------------------------------------+---------------+-------------------------+----------------------------+
  *   struct FoodServed {HLA_NAME("FoodServed")};
  *                                        struct TemperatureOk : param< HLAboolean::type > {HLA_NAME("TemperatureOk")};
- * //                                          +---------------+-------------------------+----------------------------+
  *                                        struct AccuracyOk    : param< HLAboolean::type > {HLA_NAME("AccuracyOk"   )};
- * //                                          +---------------+-------------------------+----------------------------+
  *                                        struct TimelinessOk  : param< HLAboolean::type > {HLA_NAME("TimelinessOk" )};
  * //     +------------------------------------+---------------+-------------------------+----------------------------+
  * \endcode
@@ -130,8 +128,7 @@ struct param_empty_base
   template< typename T >
   inline RTI::ParameterHandle get_param_handle()
   {
-    // TODO: throw attribute not found exception
-    return -1;
+    throw RTI::ParameterNotDefined( "parameter not defined" );
   }
 
   void add_values( boost::shared_ptr< RTI::ParameterHandleValuePairSet > ) {}

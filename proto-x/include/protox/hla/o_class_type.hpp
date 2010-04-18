@@ -87,7 +87,7 @@ struct o_class_type_impl
         std::vector< std::string > name_vec;
         protox::algorithm::string::tokenize( names, '.', name_vec );
 
-        if( name_vec.empty() )
+        if (name_vec.empty())
         {
           return;
         }
@@ -138,7 +138,7 @@ struct o_class_type_impl
         static bool initialized = false;
         static RTI::ObjectClassHandle handle;
 
-        if( !initialized )
+        if (!initialized)
         {
           const std::string &name = type::get_name();
           handle = SOM::get_object_class_handle( name );
@@ -286,7 +286,7 @@ struct o_class_type_impl
 
         update_values( set_ptr );
 
-        if( time == 0 )
+        if (time == 0)
         {
           rti_amb->updateAttributeValues( obj_handle, *set_ptr, "" );
         }
