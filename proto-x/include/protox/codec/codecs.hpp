@@ -30,8 +30,13 @@
 
 // XDR codec policies
 #include <protox/xdr/basic_data_codec.hpp>
+#include <protox/xdr/structure_codec.hpp>
+#include <protox/xdr/fixed_length_array_codec.hpp>
+#include <protox/xdr/variable_length_array_codec.hpp>
 #include <protox/xdr/fixed_length_opaque_codec.hpp>
 #include <protox/xdr/variable_length_opaque_codec.hpp>
+#include <protox/xdr/enumerated_codec.hpp>
+#include <protox/xdr/string_codec.hpp>
 
 // Custom test tags
 #include <test/protox/custom/custom_data_codec.hpp>

@@ -15,7 +15,8 @@
 /**
  * \namespace protox::xdr
  *
- * XDR encoding.
+ * External data representation (XDR) encoding.
+ * See <a href = "http://www.ietf.org/rfc/rfc1832.txt">XDR reference</a>
  */
 
 namespace protox {
@@ -31,7 +32,7 @@ struct xdr_opaque {};
 /**
  * 32 bit, two's complement signed integer.
  */
-struct xdr_twos_complement_signed_integer {};
+struct xdr_signed_integer {};
 
 /**
  * 32 bit, unsigned integer.
@@ -48,11 +49,11 @@ struct xdr_ieee_floating_point {};
  */
 struct xdr_ieee_double_precision {};
 
+struct xdr_string {};
+
 struct xdr_fixed_length_opaque {};
 
 struct xdr_variable_length_opaque {};
-
-struct xdr_string {};
 
 struct xdr_enumerated {};
 
@@ -65,7 +66,6 @@ struct xdr_structure {};
 struct xdr_union {};
 
 struct xdr_void {};
-
 
 /**************************************************************************************************/
 

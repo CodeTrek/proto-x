@@ -103,7 +103,7 @@ template<> struct codec_impl< xdr::xdr_opaque > : xdr_basic_codec_impl {};
 
 /**************************************************************************************************/
 
-template<> struct codec_impl< xdr::xdr_twos_complement_signed_integer > : xdr_basic_codec_impl {};
+template<> struct codec_impl< xdr::xdr_signed_integer > : xdr_basic_codec_impl {};
 
 /**************************************************************************************************/
 

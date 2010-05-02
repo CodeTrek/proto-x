@@ -7,8 +7,8 @@
 
 /**************************************************************************************************/
 
-#ifndef PROTOX_XDR_VARIABLE_LENGTH_OPAQUE_CODEC_HPP
-#define PROTOX_XDR_VARIABLE_LENGTH_OPAQUE_CODEC_HPP
+#ifndef PROTOX_XDR_STRING_CODEC_HPP
+#define PROTOX_XDR_STRING_CODEC_HPP
 
 /**************************************************************************************************/
 
@@ -23,6 +23,7 @@
 #include <boost/mpl/multiplies.hpp>
 
 #include <protox/dtl/codec_interface.hpp>
+#include <protox/dtl/unknown_static_size.hpp>
 
 #include <protox/xdr/codec_tags.hpp>
 #include <protox/xdr/basic_data_representation_table.hpp>
@@ -34,7 +35,7 @@ namespace dtl {
 
 /**************************************************************************************************/
 
-template<> struct codec_impl< protox::xdr::xdr_variable_length_opaque >
+template<> struct codec_impl< protox::xdr::xdr_string >
 {
 private:
   static unsigned num_pad_bytes( const unsigned N )
@@ -60,7 +61,7 @@ public:
   {
     assert( obj.size() <= T::UPPER_BOUND );
 
-    return (   codec::static_size_in_bytes< xdr::UnsignedInteger >::value
+    return (   codec::static_size_in_bytes< UnsignedInteger >::value
              + obj.size()
              + num_pad_bytes( obj.size() ));
   };
@@ -68,13 +69,13 @@ public:
   template< typename S, typename A >
   inline static void encode( S &s, A const &obj )
   {
-    assert( obj.size() <= A::UPPER_BOUND );
-
     s.start_variable_array();
+    
+    const UnsignedInteger num_chars = obj.size();
 
-    codec::encode( s, obj.size() );
+    codec::encode( s, num_chars );
 
-    int i = 0;
+    unsigned i = 0;
 
     for (i = 0; i < obj.size(); ++i)
     {
@@ -85,7 +86,7 @@ public:
 
     for (i = 0; i < num_pad_bytes( obj.size() ); ++i )
     {
-      ecode::encode( s, ZERO_BYTE );
+      codec::encode( s, ZERO_BYTE );
     }
 
     s.end_variable_array();
@@ -96,26 +97,26 @@ public:
   {
     s.start_fixed_array();
 
-    xdr::UnsignedInteger num_elements = 0;
+    UnsignedInteger num_chars = 0;
 
-    codec::decode( num_elements, s, offset )
+    codec::decode( num_chars, s, offset );
 
-    if (num_elements == 0)
+    if (num_chars == 0)
     {
       obj.clear();
       s.end_variable_array();
       return;
     }
 
-    obj.resize( num_elements );
+    obj.resize( num_chars );
 
-    for( unsigned i = 0; i < num_elements; ++i )
+    for( int i = 0; i < num_chars; ++i )
     {
       codec::decode( obj[ i ], s, offset );
     }
 
     // Add pad bytes
-    offset += num_pad_bytes( num_elements );
+    offset += num_pad_bytes( num_chars );
 
     s.end_variable_array();
   }
