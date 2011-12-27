@@ -55,11 +55,12 @@
  *
  * \image html protox_arch.png "proto-x layered architecture"
  *
- * The <b>data type language</b> (DTL) layer is a domain specific language for declaring basic, simple and
- * structured data types in a protocol neutral way. Within the DTL layer are the components used to
- * define basic proto-x data types that form a bridge between native c++ types and proto-x types.
- * Basic types can be further refined as simple types, which in turn are used to define enumerated
- * types and structured types including fixed and variant records, and fixed and variable arrays.
+ * The <b>data type language</b> (DTL) layer is a domain specific language for declaring basic,
+ * simple and structured data types in a protocol neutral way. Within the DTL layer are the
+ * components used to define basic proto-x data types that form a bridge between native c++ types
+ * and proto-x types. Basic types can be further refined as simple types, which in turn are used to
+ * define enumerated types and structured types including fixed and variant records, and fixed and
+ * variable arrays.
  *
  * \sa protox::dtl
  *
@@ -71,11 +72,11 @@
  * \sa protox::hla_13
  * \sa protox::hla_1516
  *
- * The <b>data exchange model</b> applies to those protocols that define a data model on top of the simple
- * and structured data types defined in the DTL layer. For example, both the HLA 1.3 and HLA 1516
- * standards require a simulation application to define a simulation object model (SOM). Briefly,
- * a SOM is data exchange contract between a simulation and a federation of simulations. A SOM
- * defines the data exchange capabilities of a simulation, i.e., what data the simulation will
+ * The <b>data exchange model</b> applies to those protocols that define a data model on top of the
+ * simple and structured data types defined in the DTL layer. For example, both the HLA 1.3 and
+ * HLA 1516 standards require a simulation application to define a simulation object model (SOM).
+ * Briefly, a SOM is data exchange contract between a simulation and a federation of simulations.
+ * A SOM defines the data exchange capabilities of a simulation, i.e., what data the simulation will
  * publicly produce and consume in the form of object and interaction classes.
  *
  * \sa protox::hla
