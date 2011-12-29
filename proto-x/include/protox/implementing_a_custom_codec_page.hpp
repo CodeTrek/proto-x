@@ -200,5 +200,32 @@
  * the commenting style here is used to represent the basic type definition in a tabular format to
  * improve readability.
  *
+ * \code
+ *
+ * namespace protox {
+ * namespace sdx {
+ *
+ * //   +-----------------------------------------------------------------------------------------------------+
+ * //   | SDX Basic data representation table                                                                 |
+ * //   +----------------------------------------------+--------------+------------------+--------------------+
+ * //   | Name                                         | Size in bits | Endian           | Encoding           |
+ * //   +----------------------------------------------+--------------+------------------+--------------------+
+ * struct SDXByte          : dtl::basic< unsigned char,       8,        dtl::endian::na,   sdx_portable       > {PROTOX_BASIC( SDXByte          )};
+ * struct SDXUnsignedShort : dtl::basic< unsigned short,     16,        dtl::endian::big,  sdx_unsigned_short > {PROTOX_BASIC( SDXUnsignedShort )};
+ * struct SDXUnsignedLong  : dtl::basic< unsigned long,      32,        dtl::endian::big,  sdx_unsigned_long  > {PROTOX_BASIC( SDXUnsignedLong  )};
+ * //   +----------------------------------------------+--------------+------------------+--------------------+
+ *
+ * }} // protox::sdx
+ *
+ * \endcode
+ *
+ * The <tt>dtl::basic</tt> template associates four attributes with the defined data type:
+ * -# The C++ built-in type used to represent the basic type
+ * -# The size of the basic type in bits
+ * -# The types byte ordering (<tt>dtl::endian:big</tt>, <tt>dtl::endian::little</tt>, or <tt>dtl::endian::na</tt>)
+ * -# The codec type to use when encoding/decoding values of the type being defined
+ *
+ * The macro <tt>PROTOX_BASIC</tt> generate bolerplate code required by each proto-x basic data type
+ * definition.
  *
  */
