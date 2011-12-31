@@ -225,7 +225,88 @@
  * -# The types byte ordering (<tt>dtl::endian:big</tt>, <tt>dtl::endian::little</tt>, or <tt>dtl::endian::na</tt>)
  * -# The codec type to use when encoding/decoding values of the type being defined
  *
- * The macro <tt>PROTOX_BASIC</tt> generate bolerplate code required by each proto-x basic data type
- * definition.
+ * The macro <tt>PROTOX_BASIC</tt> generates bolerplate code required by each proto-x basic data
+ * type definition.
+ *
+ * \section step_4_implement_basic_type_codecs Step 4 - Implement Basic Type codecs
+ *
+ * In this step, we implement the algorithms that perform the encoding/decoding rules represented by
+ * the codec tags given in step 2. We start with the encoding rules for the basic types.
+ *
+ * Implementing a codec starts with understanding the role of the <tt>protox::dtl::codec</tt>
+ * interface. This interface is a compile time interface that uses its type argument <tt>T</tt> to
+ * direct the compiler to generate the correct codec code <tt>T</tt>.
+ *
+ * Here is the codec interface. The most important details to focus on are 1) the template
+ * signatures and 2) the fact that the primary purpose of this interface is to forward requests to another
+ * template called <tt>code_impl</tt>.
+ *
+ * \code
+ *
+ * namespace protox {
+ * namespace dtl {
+ *
+ * struct codec
+ * {
+ *
+ * // Returns T's octet boundary in bytes, where the octet boundary value for T is the smallest
+ * // value 2^n, where n is a non-negative integer, for which (8 * 2^n) >= the size of the data type
+ * // in bits.
+ * template< typename T >
+ * struct octet_boundary
+ * {
+ *   // Forward to codec_impl...
+ *   typedef typename codec_impl< typename T::codec_tag >::template octet_boundary< T >::type type;
+ *
+ *    static typename type::value_type const value = type::value; // T's octet boundary
+ * };
+ *
+ * // Return's T's size in bytes, if it can be computed at compile time. If T's size in bytes
+ * // can not be computed at compile time, then protox::dtl::UNKNOWN_STATIC_SIZE is returned which
+ * // has a negative compile time value.
+ * template< typename T >
+ * struct static_size_in_bytes
+ * {
+ *   // Forward to codec_impl...
+ *   typedef typename codec_impl< typename T::codec_tag >::template static_size_in_bytes< T >::type type;
+ *
+ *   static typename type::value_type const value = type::value;
+ * };
+ *
+ * // Return's T's size in bytes, computed at run-time. T's dynamic size is equal to its static
+ * // size, if T has a static size.
+ * template< typename T >
+ * inline static std::size_t dynamic_size( const T &obj )
+ * {
+ *   return codec_impl< typename T::codec_tag >::dynamic_size( obj );
+ * };
+ *
+ * // Encodes a value of type T into the stream of type S using T's encoding rules.
+ * template< typename S, typename T >
+ * inline static void encode( S &s, const T &obj )
+ * {
+ *   codec_impl< typename T::codec_tag >::encode( s, obj );
+ * }
+ *
+ * // Decodes a value of type T from the byte stream S starting at the byte given by the offset
+ * // argument, using T's decoding rules. The decoded value is returned in the argument obj.
+ * template< typename S, typename T >
+ * inline static void decode( T &obj, const S &s, std::size_t &offset )
+ * {
+ *   codec_impl< typename T::codec_tag >::decode( obj, s, offset );
+ * }
+ *
+ * };
+ *
+ * }} // protox::dtl::codec
+ *
+ *
+ * \endcode
+ *
+ * Notice how the implementation of this interface forwards compile time calls to another compile
+ * time entity called <tt>codec_impl</tt>. The <tt>codec_impl</tt> template is where the real type
+ * specific work is done. The purpose of <tt>protox::dtl::codec</tt> is simply to give
+ * <tt>code_impl</tt> a uniform interface that can be used for any type <tt>T</tt> for which there
+ * is a corresponding <tt>codec_impl</tt>.
  *
  */
