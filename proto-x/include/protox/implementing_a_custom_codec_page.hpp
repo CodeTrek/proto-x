@@ -162,25 +162,7 @@
  *
  * Create these tag specification in the <tt>protox::sdx</tt> namespace, like this:
  *
- * \code
- * namespace protox {
- * namespace sdx {
- *
- * // A portable Byte.
- * struct sdx_portable {};
- *
- * // 32 bit unsigned integer
- * struct sdx_unsigned_long {};
- *
- * // 16 bit unsigned integer
- * struct sdx_unsigned_short {};
- *
- * // A vector of types
- * struct sdx_record {};
- *
- * }} // protox::sdx
- *
- * \endcode
+ * \include protox/sdx/codec_tags.hpp
  *
  * It's important to remember that these tags represent encoding types and not data types. As you
  * will see in a moment, Poroto-x data type definitions reference these tags in their definition.
@@ -200,24 +182,7 @@
  * the commenting style here is used to represent the basic type definition in a tabular format to
  * improve readability.
  *
- * \code
- *
- * namespace protox {
- * namespace sdx {
- *
- * //   +-----------------------------------------------------------------------------------------------------+
- * //   | SDX Basic data representation table                                                                 |
- * //   +----------------------------------------------+--------------+------------------+--------------------+
- * //   | Name                                         | Size in bits | Endian           | Encoding           |
- * //   +----------------------------------------------+--------------+------------------+--------------------+
- * struct SDXByte          : dtl::basic< unsigned char,       8,        dtl::endian::na,   sdx_portable       > {PROTOX_BASIC( SDXByte          )};
- * struct SDXUnsignedShort : dtl::basic< unsigned short,     16,        dtl::endian::big,  sdx_unsigned_short > {PROTOX_BASIC( SDXUnsignedShort )};
- * struct SDXUnsignedLong  : dtl::basic< unsigned long,      32,        dtl::endian::big,  sdx_unsigned_long  > {PROTOX_BASIC( SDXUnsignedLong  )};
- * //   +----------------------------------------------+--------------+------------------+--------------------+
- *
- * }} // protox::sdx
- *
- * \endcode
+ * \include protox/sdx/basic_data_representation_table.hpp
  *
  * The <tt>dtl::basic</tt> template associates four attributes with the defined data type:
  * -# The C++ built-in type used to represent the basic type
@@ -235,78 +200,29 @@
  *
  * Implementing a codec starts with understanding the role of the <tt>protox::dtl::codec</tt>
  * interface. This interface is a compile time interface that uses its type argument <tt>T</tt> to
- * direct the compiler to generate the correct codec code <tt>T</tt>.
+ * direct the compiler to generate the correct codec code for values of type <tt>T</tt>.
  *
- * Here is the codec interface. The most important details to focus on are 1) the template
- * signatures and 2) the fact that the primary purpose of this interface is to forward requests to another
- * template called <tt>code_impl</tt>.
+ * Here is the codec interface.
  *
- * \code
+ * \include protox/dtl/codec_interface.hpp
  *
- * namespace protox {
- * namespace dtl {
- *
- * struct codec
- * {
- *
- * // Returns T's octet boundary in bytes, where the octet boundary value for T is the smallest
- * // value 2^n, where n is a non-negative integer, for which (8 * 2^n) >= the size of the data type
- * // in bits.
- * template< typename T >
- * struct octet_boundary
- * {
- *   // Forward to codec_impl...
- *   typedef typename codec_impl< typename T::codec_tag >::template octet_boundary< T >::type type;
- *
- *    static typename type::value_type const value = type::value; // T's octet boundary
- * };
- *
- * // Return's T's size in bytes, if it can be computed at compile time. If T's size in bytes
- * // can not be computed at compile time, then protox::dtl::UNKNOWN_STATIC_SIZE is returned which
- * // has a negative compile time value.
- * template< typename T >
- * struct static_size_in_bytes
- * {
- *   // Forward to codec_impl...
- *   typedef typename codec_impl< typename T::codec_tag >::template static_size_in_bytes< T >::type type;
- *
- *   static typename type::value_type const value = type::value;
- * };
- *
- * // Return's T's size in bytes, computed at run-time. T's dynamic size is equal to its static
- * // size, if T has a static size.
- * template< typename T >
- * inline static std::size_t dynamic_size( const T &obj )
- * {
- *   return codec_impl< typename T::codec_tag >::dynamic_size( obj );
- * };
- *
- * // Encodes a value of type T into the stream of type S using T's encoding rules.
- * template< typename S, typename T >
- * inline static void encode( S &s, const T &obj )
- * {
- *   codec_impl< typename T::codec_tag >::encode( s, obj );
- * }
- *
- * // Decodes a value of type T from the byte stream S starting at the byte given by the offset
- * // argument, using T's decoding rules. The decoded value is returned in the argument obj.
- * template< typename S, typename T >
- * inline static void decode( T &obj, const S &s, std::size_t &offset )
- * {
- *   codec_impl< typename T::codec_tag >::decode( obj, s, offset );
- * }
- *
- * };
- *
- * }} // protox::dtl::codec
- *
- *
- * \endcode
+ * The most important details to focus on are
+ * -# the template signatures
+ * -# the fact that the primary purpose of this interface is to forward requests to another template called <tt>code_impl</tt>
  *
  * Notice how the implementation of this interface forwards compile time calls to another compile
  * time entity called <tt>codec_impl</tt>. The <tt>codec_impl</tt> template is where the real type
  * specific work is done. The purpose of <tt>protox::dtl::codec</tt> is simply to give
  * <tt>code_impl</tt> a uniform interface that can be used for any type <tt>T</tt> for which there
  * is a corresponding <tt>codec_impl</tt>.
+ *
+ * So our next step is to creae <tt>codec_impl</tt> implementations for our basic SDX types. We
+ * create custom codec implementations by creating <tt>protox::dtl::codec_impl</tt> template
+ * specializations that conform to the <tt>protox::dtl::codec</tt> interface. Here is the
+ * <tt>codec_impl</tt> template. It's very simple:
+ *
+ * \include protox/dtl/codec_impl.hpp
+ *
+ * As you can see, it's only purpose in life is to be specialized.
  *
  */
