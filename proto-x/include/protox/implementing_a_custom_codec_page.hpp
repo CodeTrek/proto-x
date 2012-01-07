@@ -166,7 +166,7 @@
  *
  * It's important to remember that these tags represent encoding types and not data types. As you
  * will see in a moment, Poroto-x data type definitions reference these tags in their definition.
- * That’s how data type definitions and encoding type implementations are associated at compile
+ * That's how data type definitions and encoding type implementations are associated at compile
  * time, allowing the compiler to generate the correct encode/decode code based on a value's
  * encoding type and not its data type.
  *
@@ -224,5 +224,35 @@
  * \include protox/dtl/codec_impl.hpp
  *
  * As you can see, it's only purpose in life is to be specialized.
+ *
+ * Let's start by creating an empty <tt>codec_impl</tt> template specialization for each basic data
+ * type SDX protocol tag:
+ *
+ * \include protox/sdx/basic_data_codec_empty.hpp
+ *
+ * The first thing to note is that <b>all</b> <tt>codec_impl</tt> specializations must belong to the
+ * <tt>protox::dtl</tt> namespace.
+ *
+ * Looking at the the definition of <tt>protox::dtl::codec_interface</tt>, we see each template
+ * specializaton must provide two <tt>struct</tt> templates:
+ *
+ * - <tt>template< typename T > struct octet_bounddary {};</tt>
+ * - <tt>template< typename T > struct static_size_in_bytes {};</tt>
+ *
+ * and three <tt>static</tt> function templates:
+ *
+ * - <tt>template< typename T > static std::size_t dynamic_size( T );</tt>
+ * - <tt>template< typename S, typename T > static void encode( S &, const T &obj );</tt>
+ * - <tt>template< typename S, typename T > static void decode( T &obj, const S &, std::size_t &offset );</tt>
+ *
+ * Let's add these <tt>struct</tt> and function specifications to our SDX specializations, like
+ * this:
+ *
+ * \include protox/sdx/basic_data_codec_stubs.hpp
+ *
+ * We are now ready to provide SDX protocol specific implementations of these compile-time and
+ * run-time functions.
+ *
+ * Let's start with <tt>sdx::sdx_portable</tt>.
  *
  */
