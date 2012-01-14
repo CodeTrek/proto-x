@@ -255,4 +255,34 @@
  *
  * Let's start with <tt>sdx::sdx_portable</tt>.
  *
+ * \include protox/sdx/basic_data_codec_portable.hpp
+ *
+ * As you can see, it's very straightforward. The compile-time constants <tt>octet_boundary</tt> and
+ * <tt> static_size_in_bytes</tt> can be hardcoded to return a value of 1. And because we are
+ * dealing with a type with a fixed size, <tt>dynamic_size</tt> simply returns the constant static
+ * size.
+ *
+ * The <tt>encode</tt> and <tt>decode</tt> functions are simple too. They write and read a single
+ * 8 bit value from the given stream of type <tt>S</tt>, respectively.
+ *
+ * Next we create a <tt>codec_impl</tt> template specialization for <tt>sdx::sdx_unsigned_short</tt>,
+ * starting with the implementation <tt>octet_boundary</tt>. Here's the code:
+ *
+ * \include protox/sdx/basic_data_codec_unsigned_short_octet.hpp
+ *
+ * Here we've cheated a little by forwarding the work to be done to a function supplied by
+ * <tt>protox</tt>, called <tt>compute_octet_boundary</tt>. If you look at the implementation of
+ * <tt>compute_octet_boundary</tt>, you'll see that it computes the smallest value <tt>2^N</tt>,
+ * where <tt>N</tt> is a non-negative integer for which <tt>(8 * 2^N) >=</tt>  the size of the data
+ * type <tt>T</tt> in bits.
+ *
+ * Next, here is the code for <tt>static_size_in_bytes</tt> and <tt>dynamic_size</tt>:
+ *
+ * \include protox/sdx/basic_data_codec_unsigned_short_size.hpp
+ *
+ * <tt>static_size_in_bytes</tt> is a simple compile time computation that computes the size of
+ * <tt>T</tt> in bytes from its size in bits and pads the value with 1 if <tt>T</tt>'s size in bits
+ * is not a multiple of 8. And again, since we are dealing with a basic type with a fixed size,
+ * <tt>dynamic_size</tt> simply returns the value computed by <tt>static_size_in_bytes</tt>.
+ *
  */
