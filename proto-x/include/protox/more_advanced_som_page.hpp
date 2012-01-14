@@ -9,4 +9,9 @@
 
 /**
  * \page more_advanced_som A More Advanced SOM
+ *
+ * \include rpr/object_model/entity_type_struct.hpp
+ *
+ * \include rpr/object_model/obj_class_table.hpp
+ *
  */

@@ -296,6 +296,69 @@
  *
  * Here is some pseudo code to illustrate this point:
  *
- * \include protox/sdx/encode_pseudo.hpp
+ * \code
+ *
+ * // if T's endianess is the same as the platform's (where T is SDXUnsignedShort) then...
+ * static void encode( S &s, const T &value)
+ * {
+ *   const byte *bytes = &value;
+ *   s.push_back( bytes[0] ); // low memory
+ *   s.push_back( bytes[1] ); // high memory
+ * }
+ *
+ * // else if T's endianess is the _not_ the same as the platform's...
+ * static void encode( S &s, const T &value)
+ * {
+ *   const byte *bytes = &value;
+ *   s.push_back( bytes[1] ); // high memory
+ *   s.push_back( bytes[0] ); // low memory
+ * }
+ *
+ * \endcode
+ *
+ * We want to generate the correct <tt>encode</tt>function at compile time. Do this this we declare
+ * a <tt>struct template</tt> with a <tt>bool</tt> argument like this:
+ *
+ * \code
+ * template<
+ *   typename S,         // The destination byte buffer
+ *   bool CONVERT_ENDIAN // true, if endian conversion is required
+ * > struct encode_basic;
+ * \endcode
+ *
+ * Now we create a specialization for the <tt>true</tt> case i.e., when we need to perform endian
+ * conversion, and for the <tt>false</tt> case i.e., when no byte reordering is requried. Here are
+ * the specializations:
+ *
+ * \code
+ *
+ * template<
+ *   typename S,         // The destination byte buffer
+ *   bool CONVERT_ENDIAN // true, if endian conversion is required
+ * > struct encode_basic;
+ *
+ * // Byte reordering is required specialization...
+ * template< typename S >
+ * struct encode_basic< S, true >
+ * {
+ *   static inline void pack( S &s, SDXByte::value_type const *value )
+ *   {
+ *     s.push_back( value[1] );
+ *     s.push_back( value[0] );
+ *   }
+ * };
+ *
+ * // Byte reordering is _not_ required specialization...
+ * template< typename S >
+ * struct encode_basic< S, false >
+ * {
+ *   static inline void pack( S &s, SDXByte::value_type const *value )
+ *   {
+ *     s.push_back( value[0] );
+ *     s.push_back( value[1] );
+ *   }
+ * };
+ *
+ * \endcode
  *
  */

@@ -24,7 +24,6 @@ template<> struct codec_impl< sdx::sdx_portable >
     typedef boost::mpl::int_< 1 >::type type;
   };
 
-
   template< typename T >
   struct static_size_in_bytes
   {

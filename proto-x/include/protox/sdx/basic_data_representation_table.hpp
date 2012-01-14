@@ -1,10 +1,3 @@
-/*
-    Copyright 2012 Jay Graham
-
-    Distributed under the MIT License (see accompanying file LICENSE_1_0_0.txt
-    or http://www.opensource.org/licenses/mit-license.php)
-*/
-
 /**************************************************************************************************/
 
 #ifndef PROTOX_SDX_BASIC_DATA_REPRESENTATION_TABLE_HPP
