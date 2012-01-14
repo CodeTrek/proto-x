@@ -285,4 +285,17 @@
  * is not a multiple of 8. And again, since we are dealing with a basic type with a fixed size,
  * <tt>dynamic_size</tt> simply returns the value computed by <tt>static_size_in_bytes</tt>.
  *
+ * Finally, we are ready to implement the <tt>encode</tt> and <tt>decode</tt> functions. For this
+ * example we'll just implement the <tt>encode</tt> function, since the <tt>decode</tt> function is
+ * just its inverse.
+ *
+ * The only issue we really need to consider here is byte ordering - does the endianess of an
+ * <tt>sdx_unsigned_short</tt> value match the platform's endianess? If the answer is "yes", we
+ * stream the 2 bytes that makeup an <tt>sdx_unsigned_short</tt> value from low to high memory,
+ * otherwise we reverse the order.
+ *
+ * Here is some pseudo code to illustrate this point:
+ *
+ * \include protox/sdx/encode_pseudo.hpp
+ *
  */
