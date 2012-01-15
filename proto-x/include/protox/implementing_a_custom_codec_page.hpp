@@ -361,4 +361,9 @@
  *
  * \endcode
  *
+ * Here is how we use the <tt>encode_basic</tt> template to implement the <tt>encode</tt> function
+ * for <tt>sdx_unsigned_short</tt>:
+ *
+ * \include protox/sdx/basic_data_codec_unsigned_short_encode.hpp
+ *
  */
