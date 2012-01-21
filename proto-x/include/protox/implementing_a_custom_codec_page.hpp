@@ -366,4 +366,18 @@
  *
  * \include protox/sdx/basic_data_codec_unsigned_short_encode.hpp
  *
+ * The <tt>encode_basic</tt> template can be generalized to support encoding and decoding of all of
+ * the <tt>sdx</tt> basic types.
+ *
+ * See \link protox/sdx/basic_data_encoders.hpp\endlink for a complete implementation of the encoder
+ * functions.
+ *
+ * See \link protox/sdx/basic_data_decoders.hpp\endlink for a complete implementation of the decoder
+ * functions.
+ *
+ * See \link protox/sdx/basic_data_codec.hpp\endlink for a complete implementation basic data
+ * codec for this example.
+ *
+ * \section step_4_define_sdx_structured_types Step 5 - Define SDX Structured Types
+ *
  */
