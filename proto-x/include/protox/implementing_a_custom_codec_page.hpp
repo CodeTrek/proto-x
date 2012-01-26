@@ -380,4 +380,35 @@
  *
  * \section step_4_define_sdx_structured_types Step 5 - Define SDX Structured Types
  *
+ * Now that we have codec functions implemented for the basic types, we are ready to build more
+ * structured types out of the basic types. In this section we implement the codec functions for a
+ * record type. A record type is a vector of fields, where each field has a name that is unique to
+ * the record and type. An example of a record type in C++ is a <tt>struct</tt> type, like this one:
+ *
+ * \code
+ * struct Foo
+ * {
+ *   SDXUnsignedShort f1:
+ *   SDXUnsignedLong f2;
+ * }
+ * \endcode
+ *
+ *  The fundamental idea behind proto-x is to use the C++ compiler to generate correct encode/decode
+ *  functions conforming to some standard. In order for this to work for structured types like
+ *  records, the C++ compiler needs to have enough information to interrogate the structured type at
+ *  compile time. Consequently, the definition of a record in <tt>proto-x</tt> is a little more
+ *  verbose than the <tt>struct</tt> defintion above. For example, a field in <tt>proto-x</tt> is a
+ *  <tt>struct</tt> template, like this:
+ *
+ * \code
+ *  template< typename T > struct field {...};
+ * \endcode
+ *
+ * Here is how you define the field <tt>f1</tt> from the <tt>Foo struct</tt> above using
+ * <tt>proto-x field</tt> template:
+ *
+ * \code
+ * struct f1 : protox::dtl::field< SDXUnsignedShort > {};
+ * \endcode
+ *
  */
