@@ -385,6 +385,16 @@
  * record type. A record type is a vector of fields, where each field has a name that is unique to
  * the record and type. An example of a record type in C++ is a <tt>struct</tt> type, like this one:
  *
+ * In this section we'll work backwards, in a sense, from 'form' to 'function'. We'll do this by
+ * presenting the syntax of a <tt>protox</tt> based record type, and then show how that syntax
+ * supports the auto-generation of correct codec functions at compile time.
+ *
+ * We start with the syntax for the definition of a plain old C++ <tt>struct</tt> type, and then
+ * look at how we have to augment it to support compiler generated codec functions for types like
+ * those represetned by C++ <tt>struct</tt>s.
+ *
+ * So to start, here is an example of a plain old <tt>struct</tt> type in C++:
+ *
  * \code
  * struct Foo
  * {
@@ -393,15 +403,41 @@
  * }
  * \endcode
  *
- *  The fundamental idea behind proto-x is to use the C++ compiler to generate correct encode/decode
- *  functions conforming to some standard. In order for this to work for structured types like
- *  records, the C++ compiler needs to have enough information to interrogate the structured type at
- *  compile time. Consequently, the definition of a record in <tt>proto-x</tt> is a little more
- *  verbose than the <tt>struct</tt> defintion above. For example, a field in <tt>proto-x</tt> is a
- *  <tt>struct</tt> template, like this:
+ * The fundamental idea behind proto-x is to use the C++ compiler to generate correct encode/decode
+ * functions conforming to some standard. In order for this to work for structured types like
+ * records, the C++ compiler needs to have enough information to interrogate the structured type at
+ * compile time.
  *
  * \code
- *  template< typename T > struct field {...};
+ * //      +--------+------------------------------------+-------------+
+ * //      | Record | Field                              | Encoding    |
+ * //      | Name   +------+-----------------------------+             |
+ * //      |        | Name | Type                        |             |
+ * //      +--------+------+-----------------------------+-------------+
+ * namespace Foo    {
+ * //      +---------------+-----------------------------+
+ *             struct f1   : field< SDXUnsignedShort > {};
+ *             struct f2   : field< SDXUnsignedLong  > {};
+ * //      +---------------+-----------------------------+-------------+
+ *                                           struct type : sdx::record < boos::mpl::vector< f1, f2 > > {}; }
+ * \endcode
+ *
+ * The first thing to note is that this is not the only way to organize the code used to define a
+ * <tt>proto-x</tt> based record structure. This particular code organization is used because it
+ * supports a tabular commenting style that highlights the components of the definition nicely. The
+ * need for such a disciplined coding and commenting style is because <tt>proto-x</tt> definitions
+ * are (unfortunately) considerably more verbose then their 'plain-old' counterparts. The additional
+ * syntax is necessary to give the compiler enough information to generate correct codec functions.
+ *
+ * Let's breakdown this definition component by component.
+ *
+ * <b>TBD</b>
+ *
+ * For example, a field in <tt>proto-x</tt> is a
+ * <tt>struct</tt> template, like this:
+ *
+ * \code
+ * template< typename T > struct field {...};
  * \endcode
  *
  * Here is how you define the field <tt>f1</tt> from the <tt>Foo struct</tt> above using
@@ -410,5 +446,6 @@
  * \code
  * struct f1 : protox::dtl::field< SDXUnsignedShort > {};
  * \endcode
+ *
  *
  */
