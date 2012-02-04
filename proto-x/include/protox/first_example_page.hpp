@@ -14,7 +14,7 @@
  * array of ASCII characters. And another that receives \c Greeting interactions and prints the
  * value of the \c Message parameter to standard out.
  *
- * Start by defining the following these SOM components:
+ * Start by defining these SOM components:
  *
  * -
  * A <b><i>basic data representation table</i></b> to define a basic data type that can be the bases
