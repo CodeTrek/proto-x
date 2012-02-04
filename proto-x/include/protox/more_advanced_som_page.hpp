@@ -12,6 +12,8 @@
  *
  * \include rpr/object_model/entity_type_struct.hpp
  *
+ * \include rpr/object_model/attribute_table.hpp
+ *
  * \include rpr/object_model/obj_class_table.hpp
  *
  */

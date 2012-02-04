@@ -15,7 +15,7 @@
  * <tt>platform_sub</tt> sends an interaction requesting that <tt>platform_pub</tt> create some
  * number of objects of type <tt>Platform</tt>. These objects have two attributes <tt>Position</tt>
  * and <tt>Color</tt>. <tt>platform_pub</tt> initializes each <tt>Platform</tt> object's  color to
- * <tt>Green</tt>, and then proceeds to update * each object's <tt>Position</tt> attribute for some
+ * <tt>Green</tt>, and then proceeds to update each object's <tt>Position</tt> attribute for some
  * number of ticks. After which, each objects's <tt>Color</tt> is set to <tt>Red</tt>,
  * indicating that the object has stopped. <tt>platform_sub</tt> subscribes the <tt>Platform</tt>
  * class attributes and prints updates to thier values to standard out.
