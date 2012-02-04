@@ -12,13 +12,13 @@
  *
  * \section Introduction
  *
- * This tutorial takes you through the steps required to develop a custom proto-x codec. We start by
+ * This tutorial takes you through the steps required to develop a custom <tt>proto-x</tt> codec. We start by
  * defining a new codec for a fictitious binary encoding standard called Simple Data eXchange (SDX).
  * The SDX encoding standard is (very) loosely based on the Extenernal Data Representation Standard
- * (XDR), but simplified so that this tutorial can focus on presenting proto-x concepts without the
+ * (XDR), but simplified so that this tutorial can focus on presenting <tt>proto-x</tt> concepts without the
  * distracting details of a full-blown binary standard.
  *
- * Here is a quick overview of the steps we'll take to implement a proto-x based SDX codec:
+ * Here is a quick overview of the steps we'll take to implement a <tt>proto-x</tt> based SDX codec:
  *
  * -# Define the SDX standard
  * -# Specify SDX codec tags
@@ -174,7 +174,7 @@
  *
  * Most data coding standards start with a definition of basic or fundamental types and then build
  * more complex types from there. SDX is no exception. SDX defines a set of basic integer types that
- * can be used to define more complex Record data types. proto-x provides the
+ * can be used to define more complex Record data types. <tt>proto-x</tt> provides the
  * <tt>protox::dtl::basic</tt> template for defining basic types that can be used in the definition
  * of structured types, like Record. The following code snippet uses the <tt>protox::dtl::basic</tt>
  * template * to define the SDX basic data types. This code sample assumes that the codec tags
@@ -190,7 +190,7 @@
  * -# The types byte ordering (<tt>dtl::endian:big</tt>, <tt>dtl::endian::little</tt>, or <tt>dtl::endian::na</tt>)
  * -# The codec type to use when encoding/decoding values of the type being defined
  *
- * The macro <tt>PROTOX_BASIC</tt> generates bolerplate code required by each proto-x basic data
+ * The macro <tt>PROTOX_BASIC</tt> generates bolerplate code required by each <tt>proto-x</tt> basic data
  * type definition.
  *
  * \section step_4_implement_basic_type_codecs Step 4 - Implement Basic Type codecs
@@ -271,7 +271,7 @@
  * \include protox/sdx/basic_data_codec_unsigned_short_octet.hpp
  *
  * Here we've cheated a little by forwarding the work to be done to a function supplied by
- * <tt>protox</tt>, called <tt>compute_octet_boundary</tt>. If you look at the implementation of
+ * <tt>proto-x</tt>, called <tt>compute_octet_boundary</tt>. If you look at the implementation of
  * <tt>compute_octet_boundary</tt>, you'll see that it computes the smallest value <tt>2^N</tt>,
  * where <tt>N</tt> is a non-negative integer for which <tt>(8 * 2^N) >=</tt>  the size of the data
  * type <tt>T</tt> in bits.
@@ -383,10 +383,10 @@
  * Now that we have codec functions implemented for the basic types, we are ready to build more
  * structured types out of the basic types. In this section we implement the codec functions for a
  * record type. A record type is a vector of fields, where each field has a name that is unique to
- * the record and type. An example of a record type in C++ is a <tt>struct</tt> type, like this one:
+ * the record and type. An example of a record type in C++ is a <tt>struct</tt> type.
  *
  * In this section we'll work backwards, in a sense, from 'form' to 'function'. We'll do this by
- * presenting the syntax of a <tt>protox</tt> based record type, and then show how that syntax
+ * presenting the syntax of a <tt>proto-x</tt> based record type, and then show how that syntax
  * supports the auto-generation of correct codec functions at compile time.
  *
  * We start with the syntax for the definition of a plain old C++ <tt>struct</tt> type, and then
@@ -403,7 +403,7 @@
  * }
  * \endcode
  *
- * The fundamental idea behind proto-x is to use the C++ compiler to generate correct encode/decode
+ * The fundamental idea behind <tt>proto-x</tt> is to use the C++ compiler to generate correct encode/decode
  * functions conforming to some standard. In order for this to work for structured types like
  * records, the C++ compiler needs to have enough information to interrogate the structured type at
  * compile time.
@@ -419,7 +419,7 @@
  *             struct f1   : field< SDXUnsignedShort > {};
  *             struct f2   : field< SDXUnsignedLong  > {};
  * //      +---------------+-----------------------------+-------------+
- *                                           struct type : sdx::record < boos::mpl::vector< f1, f2 > > {}; }
+ *                                           struct type : sdx::record < boost::mpl::vector< f1, f2 > > {}; }
  * \endcode
  *
  * The first thing to note is that this is not the only way to organize the code used to define a
@@ -431,7 +431,49 @@
  *
  * Let's breakdown this definition component by component.
  *
- * <b>TBD</b>
+ * First, we use a <tt>namespace</tt> to name our structure <tt>Foo</tt> and we bury the record's
+ * actual type definition inside. So declaring a record of type <tt>Foo</tt> looks like this:
+ *
+ * <tt>Foo::type myFooRecord;</tt>
+ *
+ * We also place the field type definitions inside the <tt>Foo namespace</tt>. This helps with name
+ * deconfliction between records with matching field names. Fields are defined as <tt>struct</tt>s
+ * that extend the <tt>protox::dtl::field</tt> template, which wraps the field's type. The name of
+ * the <tt>struct</tt> is the name of the field. The <tt>protox:dtl:field</tt> template is part of
+ * <tt>proto-x</tt>'s data type language (dtl), which provides basic data type definition
+ * mechanisms (like the field template) for the most common <tt>proto-x</tt> use cases.
+ *
+ * Finally, we define the actual record type as a <tt>struct</tt> (named <tt>type</tt>) as an
+ * extension of an <tt>sdx</tt> defined record template. The record template takes a
+ * <tt>boost::mpl::vector</tt> of our field definitions.
+ *
+ * Now let's look at how we define the <tt>sdx</tt> record template. The definition is actually
+ * quite simple. Here it is:
+ *
+ * \code
+ * template< typename FIELD_VECTOR >
+ * struct record : protox::dtl::fixed_record< FIELD_VECTOR, sdx_record > {};
+ * \endcode
+ *
+ * We forward our definition to a <tt>protox::dtl::fixed_record</tt> template. We pass the field
+ * vector and the codec tag for sdx records - <tt>sdx_record</tt>. Here again we rely on the
+ * <tt>dtl</tt> substrate of <tt>proto-x</tt> to provide us with common functionality. Look at
+ * the documentation for <tt>protox::dtl::fixed_record</tt> for details on its implementation.
+ *
+ * One of the most important bits of functionality we get with <tt>dtl::fixed_record</tt> is a field
+ * access operator. As you might expect, accessing a field to set/get its value is not as simple as
+ * using the normal access operators like <tt>.</tt> and <tt>-></tt>. <tt>protox::dtl::fixed_record</tt>
+ * provides us with a function template access operator that follows this pattern:
+ *
+ * <tt>instance_name.f_< field_name >()</tt>
+ *
+ * Here is an example using our Foo record:
+ *
+ * \code
+ * Foo::type myFoo;
+ * myFoo.f_< f1 >() = 5;
+ * myFoo.f_< f2 >() = 6;
+ * \endcode
  *
  * For example, a field in <tt>proto-x</tt> is a
  * <tt>struct</tt> template, like this:

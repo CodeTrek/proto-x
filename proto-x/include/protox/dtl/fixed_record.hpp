@@ -68,14 +68,15 @@ namespace dtl {
  * The following pseudo code illustrates how the reverse fold meta-function works:
  *
  * Given the following definitions:
- \code
-      struct empty {};                    // Same as boost::mpl::empty_base
-
-      template< typename L, typename H >
-      struct derive : L, H {};            // Same as boost::mpl::inherit
-
-      V = < F1, F2, F3 >;                 // A vector of types
-\endcode
+ *
+ * \code
+ * struct empty {};                    // Same as boost::mpl::empty_base
+ *
+ * template< typename L, typename H >
+ * struct derive : L, H {};            // Same as boost::mpl::inherit
+ *
+ * V = < F1, F2, F3 >;                 // A vector of types
+ * \endcode
  *
  * Applying the reverse fold like this:\n
  *
