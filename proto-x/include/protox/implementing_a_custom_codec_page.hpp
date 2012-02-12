@@ -475,6 +475,34 @@
  * myFoo.f_< f2 >() = 6;
  * \endcode
  *
+ * Now let's implement the codec functions for <tt>protox::sdx::record</tt>. Recall that we must
+ * provide a specialization of the <tt>protox::dtl::codec_impl</tt> template for our record type.
+ * Here is our specialization minus implementation details:
+ *
+ * \code
+ *
+ * namespace protox {
+ * namespace dtl {
+ *
+ * template<> struct codec_impl< protox::sdx::sdx_record >
+ * {
+ *   template< typename T > struct octet_boundary {...};
+ *   template< typename T > struct static_size_in_bytes {...};
+ *
+ *   template< typename T > inline static std::size_t dynamic_size( T const &obj ) {...}
+ *
+ *   template< typename S, typename T > inline static void encode( S &s, T const &obj ) {...}
+ *
+ *   template< typename S, typename T > inline static void decode( T &v,
+ *                                                                 S const &s,
+ *                                                                 std::size_t &offset )
+ *   {...}
+ * };
+ *
+ * }} // protox::dtl
+ *
+ * \endcode
+ *
  * For example, a field in <tt>proto-x</tt> is a
  * <tt>struct</tt> template, like this:
  *
