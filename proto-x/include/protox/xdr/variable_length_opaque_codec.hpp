@@ -98,7 +98,7 @@ public:
 
     xdr::UnsignedInteger num_elements = 0;
 
-    codec::decode( num_elements, s, offset )
+    codec::decode( num_elements, s, offset );
 
     if (num_elements == 0)
     {
