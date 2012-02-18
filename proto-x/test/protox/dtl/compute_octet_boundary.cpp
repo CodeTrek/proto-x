@@ -7,16 +7,14 @@
 
 /******************************************************************************/
 
-#ifndef TEST_PROTOX_DTL_COMPUT_OCTET_BOUNDARY_HPP
-#define TEST_PROTOX_DTL_COMPUT_OCTET_BOUNDARY_HPP
+#define BOOST_AUTO_TEST_MAIN
+
+#include <boost/test/included/unit_test_framework.hpp>
+#include <boost/test/auto_unit_test.hpp>
 
 /******************************************************************************/
 
 #include <protox/dtl/compute_octet_boundary.hpp>
-
-/******************************************************************************/
-
-namespace test_protox_dtl_compute_octet_boundary {
 
 /******************************************************************************/
 
@@ -100,12 +98,5 @@ BOOST_AUTO_TEST_CASE( test_128bits )
   BOOST_CHECK( protox::dtl::compute_octet_boundary< 128 >::type::value == 16 );
 }
 
-/******************************************************************************/
 
-}
 
-/******************************************************************************/
-
-#endif
-
-/******************************************************************************/

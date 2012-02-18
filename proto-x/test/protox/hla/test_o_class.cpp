@@ -7,8 +7,10 @@
 
 /******************************************************************************/
 
-#ifndef TEST_PROTOX_HLA_O_CLASS_HPP
-#define TEST_PROTOX_HLA_O_CLASS_HPP
+#define BOOST_AUTO_TEST_MAIN
+
+#include <boost/test/included/unit_test_framework.hpp>
+#include <boost/test/auto_unit_test.hpp>
 
 /******************************************************************************/
 
@@ -25,10 +27,6 @@
 #include <test/protox/hla/som/s001/obj_class_table.hpp>
 #include <test/protox/hla/som/s002/obj_class_table.hpp>
 #include <test/protox/hla/som/s003/obj_class_table.hpp>
-
-/******************************************************************************/
-
-namespace test_protox_hla_o_class {
 
 /******************************************************************************/
 
@@ -105,13 +103,3 @@ BOOST_AUTO_TEST_CASE( test_o_class_children_with_attrs )
 
   BOOST_CHECK( mpl::size< obj_class_table::attr_list_type >::value == 2 );
 }
-
-/******************************************************************************/
-
-}
-
-/******************************************************************************/
-
-#endif
-
-/******************************************************************************/

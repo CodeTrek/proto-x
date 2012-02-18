@@ -5,8 +5,10 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-#ifndef TEST_PROTOX_HLA_1516_FIXED_ARRAY_HPP
-#define TEST_PROTOX_HLA_1516_FIXED_ARRAY_HPP
+#define BOOST_AUTO_TEST_MAIN
+
+#include <boost/test/included/unit_test_framework.hpp>
+#include <boost/test/auto_unit_test.hpp>
 
 #include <math.h>
 
@@ -21,8 +23,6 @@
 #include <protox/hla_1516/fixed_array.hpp>
 #include <protox/hla_1516/fixed_record.hpp>
 
-namespace test_protox_dtl_hla_1516_codec_fixed_array
-{
   using namespace boost;
   using namespace protox;
   using namespace protox::dtl;
@@ -308,6 +308,3 @@ namespace test_protox_dtl_hla_1516_codec_fixed_array
     BOOST_CHECK( a21 == a20 );
   }
 
-}
-
-#endif

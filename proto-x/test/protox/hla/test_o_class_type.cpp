@@ -7,8 +7,10 @@
 
 /******************************************************************************/
 
-#ifndef TEST_PROTOX_HLA_O_CLASS_TYPE_HPP
-#define TEST_PROTOX_HLA_O_CLASS_TYPE_HPP
+#define BOOST_AUTO_TEST_MAIN
+
+#include <boost/test/included/unit_test_framework.hpp>
+#include <boost/test/auto_unit_test.hpp>
 
 /******************************************************************************/
 
@@ -21,9 +23,6 @@
 
 #include <test/protox/hla/som/s004/obj_class_table.hpp>
 
-/******************************************************************************/
-
-namespace test_protox_hla_o_class_type {
 
 /******************************************************************************/
 
@@ -306,12 +305,3 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_unpublish )
   c1::unpublish( rti_amb );
 }
 
-/******************************************************************************/
-
-} // test_protox_hla_o_class_type
-
-/******************************************************************************/
-
-#endif
-
-/******************************************************************************/

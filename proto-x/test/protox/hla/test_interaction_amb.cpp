@@ -7,8 +7,10 @@
 
 /******************************************************************************/
 
-#ifndef TEST_PROTOX_HLA_INTERACTION_AMB_HPP
-#define TEST_PROTOX_HLA_INTERACTION_AMB_HPP
+#define BOOST_AUTO_TEST_MAIN
+
+#include <boost/test/included/unit_test_framework.hpp>
+#include <boost/test/auto_unit_test.hpp>
 
 /******************************************************************************/
 
@@ -33,21 +35,16 @@
 
 #include <test/protox/hla/som/s009/inter_class_table.hpp>
 
-/******************************************************************************/
-
-namespace test_protox_hla_interaction_amb {
 
 /******************************************************************************/
 
-namespace t1
-{
   using namespace som_s009;
 
-  typedef protox::hla::som< null_o_class, inter_class_table > som;
+  typedef protox::hla::som< null_o_class, inter_class_table > test_som;
 
-  typedef i_class_type< som, q_name< Class_C, Class_A, Class_E > >::type i1_t;
-  typedef i_class_type< som, q_name< Class_D, Class_H > >::type i2_t;
-  typedef i_class_type< som, q_name< Class_B > >::type i3_t;
+  typedef i_class_type< test_som, q_name< Class_C, Class_A, Class_E > >::type i1_t;
+  typedef i_class_type< test_som, q_name< Class_D, Class_H > >::type i2_t;
+  typedef i_class_type< test_som, q_name< Class_B > >::type i3_t;
   
   const int V1 = 2552;
   const float V2 = 3.14156f;
@@ -84,13 +81,10 @@ namespace t1
     BOOST_CHECK( (interaction.p_< A3 >() - V3) <= E ); 
   }
 
-} // t1
-
 /******************************************************************************/
 
 using namespace boost;
 using namespace protox;
-using namespace t1;
 
 /******************************************************************************/
 
@@ -115,7 +109,7 @@ BOOST_AUTO_TEST_CASE( test_interaction_amb_recv )
   rtiAmb.i_class_to_handle_map["Class_A.Class_D.Class_H"] = 11;
   
 
-  som::init_handles(rtiAmb);
+  test_som::init_handles(rtiAmb);
 
   hla::interaction_amb< mpl::vector< i1_t, i2_t, i3_t > >::type inter_amb;
 
@@ -195,13 +189,3 @@ BOOST_AUTO_TEST_CASE( test_interaction_amb_recv )
   BOOST_CHECK( i2_handler_called );
   BOOST_CHECK( i3_handler_called );
 }
-
-/******************************************************************************/
-
-}
-
-/******************************************************************************/
-
-#endif
-
-/******************************************************************************/

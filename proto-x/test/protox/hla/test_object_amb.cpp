@@ -7,8 +7,10 @@
 
 /******************************************************************************/
 
-#ifndef TEST_PROTOX_HLA_OBJECT_AMB_HPP
-#define TEST_PROTOX_HLA_OBJECT_AMB_HPP
+#define BOOST_AUTO_TEST_MAIN
+
+#include <boost/test/included/unit_test_framework.hpp>
+#include <boost/test/auto_unit_test.hpp>
 
 /******************************************************************************/
 
@@ -36,65 +38,46 @@
 
 /******************************************************************************/
 
-namespace test_protox_hla_object_amb {
-
-/******************************************************************************/
-
 using namespace boost;
 using namespace protox;
 using namespace protox::hla;
 using namespace protox::dtl;
 using namespace protox::hla_1516;
+using namespace som_s012;
 
 /******************************************************************************/
 
-namespace t1
-{
-  using namespace som_s012;
+typedef protox::hla::som< o_class_table > test_som;
 
-  typedef protox::hla::som< o_class_table > som;
+typedef o_class_type< test_som, q_name< Class_C, Class_A, Class_E > >::type c1;
+typedef o_class_type< test_som, q_name< Class_D, Class_H > >::type c2;
+typedef o_class_type< test_som, q_name< Class_B > >::type c3;
 
-  typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > >::type c1;
-  typedef o_class_type< som, q_name< Class_D, Class_H > >::type c2;
-  typedef o_class_type< som, q_name< Class_B > >::type c3;
+typedef hla::object_amb< mpl::vector< c1, c2, c3 > >::type obj_amb_type;
 
-  typedef hla::object_amb< mpl::vector< c1, c2, c3 > >::type obj_amb_type;
+bool c1_obj_discovered = false;
+bool c1_obj_reflected = false;
 
-  bool c1_obj_discovered = false;
-  bool c1_obj_reflected = false;
-
-  void c1_handler( const c1 &obj,
-                   protox::hla::object_event_type event,
-                   const RTI::FedTime *,
-                   const char * )
-  {
-    switch (event)
-    {
-    case protox::hla::OBJ_DISCOVERED:
-      c1_obj_discovered = true;
-      BOOST_CHECK( obj.get_obj_name() == "c1_1" );
-      BOOST_CHECK( obj.a_< A1 >() != 2552 );
-      break;
-    case protox::hla::OBJ_REFLECTED:
-      BOOST_CHECK( obj.a_< A1 >() == 2552 );
-      c1_obj_reflected = true;
-      break;
-    default:
-      break;
-    }
-  }
+void c1_handler( const c1 &obj, protox::hla::object_event_type event, const RTI::FedTime *, const char * ) {
+    switch (event) {
+        case protox::hla::OBJ_DISCOVERED:
+            c1_obj_discovered = true;
+            BOOST_CHECK( obj.get_obj_name() == "c1_1" );
+            BOOST_CHECK( obj.a_< A1 >() != 2552 );
+            break;
+        case protox::hla::OBJ_REFLECTED:
+            BOOST_CHECK( obj.a_< A1 >() == 2552 );
+            c1_obj_reflected = true;
+            break;
+        default:
+            break;
+   }
 }
 
 /******************************************************************************/
 
 BOOST_AUTO_TEST_CASE( test_discover_object )
 {
-  //using namespace som_s012;
-
-  using namespace t1;
-
-  //typedef protox::hla::som< o_class_table > som;
-
   RTI::RTIambassador rti_amb;
   rti_amb.o_class_to_handle_map[ "Class_A"                         ] =  1;
   rti_amb.o_class_to_handle_map[ "Class_A.Class_B"                 ] =  2;
@@ -109,13 +92,9 @@ BOOST_AUTO_TEST_CASE( test_discover_object )
   rti_amb.o_class_to_handle_map[ "Class_A.Class_D"                 ] =  9;
   rti_amb.o_class_to_handle_map[ "Class_A.Class_D.Class_G"         ] = 10;
   rti_amb.o_class_to_handle_map[ "Class_A.Class_D.Class_H"         ] = 11;
-  som::init_handles( rti_amb );
 
-  //typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > >::type c1;
-  //typedef o_class_type< som, q_name< Class_D, Class_H > >::type c2;
-  // typedef o_class_type< som, q_name< Class_B > >::type c3;
+  test_som::init_handles( rti_amb );
 
-  //hla::object_amb< mpl::vector< c1, c2, c3 > >::type obj_amb;
   obj_amb_type obj_amb;
   obj_amb.set_handler( c1_handler );
 
@@ -149,17 +128,11 @@ BOOST_AUTO_TEST_CASE( test_discover_object )
   BOOST_CHECK( obj_amb.begin< c2 >() != obj_amb.end< c2 >() );
   BOOST_CHECK( obj_amb.size< c2 >() == 3 );
 
-  BOOST_CHECK_THROW( obj_amb.discover_object( 9, 1, "cx_1" ),
-                     RTI::ObjectClassNotKnown );
+  BOOST_CHECK_THROW( obj_amb.discover_object( 9, 1, "cx_1" ), RTI::ObjectClassNotKnown );
 }
 
 BOOST_AUTO_TEST_CASE( test_reflect_object )
 {
-  //using namespace som_s012;
-  using namespace t1;
-
-  //typedef protox::hla::som< o_class_table > som;
-
   RTI::RTIambassador rti_amb;
   rti_amb.o_class_to_handle_map[ "Class_A"                         ] =  1;
   rti_amb.o_class_to_handle_map[ "Class_A.Class_B"                 ] =  2;
@@ -174,13 +147,9 @@ BOOST_AUTO_TEST_CASE( test_reflect_object )
   rti_amb.o_class_to_handle_map[ "Class_A.Class_D"                 ] =  9;
   rti_amb.o_class_to_handle_map[ "Class_A.Class_D.Class_G"         ] = 10;
   rti_amb.o_class_to_handle_map[ "Class_A.Class_D.Class_H"         ] = 11;
-  som::init_handles( rti_amb );
 
-  //typedef o_class_type< som, q_name< Class_C, Class_A, Class_E > >::type c1_t;
-  //typedef o_class_type< som, q_name< Class_D, Class_H > >::type c2_t;
-  //typedef o_class_type< som, q_name< Class_B > >::type c3_t;
+  test_som::init_handles( rti_amb );
 
-  //hla::object_amb< mpl::vector< c1_t, c2_t, c3_t > >::type obj_amb;
   obj_amb_type obj_amb;
   obj_amb.set_handler( c1_handler );
 
@@ -197,8 +166,7 @@ BOOST_AUTO_TEST_CASE( test_reflect_object )
   BOOST_CHECK( obj_amb.begin< c1 >()->second.a_< A1 >() != V1 );
   BOOST_CHECK( fabs( obj_amb.begin< c1 >()->second.a_< A2 >() - V2 ) > E );
 
-  boost::shared_ptr< RTI::AttributeHandleValuePairSet >
-    ah_set( RTI::AttributeSetFactory::create( 2 ) );
+  boost::shared_ptr< RTI::AttributeHandleValuePairSet > ah_set( RTI::AttributeSetFactory::create( 2 ) );
 
   // Encode some values and add them to n attribute handle value pair set.
   SimpleHLAinteger32BE v1 = 2552;
@@ -206,17 +174,13 @@ BOOST_AUTO_TEST_CASE( test_reflect_object )
   protox::io::byte_data_sink sink;
   sink.encode( v1 );
 
-  ah_set->add( c1().get_attr_handle< A1 >(),
-               sink.getDataBuffer(),
-               (RTI::ULong) sink.getDataBufferSize() );
+  ah_set->add( c1().get_attr_handle< A1 >(), sink.getDataBuffer(), (RTI::ULong) sink.getDataBufferSize() );
 
   sink.clear();
   SimpleHLAfloat32BE v2 = V2;
   sink.encode( v2 );
 
-  ah_set->add( c1().get_attr_handle< A2 >(),
-               sink.getDataBuffer(),
-               (RTI::ULong) sink.getDataBufferSize() );
+  ah_set->add( c1().get_attr_handle< A2 >(), sink.getDataBuffer(), (RTI::ULong) sink.getDataBufferSize() );
 
   BOOST_CHECK( c1_obj_reflected == false );
   obj_amb.reflect_object( 1, *ah_set, 0, 0 );
@@ -225,13 +189,3 @@ BOOST_AUTO_TEST_CASE( test_reflect_object )
   BOOST_CHECK( obj_amb.begin< c1 >()->second.a_< A1 >() == 2552 );
   BOOST_CHECK( fabs( obj_amb.begin< c1 >()->second.a_< A2 >() - V2 ) <= E );
 }
-
-/******************************************************************************/
-
-}
-
-/******************************************************************************/
-
-#endif
-
-/******************************************************************************/

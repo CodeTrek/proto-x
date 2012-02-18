@@ -7,8 +7,10 @@
 
 /**************************************************************************************************/
 
-#ifndef TEST_PROTOX_HLA_SOM_HPP
-#define TEST_PROTOX_HLA_SOM_HPP
+#define BOOST_AUTO_TEST_MAIN
+
+#include <boost/test/included/unit_test_framework.hpp>
+#include <boost/test/auto_unit_test.hpp>
 
 /**************************************************************************************************/
 
@@ -33,9 +35,6 @@
 #include <test/protox/hla/som/restaurant/inter_class_table.hpp>
 #include <test/protox/hla/som/restaurant/obj_class_table.hpp>
 
-/**************************************************************************************************/
-
-namespace test_protox_hla_som {
 
 /**************************************************************************************************/
 
@@ -239,13 +238,3 @@ BOOST_AUTO_TEST_CASE( test_som_init_handles )
   BOOST_CHECK( som::get_param_handle("HLAinteractionRoot.CustomerTransaction.CustomerSeated", "TimeSeated") > 0 );
   BOOST_CHECK( som::get_param_handle("HLAinteractionRoot.CustomerTransaction.FoodServed", "TimelinessOk") > 0 );
 }
-
-/**************************************************************************************************/
-
-}
-
-/**************************************************************************************************/
-
-#endif
-
-/**************************************************************************************************/

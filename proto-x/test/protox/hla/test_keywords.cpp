@@ -7,8 +7,10 @@
 
 /******************************************************************************/
 
-#ifndef TEST_PROTOX_HLA_KEYWORDS_HPP
-#define TEST_PROTOX_HLA_KEYWORDS_HPP
+#define BOOST_AUTO_TEST_MAIN
+
+#include <boost/test/included/unit_test_framework.hpp>
+#include <boost/test/auto_unit_test.hpp>
 
 /******************************************************************************/
 
@@ -16,9 +18,6 @@
 #include <boost/mpl/vector.hpp>
 #include <protox/hla/keywords.hpp>
 
-/******************************************************************************/
-
-namespace test_protox_hla_keywords {
 
 /******************************************************************************/
 
@@ -81,13 +80,3 @@ BOOST_AUTO_TEST_CASE( test_q_name_keyword )
   BOOST_CHECK( boost::mpl::size<q3>::value == 3 );
   BOOST_CHECK( boost::mpl::size<q4>::value == 4 );
 }
-
-/******************************************************************************/
-
-}
-
-/******************************************************************************/
-
-#endif
-
-/******************************************************************************/

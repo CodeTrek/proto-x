@@ -5,8 +5,10 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-#ifndef TEST_PROTOX_HLA_1516_ENUMERATED_HPP
-#define TEST_PROTOX_HLA_1516_ENUMERATED_HPP
+#define BOOST_AUTO_TEST_MAIN
+
+#include <boost/test/included/unit_test_framework.hpp>
+#include <boost/test/auto_unit_test.hpp>
 
 #include <boost/mpl/sizeof.hpp>
 
@@ -21,8 +23,6 @@
 
 #include "./test_days_of_week_enum.hpp"
 
-namespace test_protox_dtl_hla_1516_codec_enumerated
-{
   using namespace boost;
   using namespace protox::hla_1516;
 
@@ -267,6 +267,4 @@ namespace test_protox_dtl_hla_1516_codec_enumerated
     BOOST_CHECK( day01 == thr );
     BOOST_CHECK( day01 != wed );
   }
-}
 
-#endif

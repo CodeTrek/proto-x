@@ -3,39 +3,95 @@ using testing ;
 
 local RTI_INCLUDE_PATH = [ os.environ TEST_RTI_INCLUDE ] ;
 
-unit-test protox_unit_tests
-  : protox_unit_tests.cpp
-  : <include>$(RTI_INCLUDE_PATH)
+unit-test protox_dtl_basic_tests
+  : ./protox/dtl/basic.cpp
+  : <target-os>windows:<cxxflags>/wd4535
     <include>..
   ;
   
-unit-test protox_dtl_tests
-  : protox_dtl_tests.cpp
-  : <include>$(RTI_INCLUDE_PATH)
+unit-test protox_dtl_compute_octet_boundary_tests
+  : ./protox/dtl/compute_octet_boundary.cpp
+  : <target-os>windows:<cxxflags>/wd4535
     <include>..
   ;
   
-unit-test protox_1516_variant_record_tests
-  : protox_1516_variant_record_tests.cpp
-  : <include>$(RTI_INCLUDE_PATH)
+unit-test protox_dtl_simple_tests
+  : ./protox/dtl/simple.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>..
+  ;
+
+unit-test protox_hla_i_class_type_tests
+  : ./protox/hla/test_i_class_type.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>$(RTI_INCLUDE_PATH)
     <include>..
   ;
   
-unit-test protox_1516_tests
-  : protox_1516_tests.cpp
-  : <include>$(RTI_INCLUDE_PATH)
+unit-test protox_hla_i_class_tests
+  : ./protox/hla/test_i_class.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>$(RTI_INCLUDE_PATH)
     <include>..
   ;
   
-unit-test protox_hla_tests
-  : protox_hla_tests.cpp
-  : <include>$(RTI_INCLUDE_PATH)
+unit-test protox_hla_interaction_amb_tests
+  : ./protox/hla/test_interaction_amb.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>$(RTI_INCLUDE_PATH)
     <include>..
   ;
   
-unit-test protox_hla_class_tests
-  : protox_hla_class_tests.cpp
-  : <include>$(RTI_INCLUDE_PATH)
+unit-test protox_hla_keywords_tests
+  : ./protox/hla/test_keywords.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>$(RTI_INCLUDE_PATH)
     <include>..
   ;
-   
+  
+unit-test protox_hla_o_class_type_tests
+  : ./protox/hla/test_o_class_type.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>$(RTI_INCLUDE_PATH)
+    <include>..
+  ;
+  
+unit-test protox_hla_o_class_tests
+  : ./protox/hla/test_o_class.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>$(RTI_INCLUDE_PATH)
+    <include>..
+  ;
+  
+unit-test protox_hla_object_amb_tests
+  : ./protox/hla/test_object_amb.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>$(RTI_INCLUDE_PATH)
+    <include>..
+  ;
+  
+unit-test protox_hla_som_tests
+  : ./protox/hla/test_som.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>$(RTI_INCLUDE_PATH)
+    <include>..
+  ;
+  
+unit-test protox_hla_1516_policy_basic_data_tests
+  : ./protox/hla_1516/policy_basic_data.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>..
+  ;
+  
+unit-test protox_hla_1516_policy_enumerated_tests
+  : ./protox/hla_1516/policy_enumerated.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>..
+  ;
+  
+unit-test protox_hla_1516_policy_fixed_array_tests
+  : ./protox/hla_1516/policy_fixed_array.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>..
+  ;
+  

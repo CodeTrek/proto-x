@@ -7,8 +7,10 @@
 
 /******************************************************************************/
 
-#ifndef TEST_PROTOX_HLA_I_CLASS_TYPE_HPP
-#define TEST_PROTOX_HLA_I_CLASS_TYPE_HPP
+#define BOOST_AUTO_TEST_MAIN
+
+#include <boost/test/included/unit_test_framework.hpp>
+#include <boost/test/auto_unit_test.hpp>
 
 /******************************************************************************/
 
@@ -19,10 +21,6 @@
 #include <protox/hla/i_class_type.hpp>
 
 #include <test/protox/hla/som/s009/inter_class_table.hpp>
-
-/******************************************************************************/
-
-namespace test_protox_hla_i_class_type {
 
 /******************************************************************************/
 
@@ -271,12 +269,3 @@ BOOST_AUTO_TEST_CASE( test_i_class_type_send )
   obj.send();
 }
 
-/******************************************************************************/
-
-}
-
-/******************************************************************************/
-
-#endif
-
-/******************************************************************************/

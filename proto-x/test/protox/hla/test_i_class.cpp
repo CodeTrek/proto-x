@@ -7,8 +7,10 @@
 
 /******************************************************************************/
 
-#ifndef TEST_PROTOX_HLA_I_CLASS_HPP
-#define TEST_PROTOX_HLA_I_CLASS_HPP
+#define BOOST_AUTO_TEST_MAIN
+
+#include <boost/test/included/unit_test_framework.hpp>
+#include <boost/test/auto_unit_test.hpp>
 
 /******************************************************************************/
 
@@ -20,10 +22,6 @@
 #include <test/protox/hla/som/s006/inter_class_table.hpp>
 #include <test/protox/hla/som/s007/inter_class_table.hpp>
 #include <test/protox/hla/som/s008/inter_class_table.hpp>
-
-/******************************************************************************/
-
-namespace test_protox_hla_i_class {
 
 /******************************************************************************/
 
@@ -101,12 +99,3 @@ BOOST_AUTO_TEST_CASE( test_i_class_children_with_params )
   BOOST_CHECK( boost::mpl::size<inter_class_table::param_list_type>::value == 2 );
 }
 
-/**************************************************************************************************/
-
-}
-
-/**************************************************************************************************/
-
-#endif
-
-/**************************************************************************************************/
