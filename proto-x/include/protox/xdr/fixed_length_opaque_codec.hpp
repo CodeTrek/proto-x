@@ -25,6 +25,7 @@
 #include <protox/dtl/codec_interface.hpp>
 
 #include <protox/xdr/codec_tags.hpp>
+#include <protox/xdr/basic_data_representation_table.hpp>
 
 /**************************************************************************************************/
 
@@ -75,11 +76,11 @@ public:
       codec::encode( s, obj[ i ] );
     }
 
-    static const Opaque ZERO_BYTE = 0;
+    static const protox::xdr::Opaque ZERO_BYTE = 0;
 
     for (i = 0; i < num_pad_bytes< A::static_num_elements >::value; ++i )
     {
-      ecode::encode( s, ZERO_BYTE );
+      codec::encode( s, ZERO_BYTE );
     }
 
     s.end_fixed_array();

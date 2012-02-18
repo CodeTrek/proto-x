@@ -74,12 +74,12 @@ struct o_class_type_impl
 
       type() : rti_amb(0)
       {
-        attrs.init_handles< SOM >( type::get_name() );
+        attrs.template init_handles< SOM >( type::get_name() );
       }
 
       type( RTI::RTIambassador &rti_amb ) : rti_amb(&rti_amb)
       {
-        attrs.init_handles< SOM >( type::get_name() );
+        attrs.template init_handles< SOM >( type::get_name() );
       }
 
       static void parse_names( const std::string &names, std::set< std::string > &name_set )
@@ -214,7 +214,7 @@ struct o_class_type_impl
       template< typename T >
       inline typename T::value_type &a_()
       {
-        return attrs.get_attribute< T >();
+        return attrs.template get_attribute< T >();
       }
 
       /**
@@ -234,7 +234,7 @@ struct o_class_type_impl
       template< typename T >
       inline typename T::value_type const &a_() const
       {
-        return attrs.get_attribute< T >();
+        return attrs.template get_attribute< T >();
       }
 
       /**
@@ -254,7 +254,7 @@ struct o_class_type_impl
       template< typename T >
       inline RTI::AttributeHandle get_attr_handle()
       {
-        return attrs.get_attr_handle< T >();
+        return attrs.template get_attr_handle< T >();
       }
 
       /**
@@ -279,8 +279,7 @@ struct o_class_type_impl
           return;
         }
 
-        RTI::AttributeHandleValuePairSet
-          *set = RTI::AttributeSetFactory::create( (RTI::ULong) attr_handles.size() );
+        RTI::AttributeHandleValuePairSet *set = RTI::AttributeSetFactory::create( (RTI::ULong) attr_handles.size() );
 
         boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr( set );
 
@@ -342,12 +341,12 @@ struct o_class_type_impl
   {
     static typename T::value_type const &get_attr( const attrs_type &attrs, const parent_class_type * )
     {
-      return attrs.get_attribute< T >();
+      return attrs.template get_attribute< T >();
     }
 
     static typename T::value_type &get_attr( attrs_type &attrs, parent_class_type * )
     {
-      return attrs.get_attribute< T >();
+      return attrs.template get_attribute< T >();
     }
   };
 
@@ -356,12 +355,12 @@ struct o_class_type_impl
   {
     static typename T::value_type const &get_attr( const attrs_type &attrs, const parent_class_type *parent )
     {
-      return parent->a_< T >();
+      return parent->template a_< T >();
     }
 
     static typename T::value_type &get_attr( attrs_type &attrs, parent_class_type *parent )
     {
-      return parent->a_< T >();
+      return parent->template a_< T >();
     }
   };
 
@@ -372,7 +371,7 @@ struct o_class_type_impl
   {
     static RTI::AttributeHandle get( attrs_type &attrs, parent_class_type * )
     {
-      return attrs.get_attr_handle< T >();
+      return attrs.template get_attr_handle< T >();
     }
   };
 
@@ -381,7 +380,7 @@ struct o_class_type_impl
   {
     static RTI::AttributeHandle get( attrs_type &, parent_class_type *parent )
     {
-      return parent->get_attr_handle< T >();
+      return parent->template get_attr_handle< T >();
     }
   };
 
@@ -556,7 +555,7 @@ struct o_class_type_impl
     static void publish( RTI::RTIambassador &rti_amb, const std::string &attrs )
     {
       std::set< std::string > name_set;
-      parse_names( attrs, name_set );
+      type::parse_names( attrs, name_set );
 
       if (name_set.empty())
       {
@@ -565,8 +564,7 @@ struct o_class_type_impl
 
       const RTI::ULong set_size = (RTI::ULong) name_set.size();
 
-      boost::shared_ptr< RTI::AttributeHandleSet >
-        ahs( RTI::AttributeHandleSetFactory::create( set_size ) );
+      boost::shared_ptr< RTI::AttributeHandleSet > ahs( RTI::AttributeHandleSetFactory::create( set_size ) );
 
       type::get_attr_handles( type::get_name(), &name_set, *ahs );
 
@@ -621,7 +619,7 @@ struct o_class_type_impl
     static void subscribe( RTI::RTIambassador &rti_amb, const std::string &attrs )
     {
       std::set< std::string > name_set;
-      parse_names( attrs, name_set );
+      type::parse_names( attrs, name_set );
 
       if (name_set.empty())
       {
@@ -666,7 +664,7 @@ struct o_class_type_impl
      */
     void register_obj( const std::string &name )
     {
-      if (rti_amb == 0)
+      if (parent_class_type::rti_amb == 0)
       {
         // TODO: throw exception
         return;
@@ -674,12 +672,12 @@ struct o_class_type_impl
 
       if (name.empty())
       {
-        obj_handle = rti_amb->registerObjectInstance( type::get_handle() );
+        parent_class_type::obj_handle = parent_class_type::rti_amb->registerObjectInstance( type::get_handle() );
       }
       else
       {
-        set_obj_name( name );
-        obj_handle = rti_amb->registerObjectInstance( type::get_handle(), name.c_str() );
+        parent_class_type::set_obj_name( name );
+        parent_class_type::obj_handle = parent_class_type::rti_amb->registerObjectInstance( type::get_handle(), name.c_str() );
       }
     }
 
@@ -690,7 +688,7 @@ struct o_class_type_impl
      */
     void update( RTI::FedTime *time = 0 )
     {
-      if (rti_amb == 0)
+      if (parent_class_type::rti_amb == 0)
       {
         // TODO: throw exception
         return;
@@ -714,11 +712,11 @@ struct o_class_type_impl
 
       if (time == 0)
       {
-        rti_amb->updateAttributeValues( obj_handle, *set_ptr, "" );
+        parent_class_type::rti_amb->updateAttributeValues( parent_class_type::obj_handle, *set_ptr, "" );
       }
       else
       {
-        rti_amb->updateAttributeValues( obj_handle, *set_ptr, *time, "" );
+        parent_class_type::rti_amb->updateAttributeValues( parent_class_type::obj_handle, *set_ptr, *time, "" );
       }
     }
 

@@ -215,7 +215,7 @@ public:
       return true;
     }
 
-    return is_o_class_ancestor( parent, it->second );
+    return som::is_o_class_ancestor( parent, it->second );
   }
 
   /**
@@ -242,7 +242,7 @@ public:
       return true;
     }
 
-    return is_i_class_ancestor( parent, it->second );
+    return som::is_i_class_ancestor( parent, it->second );
   }
 
   /**

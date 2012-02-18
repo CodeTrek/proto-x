@@ -61,7 +61,7 @@ public:
   {
     assert( obj.size() <= T::UPPER_BOUND );
 
-    return (   codec::static_size_in_bytes< UnsignedInteger >::value
+    return (   codec::static_size_in_bytes< protox::xdr::UnsignedInteger >::value
              + obj.size()
              + num_pad_bytes( obj.size() ));
   };
@@ -71,7 +71,7 @@ public:
   {
     s.start_variable_array();
     
-    const UnsignedInteger num_chars = obj.size();
+    const protox::xdr::UnsignedInteger num_chars = obj.size();
 
     codec::encode( s, num_chars );
 
@@ -82,7 +82,7 @@ public:
       codec::encode( s, obj[ i ] );
     }
 
-    static const Opaque ZERO_BYTE = 0;
+    static const protox::xdr::Opaque ZERO_BYTE = 0;
 
     for (i = 0; i < num_pad_bytes( obj.size() ); ++i )
     {
@@ -97,7 +97,7 @@ public:
   {
     s.start_fixed_array();
 
-    UnsignedInteger num_chars = 0;
+    protox::xdr::UnsignedInteger num_chars = 0;
 
     codec::decode( num_chars, s, offset );
 

@@ -26,6 +26,7 @@
 #include "protox/hla_1516/variant_record.hpp"
 #include "protox/hla_1516/basic_data_representation_table.hpp"
 #include "protox/hla_1516/fixed_record.hpp"
+#include "protox/hla_1516/fixed_array.hpp"
 
 #if 0
 
@@ -79,16 +80,16 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   BOOST_AUTO_TEST_CASE( tests_default_constructor )
   {
-    using namespace t1;
+    //using namespace t1;
 
     typedef hla_1516::variant_record<
       DaysOfWeekEnum16::type,
-      mpl::vector< alt_1, alt_2 >
+      mpl::vector< t1::alt_1, t1::alt_2 >
     > VarRecord01;
 
     typedef hla_1516::variant_record<
       DaysOfWeekEnum16::type,
-      mpl::vector< alt_1, alt_2 >,
+      mpl::vector< t1::alt_1, t1::alt_2 >,
       dtl::discriminant_other< HLAfloat32BE > // This is optional
     > VarRecord02;
   }
@@ -102,11 +103,11 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   BOOST_AUTO_TEST_CASE( tests_octet_boundary_discriminant )
   {
-    using namespace t2;
+    //using namespace t2;
 
     typedef hla_1516::variant_record<
       DaysOfWeekEnum16::type,
-      mpl::vector< alt_1, alt_2, alt_3 >
+      mpl::vector< t2::alt_1, t2::alt_2, t2::alt_3 >
     > VarRecord01;
 
    BOOST_CHECK( codec::octet_boundary< VarRecord01 >::value == 2 );
@@ -121,16 +122,15 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   BOOST_AUTO_TEST_CASE( tests_octet_boundary_2 )
   {
-    using namespace t3;
+    //using namespace t3;
 
     typedef hla_1516::variant_record<
       DaysOfWeekEnum16::type,
-      mpl::vector< alt_1, alt_2, alt_3 >
+      mpl::vector< t3::alt_1, t3::alt_2, t3::alt_3 >
     > VarRecord01;
 
     BOOST_CHECK( codec::octet_boundary< VarRecord01 >::value == 2 );
   }
-
 
   namespace t4
   {
@@ -141,16 +141,17 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   BOOST_AUTO_TEST_CASE( tests_octet_boundary_4 )
   {
-    using namespace t4;
+    //using namespace t4;
 
     typedef hla_1516::variant_record<
       DaysOfWeekEnum16::type,
-      mpl::vector< alt_1, alt_2, alt_3 >
+      mpl::vector< t4::alt_1, t4::alt_2, t4::alt_3 >
     > VarRecord01;
 
     BOOST_CHECK( codec::octet_boundary< VarRecord01 >::value == 4 );
   }
 
+#if 0
   namespace t5
   {
     struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun, Tue >  > {};
@@ -160,11 +161,11 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   BOOST_AUTO_TEST_CASE( tests_octet_boundary_8 )
   {
-    using namespace t5;
+    //using namespace t5;
 
     typedef hla_1516::variant_record<
       DaysOfWeekEnum16::type,
-      mpl::vector< alt_1, alt_2, alt_3 >
+      mpl::vector< t5::alt_1, t5::alt_2, t5::alt_3 >
     > VarRecord01;
 
     BOOST_CHECK( codec::octet_boundary< VarRecord01 >::value == 8 );
@@ -179,11 +180,11 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   BOOST_AUTO_TEST_CASE( tests_octet_boundary_other )
   {
-    using namespace t6;
+    //using namespace t6;
 
     typedef hla_1516::variant_record<
       DaysOfWeekEnum16::type,
-      mpl::vector< alt_1, alt_2, alt_3 >,
+      mpl::vector< t6::alt_1, t6::alt_2, t6::alt_3 >,
       dtl::discriminant_other< HLAfloat32BE > // This is optional
     > VarRecord01;
 
@@ -207,11 +208,11 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   BOOST_AUTO_TEST_CASE( tests_octet_boundary_composite )
   {
-    using namespace t7;
+    //using namespace t7;
 
     typedef hla_1516::variant_record<
       DaysOfWeekEnum16::type,
-      mpl::vector< alt_1, alt_2, alt_3 >
+      mpl::vector< t7::alt_1, t7::alt_2, t7::alt_3 >
     > VarRecord01;
 
     BOOST_CHECK( codec::octet_boundary< VarRecord01 >::value == 8 );
@@ -226,19 +227,19 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   BOOST_AUTO_TEST_CASE( test_equality_operator_simple )
   {
-    using namespace t8;
+    //using namespace t8;
 
     typedef hla_1516::variant_record<
       DaysOfWeekEnum16::type,
-      mpl::vector< alt_1, alt_2, alt_3 >,
+      mpl::vector< t8::alt_1, t8::alt_2, t8::alt_3 >,
       dtl::discriminant_other< HLAfloat32BE > // This is optional
     > VarRecord01;
 
     VarRecord01 vr1;
 
     vr1.discriminant = Fri::value();
-    vr1.alt_< alt_2 >( 5 );
-    vr1.alt_< alt_3 >( 'b' );
+    vr1.alt_< t8::alt_2 >( 5 );
+    vr1.alt_< t8::alt_3 >( 'b' );
 
     BOOST_CHECK( vr1 == vr1 );
 
@@ -248,8 +249,8 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     BOOST_CHECK( vr2 != vr1 );
 
     vr2.discriminant = Sat::value();
-    vr2.alt_< alt_2 >( 5 );
-    vr2.alt_< alt_3 >( 'b' );
+    vr2.alt_< t8::alt_2 >( 5 );
+    vr2.alt_< t8::alt_3 >( 'b' );
 
     BOOST_CHECK( vr2 == vr2 );
 
@@ -292,38 +293,38 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   BOOST_AUTO_TEST_CASE( test_equality_operator_composite )
   {
-    using namespace t9;
+    //using namespace t9;
 
-    VarRecord01 vr1;
-    VarRecord02 vr2;
+    t9::VarRecord01 vr1;
+    t9::VarRecord02 vr2;
 
     vr1.discriminant = Tue::value();
-    vr1.alt_< alt_1 >(25);
+    vr1.alt_< t9::alt_1 >(25);
 
     vr2.discriminant = Red::value();
-    vr2.alt_< alt_4 >(vr1);
+    vr2.alt_< t9::alt_4 >(vr1);
 
     BOOST_CHECK( vr2 == vr2 );
 
-    vr2.alt_< alt_4 >()->discriminant = Sat::value();
-    vr2.alt_< alt_4 >()->alt_< alt_3 >('v');
+    vr2.alt_< t9::alt_4 >()->discriminant = Sat::value();
+    vr2.alt_< t9::alt_4 >()->alt_< t9::alt_3 >('v');
 
-    BOOST_CHECK( *(vr2.alt_< alt_4 >()) != vr1 );
+    BOOST_CHECK( *(vr2.alt_< t9::alt_4 >()) != vr1 );
 
     vr1.discriminant = Sat::value();
-    vr1.alt_< alt_3 >('v');
+    vr1.alt_< t9::alt_3 >('v');
 
-    BOOST_CHECK( vr1 == *(vr2.alt_< alt_4 >()) );
+    BOOST_CHECK( vr1 == *(vr2.alt_< t9::alt_4 >()) );
 
-    vr2.alt_< alt_4 >()->discriminant = Wed::value();
-    vr2.alt_< alt_4 >()->other_( 72.0f );
+    vr2.alt_< t9::alt_4 >()->discriminant = Wed::value();
+    vr2.alt_< t9::alt_4 >()->other_( 72.0f );
 
-    BOOST_CHECK( vr1 != *(vr2.alt_< alt_4 >()) );
+    BOOST_CHECK( vr1 != *(vr2.alt_< t9::alt_4 >()) );
 
     vr1.discriminant = Wed::value();
     vr1.other_(72.0f);
 
-    BOOST_CHECK( vr1 == *(vr2.alt_< alt_4 >()) );
+    BOOST_CHECK( vr1 == *(vr2.alt_< t9::alt_4 >()) );
   }
 
   namespace t10
@@ -335,17 +336,17 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   BOOST_AUTO_TEST_CASE( test_dynamic_size_padding )
   {
-    using namespace t10;
+    //using namespace t10;
 
     typedef hla_1516::variant_record<
       SuiteEnum8::type,
-      mpl::vector< alt_1, alt_2, alt_3 >
+      mpl::vector< t10::alt_1, t10::alt_2, t10::alt_3 >
     > VarRecord01;
 
     VarRecord01 vr1;
 
     vr1.discriminant = Club::value();
-    vr1.alt_< alt_1 >( 8 );
+    vr1.alt_< t10::alt_1 >( 8 );
 
     // 1 + 7 (padding) + 4
     BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 12 );
@@ -354,12 +355,12 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     // 1 + 7 (padding)
     BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 8 );
 
-    vr1.alt_< alt_3 >('k');
+    vr1.alt_< t10::alt_3 >('k');
     // 1 + 7 (padding) + 1
     BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 9 );
 
     vr1.discriminant = Heart::value();
-    vr1.alt_< alt_2 >(3.145);
+    vr1.alt_< t10::alt_2 >(3.145);
     // 1 + 7 (padding) + 8
     BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 16 );
   }
@@ -373,18 +374,18 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   BOOST_AUTO_TEST_CASE( test_dynamic_size_no_padding )
   {
-    using namespace t11;
+    //using namespace t11;
 
     typedef hla_1516::variant_record<
       DaysOfWeekEnum16::type,
-      mpl::vector< alt_1, alt_2, alt_3 >,
+      mpl::vector< t11::alt_1, t11::alt_2, t11::alt_3 >,
       dtl::discriminant_other< HLAoctet > // This is optional
     > VarRecord01;
 
     VarRecord01 vr1;
 
     vr1.discriminant = Sun::value();
-    vr1.alt_< alt_1 >( (HLAinteger16BE) 8 );
+    vr1.alt_< t11::alt_1 >( (HLAinteger16BE) 8 );
 
     // 2 + 2
     BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 4 );
@@ -394,7 +395,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 2 );
 
     vr1.discriminant = Sat::value();
-    vr1.alt_< alt_3 >('n');
+    vr1.alt_< t11::alt_3 >('n');
     // 2 + 1
     BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 3 );
 
@@ -417,22 +418,22 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   BOOST_AUTO_TEST_CASE( test_codec_padding )
   {
-    using namespace t12;
+    //using namespace t12;
 
     typedef hla_1516::variant_record<
       SuiteEnum8::type,
-      mpl::vector< alt_1, alt_2, alt_3 >
+      mpl::vector< t12::alt_1, t12::alt_2, t12::alt_3 >
     > VarRecord01;
 
     VarRecord01 vr1;
 
     vr1.discriminant = Club::value();
-    vr1.alt_< alt_1 >( 8 );
+    vr1.alt_< t12::alt_1 >( 8 );
 
     VarRecord01 vr2;
 
     vr2.discriminant = Heart::value();
-    vr2.alt_< alt_2 >( 32.0 );
+    vr2.alt_< t12::alt_2 >( 32.0 );
 
     BOOST_CHECK( vr1 != vr2 );
 
@@ -443,7 +444,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     source.decode( vr2 );
 
     BOOST_CHECK( vr2.discriminant == Club::value() );
-    BOOST_CHECK( (*vr2.alt_< alt_1 >()) == 8 );
+    BOOST_CHECK( (*vr2.alt_< t12::alt_1 >()) == 8 );
     BOOST_CHECK( vr1 == vr2 );
   }
 
@@ -456,23 +457,23 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   BOOST_AUTO_TEST_CASE( test_codec_no_padding )
   {
-    using namespace t13;
+    //using namespace t13;
 
     typedef hla_1516::variant_record<
       DaysOfWeekEnum16::type,
-      mpl::vector< alt_1, alt_2, alt_3 >,
+      mpl::vector< t13::alt_1, t13::alt_2, t13::alt_3 >,
       dtl::discriminant_other< HLAoctet > // This is optional
     > VarRecord01;
 
     VarRecord01 vr1;
 
     vr1.discriminant = Sun::value();
-    vr1.alt_< alt_1 >(25);
+    vr1.alt_< t13::alt_1 >(25);
 
     VarRecord01 vr2;
 
     vr2.discriminant = Sat::value();
-    vr2.alt_< alt_2 >('g');
+    vr2.alt_< t13::alt_2 >('g');
 
     BOOST_CHECK( vr1 != vr2 );
 
@@ -483,7 +484,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     source.decode( vr2 );
 
     BOOST_CHECK( vr2.discriminant == Sun::value() );
-    BOOST_CHECK( (*vr2.alt_< alt_1 >()) == 25 );
+    BOOST_CHECK( (*vr2.alt_< t13::alt_1 >()) == 25 );
     BOOST_CHECK( vr1 == vr2 );
   }
 
@@ -496,23 +497,23 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
 
   BOOST_AUTO_TEST_CASE( test_codec_other )
   {
-    using namespace t14;
+    //using namespace t14;
 
     typedef hla_1516::variant_record<
       DaysOfWeekEnum16::type,
-      mpl::vector< alt_1, alt_2, alt_3 >,
+      mpl::vector< t14::alt_1, t14::alt_2, t14::alt_3 >,
       dtl::discriminant_other< HLAoctet > // This is optional
     > VarRecord01;
 
     VarRecord01 vr1;
 
     vr1.discriminant = Sun::value();
-    vr1.alt_< alt_1 >(25);
+    vr1.alt_< t14::alt_1 >(25);
 
     VarRecord01 vr2;
 
     vr2.discriminant = Sat::value();
-    vr2.alt_< alt_2 >('g');
+    vr2.alt_< t14::alt_2 >('g');
 
     BOOST_CHECK( vr1 != vr2 );
 
@@ -524,7 +525,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
       source.decode( vr2 );
 
       BOOST_CHECK( vr2.discriminant == Sun::value() );
-      BOOST_CHECK( (*vr2.alt_< alt_1 >()) == 25 );
+      BOOST_CHECK( (*vr2.alt_< t14::alt_1 >()) == 25 );
       BOOST_CHECK( vr1 == vr2 );
     }
 
@@ -545,6 +546,7 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
       BOOST_CHECK( vr1 == vr2 );
     }
   }
+#endif
 }
 
 #endif

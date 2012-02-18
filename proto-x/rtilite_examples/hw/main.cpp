@@ -123,7 +123,7 @@ public:
          RTI::InteractionParameterNotKnown,
          RTI::FederateInternalError)
   {
-    unsigned count = theParameters.size();
+    //unsigned count = theParameters.size();
     inter_amb.recv_interaction( theInteraction, theParameters, 0, theTag );
   }
 };

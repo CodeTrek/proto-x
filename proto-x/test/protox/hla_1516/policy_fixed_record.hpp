@@ -332,12 +332,12 @@ namespace test_protox_dtl_hla_1516_codec_fixed_record
 
   BOOST_AUTO_TEST_CASE( test_codec_no_padding_flat )
   {
-	using namespace t18;
+	//using namespace t18;
 
     t18::R1 r10;
-    r10.f_<f1>() = 'q';
-    r10.f_<f2>() = 'r';
-    r10.f_<f3>() = 's';
+    r10.f_<t18::f1>() = 'q';
+    r10.f_<t18::f2>() = 'r';
+    r10.f_<t18::f3>() = 's';
 
     protox::io::byte_data_sink sink;
     sink.encode( r10 );
@@ -346,9 +346,9 @@ namespace test_protox_dtl_hla_1516_codec_fixed_record
     protox::io::byte_data_source source(sink);
     source.decode( r11 );
 
-    BOOST_CHECK( r11.f_<f1>() == 'q' );
-    BOOST_CHECK( r11.f_<f2>() == 'r' );
-    BOOST_CHECK( r11.f_<f3>() == 's' );
+    BOOST_CHECK( r11.f_<t18::f1>() == 'q' );
+    BOOST_CHECK( r11.f_<t18::f2>() == 'r' );
+    BOOST_CHECK( r11.f_<t18::f3>() == 's' );
 
     BOOST_CHECK(  r11 == r10 );
   }
@@ -401,16 +401,16 @@ namespace test_protox_dtl_hla_1516_codec_fixed_record
 
   BOOST_AUTO_TEST_CASE( test_codec_no_padding_nested )
   {
-  	using namespace t20;
+  	//using namespace t20;
 
     t20::R2 r20;
-    r20.f_<f4>().f_<f1>() = 'q';
-    r20.f_<f4>().f_<f2>() = 'r';
-    r20.f_<f4>().f_<f3>() = 's';
+    r20.f_<t20::f4>().f_<t20::f1>() = 'q';
+    r20.f_<t20::f4>().f_<t20::f2>() = 'r';
+    r20.f_<t20::f4>().f_<t20::f3>() = 's';
 
-    r20.f_<f5>().f_<f1>() = 'h';
-    r20.f_<f5>().f_<f2>() = 'i';
-    r20.f_<f5>().f_<f3>() = 'j';
+    r20.f_<t20::f5>().f_<t20::f1>() = 'h';
+    r20.f_<t20::f5>().f_<t20::f2>() = 'i';
+    r20.f_<t20::f5>().f_<t20::f3>() = 'j';
 
     protox::io::byte_data_sink sink;
     sink.encode( r20 );
@@ -419,13 +419,13 @@ namespace test_protox_dtl_hla_1516_codec_fixed_record
     protox::io::byte_data_source source(sink);
     source.decode( r21 );
 
-    BOOST_CHECK( r21.f_<f4>().f_<f1>() == 'q' );
-    BOOST_CHECK( r21.f_<f4>().f_<f2>() == 'r' );
-    BOOST_CHECK( r21.f_<f4>().f_<f3>() == 's' );
+    BOOST_CHECK( r21.f_<t20::f4>().f_<t20::f1>() == 'q' );
+    BOOST_CHECK( r21.f_<t20::f4>().f_<t20::f2>() == 'r' );
+    BOOST_CHECK( r21.f_<t20::f4>().f_<t20::f3>() == 's' );
 
-    BOOST_CHECK( r21.f_<f5>().f_<f1>() == 'h' );
-    BOOST_CHECK( r21.f_<f5>().f_<f2>() == 'i' );
-    BOOST_CHECK( r21.f_<f5>().f_<f3>() == 'j' );
+    BOOST_CHECK( r21.f_<t20::f5>().f_<t20::f1>() == 'h' );
+    BOOST_CHECK( r21.f_<t20::f5>().f_<t20::f2>() == 'i' );
+    BOOST_CHECK( r21.f_<t20::f5>().f_<t20::f3>() == 'j' );
 
     BOOST_CHECK(  r21 == r20 );
   }
@@ -446,31 +446,31 @@ namespace test_protox_dtl_hla_1516_codec_fixed_record
 
   BOOST_AUTO_TEST_CASE( test_codec_padding_nested )
   {
-    using namespace t21;
+    //using namespace t21;
 
-    R2 r20;
-    r20.f_<f4>().f_<f1>() = 'q';
-    r20.f_<f4>().f_<f2>() = 3.14159;;
-    r20.f_<f4>().f_<f3>() = 's';
+    t21::R2 r20;
+    r20.f_<t21::f4>().f_<t21::f1>() = 'q';
+    r20.f_<t21::f4>().f_<t21::f2>() = 3.14159;;
+    r20.f_<t21::f4>().f_<t21::f3>() = 's';
 
-    r20.f_<f5>().f_<f1>() = 'h';
-    r20.f_<f5>().f_<f2>() = 123e-5;;
-    r20.f_<f5>().f_<f3>() = 'j';
+    r20.f_<t21::f5>().f_<t21::f1>() = 'h';
+    r20.f_<t21::f5>().f_<t21::f2>() = 123e-5;;
+    r20.f_<t21::f5>().f_<t21::f3>() = 'j';
 
     protox::io::byte_data_sink sink;
     sink.encode( r20 );
 
-    R2 r21;
+    t21::R2 r21;
     protox::io::byte_data_source source(sink);
     source.decode( r21 );
 
-    BOOST_CHECK( r21.f_<f4>().f_<f1>() == 'q' );
-    BOOST_CHECK( abs(r21.f_<f4>().f_<f2>() - r20.f_<f4>().f_<f2>()) < 0.0000001 );
-    BOOST_CHECK( r21.f_<f4>().f_<f3>() == 's' );
+    BOOST_CHECK( r21.f_<t21::f4>().f_<t21::f1>() == 'q' );
+    BOOST_CHECK( abs(r21.f_<t21::f4>().f_<t21::f2>() - r20.f_<t21::f4>().f_<t21::f2>()) < 0.0000001 );
+    BOOST_CHECK( r21.f_<t21::f4>().f_<t21::f3>() == 's' );
 
-    BOOST_CHECK( r21.f_<f5>().f_<f1>() == 'h' );
-    BOOST_CHECK( abs(r21.f_<f5>().f_<f2>() - r20.f_<f5>().f_<f2>()) < 0.0000001 );
-    BOOST_CHECK( r21.f_<f5>().f_<f3>() == 'j' );
+    BOOST_CHECK( r21.f_<t21::f5>().f_<t21::f1>() == 'h' );
+    BOOST_CHECK( abs(r21.f_<t21::f5>().f_<t21::f2>() - r20.f_<t21::f5>().f_<t21::f2>()) < 0.0000001 );
+    BOOST_CHECK( r21.f_<t21::f5>().f_<t21::f3>() == 'j' );
 
     BOOST_CHECK( r21 == r20 );
   }
@@ -492,30 +492,30 @@ namespace test_protox_dtl_hla_1516_codec_fixed_record
 
   BOOST_AUTO_TEST_CASE( test_fixed_record )
   {
-    using namespace t22;
+    //using namespace t22;
 
-    r1_type r1;
-    r1.f_< DF >().f_< D1 >() = 3.145;
+    t22::r1_type r1;
+    r1.f_< t22::DF >().f_< t22::D1 >() = 3.145;
 
     protox::io::byte_data_sink sink;
 
-    BOOST_CHECK( 8 == codec::octet_boundary< r1_type >::value );
+    BOOST_CHECK( 8 == codec::octet_boundary< t22::r1_type >::value );
 
     sink.encode( r1 );
 
     protox::io::byte_data_source source(sink);
 
-    r1_type r2;
-    r2.f_< DF >().f_< D1 >() = 0;
+    t22::r1_type r2;
+    r2.f_< t22::DF >().f_< t22::D1 >() = 0;
 
     source.decode( r2 );
-    BOOST_CHECK( abs(r2.f_< DF >().f_< D1 >() - 3.145) < 0.0001 );
+    BOOST_CHECK( abs(r2.f_< t22::DF >().f_< t22::D1 >() - 3.145) < 0.0001 );
 
     BOOST_CHECK( codec::dynamic_size( r2 ) == 24 );
 
     BOOST_CHECK( r2 == r1 );
 
-    r2.f_< Y >().f_< X >() = 5.0f;
+    r2.f_< t22::Y >().f_< t22::X >() = 5.0f;
 
     BOOST_CHECK( r2 != r1 );
   }

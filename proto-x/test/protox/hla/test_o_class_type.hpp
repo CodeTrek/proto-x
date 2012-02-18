@@ -28,12 +28,13 @@ namespace test_protox_hla_o_class_type {
 /******************************************************************************/
 
 using namespace protox::hla;
+using namespace som_s004;
 
 /******************************************************************************/
 
 BOOST_AUTO_TEST_CASE( test_o_class_type_definition )
 {
-  using namespace som_s004;
+  //using namespace som_s004;
 
   typedef protox::hla::som< obj_class_table > som;
 
@@ -67,7 +68,7 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_definition )
 
 BOOST_AUTO_TEST_CASE( test_o_class_type_ctor )
 {
-  using namespace som_s004;
+  //using namespace som_s004;
 
   typedef protox::hla::som< obj_class_table > som;
 
@@ -99,7 +100,7 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_ctor )
 
 BOOST_AUTO_TEST_CASE( test_o_class_type_attr_mutators )
 {
-  using namespace som_s004;
+  //using namespace som_s004;
   using namespace som_s004::R1;
 
   typedef protox::hla::som< obj_class_table > som;
@@ -146,7 +147,7 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_attr_mutators )
 
 BOOST_AUTO_TEST_CASE( test_o_class_type_inheritance )
 {
-  using namespace som_s004;
+  //using namespace som_s004;
   using namespace som_s004::R1;
 
   typedef protox::hla::som< obj_class_table > som;
@@ -216,7 +217,7 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_inheritance )
 
 BOOST_AUTO_TEST_CASE( test_o_class_type_publish_all )
 {
-  using namespace som_s004;
+  //using namespace som_s004;
 
   typedef protox::hla::som< obj_class_table > som;
 
@@ -246,7 +247,7 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_publish_all )
 
 BOOST_AUTO_TEST_CASE( test_o_class_type_publish_subset )
 {
-  using namespace som_s004;
+  //using namespace som_s004;
 
   typedef protox::hla::som< obj_class_table > som;
 
@@ -278,7 +279,7 @@ BOOST_AUTO_TEST_CASE( test_o_class_type_publish_subset )
 
 BOOST_AUTO_TEST_CASE( test_o_class_type_unpublish )
 {
-  using namespace som_s004;
+  //using namespace som_s004;
 
   typedef protox::hla::som< obj_class_table > som;
 

@@ -69,12 +69,12 @@ struct i_class_type_impl
 
       type() : rti_amb(0)
       {
-        params.init_handles< SOM >( type::get_name() );
+        params.template init_handles< SOM >( type::get_name() );
       }
 
       type( RTI::RTIambassador &rti_amb ) : rti_amb(&rti_amb)
       {
-        params.init_handles< SOM >( type::get_name() );
+        params.template init_handles< SOM >( type::get_name() );
       }
 
       void add_values( boost::shared_ptr< RTI::ParameterHandleValuePairSet > set_ptr )
@@ -143,7 +143,7 @@ struct i_class_type_impl
       template< typename T >
       inline typename T::value_type &p_()
       {
-        return params.get_parameter< T >();
+        return params.template get_parameter< T >();
       }
 
       /**
@@ -163,7 +163,7 @@ struct i_class_type_impl
       template< typename T >
       inline typename T::value_type const &p_() const
       {
-        return params.get_parameter< T >();
+        return params.template get_parameter< T >();
       }
 
       /**
@@ -183,7 +183,7 @@ struct i_class_type_impl
       template< typename T >
       inline RTI::ParameterHandle get_param_handle()
       {
-        return params.get_param_handle< T >();
+        return params.template get_param_handle< T >();
       }
 
       void recv( const RTI::ParameterHandleValuePairSet &param_set )
@@ -233,12 +233,12 @@ struct i_class_type_impl
     static typename T::value_type const &get_param( const params_type &params,
                                                     const parent_class_type * )
     {
-      return params.get_parameter< T >();
+      return params.template get_parameter< T >();
     }
 
     static typename T::value_type &get_param( params_type &params, parent_class_type * )
     {
-      return params.get_parameter< T >();
+      return params.template get_parameter< T >();
     }
   };
 
@@ -248,12 +248,12 @@ struct i_class_type_impl
     static typename T::value_type const &get_param( const params_type &,
                                                     const parent_class_type *parent )
     {
-      return parent->p_< T >();
+      return parent->template p_< T >();
     }
 
     static typename T::value_type &get_param( params_type &, parent_class_type *parent )
     {
-      return parent->p_< T >();
+      return parent->template p_< T >();
     }
   };
 
@@ -264,7 +264,7 @@ struct i_class_type_impl
   {
     static RTI::ParameterHandle get( params_type &params, parent_class_type * )
     {
-      return params.get_param_handle< T >();
+      return params.template get_param_handle< T >();
     }
   };
 
@@ -273,7 +273,7 @@ struct i_class_type_impl
   {
     static RTI::ParameterHandle get( params_type &, parent_class_type *parent )
     {
-      return parent->get_param_handle< T >();
+      return parent->template get_param_handle< T >();
     }
   };
 
@@ -489,7 +489,7 @@ struct i_class_type_impl
      */
     void send( const RTI::FedTime *time = 0 )
     {
-      if (rti_amb == 0)
+      if (parent_class_type::rti_amb == 0)
       {
         // TODO: throw exception
         return;
@@ -504,11 +504,11 @@ struct i_class_type_impl
 
       if (time == 0)
       {
-        rti_amb->sendInteraction( type::get_handle(), *set_ptr, "" );
+        parent_class_type::rti_amb->sendInteraction( type::get_handle(), *set_ptr, "" );
       }
       else
       {
-        rti_amb->sendInteraction( type::get_handle(), *set_ptr, *time, "" );
+        parent_class_type::rti_amb->sendInteraction( type::get_handle(), *set_ptr, *time, "" );
       }
     }
 

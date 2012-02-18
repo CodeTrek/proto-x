@@ -1159,7 +1159,7 @@ public:
   }
 
   // 5.7
-  void unsubscribeObjectClas ( ObjectClassHandle theClass )
+  void unsubscribeObjectClass ( ObjectClassHandle theClass )
   throw (ObjectClassNotDefined,
          ObjectClassNotSubscribed,
          FederateNotExecutionMember,

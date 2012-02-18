@@ -8,4 +8,34 @@ unit-test protox_unit_tests
   : <include>$(RTI_INCLUDE_PATH)
     <include>..
   ;
+  
+unit-test protox_dtl_tests
+  : protox_dtl_tests.cpp
+  : <include>$(RTI_INCLUDE_PATH)
+    <include>..
+  ;
+  
+unit-test protox_1516_variant_record_tests
+  : protox_1516_variant_record_tests.cpp
+  : <include>$(RTI_INCLUDE_PATH)
+    <include>..
+  ;
+  
+unit-test protox_1516_tests
+  : protox_1516_tests.cpp
+  : <include>$(RTI_INCLUDE_PATH)
+    <include>..
+  ;
+  
+unit-test protox_hla_tests
+  : protox_hla_tests.cpp
+  : <include>$(RTI_INCLUDE_PATH)
+    <include>..
+  ;
+  
+unit-test protox_hla_class_tests
+  : protox_hla_class_tests.cpp
+  : <include>$(RTI_INCLUDE_PATH)
+    <include>..
+  ;
    

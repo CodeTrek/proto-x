@@ -128,7 +128,7 @@ struct param_empty_base
   template< typename T >
   inline RTI::ParameterHandle get_param_handle()
   {
-    throw RTI::ParameterNotDefined( "parameter not defined" );
+    throw RTI::InteractionParameterNotDefined( "parameter not defined" );
   }
 
   void add_values( boost::shared_ptr< RTI::ParameterHandleValuePairSet > ) {}

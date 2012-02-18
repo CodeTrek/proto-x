@@ -81,11 +81,11 @@ public:
       codec::encode( s, obj[ i ] );
     }
 
-    static const Opaque ZERO_BYTE = 0;
+    static const protox::xdr::Opaque ZERO_BYTE = 0;
 
     for (i = 0; i < num_pad_bytes( obj.size() ); ++i )
     {
-      ecode::encode( s, ZERO_BYTE );
+      codec::encode( s, ZERO_BYTE );
     }
 
     s.end_variable_array();

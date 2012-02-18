@@ -36,26 +36,26 @@ BOOST_AUTO_TEST_CASE( test_basic_data_representation_table )
   typedef protox::dtl::codec codec;
 
   // Check static byte sizes for all basic data types.
-  BOOST_CHECK( 1 == codec::static_size_in_bytes< Opaque          >::value );
-  BOOST_CHECK( 4 == codec::static_size_in_bytes< Integer         >::value );
-  BOOST_CHECK( 4 == codec::static_size_in_bytes< UnsignedInteger >::value );
-  BOOST_CHECK( 4 == codec::static_size_in_bytes< Float           >::value );
-  BOOST_CHECK( 8 == codec::static_size_in_bytes< Double          >::value );
+  BOOST_CHECK( 1 == codec::static_size_in_bytes< protox::xdr::Opaque          >::value );
+  BOOST_CHECK( 4 == codec::static_size_in_bytes< protox::xdr::Integer         >::value );
+  BOOST_CHECK( 4 == codec::static_size_in_bytes< protox::xdr::UnsignedInteger >::value );
+  BOOST_CHECK( 4 == codec::static_size_in_bytes< protox::xdr::Float           >::value );
+  BOOST_CHECK( 8 == codec::static_size_in_bytes< protox::xdr::Double          >::value );
 
-  BOOST_CHECK( codec::octet_boundary< Opaque          >::value == 1UL );
-  BOOST_CHECK( codec::octet_boundary< Integer         >::value == 4UL );
-  BOOST_CHECK( codec::octet_boundary< UnsignedInteger >::value == 4UL );
-  BOOST_CHECK( codec::octet_boundary< Float           >::value == 4UL );
-  BOOST_CHECK( codec::octet_boundary< Double          >::value == 8UL );
+  BOOST_CHECK( codec::octet_boundary< protox::xdr::Opaque          >::value == 1UL );
+  BOOST_CHECK( codec::octet_boundary< protox::xdr::Integer         >::value == 4UL );
+  BOOST_CHECK( codec::octet_boundary< protox::xdr::UnsignedInteger >::value == 4UL );
+  BOOST_CHECK( codec::octet_boundary< protox::xdr::Float           >::value == 4UL );
+  BOOST_CHECK( codec::octet_boundary< protox::xdr::Double          >::value == 8UL );
 }
 
 BOOST_AUTO_TEST_CASE( test_basic_data_dynamic_size )
 {
-  BOOST_CHECK( (unsigned) codec::dynamic_size(Opaque())          ==  (unsigned) codec::static_size_in_bytes< Opaque          >::value );
-  BOOST_CHECK( (unsigned) codec::dynamic_size(Integer())         ==  (unsigned) codec::static_size_in_bytes< Integer         >::value );
-  BOOST_CHECK( (unsigned) codec::dynamic_size(UnsignedInteger()) ==  (unsigned) codec::static_size_in_bytes< UnsignedInteger >::value );
-  BOOST_CHECK( (unsigned) codec::dynamic_size(Float())           ==  (unsigned) codec::static_size_in_bytes< Float           >::value );
-  BOOST_CHECK( (unsigned) codec::dynamic_size(Double())          ==  (unsigned) codec::static_size_in_bytes< Double          >::value );
+  BOOST_CHECK( (unsigned) codec::dynamic_size(Opaque())          ==  (unsigned) codec::static_size_in_bytes< protox::xdr::Opaque          >::value );
+  BOOST_CHECK( (unsigned) codec::dynamic_size(Integer())         ==  (unsigned) codec::static_size_in_bytes< protox::xdr::Integer         >::value );
+  BOOST_CHECK( (unsigned) codec::dynamic_size(UnsignedInteger()) ==  (unsigned) codec::static_size_in_bytes< protox::xdr::UnsignedInteger >::value );
+  BOOST_CHECK( (unsigned) codec::dynamic_size(Float())           ==  (unsigned) codec::static_size_in_bytes< protox::xdr::Float           >::value );
+  BOOST_CHECK( (unsigned) codec::dynamic_size(Double())          ==  (unsigned) codec::static_size_in_bytes< protox::xdr::Double          >::value );
 }
 
 #if 0

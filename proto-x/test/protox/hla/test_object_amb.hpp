@@ -79,6 +79,8 @@ namespace t1
       BOOST_CHECK( obj.a_< A1 >() == 2552 );
       c1_obj_reflected = true;
       break;
+    default:
+      break;
     }
   }
 }
