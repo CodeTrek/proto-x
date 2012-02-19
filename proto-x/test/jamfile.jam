@@ -3,6 +3,10 @@ using testing ;
 
 local RTI_INCLUDE_PATH = [ os.environ TEST_RTI_INCLUDE ] ;
 
+########################################################################################################################
+# protox/dtl tests
+########################################################################################################################
+
 unit-test protox_dtl_basic_tests
   : ./protox/dtl/basic.cpp
   : <target-os>windows:<cxxflags>/wd4535
@@ -20,6 +24,10 @@ unit-test protox_dtl_simple_tests
   : <target-os>windows:<cxxflags>/wd4535
     <include>..
   ;
+
+########################################################################################################################
+# protox/hla tests
+########################################################################################################################
 
 unit-test protox_hla_i_class_type_tests
   : ./protox/hla/test_i_class_type.cpp
@@ -77,6 +85,10 @@ unit-test protox_hla_som_tests
     <include>..
   ;
   
+########################################################################################################################
+# protox/hla_1516 tests
+########################################################################################################################
+
 unit-test protox_hla_1516_policy_basic_data_tests
   : ./protox/hla_1516/policy_basic_data.cpp
   : <target-os>windows:<cxxflags>/wd4535
@@ -119,6 +131,9 @@ unit-test protox_hla_1516_policy_variant_record_tests
     <include>..
   ;
   
+########################################################################################################################
+# protox/custom tests
+########################################################################################################################
 unit-test protox_hla_custom_tests
   : ./protox/custom/custom.cpp
   : <target-os>windows:<cxxflags>/wd4535
