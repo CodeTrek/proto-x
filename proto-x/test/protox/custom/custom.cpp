@@ -7,8 +7,10 @@
 
 /******************************************************************************/
 
-#ifndef TEST_PROTOX_CUSTOM_HPP
-#define TEST_PROTOX_CUSTOM_HPP
+#define BOOST_AUTO_TEST_MAIN
+
+#include <boost/test/included/unit_test_framework.hpp>
+#include <boost/test/auto_unit_test.hpp>
 
 /******************************************************************************/
 
@@ -22,10 +24,6 @@
 #include <protox/io/byte_data_source.hpp>
 
 #include <test/protox/custom/custom_data_representation_table.hpp>
-
-/******************************************************************************/
-
-namespace test_custom_data_codec {
 
 /******************************************************************************/
 
@@ -211,13 +209,3 @@ namespace test_custom_data_codec {
 
     BOOST_CHECK( uint64BE_d == 3386894UL );
   }
-
-/******************************************************************************/
-
-}
-
-/******************************************************************************/
-
-#endif
-
-/******************************************************************************/

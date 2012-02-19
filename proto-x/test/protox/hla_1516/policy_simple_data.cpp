@@ -7,8 +7,10 @@
 
 /******************************************************************************/
 
-#ifndef TEST_PROTOX_HLA_1516_SIMPLE_DATA_CODEC_HPP
-#define TEST_PROTOX_HLA_1516_SIMPLE_DATA_CODEC_HPP
+#define BOOST_AUTO_TEST_MAIN
+
+#include <boost/test/included/unit_test_framework.hpp>
+#include <boost/test/auto_unit_test.hpp>
 
 /******************************************************************************/
 
@@ -21,10 +23,6 @@
 
 #include <protox/io/byte_data_sink.hpp>
 #include <protox/io/byte_data_source.hpp>
-
-/******************************************************************************/
-
-namespace test_protox_dtl_hla_1516_codec_simple_data {
 
 /******************************************************************************/
 
@@ -580,13 +578,3 @@ BOOST_AUTO_TEST_CASE( test_encode_HLAfloat64BE )
 
     BOOST_CHECK( fabs(float64BE_d - 5.67e-3) <= 0.00001 );
   }
-
-/******************************************************************************/
-
-}
-
-/******************************************************************************/
-
-#endif
-
-/******************************************************************************/

@@ -5,8 +5,10 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-#ifndef TEST_PROTOX_HLA_1516_VARIANT_RECORD_HPP
-#define TEST_PROTOX_HLA_1516_VARIANT_RECORD_HPP
+#define BOOST_AUTO_TEST_MAIN
+
+#include <boost/test/included/unit_test_framework.hpp>
+#include <boost/test/auto_unit_test.hpp>
 
 #include <math.h>
 #include <vector>
@@ -52,8 +54,6 @@ namespace name   {
 #endif
 
 
-namespace test_protox_dtl_hla_1516_policy_variant_record
-{
   using namespace boost;
   using namespace protox;
   using namespace protox::dtl;
@@ -151,7 +151,6 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
     BOOST_CHECK( codec::octet_boundary< VarRecord01 >::value == 4 );
   }
 
-#if 0
   namespace t5
   {
     struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun, Tue >  > {};
@@ -546,7 +545,3 @@ namespace test_protox_dtl_hla_1516_policy_variant_record
       BOOST_CHECK( vr1 == vr2 );
     }
   }
-#endif
-}
-
-#endif
