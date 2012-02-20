@@ -29,28 +29,20 @@ using namespace protox::hla;
 
 //// Object Class Table ////////////////////////////////////////////////////////////////////////
    struct obj_class_table : o_class< HLAobjectRoot, attrs< HLAprivilegeToDeleteObject >, child<
-// +--------------------+--------------------------+-------------------------+
-// | Class 1            | Class 2                  | Class 3                 |
-// +--------------------+--------------------------+-------------------------+
-     o_class< Employee,                                                         attrs< PayRate, YearsOfService, HomeNumber, HomeAddress >,
-//                      +--------------------------+
-                          child< o_class< Waiter,                               attrs< Efficiency, Cheerfulness, State > >,
-//                      +--------------------------+
-                                 o_class< DishWasher,                           attrs< CleaningRate > > > >,
-//                      +--------------------------+
-// +--------------------+
-     o_class< Food,                                                             attrs< Price >,
-//                      +--------------------------+
-                          child< o_class< Entree,                               attrs< MenuItem >,
-//                                                 +-------------------------+
-                                                     child< o_class< Beef,      attrs< TypeOfCut > >,
-//                                                 +-------------------------+
-                                                            o_class< Seafood > > >,
-//                                                 +-------------------------+
-//                      +--------------------------+
-                                 o_class< Dessert > > > > > {};
-//                      +--------------------------+
-// +--------------------+
+// +-------------------+---------------------+-------------------------+
+// | Class 1           | Class 2             | Class 3                 |
+// +-------------------+---------------------+-------------------------+
+     o_class< Employee ,                                                   attrs< PayRate, YearsOfService, HomeNumber, HomeAddress >,
+                  child< o_class< Waiter ,                                 attrs< Efficiency, Cheerfulness, State > >,
+                         o_class< DishWasher ,                             attrs< CleaningRate > > > >,
+// +-------------------+---------------------+-------------------------+
+     o_class< Food     ,                                                   attrs< Price >,
+                  child< o_class< Entree,                                  attrs< MenuItem >,
+                                        child< o_class< Beef,              attrs< TypeOfCut > >,
+                                               o_class< Seafood > > >,
+// +                   +---------------------+-------------------------+
+                         o_class< Dessert > > > > > {};
+// +-------------------+---------------------+-------------------------+
 
 /******************************************************************************/
 

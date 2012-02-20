@@ -1,6 +1,10 @@
 import os ;
 using testing ;
 
+#
+# TEST_RTI_INCLUDE - an environment variable that points to the path containing RTI definitions used by the unit tests.
+#                    The value of this environment variable should be: <protox install>/include/protox/rti
+
 local RTI_INCLUDE_PATH = [ os.environ TEST_RTI_INCLUDE ] ;
 
 ########################################################################################################################
