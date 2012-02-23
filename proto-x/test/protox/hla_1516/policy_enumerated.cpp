@@ -106,8 +106,7 @@ struct ColorEnum_Yellow {
 /**********************************************************************************************************************/
 
 /**
- * Compare values to equivalence sets, where each equivalence set
- * represents the range of valid values for a particular
+ * Compare values to equivalence sets, where each equivalence set represents the range of valid values for a particular
  * enumerated value.
  */
 bool ColorEnum::is_equal(Color_value_type lhs, Color_value_type rhs) {
@@ -253,15 +252,15 @@ BOOST_AUTO_TEST_CASE(test_enum_equivalence_set) {
     blue_source.decode(blue2);
 
     // Verify that the decoded representations are valid ColorEnum_Blue enumerators.
-    BOOST_CHECK(blue1                   == blue2                  );
-    BOOST_CHECK(blue1                   == ColorEnum_Blue::value());
-    BOOST_CHECK(ColorEnum_Blue::value() == blue2                  );
-
-    BOOST_CHECK( blue1 != ColorEnum_Yellow::value() );
+    BOOST_CHECK(blue1                   == blue2                    );
+    BOOST_CHECK(blue1                   == ColorEnum_Blue::value()  );
+    BOOST_CHECK(ColorEnum_Blue::value() == blue2                    );
+    BOOST_CHECK(blue1                   != ColorEnum_Yellow::value());
 }
 
-  BOOST_AUTO_TEST_CASE( test_enum_pre_processor )
-  {
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_enum_pre_processor) {
     test_hla1516::DaysOfWeekEnum16::type sun = test_hla1516::DaysOfWeekEnum16::Sun::value();
     test_hla1516::DaysOfWeekEnum16::type mon = test_hla1516::DaysOfWeekEnum16::Mon::value();
     test_hla1516::DaysOfWeekEnum16::type tue = test_hla1516::DaysOfWeekEnum16::Tue::value();
@@ -272,13 +271,12 @@ BOOST_AUTO_TEST_CASE(test_enum_equivalence_set) {
 
     test_hla1516::DaysOfWeekEnum16::type day01 = test_hla1516::DaysOfWeekEnum16::Thr::value();
 
-    BOOST_CHECK( sun == sun );
-    BOOST_CHECK( tue == tue );
+    BOOST_CHECK(sun == sun);
+    BOOST_CHECK(tue == tue);
 
-    BOOST_CHECK( sun != mon );
-    BOOST_CHECK( fri != wed );
+    BOOST_CHECK(sun != mon);
+    BOOST_CHECK(fri != wed);
 
-    BOOST_CHECK( day01 == thr );
-    BOOST_CHECK( day01 != wed );
-  }
-
+    BOOST_CHECK(day01 == thr);
+    BOOST_CHECK(day01 != wed);
+}
