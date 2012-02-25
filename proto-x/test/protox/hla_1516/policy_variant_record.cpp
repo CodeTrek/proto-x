@@ -140,106 +140,111 @@ BOOST_AUTO_TEST_CASE(tests_octet_boundary_2) {
     BOOST_CHECK(codec::octet_boundary< VarRecord01 >::value == 2);
 }
 
-  namespace t4
-  {
+/**********************************************************************************************************************/
+
+namespace t4 {
     struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun, Tue >  > {};
     struct alt_2 : dtl::discriminant< HLAinteger32BE, mpl::vector< Fri >       > {};
     struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat >       > {};
-  }
+}
 
-  BOOST_AUTO_TEST_CASE( tests_octet_boundary_4 )
-  {
-    //using namespace t4;
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(tests_octet_boundary_4) {
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::type,
-      mpl::vector< t4::alt_1, t4::alt_2, t4::alt_3 >
+        DaysOfWeekEnum16::type,
+        mpl::vector< t4::alt_1, t4::alt_2, t4::alt_3 >
     > VarRecord01;
 
-    BOOST_CHECK( codec::octet_boundary< VarRecord01 >::value == 4 );
-  }
+    BOOST_CHECK(codec::octet_boundary< VarRecord01 >::value == 4);
+}
 
-  namespace t5
-  {
+/**********************************************************************************************************************/
+
+namespace t5 {
     struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun, Tue >  > {};
     struct alt_2 : dtl::discriminant< HLAinteger64BE, mpl::vector< Fri >       > {};
     struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat >       > {};
-  }
+}
 
-  BOOST_AUTO_TEST_CASE( tests_octet_boundary_8 )
-  {
-    //using namespace t5;
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(tests_octet_boundary_8) {
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::type,
-      mpl::vector< t5::alt_1, t5::alt_2, t5::alt_3 >
+        DaysOfWeekEnum16::type,
+        mpl::vector< t5::alt_1, t5::alt_2, t5::alt_3 >
     > VarRecord01;
 
-    BOOST_CHECK( codec::octet_boundary< VarRecord01 >::value == 8 );
-  }
+    BOOST_CHECK(codec::octet_boundary< VarRecord01 >::value == 8);
+}
 
-  namespace t6
-  {
+/**********************************************************************************************************************/
+
+namespace t6 {
     struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun, Tue >  > {};
     struct alt_2 : dtl::discriminant< HLAinteger16BE, mpl::vector< Fri >       > {};
     struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat >       > {};
-  }
+}
 
-  BOOST_AUTO_TEST_CASE( tests_octet_boundary_other )
-  {
-    //using namespace t6;
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(tests_octet_boundary_other) {
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::type,
-      mpl::vector< t6::alt_1, t6::alt_2, t6::alt_3 >,
-      dtl::discriminant_other< HLAfloat32BE > // This is optional
+        DaysOfWeekEnum16::type,
+        mpl::vector< t6::alt_1, t6::alt_2, t6::alt_3 >,
+        dtl::discriminant_other< HLAfloat32BE > // This is optional
     > VarRecord01;
 
-    BOOST_CHECK( codec::octet_boundary< VarRecord01 >::value == 4 );
-  }
+    BOOST_CHECK(codec::octet_boundary< VarRecord01 >::value == 4);
+}
 
-  namespace t7
-  {
-    struct x : public field<HLAoctet> {};
-    struct y : public field<HLAfloat32LE> {};
-    struct z : public field<HLAfloat64BE> {};
+/**********************************************************************************************************************/
+
+namespace t7 {
+    struct x : public field< HLAoctet     > {};
+    struct y : public field< HLAfloat32LE > {};
+    struct z : public field< HLAfloat64BE > {};
     typedef hla_1516::fixed_record< mpl::vector< x, y, z> > Vector3D;
 
-    typedef hla_1516::fixed_array< HLAfloat32BE, 3 > Vector3DArray;
+    typedef hla_1516::fixed_array< HLAfloat32BE,  3 > Vector3DArray;
     typedef hla_1516::fixed_array< Vector3DArray, 3 > Vector3DMatrix;
 
     struct alt_1 : dtl::discriminant< HLAinteger16LE, mpl::vector< Sun, Tue >  > {};
     struct alt_2 : dtl::discriminant< Vector3D,       mpl::vector< Fri >       > {};
     struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat >       > {};
-  }
+}
 
-  BOOST_AUTO_TEST_CASE( tests_octet_boundary_composite )
-  {
-    //using namespace t7;
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(tests_octet_boundary_composite) {
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::type,
-      mpl::vector< t7::alt_1, t7::alt_2, t7::alt_3 >
+        DaysOfWeekEnum16::type,
+        mpl::vector< t7::alt_1, t7::alt_2, t7::alt_3 >
     > VarRecord01;
 
-    BOOST_CHECK( codec::octet_boundary< VarRecord01 >::value == 8 );
-  }
+    BOOST_CHECK(codec::octet_boundary< VarRecord01 >::value == 8);
+}
 
-  namespace t8
-  {
+/**********************************************************************************************************************/
+
+namespace t8 {
     struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun, Tue >  > {};
     struct alt_2 : dtl::discriminant< HLAinteger16BE, mpl::vector< Fri >       > {};
     struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat >       > {};
-  }
+}
 
-  BOOST_AUTO_TEST_CASE( test_equality_operator_simple )
-  {
-    //using namespace t8;
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_equality_operator_simple) {
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::type,
-      mpl::vector< t8::alt_1, t8::alt_2, t8::alt_3 >,
-      dtl::discriminant_other< HLAfloat32BE > // This is optional
+        DaysOfWeekEnum16::type,
+        mpl::vector< t8::alt_1, t8::alt_2, t8::alt_3 >,
+        dtl::discriminant_other< HLAfloat32BE > // This is optional
     > VarRecord01;
 
     VarRecord01 vr1;
@@ -248,59 +253,60 @@ BOOST_AUTO_TEST_CASE(tests_octet_boundary_2) {
     vr1.alt_< t8::alt_2 >( 5 );
     vr1.alt_< t8::alt_3 >( 'b' );
 
-    BOOST_CHECK( vr1 == vr1 );
+    BOOST_CHECK(vr1 == vr1);
 
     VarRecord01 vr2;
 
-    BOOST_CHECK( vr1 != vr2 );
-    BOOST_CHECK( vr2 != vr1 );
+    BOOST_CHECK(vr1 != vr2);
+    BOOST_CHECK(vr2 != vr1);
 
     vr2.discriminant = Sat::value();
-    vr2.alt_< t8::alt_2 >( 5 );
-    vr2.alt_< t8::alt_3 >( 'b' );
+    vr2.alt_< t8::alt_2 >(5);
+    vr2.alt_< t8::alt_3 >('b');
 
-    BOOST_CHECK( vr2 == vr2 );
+    BOOST_CHECK(vr2 == vr2);
 
-    BOOST_CHECK( vr1 != vr2 );
-    BOOST_CHECK( vr2 != vr1 );
+    BOOST_CHECK(vr1 != vr2);
+    BOOST_CHECK(vr2 != vr1);
 
     vr1.discriminant = Sat::value();
 
-    BOOST_CHECK( vr1 == vr2 );
-    BOOST_CHECK( vr2 == vr1 );
+    BOOST_CHECK(vr1 == vr2);
+    BOOST_CHECK(vr2 == vr1);
 
     VarRecord01 vr3;
     vr3.discriminant = Sat::value();
 
-    BOOST_CHECK( vr3 != vr1 );
-    BOOST_CHECK( vr3 != vr2 );
-  }
+    BOOST_CHECK(vr3 != vr1);
+    BOOST_CHECK(vr3 != vr2);
+}
 
-  namespace t9
-  {
+/**********************************************************************************************************************/
+
+namespace t9 {
     struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun, Tue >  > {};
     struct alt_2 : dtl::discriminant< HLAinteger16BE, mpl::vector< Fri >       > {};
     struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat >       > {};
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::type,
-      mpl::vector< alt_1, alt_2, alt_3 >,
-      dtl::discriminant_other< HLAfloat32BE > // This is optional
+        DaysOfWeekEnum16::type,
+        mpl::vector< alt_1, alt_2, alt_3 >,
+        dtl::discriminant_other< HLAfloat32BE > // This is optional
     > VarRecord01;
 
-    struct alt_4 : dtl::discriminant< VarRecord01,  mpl::vector< Red >   > {};
+    struct alt_4 : dtl::discriminant< VarRecord01,  mpl::vector< Red  >  > {};
     struct alt_5 : dtl::discriminant< HLAfloat32BE, mpl::vector< Blue >  > {};
 
     typedef hla_1516::variant_record<
-      ColorEnum16::type,
-      mpl::vector< alt_4, alt_5 >,
-      dtl::discriminant_other< HLAfloat32BE > // This is optional
+        ColorEnum16::type,
+        mpl::vector< alt_4, alt_5 >,
+        dtl::discriminant_other< HLAfloat32BE > // This is optional
     > VarRecord02;
-  }
+}
 
-  BOOST_AUTO_TEST_CASE( test_equality_operator_composite )
-  {
-    //using namespace t9;
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_equality_operator_composite) {
 
     t9::VarRecord01 vr1;
     t9::VarRecord02 vr2;
@@ -311,165 +317,169 @@ BOOST_AUTO_TEST_CASE(tests_octet_boundary_2) {
     vr2.discriminant = Red::value();
     vr2.alt_< t9::alt_4 >(vr1);
 
-    BOOST_CHECK( vr2 == vr2 );
+    BOOST_CHECK(vr2 == vr2);
 
     vr2.alt_< t9::alt_4 >()->discriminant = Sat::value();
     vr2.alt_< t9::alt_4 >()->alt_< t9::alt_3 >('v');
 
-    BOOST_CHECK( *(vr2.alt_< t9::alt_4 >()) != vr1 );
+    BOOST_CHECK(*(vr2.alt_< t9::alt_4 >()) != vr1);
 
     vr1.discriminant = Sat::value();
     vr1.alt_< t9::alt_3 >('v');
 
-    BOOST_CHECK( vr1 == *(vr2.alt_< t9::alt_4 >()) );
+    BOOST_CHECK(vr1 == *(vr2.alt_< t9::alt_4 >()));
 
     vr2.alt_< t9::alt_4 >()->discriminant = Wed::value();
-    vr2.alt_< t9::alt_4 >()->other_( 72.0f );
+    vr2.alt_< t9::alt_4 >()->other_(72.0f);
 
-    BOOST_CHECK( vr1 != *(vr2.alt_< t9::alt_4 >()) );
+    BOOST_CHECK(vr1 != *(vr2.alt_< t9::alt_4 >()));
 
     vr1.discriminant = Wed::value();
     vr1.other_(72.0f);
 
-    BOOST_CHECK( vr1 == *(vr2.alt_< t9::alt_4 >()) );
-  }
+    BOOST_CHECK(vr1 == *(vr2.alt_< t9::alt_4 >()));
+}
 
-  namespace t10
-  {
+/**********************************************************************************************************************/
+
+namespace t10 {
     struct alt_1 : dtl::discriminant< HLAinteger32BE,  mpl::vector< Club  > > {};
     struct alt_2 : dtl::discriminant< HLAfloat64BE,    mpl::vector< Heart > > {};
     struct alt_3 : dtl::discriminant< HLAoctet,        mpl::vector< Spade > > {};
-  }
+}
 
-  BOOST_AUTO_TEST_CASE( test_dynamic_size_padding )
-  {
-    //using namespace t10;
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_dynamic_size_padding) {
 
     typedef hla_1516::variant_record<
-      SuiteEnum8::type,
-      mpl::vector< t10::alt_1, t10::alt_2, t10::alt_3 >
+        SuiteEnum8::type,
+        mpl::vector< t10::alt_1, t10::alt_2, t10::alt_3 >
     > VarRecord01;
 
     VarRecord01 vr1;
 
     vr1.discriminant = Club::value();
-    vr1.alt_< t10::alt_1 >( 8 );
+    vr1.alt_< t10::alt_1 >(8);
 
     // 1 + 7 (padding) + 4
-    BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 12 );
+    BOOST_CHECK(protox::dtl::codec::dynamic_size(vr1) == 12);
 
     vr1.discriminant = Spade::value();
     // 1 + 7 (padding)
-    BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 8 );
+    BOOST_CHECK(protox::dtl::codec::dynamic_size(vr1) == 8);
 
     vr1.alt_< t10::alt_3 >('k');
     // 1 + 7 (padding) + 1
-    BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 9 );
+    BOOST_CHECK(protox::dtl::codec::dynamic_size(vr1) == 9);
 
     vr1.discriminant = Heart::value();
     vr1.alt_< t10::alt_2 >(3.145);
     // 1 + 7 (padding) + 8
-    BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 16 );
-  }
+    BOOST_CHECK(protox::dtl::codec::dynamic_size(vr1) == 16);
+}
 
-  namespace t11
-  {
+/**********************************************************************************************************************/
+
+namespace t11 {
     struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun > > {};
     struct alt_2 : dtl::discriminant< HLAoctetPairBE, mpl::vector< Fri > > {};
     struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat > > {};
-  }
+}
 
-  BOOST_AUTO_TEST_CASE( test_dynamic_size_no_padding )
-  {
-    //using namespace t11;
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_dynamic_size_no_padding) {
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::type,
-      mpl::vector< t11::alt_1, t11::alt_2, t11::alt_3 >,
-      dtl::discriminant_other< HLAoctet > // This is optional
+        DaysOfWeekEnum16::type,
+        mpl::vector< t11::alt_1, t11::alt_2, t11::alt_3 >,
+        dtl::discriminant_other< HLAoctet > // This is optional
     > VarRecord01;
 
     VarRecord01 vr1;
 
     vr1.discriminant = Sun::value();
-    vr1.alt_< t11::alt_1 >( (HLAinteger16BE) 8 );
+    vr1.alt_< t11::alt_1 >((HLAinteger16BE) 8);
 
     // 2 + 2
-    BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 4 );
+    BOOST_CHECK(protox::dtl::codec::dynamic_size(vr1) == 4);
 
     vr1.discriminant = Fri::value();
     // 2
-    BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 2 );
+    BOOST_CHECK(protox::dtl::codec::dynamic_size(vr1) == 2);
 
     vr1.discriminant = Sat::value();
     vr1.alt_< t11::alt_3 >('n');
     // 2 + 1
-    BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 3 );
+    BOOST_CHECK(protox::dtl::codec::dynamic_size(vr1) == 3);
 
     vr1.discriminant = Wed::value();
 
     // 2
-    BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 2 );
+    BOOST_CHECK(protox::dtl::codec::dynamic_size(vr1) == 2);
 
     vr1.other_('t');
     // 2 + 1
-    BOOST_CHECK( protox::dtl::codec::dynamic_size( vr1 ) == 3 );
-  }
+    BOOST_CHECK(protox::dtl::codec::dynamic_size(vr1) == 3);
+}
 
-  namespace t12
-  {
+/**********************************************************************************************************************/
+
+namespace t12 {
     struct alt_1 : dtl::discriminant< HLAinteger32BE,  mpl::vector< Club  > > {};
     struct alt_2 : dtl::discriminant< HLAfloat64BE,    mpl::vector< Heart > > {};
     struct alt_3 : dtl::discriminant< HLAoctet,        mpl::vector< Spade > > {};
-  }
+}
 
-  BOOST_AUTO_TEST_CASE( test_codec_padding )
-  {
-    //using namespace t12;
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_codec_padding) {
 
     typedef hla_1516::variant_record<
-      SuiteEnum8::type,
-      mpl::vector< t12::alt_1, t12::alt_2, t12::alt_3 >
+        SuiteEnum8::type,
+        mpl::vector< t12::alt_1, t12::alt_2, t12::alt_3 >
     > VarRecord01;
 
     VarRecord01 vr1;
 
     vr1.discriminant = Club::value();
-    vr1.alt_< t12::alt_1 >( 8 );
+    vr1.alt_< t12::alt_1 >(8);
 
     VarRecord01 vr2;
 
     vr2.discriminant = Heart::value();
-    vr2.alt_< t12::alt_2 >( 32.0 );
+    vr2.alt_< t12::alt_2 >(32.0);
 
     BOOST_CHECK( vr1 != vr2 );
 
     protox::io::byte_data_sink sink;
-    sink.encode( vr1 );
+    sink.encode(vr1);
 
     protox::io::byte_data_source source(sink);
-    source.decode( vr2 );
+    source.decode(vr2);
 
-    BOOST_CHECK( vr2.discriminant == Club::value() );
-    BOOST_CHECK( (*vr2.alt_< t12::alt_1 >()) == 8 );
-    BOOST_CHECK( vr1 == vr2 );
-  }
+    BOOST_CHECK(vr2.discriminant            == Club::value());
+    BOOST_CHECK((*vr2.alt_< t12::alt_1 >()) == 8            );
+    BOOST_CHECK(vr1                         == vr2          );
+}
 
-  namespace t13
-  {
+/**********************************************************************************************************************/
+
+namespace t13 {
     struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun > > {};
     struct alt_2 : dtl::discriminant< HLAoctetPairBE, mpl::vector< Fri > > {};
     struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat > > {};
-  }
+}
 
-  BOOST_AUTO_TEST_CASE( test_codec_no_padding )
-  {
-    //using namespace t13;
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_codec_no_padding) {
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::type,
-      mpl::vector< t13::alt_1, t13::alt_2, t13::alt_3 >,
-      dtl::discriminant_other< HLAoctet > // This is optional
+        DaysOfWeekEnum16::type,
+        mpl::vector< t13::alt_1, t13::alt_2, t13::alt_3 >,
+        dtl::discriminant_other< HLAoctet > // This is optional
     > VarRecord01;
 
     VarRecord01 vr1;
@@ -482,34 +492,35 @@ BOOST_AUTO_TEST_CASE(tests_octet_boundary_2) {
     vr2.discriminant = Sat::value();
     vr2.alt_< t13::alt_2 >('g');
 
-    BOOST_CHECK( vr1 != vr2 );
+    BOOST_CHECK(vr1 != vr2);
 
     protox::io::byte_data_sink sink;
-    sink.encode( vr1 );
+    sink.encode(vr1);
 
     protox::io::byte_data_source source(sink);
-    source.decode( vr2 );
+    source.decode(vr2);
 
-    BOOST_CHECK( vr2.discriminant == Sun::value() );
-    BOOST_CHECK( (*vr2.alt_< t13::alt_1 >()) == 25 );
-    BOOST_CHECK( vr1 == vr2 );
-  }
+    BOOST_CHECK(vr2.discriminant            == Sun::value());
+    BOOST_CHECK((*vr2.alt_< t13::alt_1 >()) == 25          );
+    BOOST_CHECK(vr1                         == vr2         );
+}
 
-  namespace t14
-  {
+/**********************************************************************************************************************/
+
+namespace t14 {
     struct alt_1 : dtl::discriminant< HLAinteger16BE, mpl::vector< Sun > > {};
     struct alt_2 : dtl::discriminant< HLAoctetPairBE, mpl::vector< Fri > > {};
     struct alt_3 : dtl::discriminant< HLAoctet,       mpl::vector< Sat > > {};
-  }
+}
 
-  BOOST_AUTO_TEST_CASE( test_codec_other )
-  {
-    //using namespace t14;
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_codec_other) {
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::type,
-      mpl::vector< t14::alt_1, t14::alt_2, t14::alt_3 >,
-      dtl::discriminant_other< HLAoctet > // This is optional
+        DaysOfWeekEnum16::type,
+        mpl::vector< t14::alt_1, t14::alt_2, t14::alt_3 >,
+        dtl::discriminant_other< HLAoctet > // This is optional
     > VarRecord01;
 
     VarRecord01 vr1;
@@ -522,34 +533,34 @@ BOOST_AUTO_TEST_CASE(tests_octet_boundary_2) {
     vr2.discriminant = Sat::value();
     vr2.alt_< t14::alt_2 >('g');
 
-    BOOST_CHECK( vr1 != vr2 );
+    BOOST_CHECK(vr1 != vr2);
 
     protox::io::byte_data_sink sink;
-    sink.encode( vr1 );
+    sink.encode(vr1);
 
     {
-      protox::io::byte_data_source source(sink);
-      source.decode( vr2 );
+        protox::io::byte_data_source source(sink);
+        source.decode(vr2);
 
-      BOOST_CHECK( vr2.discriminant == Sun::value() );
-      BOOST_CHECK( (*vr2.alt_< t14::alt_1 >()) == 25 );
-      BOOST_CHECK( vr1 == vr2 );
+        BOOST_CHECK(vr2.discriminant            == Sun::value());
+        BOOST_CHECK((*vr2.alt_< t14::alt_1 >()) == 25          );
+        BOOST_CHECK(vr1                         == vr2         );
     }
 
     vr1.discriminant = Wed::value();
     vr1.other_('y');
 
-    BOOST_CHECK( vr1 != vr2 );
+    BOOST_CHECK(vr1 != vr2);
 
     sink.clear();
-    sink.encode( vr1 );
+    sink.encode(vr1);
 
     {
-      protox::io::byte_data_source source(sink);
-      source.decode( vr2 );
+        protox::io::byte_data_source source(sink);
+        source.decode(vr2);
 
-      BOOST_CHECK( vr2.discriminant == Wed::value() );
-      BOOST_CHECK( (*vr2.other_()) == 'y' );
-      BOOST_CHECK( vr1 == vr2 );
+        BOOST_CHECK(vr2.discriminant == Wed::value());
+        BOOST_CHECK((*vr2.other_())  == 'y'         );
+        BOOST_CHECK(vr1              == vr2         );
     }
-  }
+}
