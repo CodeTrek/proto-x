@@ -33,7 +33,7 @@ using namespace protox::dtl;
 //      | Record         +------+-----------------------+ Encoding               |
 //      | name           | Name | Type                  |                        |
 //      +----------------+------+-----------------------+------------------------+
-namespace R1             {
+namespace R1 {
                     struct f1   : field< SimpleHLAoctet > {};
                     struct f2   : field< SimpleHLAoctet > {};
                     struct f3   : field< SimpleHLAoctet > {};

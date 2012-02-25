@@ -27,14 +27,14 @@ using namespace protox::hla_1516;
 
 /**********************************************************************************************************************/
 
-//      +-----------------+-----------------------------------------------+---------------+--------+
-//      | Name            | Representation                                | Enumerator    | Values |
-//      +-----------------+-----------------------------------------------+---------------+--------+
-namespace TargetStateEnum { PROTOX_ENUM_TYPE( HLAinteger16BE, enumerated );
-                                                         PROTOX_ENUM_VALUE( IN_START_POS,   1 );
-                                                         PROTOX_ENUM_VALUE( IN_PLAY,        2 );
-                                                         PROTOX_ENUM_VALUE( IN_RETURN,      3 );
-//      +-----------------+-----------------------------------------------+---------------+--------+
+//      +-----------------+----------------------------------------------+---------------+--------+
+//      | Name            | Representation                               | Enumerator    | Values |
+//      +-----------------+----------------------------------------------+---------------+--------+
+namespace TargetStateEnum { PROTOX_ENUM_TYPE(HLAinteger16BE, enumerated) ;
+                                                        PROTOX_ENUM_VALUE( IN_START_POS,   1     );
+                                                        PROTOX_ENUM_VALUE( IN_PLAY,        2     );
+                                                        PROTOX_ENUM_VALUE( IN_RETURN,      3     );
+//      +-----------------+----------------------------------------------+---------------+--------+
 
 PROTOX_ENUM_EQUALITY_OPERATOR;
 PROTOX_ENUM_DEFAULT(IN_START_POS);

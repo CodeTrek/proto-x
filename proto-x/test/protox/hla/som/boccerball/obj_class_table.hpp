@@ -27,20 +27,20 @@ using namespace protox::hla;
 
 /**********************************************************************************************************************/
 
-//// Object Class Table ////////////////////////////////////////////////////////
+////// Object Class Table //////////////////////////////////////////////////////////////////////////////////////////////
 struct obj_class_table : o_class< HLAobjectRoot, attrs< HLAprivilegeToDeleteObject >, child<
-// +---------------------+-----------------+
-// | Class 1             | Class 2         |
-// +---------------------+-----------------+
-     o_class< Table,                           attrs< Width, Height > >,
-     o_class< GameObject ,                     attrs< Position, Velocity, Acceleration >,
-                    child< o_class< Target ,   attrs< Target::State > >,
-                           o_class< Marble ,   attrs< State > > > >,
-// +---------------------+-----------------+
-     o_class< Player,                          attrs< Name, Score >,
-                    child< o_class< Human >,
-                           o_class< AI,        attrs< SkillLevel > > > > > > {};
-// +---------------------+-----------------+
+//   +---------------------+-----------------+
+//   | Class 1             | Class 2         |
+//   +---------------------+-----------------+
+       o_class< Table,                           attrs< Width, Height > >,
+       o_class< GameObject ,                     attrs< Position, Velocity, Acceleration >,
+                      child< o_class< Target ,   attrs< Target::State > >,
+                             o_class< Marble ,   attrs< State > > > >,
+//   +---------------------+-----------------+
+       o_class< Player,                          attrs< Name, Score >,
+                      child< o_class< Human >,
+                             o_class< AI,        attrs< SkillLevel > > > > > > {};
+//   +---------------------+-----------------+
 
 /**********************************************************************************************************************/
 
