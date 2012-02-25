@@ -10,6 +10,8 @@
 #include <boost/test/included/unit_test_framework.hpp>
 #include <boost/test/auto_unit_test.hpp>
 
+/**********************************************************************************************************************/
+
 #include <math.h>
 #include <vector>
 
@@ -29,6 +31,8 @@
 #include "protox/hla_1516/basic_data_representation_table.hpp"
 #include "protox/hla_1516/fixed_record.hpp"
 #include "protox/hla_1516/fixed_array.hpp"
+
+/**********************************************************************************************************************/
 
 #if 0
 
@@ -53,84 +57,88 @@ namespace name   {
 }
 #endif
 
+/**********************************************************************************************************************/
 
-  using namespace boost;
-  using namespace protox;
-  using namespace protox::dtl;
-  using namespace protox::hla_1516;
-  using namespace test_hla1516;
-  using namespace test_hla1516::DaysOfWeekEnum16;
-  using namespace test_hla1516::ColorEnum16;
-  using namespace test_hla1516::SuiteEnum8;
+using namespace boost;
+using namespace protox;
+using namespace protox::dtl;
+using namespace protox::hla_1516;
+using namespace test_hla1516;
+using namespace test_hla1516::DaysOfWeekEnum16;
+using namespace test_hla1516::ColorEnum16;
+using namespace test_hla1516::SuiteEnum8;
 
-  namespace t1
-  {
-    struct x : public field<HLAoctet> {};
-    struct y : public field<HLAfloat32LE> {};
-    struct z : public field<HLAfloat64BE> {};
+/**********************************************************************************************************************/
+
+namespace t1 {
+    struct x : public field< HLAoctet     > {};
+    struct y : public field< HLAfloat32LE > {};
+    struct z : public field< HLAfloat64BE > {};
 
     typedef hla_1516::fixed_record< mpl::vector< x, y, z> > Vector3D;
 
-    typedef hla_1516::fixed_array< HLAfloat32BE, 3 > Vector3DArray;
+    typedef hla_1516::fixed_array< HLAfloat32BE,  3 > Vector3DArray;
     typedef hla_1516::fixed_array< Vector3DArray, 3 > Vector3DMatrix;
 
     struct alt_1 : discriminant< HLAinteger16LE, mpl::vector< Sun, Tue > > {};
     struct alt_2 : discriminant< Vector3D,       mpl::vector< Fri > > {};
-  }
+}
 
-  BOOST_AUTO_TEST_CASE( tests_default_constructor )
-  {
-    //using namespace t1;
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(tests_default_constructor) {
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::type,
-      mpl::vector< t1::alt_1, t1::alt_2 >
+        DaysOfWeekEnum16::type,
+        mpl::vector< t1::alt_1, t1::alt_2 >
     > VarRecord01;
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::type,
-      mpl::vector< t1::alt_1, t1::alt_2 >,
-      dtl::discriminant_other< HLAfloat32BE > // This is optional
+        DaysOfWeekEnum16::type,
+        mpl::vector< t1::alt_1, t1::alt_2 >,
+        dtl::discriminant_other< HLAfloat32BE > // This is optional
     > VarRecord02;
-  }
+}
 
-  namespace t2
-  {
+/**********************************************************************************************************************/
+
+namespace t2 {
     struct alt_1 : dtl::discriminant< HLAoctet, mpl::vector< Sun, Tue > > {};
     struct alt_2 : dtl::discriminant< HLAoctet, mpl::vector< Fri >      > {};
     struct alt_3 : dtl::discriminant< HLAoctet, mpl::vector< Sat >      > {};
-  }
+}
 
-  BOOST_AUTO_TEST_CASE( tests_octet_boundary_discriminant )
-  {
-    //using namespace t2;
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(tests_octet_boundary_discriminant) {
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::type,
-      mpl::vector< t2::alt_1, t2::alt_2, t2::alt_3 >
+        DaysOfWeekEnum16::type,
+        mpl::vector< t2::alt_1, t2::alt_2, t2::alt_3 >
     > VarRecord01;
 
-   BOOST_CHECK( codec::octet_boundary< VarRecord01 >::value == 2 );
-  }
+   BOOST_CHECK(codec::octet_boundary< VarRecord01 >::value == 2);
+}
 
-  namespace t3
-  {
+/**********************************************************************************************************************/
+
+namespace t3 {
     struct alt_1 : dtl::discriminant< HLAinteger16LE,  mpl::vector< Sun, Tue > > {};
     struct alt_2 : dtl::discriminant< HLAoctet,        mpl::vector< Fri >      > {};
     struct alt_3 : dtl::discriminant< HLAoctet,        mpl::vector< Sat >      > {};
-  }
+}
 
-  BOOST_AUTO_TEST_CASE( tests_octet_boundary_2 )
-  {
-    //using namespace t3;
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(tests_octet_boundary_2) {
 
     typedef hla_1516::variant_record<
-      DaysOfWeekEnum16::type,
-      mpl::vector< t3::alt_1, t3::alt_2, t3::alt_3 >
+        DaysOfWeekEnum16::type,
+        mpl::vector< t3::alt_1, t3::alt_2, t3::alt_3 >
     > VarRecord01;
 
-    BOOST_CHECK( codec::octet_boundary< VarRecord01 >::value == 2 );
-  }
+    BOOST_CHECK(codec::octet_boundary< VarRecord01 >::value == 2);
+}
 
   namespace t4
   {
