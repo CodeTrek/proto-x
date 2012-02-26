@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 #ifndef PROTOX_HLA_SOM_HPP
 #define PROTOX_HLA_SOM_HPP
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 #include <RTI.hh>
 
@@ -29,7 +29,7 @@
 #include <protox/hla/attr_dft.hpp>
 #include <protox/hla/param_dft.hpp>
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 /**
  * \namespace protox::hla
@@ -39,12 +39,12 @@
 namespace protox {
 namespace hla {
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 /**
- * This class combines object and interaction class tables to form a single interface to your
- * simulation object model (SOM) components. You use this interface to intialize RTI handles
- * (e.g., object and interaction class handles as well as attribute and parameter handles).
+ * This class combines object and interaction class tables to form a single interface to your simulation object model
+ * (SOM) components. You use this interface to intialize RTI handles (e.g., object and interaction class handles as
+ * well as attribute and parameter handles).
  *
  * \tparam ROOT_O_CLASS An object class table definition.
  * \tparam ROOT_I_CLASS An interaction class table definition.
@@ -71,80 +71,68 @@ namespace hla {
  * \endcode
  */
 template< typename ROOT_O_CLASS = null_o_class, typename ROOT_I_CLASS = null_i_class >
-struct som
-{
-private:
-  // Object class support
-  typedef attr_dft< ROOT_O_CLASS > attr_dft_type;
+struct som {
+    private:
+        // Object class support
+        typedef attr_dft< ROOT_O_CLASS > attr_dft_type;
     
-  static hla::name_to_o_class_handle_map &
-  get_name_to_o_class_handle_map()
-  {
-    static protox::hla::name_to_o_class_handle_map map;
-    return map;
-  }
+        static hla::name_to_o_class_handle_map &get_name_to_o_class_handle_map() {
+            static protox::hla::name_to_o_class_handle_map map;
+            return map;
+        }
 
-  static hla::o_class_handle_to_attr_map &
-  get_o_class_handle_to_attr_map()
-  {
-    static hla::o_class_handle_to_attr_map map;
-    return map;
-  }
+        static hla::o_class_handle_to_attr_map & get_o_class_handle_to_attr_map() {
+            static hla::o_class_handle_to_attr_map map;
+            return map;
+        }
 
-  static void init_o_class_handles( RTI::RTIambassador &rtiAmb )
-  {
-    hla::name_to_o_class_handle_map &o_class_map = get_name_to_o_class_handle_map();
+        static void init_o_class_handles(RTI::RTIambassador &rtiAmb) {
+            hla::name_to_o_class_handle_map &o_class_map = get_name_to_o_class_handle_map();
       
-    // Maps is already populated? 
-    if (!o_class_map.empty())
-    {
-      return;
-    }
+            // Maps is already populated?
+            if (!o_class_map.empty()) {
+                return;
+            }
       
-    hla::o_class_handle_to_attr_map &attr_map = get_o_class_handle_to_attr_map();
+            hla::o_class_handle_to_attr_map &attr_map = get_o_class_handle_to_attr_map();
 
-    assert( attr_map.empty() );
+            assert(attr_map.empty());
       
-    attr_dft_type::init_o_class_handles( rtiAmb, o_class_map, attr_map );
-  }
+            attr_dft_type::init_o_class_handles(rtiAmb, o_class_map, attr_map);
+        }
 
-  // Interaction class support
-  typedef param_dft< ROOT_I_CLASS > param_dft_type;
+        // Interaction class support
+        typedef param_dft< ROOT_I_CLASS > param_dft_type;
     
-  static hla::name_to_i_class_handle_map &get_name_to_i_class_handle_map()
-  {
-    static protox::hla::name_to_i_class_handle_map map;
-    return map;
-  }
+        static hla::name_to_i_class_handle_map &get_name_to_i_class_handle_map() {
+            static protox::hla::name_to_i_class_handle_map map;
+            return map;
+        }
 
-  static hla::i_class_handle_to_param_map &get_i_class_handle_to_param_map()
-  {
-    static hla::i_class_handle_to_param_map map;
-    return map;
-  }
-
-  static void init_i_class_handles( RTI::RTIambassador &rti_amb )
-  {
-    hla::name_to_i_class_handle_map &i_class_map = get_name_to_i_class_handle_map();
-      
-    // Map is already populated? 
-    if (!i_class_map.empty())
-    {
-      return;
+    static hla::i_class_handle_to_param_map &get_i_class_handle_to_param_map() {
+        static hla::i_class_handle_to_param_map map;
+        return map;
     }
-      
-    hla::i_class_handle_to_param_map &param_map = get_i_class_handle_to_param_map();
 
-    assert( param_map.empty() );
+    static void init_i_class_handles(RTI::RTIambassador &rti_amb) {
+        hla::name_to_i_class_handle_map &i_class_map = get_name_to_i_class_handle_map();
       
-    param_dft_type::init_i_class_handles( rti_amb, i_class_map, param_map );
-  }
+        // Map is already populated?
+        if (!i_class_map.empty()) {
+            return;
+        }
+      
+        hla::i_class_handle_to_param_map &param_map = get_i_class_handle_to_param_map();
+
+        assert(param_map.empty());
+      
+        param_dft_type::init_i_class_handles(rti_amb, i_class_map, param_map);
+    }
   
-  static hla::o_class_child_to_parent_map &get_o_class_child_to_parent_map()
-  {
-    static protox::hla::o_class_child_to_parent_map map;
-    return map;
-  }
+    static hla::o_class_child_to_parent_map &get_o_class_child_to_parent_map() {
+        static protox::hla::o_class_child_to_parent_map map;
+        return map;
+    }
 
   static void init_o_class_ancestors()
   {
@@ -483,24 +471,21 @@ public:
     }
   }
 
-  static void print_attr_handle_map()
-  {
-    o_class_handle_to_attr_map &class_map = get_o_class_handle_to_attr_map();
-    o_class_handle_to_attr_map::const_iterator i;
+        static void print_attr_handle_map() {
+            o_class_handle_to_attr_map &class_map = get_o_class_handle_to_attr_map();
+            o_class_handle_to_attr_map::const_iterator i;
 
-    for (i = class_map.begin(); i != class_map.end(); ++i)
-    {
-      std::cout << (*i).first << " : " << "\n";
+            for (i = class_map.begin(); i != class_map.end(); ++i) {
+                std::cout << (*i).first << " : " << "\n";
 
-      const attr_name_to_handle_map &attr_map = (*i).second;
-      attr_name_to_handle_map::const_iterator j;
+                const attr_name_to_handle_map &attr_map = (*i).second;
+                attr_name_to_handle_map::const_iterator j;
 
-      for (j = attr_map.begin(); j != attr_map.end(); ++j)
-      {
-        std::cout << "   " << (*j).first << " : " << (*j).second << "\n";
-      }
-    }
-  }
+                for (j = attr_map.begin(); j != attr_map.end(); ++j) {
+                    std::cout << "   " << (*j).first << " : " << (*j).second << "\n";
+                }
+            }
+        }
 };
   
 /**************************************************************************************************/
