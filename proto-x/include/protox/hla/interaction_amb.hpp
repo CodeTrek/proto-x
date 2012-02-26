@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 #ifndef PROTOX_HLA_INTERACTION_AMB_HPP
 #define PROTOX_HLA_INTERACTION_AMB_HPP
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 #include <cstddef>
 
@@ -21,16 +21,16 @@
 
 #include <protox/hla/recv_interaction.hpp>
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 namespace protox {
 namespace hla {
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 /**
- * Generates an interaction ambassador that can be used to forward a received interaction to
- * an interaction type safe handler function.
+ * Generates an interaction ambassador that can be used to forward a received interaction to an interaction type safe
+ * handler function.
  *
  * \tparam CLASS_TYPE_VECTOR A vector of interaction class types to be handled.
  *
@@ -48,12 +48,10 @@ namespace hla {
  *
  * typedef hla::interaction_amb< mpl::vector< greeting_type > >::type inter_amb_type;
  *
- * // Greeting interaction type handler. The handler can treat the receieved interaction in a type
- * // safe way.
- * static void greeting_handler( const greeting_type &greeting, const RTI::FedTime *, const char * )
- * {
- *   std::string str( greeting.p_< message >().begin(), greeting.p_< message >().end() );
- *   std::cout << "greeting : " << str.c_str() << " ";
+ * // Greeting interaction type handler. The handler can treat the receieved interaction in a type safe way.
+ * static void greeting_handler(const greeting_type &greeting, const RTI::FedTime *, const char *) {
+ *     std::string str(greeting.p_< message >().begin(), greeting.p_< message >().end());
+ *     std::cout << "greeting : " << str.c_str() << " ";
  * }
  *
  * // An HLA federate ambassador used to forward interactions to a proto-x interaction ambassador.
@@ -80,28 +78,25 @@ namespace hla {
  * \endcode
  */
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 template< typename CLASS_TYPE_VECTOR >
-struct interaction_amb
-{
-  typedef typename boost::mpl::inherit_linearly<
-    CLASS_TYPE_VECTOR,
-    recv_interaction_inherit<
-      recv_interaction_base< boost::mpl::placeholders::_2 >,
-      boost::mpl::placeholders::_1
-    >
-  >::type recv_interactions_type;
+struct interaction_amb {
 
-  struct type : recv_interactions_type {};
+    typedef typename boost::mpl::inherit_linearly<
+        CLASS_TYPE_VECTOR,
+        recv_interaction_inherit< recv_interaction_base< boost::mpl::placeholders::_2 >, boost::mpl::placeholders::_1 >
+    >::type recv_interactions_type;
+
+    struct type : recv_interactions_type {};
 };
   
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 }}
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
