@@ -5,12 +5,12 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 #ifndef PROTOX_HLA_O_CLASS_TYPE_HPP
 #define PROTOX_HLA_O_CLASS_TYPE_HPP
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 #include <string>
 #include <vector>
@@ -37,695 +37,587 @@
 
 #include <protox/algorithm/string/tokenize.hpp>
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 namespace protox {
 namespace hla {
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 template< typename SOM, typename Q_NAME_VECTOR >
-struct o_class_type_impl
-{
-  // Computes this class' parent class.
-  template< bool PARENT_NAME_IS_NULL, typename PARENT_Q_NAME  > struct parent_type_impl;
+struct o_class_type_impl {
+    // Computes this class' parent class.
+    template< bool PARENT_NAME_IS_NULL, typename PARENT_Q_NAME  > struct parent_type_impl;
 
-  template< typename PARENT_Q_NAME >
-  struct parent_type_impl< true, PARENT_Q_NAME >
-  {
-    /**
-     * Defines the root object class of an object class hierarchy.
-     */
-    struct type
-    {
-    private:
-      typedef typename boost::mpl::inherit_linearly<
-          typename SOM::o_class_table::attr_list_type,
-          attr_inherit< attr_base< boost::mpl::placeholders::_2 >, boost::mpl::placeholders::_1 >,
-          attr_empty_base
-        >::type root_attrs_type;
-
-      root_attrs_type attrs;
-
-    protected:
-      RTI::RTIambassador *rti_amb;
-      RTI::ObjectHandle   obj_handle;
-      std::string         obj_name;
-
-      type() : rti_amb(0)
-      {
-        attrs.template init_handles< SOM >( type::get_name() );
-      }
-
-      type( RTI::RTIambassador &rti_amb ) : rti_amb(&rti_amb)
-      {
-        attrs.template init_handles< SOM >( type::get_name() );
-      }
-
-      static void parse_names( const std::string &names, std::set< std::string > &name_set )
-      {
-        std::vector< std::string > name_vec;
-        protox::algorithm::string::tokenize( names, '.', name_vec );
-
-        if (name_vec.empty())
+    template< typename PARENT_Q_NAME >
+    struct parent_type_impl< true, PARENT_Q_NAME > {
+        /**
+         * Defines the root object class of an object class hierarchy.
+         */
+        struct type
         {
-          return;
-        }
+            private:
+                typedef typename boost::mpl::inherit_linearly<
+                    typename SOM::o_class_table::attr_list_type,
+                    attr_inherit< attr_base< boost::mpl::placeholders::_2 >, boost::mpl::placeholders::_1 >,
+                    attr_empty_base
+                >::type root_attrs_type;
 
-        name_set.insert( name_vec.begin(), name_vec.end() );
-      }
+                root_attrs_type attrs;
 
-      static void get_attr_handles( const std::string &class_name,
-                                    std::set< std::string > *name_set,
-                                    RTI::AttributeHandleSet &ahs )
-      {
-        root_attrs_type::template collect_handles< SOM >( class_name, name_set, ahs );
-      }
+            protected:
+                RTI::RTIambassador *rti_amb;
+                RTI::ObjectHandle   obj_handle;
+                std::string         obj_name;
 
-      void get_attr_handles( std::vector< RTI::AttributeHandle > &attr_handles )
-      {
-        attrs.collect_updated_attrs( attr_handles );
-      }
+                type() : rti_amb(0) { attrs.template init_handles< SOM >(type::get_name()); }
 
-      void update_values( boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr )
-      {
-        attrs.update_values( set_ptr );
-      }
+                type(RTI::RTIambassador &rti_amb) : rti_amb(&rti_amb) {
+                    attrs.template init_handles< SOM >(type::get_name());
+                }
 
-    public:
-      /**
-       * \return The number of attributes defined for this class.
-       */
-      static RTI::ULong get_num_attrs()
-      {
-        return root_attrs_type::count_attrs();
-      }
+                static void parse_names(const std::string &names, std::set< std::string > &name_set) {
+                    std::vector< std::string > name_vec;
+                    protox::algorithm::string::tokenize(names, '.', name_vec);
 
-      /**
-       * \return This class' fully qualified name.
-       */
-      static const std::string &get_name()
-      {
-        static std::string name = SOM::o_class_table::name_type::name();
-        return name;
-      }
+                    if (name_vec.empty()) {
+                        return;
+                    }
 
-      /**
-       * \return This class' RTI assigned handle.
-       */
-      static RTI::ObjectClassHandle get_handle()
-      {
-        static bool initialized = false;
-        static RTI::ObjectClassHandle handle;
+                    name_set.insert(name_vec.begin(), name_vec.end());
+                }
 
-        if (!initialized)
-        {
-          const std::string &name = type::get_name();
-          handle = SOM::get_object_class_handle( name );
-          initialized = true;
-        }
+                static void get_attr_handles(const std::string       &class_name,
+                                             std::set< std::string > *name_set,
+                                             RTI::AttributeHandleSet &ahs) {
+                    root_attrs_type::template collect_handles< SOM >(class_name, name_set, ahs);
+                }
 
-        return handle;
-      }
+                void get_attr_handles(std::vector< RTI::AttributeHandle > &attr_handles) {
+                    attrs.collect_updated_attrs(attr_handles);
+                 }
 
-      /**
-       * Sets this object's name.
-       *
-       * \param name The object's new name.
-       */
-      void set_obj_name( const std::string &name )
-      {
-        obj_name = name;
-      }
+                void update_values(boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr) {
+                    attrs.update_values(set_ptr);
+                }
 
-      /**
-       * \return This object's name.
-       */
-      const std::string &get_obj_name() const
-      {
-        return obj_name;
-      }
+            public:
+                /**
+                 * \return The number of attributes defined for this class.
+                 */
+                static RTI::ULong get_num_attrs() { return root_attrs_type::count_attrs(); }
 
-      /**
-       * Sets the RTI ambassador used to access object management services.
-       */
-      void set_rti( RTI::RTIambassador &rti_amb )
-      {
-        this->rti_amb = &rti_amb;
-      }
+                /**
+                 * \return This class' fully qualified name.
+                 */
+                static const std::string &get_name() {
+                    static std::string name = SOM::o_class_table::name_type::name();
+                    return name;
+                }
 
-      /**
-       * Deletes this object at the given time.
-       *
-       * \param time (optional) The time of object deletion.
-       */
-      void delete_obj( RTI::FedTime *time = 0 )
-      {
-        if (rti_amb == 0)
-        {
-          // TODO: throw exception
-          return;
-        }
+                /**
+                 * \return This class' RTI assigned handle.
+                 */
+                static RTI::ObjectClassHandle get_handle() {
+                    static bool initialized = false;
+                    static RTI::ObjectClassHandle handle;
 
-        if (time == 0)
-        {
-          rti_amb->deleteObjectInstance( obj_handle, "" );
-        }
-        else
-        {
-          rti_amb->deleteObjectInstance( obj_handle, *time, "" );
-        }
-      }
+                    if (!initialized) {
+                        const std::string &name = type::get_name();
+                        handle = SOM::get_object_class_handle(name);
+                        initialized = true;
+                    }
 
-      /**
-       * \return A read/write reference to the value of the attribute identified by \a T.
-       *
-       * \tparam T The type name of the attribute being retrieved.
-       *
-       * Example:
-       *
-       * \code
-       *
-       *  // Get the value of the Position attribute.
-       *  value_type &value = platform_obj.a_< Position >();
-       *
-       * \endcode
-       */
-      template< typename T >
-      inline typename T::value_type &a_()
-      {
-        return attrs.template get_attribute< T >();
-      }
+                    return handle;
+                }
 
-      /**
-       * \return A read-only reference to the value of the attribute identified by \a T.
-       *
-       * \tparam T The type name of the attribute being retrieved.
-       *
-       * Example:
-       *
-       * \code
-       *
-       *  // Get the value of the Position attribute.
-       *  const value_type &value = platform_obj.a_< Position >();
-       *
-       * \endcode
-       */
-      template< typename T >
-      inline typename T::value_type const &a_() const
-      {
-        return attrs.template get_attribute< T >();
-      }
+                /**
+                 * Sets this object's name.
+                 *
+                 * \param name The object's new name.
+                 */
+                void set_obj_name(const std::string &name) { obj_name = name; }
 
-      /**
-       * \return The RTI handle assigned to the attribute identified by \a T.
-       *
-       * \tparam T The type name of the attribute.
-       *
-       * Example:
-       *
-       * \code
-       *
-       *  // Get the the handle of the Position attribute.
-       *  RTI::AttributeHandle handl = platform_obj.get_attr_handle< Position >();
-       *
-       * \endcode
-       */
-      template< typename T >
-      inline RTI::AttributeHandle get_attr_handle()
-      {
-        return attrs.template get_attr_handle< T >();
-      }
+                /**
+                 * \return This object's name.
+                 */
+                const std::string &get_obj_name() const { return obj_name; }
 
-      /**
-       * Updates attributes that have been modified since the last time this function was called.
-       *
-       * \param time (optional) The time of the update.
-       */
-      void update( RTI::FedTime *time = 0 )
-      {
-        if (rti_amb == 0)
-        {
-          // TODO: throw exception
-          return;
-        }
+                /**
+                 * Sets the RTI ambassador used to access object management services.
+                 */
+                void set_rti(RTI::RTIambassador &rti_amb) { this->rti_amb = &rti_amb; }
 
-        std::vector< RTI::AttributeHandle > attr_handles;
+                /**
+                 * Deletes this object at the given time.
+                 *
+                 * \param time (optional) The time of object deletion.
+                 */
+                void delete_obj(RTI::FedTime *time = 0) {
+                    if (rti_amb == 0) {
+                        // TODO: throw exception
+                        return;
+                    }
 
-        get_attr_handles( attr_handles );
+                    if (time == 0) {
+                        rti_amb->deleteObjectInstance(obj_handle, "");
+                    } else {
+                        rti_amb->deleteObjectInstance(obj_handle, *time, "");
+                    }
+                }
 
-        if( attr_handles.empty() )
-        {
-          return;
-        }
+                /**
+                 * \return A read/write reference to the value of the attribute identified by \a T.
+                 *
+                 * \tparam T The type name of the attribute being retrieved.
+                 *
+                 * Example:
+                 *
+                 * \code
+                 *
+                 *  // Get the value of the Position attribute.
+                 *  value_type &value = platform_obj.a_< Position >();
+                 *
+                 * \endcode
+                 */
+                template< typename T >
+                inline typename T::value_type &a_() { return attrs.template get_attribute< T >(); }
 
-        RTI::AttributeHandleValuePairSet *set = RTI::AttributeSetFactory::create( (RTI::ULong) attr_handles.size() );
+                /**
+                 * \return A read-only reference to the value of the attribute identified by \a T.
+                 *
+                 * \tparam T The type name of the attribute being retrieved.
+                 *
+                 * Example:
+                 *
+                 * \code
+                 *
+                 *  // Get the value of the Position attribute.
+                 *  const value_type &value = platform_obj.a_< Position >();
+                 *
+                 * \endcode
+                 */
+                template< typename T >
+                inline typename T::value_type const &a_() const { return attrs.template get_attribute< T >(); }
 
-        boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr( set );
+                /**
+                 * \return The RTI handle assigned to the attribute identified by \a T.
+                 *
+                 * \tparam T The type name of the attribute.
+                 *
+                 * Example:
+                 *
+                 * \code
+                 *
+                 *  // Get the the handle of the Position attribute.
+                 *  RTI::AttributeHandle handl = platform_obj.get_attr_handle< Position >();
+                 *
+                 * \endcode
+                 */
+                template< typename T >
+                inline RTI::AttributeHandle get_attr_handle() { return attrs.template get_attr_handle< T >(); }
 
-        update_values( set_ptr );
+                /**
+                 * Updates attributes that have been modified since the last time this function was called.
+                 *
+                 * \param time (optional) The time of the update.
+                 */
+                void update(RTI::FedTime *time = 0) {
+                    if (rti_amb == 0) {
+                        // TODO: throw exception
+                        return;
+                    }
 
-        if (time == 0)
-        {
-          rti_amb->updateAttributeValues( obj_handle, *set_ptr, "" );
-        }
-        else
-        {
-          rti_amb->updateAttributeValues( obj_handle, *set_ptr, *time, "" );
-        }
-      }
+                    std::vector< RTI::AttributeHandle > attr_handles;
 
-      void reflect( const RTI::AttributeHandleValuePairSet &ahv_set, const RTI::FedTime *time )
-      {
-        attrs.reflect( ahv_set, time );
-      }
+                    get_attr_handles(attr_handles);
+
+                    if (attr_handles.empty()) {
+                        return;
+                    }
+
+                    RTI::AttributeHandleValuePairSet *set
+                        = RTI::AttributeSetFactory::create((RTI::ULong) attr_handles.size());
+
+                    boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr(set);
+
+                    update_values(set_ptr);
+
+                    if (time == 0) {
+                        rti_amb->updateAttributeValues(obj_handle, *set_ptr, "");
+                    } else {
+                        rti_amb->updateAttributeValues(obj_handle, *set_ptr, *time, "");
+                    }
+                }
+
+                void reflect(const RTI::AttributeHandleValuePairSet &ahv_set, const RTI::FedTime *time) {
+                    attrs.reflect(ahv_set, time);
+                }
+        };
     };
-  };
 
-  // Query the SOM for this class's attribute definitions
-  typedef typename boost::mpl::back<
-    typename x_class_vector<
-      typename SOM::o_class_table,
-      Q_NAME_VECTOR
-    >::type
-  >::type::attr_list_type attr_defs_type;
+    // Query the SOM for this class's attribute definitions
+    typedef typename boost::mpl::back<
+        typename x_class_vector< typename SOM::o_class_table, Q_NAME_VECTOR >::type
+    >::type::attr_list_type attr_defs_type;
 
-  // Construct the local attribute vector from the attribute definitions
-  typedef typename boost::mpl::inherit_linearly<
-    attr_defs_type,
-    attr_inherit< attr_base< boost::mpl::placeholders::_2 >, boost::mpl::placeholders::_1 >,
-    attr_empty_base
-  >::type attrs_type;
+    // Construct the local attribute vector from the attribute definitions
+    typedef typename boost::mpl::inherit_linearly<
+        attr_defs_type,
+        attr_inherit< attr_base< boost::mpl::placeholders::_2 >, boost::mpl::placeholders::_1 >,
+        attr_empty_base
+    >::type attrs_type;
 
-  template< typename PARENT_Q_NAME >
-  struct parent_type_impl< false, PARENT_Q_NAME >
-  {
-    typedef typename o_class_type_impl< SOM, PARENT_Q_NAME >::type type;
-  };
+    template< typename PARENT_Q_NAME >
+    struct parent_type_impl< false, PARENT_Q_NAME > {
+        typedef typename o_class_type_impl< SOM, PARENT_Q_NAME >::type type;
+    };
 
-  // Compute this class' parent class name
-  typedef typename boost::mpl::erase<
-     Q_NAME_VECTOR,
-     typename boost::mpl::prior< typename boost::mpl::end< Q_NAME_VECTOR >::type >::type
-   >::type PARENT_Q_NAME_VECTOR;
+    // Compute this class' parent class name
+    typedef typename boost::mpl::erase<
+        Q_NAME_VECTOR,
+        typename boost::mpl::prior< typename boost::mpl::end< Q_NAME_VECTOR >::type >::type
+    >::type PARENT_Q_NAME_VECTOR;
 
-  typedef typename parent_type_impl<
-    boost::mpl::empty< PARENT_Q_NAME_VECTOR >::value,
-    PARENT_Q_NAME_VECTOR
-  >::type parent_class_type;
+    typedef typename parent_type_impl<
+        boost::mpl::empty< PARENT_Q_NAME_VECTOR >::value,
+        PARENT_Q_NAME_VECTOR
+    >::type parent_class_type;
 
-  template< bool B, typename T > struct compute_attr_getter;
+    template< bool B, typename T > struct compute_attr_getter;
 
-  template< typename T >
-  struct compute_attr_getter< true, T >
-  {
-    static typename T::value_type const &get_attr( const attrs_type &attrs, const parent_class_type * )
-    {
-      return attrs.template get_attribute< T >();
-    }
-
-    static typename T::value_type &get_attr( attrs_type &attrs, parent_class_type * )
-    {
-      return attrs.template get_attribute< T >();
-    }
-  };
-
-  template< typename T >
-  struct compute_attr_getter< false, T >
-  {
-    static typename T::value_type const &get_attr( const attrs_type &attrs, const parent_class_type *parent )
-    {
-      return parent->template a_< T >();
-    }
-
-    static typename T::value_type &get_attr( attrs_type &attrs, parent_class_type *parent )
-    {
-      return parent->template a_< T >();
-    }
-  };
-
-  template< bool B, typename T > struct compute_get_attr_handle;
-
-  template< typename T >
-  struct compute_get_attr_handle< true, T >
-  {
-    static RTI::AttributeHandle get( attrs_type &attrs, parent_class_type * )
-    {
-      return attrs.template get_attr_handle< T >();
-    }
-  };
-
-  template< typename T >
-  struct compute_get_attr_handle< false, T >
-  {
-    static RTI::AttributeHandle get( attrs_type &, parent_class_type *parent )
-    {
-      return parent->template get_attr_handle< T >();
-    }
-  };
-
-  /**
-   * Defines a child object class.
-   */
-  struct type : parent_class_type
-  {
-  private:
-    attrs_type attrs;
-
-  protected:
-    static void get_attr_handles( const std::string &class_name,
-                                  std::set< std::string > *name_set,
-                                  RTI::AttributeHandleSet &ahs )
-    {
-      attrs_type::template collect_handles< SOM >( class_name, name_set, ahs );
-      parent_class_type::get_attr_handles( class_name, name_set, ahs );
-    }
-
-    void get_attr_handles( std::vector< RTI::AttributeHandle > &attr_handles )
-    {
-      attrs.collect_updated_attrs( attr_handles );
-      parent_class_type::get_attr_handles( attr_handles );
-    }
-
-    void update_values( boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr )
-    {
-      attrs.update_values( set_ptr );
-      parent_class_type::update_values( set_ptr );
-    }
-
-  public:
-
-    /**
-     * \return A read-only reference to the value of the attribute identified by \a T.
-     *
-     * \tparam T The type name of the attribute being retrieved.
-     *
-     * Example:
-     *
-     * \code
-     *
-     *  // Get the value of the Position attribute.
-     *  const value_type &value = platform_obj.a_< Position >();
-     *
-     * \endcode
-     */
     template< typename T >
-    inline typename T::value_type const &a_() const
-    {
-      return compute_attr_getter< boost::mpl::contains< attr_defs_type, T >::value,
-                                  T >::get_attr( attrs, this  );
-    }
+    struct compute_attr_getter< true, T > {
+        static typename T::value_type const &get_attr(const attrs_type &attrs, const parent_class_type *) {
+            return attrs.template get_attribute< T >();
+        }
 
-    /**
-     * \return A read/write reference to the value of the attribute identified by \a T.
-     *
-     * \tparam T The type name of the attribute being retrieved.
-     *
-     * Example:
-     *
-     * \code
-     *
-     *  // Get the value of the Position attribute.
-     *  value_type &value = platform_obj.a_< Position >();
-     *
-     * \endcode
-     */
+        static typename T::value_type &get_attr(attrs_type &attrs, parent_class_type *) {
+            return attrs.template get_attribute< T >();
+        }
+    };
+
     template< typename T >
-    inline typename T::value_type &a_()
-    {
-      return compute_attr_getter< boost::mpl::contains< attr_defs_type, T >::value,
-                                  T >::get_attr( attrs, this  );
-    }
+    struct compute_attr_getter< false, T > {
+        static typename T::value_type const &get_attr(const attrs_type &attrs, const parent_class_type *parent) {
+            return parent->template a_< T >();
+        }
 
-    /**
-     * \return The RTI handle assigned to the attribute identified by \a T.
-     *
-     * \tparam T The type name of the attribute.
-     *
-     * Example:
-     *
-     * \code
-     *
-     *  // Get the the handle of the Position attribute.
-     *  RTI::AttributeHandle handl = platform_obj.get_attr_handle< Position >();
-     *
-     * \endcode
-     */
+        static typename T::value_type &get_attr(attrs_type &attrs, parent_class_type *parent) {
+            return parent->template a_< T >();
+        }
+    };
+
+    template< bool B, typename T > struct compute_get_attr_handle;
+
     template< typename T >
-    inline RTI::AttributeHandle get_attr_handle()
-    {
-      return compute_get_attr_handle< boost::mpl::contains< attr_defs_type, T >::value,
-                                      T >::get( attrs, this );
-    }
+    struct compute_get_attr_handle< true, T > {
+        static RTI::AttributeHandle get(attrs_type &attrs, parent_class_type *) {
+            return attrs.template get_attr_handle< T >();
+        }
+    };
+
+    template< typename T >
+    struct compute_get_attr_handle< false, T > {
+        static RTI::AttributeHandle get(attrs_type &, parent_class_type *parent) {
+            return parent->template get_attr_handle< T >();
+        }
+    };
 
     /**
-     * \return This class' fully qualified name.
+     * Defines a child object class.
      */
-    static const std::string &get_name()
-    {
-      typedef typename x_class_vector< typename SOM::o_class_table,
-                                       Q_NAME_VECTOR >::type x_class_vector_type;
+    struct type : parent_class_type {
+        private:
+            attrs_type attrs;
 
-      static bool initialized = false;
-      static std::string name;
+        protected:
+            static void get_attr_handles(const std::string       &class_name,
+                                         std::set< std::string > *name_set,
+                                         RTI::AttributeHandleSet &ahs ) {
 
-      if (!initialized)
-      {
-        boost::mpl::for_each< x_class_vector_type >( build_full_name( name ) );
-        initialized = true;
-      }
+                attrs_type::template collect_handles< SOM >(class_name, name_set, ahs);
+                parent_class_type::get_attr_handles(class_name, name_set, ahs);
+            }
 
-      return name;
-    }
+            void get_attr_handles(std::vector< RTI::AttributeHandle > &attr_handles) {
+                attrs.collect_updated_attrs(attr_handles);
+                parent_class_type::get_attr_handles(attr_handles);
+            }
 
-    /**
-     * \return The class' RTI assigned handle.
-     */
-    static RTI::ObjectClassHandle get_handle()
-    {
-      static bool initialized = false;
-      static RTI::ObjectClassHandle handle;
+            void update_values(boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr) {
+                attrs.update_values(set_ptr);
+                parent_class_type::update_values(set_ptr);
+            }
 
-      if (!initialized)
-      {
-        const std::string &name = type::get_name();
-        handle = SOM::get_object_class_handle( name );
-        initialized = true;
-      }
+        public:
 
-      return handle;
-    }
+            /**
+             * \return A read-only reference to the value of the attribute identified by \a T.
+             *
+             * \tparam T The type name of the attribute being retrieved.
+             *
+             * Example:
+             *
+             * \code
+             *
+             *  // Get the value of the Position attribute.
+             *  const value_type &value = platform_obj.a_< Position >();
+             *
+             * \endcode
+             */
+            template< typename T >
+            inline typename T::value_type const &a_() const {
+                return compute_attr_getter< boost::mpl::contains< attr_defs_type, T >::value, T >::get_attr(attrs, this);
+            }
 
-    /**
-     * \return The number of attributes defined for this class.
-     */
-    static RTI::ULong get_num_attrs()
-    {
-      return attrs_type::count_attrs() + parent_class_type::get_num_attrs();
-    }
+            /**
+             * \return A read/write reference to the value of the attribute identified by \a T.
+             *
+             * \tparam T The type name of the attribute being retrieved.
+             *
+             * Example:
+             *
+             * \code
+             *
+             *  // Get the value of the Position attribute.
+             *  value_type &value = platform_obj.a_< Position >();
+             *
+             * \endcode
+             */
+            template< typename T >
+            inline typename T::value_type &a_() {
+                return compute_attr_getter< boost::mpl::contains< attr_defs_type, T >::value, T >::get_attr(attrs, this);
+            }
 
-    /**
-     * Publish all class attributes using the given RTI ambassador.
-     *
-     * \param rti_amb The RTI abmassador used to publish the class attributes.
-     */
-    static void publish( RTI::RTIambassador &rti_amb )
-    {
-      boost::shared_ptr< RTI::AttributeHandleSet >
-        ahs( RTI::AttributeHandleSetFactory::create( type::get_num_attrs() ) );
+            /**
+             * \return The RTI handle assigned to the attribute identified by \a T.
+             *
+             * \tparam T The type name of the attribute.
+             *
+             * Example:
+             *
+             * \code
+             *
+             *  // Get the the handle of the Position attribute.
+             *  RTI::AttributeHandle handl = platform_obj.get_attr_handle< Position >();
+             *
+             * \endcode
+             */
+            template< typename T >
+            inline RTI::AttributeHandle get_attr_handle() {
+                return compute_get_attr_handle< boost::mpl::contains< attr_defs_type, T >::value, T >::get(attrs, this);
+            }
 
-      type::get_attr_handles( type::get_name(), 0, *ahs );
+            /**
+             * \return This class' fully qualified name.
+             */
+            static const std::string &get_name() {
+                typedef typename x_class_vector< typename SOM::o_class_table, Q_NAME_VECTOR >::type x_class_vector_type;
 
-      rti_amb.publishObjectClass( type::get_handle(), *ahs );
-    }
+                static bool initialized = false;
+                static std::string name;
 
-    /**
-     * Publish a set of class attributes.
-     *
-     * \param attrs A string representation of the set of attributes to be published.
-     * \param rti_amb The RTI abmassador used to publish the class attributes.
-     *
-     * \code
-     *
-     * // Publish the Position and Velocity attributes of the Platform class.
-     * Platform::publish( rti_amb, "Position.Velocity" );
-     *
-     * \endcode
-     */
-    static void publish( RTI::RTIambassador &rti_amb, const std::string &attrs )
-    {
-      std::set< std::string > name_set;
-      type::parse_names( attrs, name_set );
+                if (!initialized) {
+                    boost::mpl::for_each< x_class_vector_type >(build_full_name(name));
+                    initialized = true;
+                }
 
-      if (name_set.empty())
-      {
-        return;
-      }
+                return name;
+            }
 
-      const RTI::ULong set_size = (RTI::ULong) name_set.size();
+            /**
+             * \return The class' RTI assigned handle.
+             */
+            static RTI::ObjectClassHandle get_handle() {
+                static bool initialized = false;
+                static RTI::ObjectClassHandle handle;
 
-      boost::shared_ptr< RTI::AttributeHandleSet > ahs( RTI::AttributeHandleSetFactory::create( set_size ) );
+                if (!initialized) {
+                    const std::string &name = type::get_name();
+                    handle = SOM::get_object_class_handle( name );
+                    initialized = true;
+                }
 
-      type::get_attr_handles( type::get_name(), &name_set, *ahs );
+                return handle;
+            }
 
-      // Undefined attributes?
-      if (!name_set.empty())
-      {
-        std::string name = *name_set.begin();
-        throw RTI::AttributeNotDefined( (name + " not defined").c_str() );
-      }
+            /**
+             * \return The number of attributes defined for this class.
+             */
+            static RTI::ULong get_num_attrs() { return attrs_type::count_attrs() + parent_class_type::get_num_attrs(); }
 
-      rti_amb.publishObjectClass( type::get_handle(), *ahs );
-    }
+            /**
+             * Publish all class attributes using the given RTI ambassador.
+             *
+             * \param rti_amb The RTI abmassador used to publish the class attributes.
+             */
+            static void publish(RTI::RTIambassador &rti_amb) {
+                boost::shared_ptr< RTI::AttributeHandleSet >
+                    ahs(RTI::AttributeHandleSetFactory::create(type::get_num_attrs()));
 
-    /**
-     * Unpublish this class.
-     *
-     * \param rti_amb The RTI abmassador used to unpublish this class.
-     */
-    static void unpublish( RTI::RTIambassador &rti_amb )
-    {
-      rti_amb.unpublishObjectClass( type::get_handle() );
-    }
+                type::get_attr_handles(type::get_name(), 0, *ahs);
+                rti_amb.publishObjectClass(type::get_handle(), *ahs);
+            }
 
-    /**
-     * Subscribe all class attributes.
-     *
-     * \param rti_amb The RTI abmassador used to subscribe this class.
-     */
-    static void subscribe( RTI::RTIambassador &rti_amb )
-    {
-      boost::shared_ptr<RTI::AttributeHandleSet>
-        ahs( RTI::AttributeHandleSetFactory::create( type::get_num_attrs() ) );
+            /**
+             * Publish a set of class attributes.
+             *
+             * \param attrs A string representation of the set of attributes to be published.
+             * \param rti_amb The RTI abmassador used to publish the class attributes.
+             *
+             * \code
+             *
+             * // Publish the Position and Velocity attributes of the Platform class.
+             * Platform::publish( rti_amb, "Position.Velocity" );
+             *
+             * \endcode
+             */
+            static void publish(RTI::RTIambassador &rti_amb, const std::string &attrs) {
+                std::set< std::string > name_set;
+                type::parse_names(attrs, name_set);
 
-      type::get_attr_handles( type::get_name(), 0, *ahs );
+                if (name_set.empty()) {
+                    return;
+                }
 
-      rti_amb.subscribeObjectClassAttributes( type::get_handle(), *ahs );
-    }
+                const RTI::ULong set_size = (RTI::ULong) name_set.size();
 
-    /**
-     * Subscribe a set of class attributes.
-     *
-     * \param attrs A string representation of the set of attributes to be subscribed.
-     * \param rti_amb The RTI abmassador used to subscribe the class attributes.
-     *
-     * \code
-     *
-     * // Subscribe the Position and Velocity attributes of the Platform class.
-     * Platform::subscribe( rti_amb, "Position.Velocity" );
-     *
-     * \endcode
-     */
-    static void subscribe( RTI::RTIambassador &rti_amb, const std::string &attrs )
-    {
-      std::set< std::string > name_set;
-      type::parse_names( attrs, name_set );
+                boost::shared_ptr< RTI::AttributeHandleSet > ahs(RTI::AttributeHandleSetFactory::create(set_size));
 
-      if (name_set.empty())
-      {
-        return;
-      }
+                type::get_attr_handles(type::get_name(), &name_set, *ahs);
 
-      const RTI::ULong set_size = (RTI::ULong) name_set.size();
+                // Undefined attributes?
+                if (!name_set.empty()) {
+                    std::string name = *name_set.begin();
+                    throw RTI::AttributeNotDefined((name + " not defined").c_str());
+                }
 
-      boost::shared_ptr< RTI::AttributeHandleSet >
-        ahs( RTI::AttributeHandleSetFactory::create( set_size ) );
+                rti_amb.publishObjectClass(type::get_handle(), *ahs);
+            }
 
-      type::get_attr_handles( type::get_name(), &name_set, *ahs );
+            /**
+             * Unpublish this class.
+             *
+             * \param rti_amb The RTI abmassador used to unpublish this class.
+             */
+            static void unpublish(RTI::RTIambassador &rti_amb) { rti_amb.unpublishObjectClass(type::get_handle()); }
 
-      rti_amb.subscribeObjectClassAttributes( type::get_handle(), *ahs );
-    }
+            /**
+             * Subscribe all class attributes.
+             *
+             * \param rti_amb The RTI abmassador used to subscribe this class.
+             */
+            static void subscribe(RTI::RTIambassador &rti_amb) {
+                boost::shared_ptr<RTI::AttributeHandleSet>
+                    ahs(RTI::AttributeHandleSetFactory::create(type::get_num_attrs()));
 
-    /**
-     * Unsubscribe this class.
-     *
-     * \param rti_amb The RTI abmassador used to unsubscribe the class.
-     */
-    static void unsubscribe( RTI::RTIambassador &rti_amb )
-    {
-      rti_amb.unsubscribeObjectClass( type::get_handle() );
-    }
+                type::get_attr_handles(type::get_name(), 0, *ahs);
+                rti_amb.subscribeObjectClassAttributes(type::get_handle(), *ahs);
+            }
 
-    type()
-    {
-      attrs.attrs_type::template init_handles< SOM >( type::get_name() );
-    }
+            /**
+             * Subscribe a set of class attributes.
+             *
+             * \param attrs A string representation of the set of attributes to be subscribed.
+             * \param rti_amb The RTI abmassador used to subscribe the class attributes.
+             *
+             * \code
+             *
+             * // Subscribe the Position and Velocity attributes of the Platform class.
+             * Platform::subscribe( rti_amb, "Position.Velocity" );
+             *
+             * \endcode
+             */
+            static void subscribe(RTI::RTIambassador &rti_amb, const std::string &attrs) {
+                std::set< std::string > name_set;
+                type::parse_names(attrs, name_set);
 
-    type( RTI::RTIambassador &rti_amb ) : parent_class_type(rti_amb)
-    {
-      attrs.attrs_type::template init_handles< SOM >( type::get_name() );
-    }
+                if (name_set.empty()) {
+                    return;
+                }
 
-    /**
-     * Register this object at the given time.
-     *
-     * \param name The object's name.
-     *
-     */
-    void register_obj( const std::string &name )
-    {
-      if (parent_class_type::rti_amb == 0)
-      {
-        // TODO: throw exception
-        return;
-      }
+                const RTI::ULong set_size = (RTI::ULong) name_set.size();
 
-      if (name.empty())
-      {
-        parent_class_type::obj_handle = parent_class_type::rti_amb->registerObjectInstance( type::get_handle() );
-      }
-      else
-      {
-        parent_class_type::set_obj_name( name );
-        parent_class_type::obj_handle = parent_class_type::rti_amb->registerObjectInstance( type::get_handle(), name.c_str() );
-      }
-    }
+                boost::shared_ptr< RTI::AttributeHandleSet > ahs(RTI::AttributeHandleSetFactory::create(set_size));
 
-    /**
-     * Updates attributes that have been modified since the last time this function was called.
-     *
-     * \param time (optional) The time of the update.
-     */
-    void update( RTI::FedTime *time = 0 )
-    {
-      if (parent_class_type::rti_amb == 0)
-      {
-        // TODO: throw exception
-        return;
-      }
+                type::get_attr_handles(type::get_name(), &name_set, *ahs);
 
-      std::vector< RTI::AttributeHandle > attr_handles;
+                rti_amb.subscribeObjectClassAttributes(type::get_handle(), *ahs);
+            }
 
-      get_attr_handles( attr_handles );
+            /**
+             * Unsubscribe this class.
+             *
+             * \param rti_amb The RTI abmassador used to unsubscribe the class.
+             */
+            static void unsubscribe(RTI::RTIambassador &rti_amb) { rti_amb.unsubscribeObjectClass(type::get_handle()); }
 
-      if (attr_handles.empty())
-      {
-        return;
-      }
+            type() { attrs.attrs_type::template init_handles< SOM >(type::get_name()); }
 
-      RTI::AttributeHandleValuePairSet
-        *set = RTI::AttributeSetFactory::create( (RTI::ULong) attr_handles.size() );
+            type(RTI::RTIambassador &rti_amb) : parent_class_type(rti_amb) {
+                attrs.attrs_type::template init_handles< SOM >(type::get_name());
+            }
 
-      boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr( set );
+            /**
+             * Register this object at the given time.
+             *
+             * \param name The object's name.
+             *
+             */
+            void register_obj(const std::string &name) {
+                if (parent_class_type::rti_amb == 0) {
+                    // TODO: throw exception
+                    return;
+                }
 
-      update_values( set_ptr );
+                if (name.empty()) {
+                    parent_class_type::obj_handle
+                        = parent_class_type::rti_amb->registerObjectInstance(type::get_handle());
+                } else {
+                    parent_class_type::set_obj_name(name);
+                    parent_class_type::obj_handle
+                        = parent_class_type::rti_amb->registerObjectInstance(type::get_handle(), name.c_str());
+                }
+            }
 
-      if (time == 0)
-      {
-        parent_class_type::rti_amb->updateAttributeValues( parent_class_type::obj_handle, *set_ptr, "" );
-      }
-      else
-      {
-        parent_class_type::rti_amb->updateAttributeValues( parent_class_type::obj_handle, *set_ptr, *time, "" );
-      }
-    }
+            /**
+             * Updates attributes that have been modified since the last time this function was called.
+             *
+             * \param time (optional) The time of the update.
+             */
+            void update(RTI::FedTime *time = 0) {
+                if (parent_class_type::rti_amb == 0) {
+                    // TODO: throw exception
+                    return;
+                }
 
-    void reflect( const RTI::AttributeHandleValuePairSet &ahv_set, const RTI::FedTime *time )
-    {
-      attrs.reflect( ahv_set, time );
-      parent_class_type::reflect( ahv_set, time );
-    }
-  };
+                std::vector< RTI::AttributeHandle > attr_handles;
+                get_attr_handles(attr_handles);
+
+                if (attr_handles.empty()) {
+                    return;
+                }
+
+                RTI::AttributeHandleValuePairSet *set
+                    = RTI::AttributeSetFactory::create((RTI::ULong) attr_handles.size());
+
+                boost::shared_ptr< RTI::AttributeHandleValuePairSet > set_ptr(set);
+
+                update_values(set_ptr);
+
+                if (time == 0) {
+                    parent_class_type::rti_amb->updateAttributeValues(parent_class_type::obj_handle, *set_ptr, "");
+                } else {
+                    parent_class_type::rti_amb->updateAttributeValues(parent_class_type::obj_handle, *set_ptr, *time, "");
+                }
+            }
+
+            void reflect(const RTI::AttributeHandleValuePairSet &ahv_set, const RTI::FedTime *time) {
+                attrs.reflect(ahv_set, time);
+                parent_class_type::reflect(ahv_set, time);
+            }
+        };
 };
 
 /**
@@ -755,27 +647,26 @@ struct o_class_type_impl
  * \endcode
  */
 template< typename SOM, typename Q_NAME_VECTOR >
-struct o_class_type
-{
-  // Trim in trailing mpl::na types in the Q_NAME_VECTOR.
+struct o_class_type {
+    // Trim in trailing mpl::na types in the Q_NAME_VECTOR.
 
-  // Ad a garbage item to Q_NAME_VECTOR and then remove it to yield the "trimmed" Q_NAME_VECTOR.
-  typedef typename boost::mpl::push_back< Q_NAME_VECTOR, int >::type Q_NAME_VECTOR_GARBAGE;
+    // Ad a garbage item to Q_NAME_VECTOR and then remove it to yield the "trimmed" Q_NAME_VECTOR.
+    typedef typename boost::mpl::push_back< Q_NAME_VECTOR, int >::type Q_NAME_VECTOR_GARBAGE;
 
-  typedef typename boost::mpl::erase<
-    Q_NAME_VECTOR_GARBAGE,
-    typename boost::mpl::prior< typename boost::mpl::end< Q_NAME_VECTOR_GARBAGE >::type >::type
-  >::type TRIMMED_Q_NAME;
+    typedef typename boost::mpl::erase<
+        Q_NAME_VECTOR_GARBAGE,
+        typename boost::mpl::prior< typename boost::mpl::end< Q_NAME_VECTOR_GARBAGE >::type >::type
+    >::type TRIMMED_Q_NAME;
 
-  typedef typename o_class_type_impl< SOM, TRIMMED_Q_NAME >::type type;
+    typedef typename o_class_type_impl< SOM, TRIMMED_Q_NAME >::type type;
 };
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 }}
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
