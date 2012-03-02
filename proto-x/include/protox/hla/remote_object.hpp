@@ -161,88 +161,71 @@ struct remote_object_inherit< A, boost::mpl::empty_base > : A, boost::mpl::empty
 
 // A is remote_object and B is set of predecessor remote_objects.
 template< typename A, typename B >
-struct remote_object_inherit : A, B
-{
-  template< typename T >
-  inline void set_handler
-    ( void (*h)( const T &, object_event_type, const RTI::FedTime *, const char *tag ) )
-  {
-    static_cast< remote_object_base< T > & >( *this ).handler = h;
-  }
-
-  /**
-   * Forward \c RTI::discoverObjectInstance callbacks to this function.
-   */
-  void discover_object( RTI::ObjectClassHandle class_handle,
-                        RTI::ObjectHandle object_handle,
-                        const char *object_name )
-  {
-    if (A::add_object( class_handle, object_handle, object_name ))
-    {
-      return;
+struct remote_object_inherit : A, B {
+    template< typename T >
+    inline void set_handler(void (*h)(const T &, object_event_type, const RTI::FedTime *, const char *tag)) {
+        static_cast< remote_object_base< T > & >(*this).handler = h;
     }
 
-    B::discover_object( class_handle, object_handle, object_name );
-  }
+    /**
+     * Forward \c RTI::discoverObjectInstance callbacks to this function.
+     */
+    void discover_object(      RTI::ObjectClassHandle class_handle,
+                               RTI::ObjectHandle      object_handle,
+                         const char                  *object_name) {
+        if (A::add_object(class_handle, object_handle, object_name)) {
+            return;
+        }
 
-  /**
-   * Forward \c RTI::removeObjectInstance callbacks to this function.
-   */
-  void remove_object( RTI::ObjectHandle object_handle )
-  {
-    if (A::remove_object( object_handle ))
-    {
-      return;
+        B::discover_object(class_handle, object_handle, object_name);
     }
 
-    B::remove_object( object_handle );
-  }
+    /**
+     * Forward \c RTI::removeObjectInstance callbacks to this function.
+     */
+    void remove_object(RTI::ObjectHandle object_handle) {
+        if (A::remove_object(object_handle)) {
+            return;
+        }
 
-  /**
-   * Forward \c RTI::reflectAttributeValues callbacks to this function.
-   */
-  void reflect_object( RTI::ObjectHandle object_handle,
-                       const RTI::AttributeHandleValuePairSet &attrs,
-                       const RTI::FedTime *time,
-                       const char *tag )
-  {
-    if (A::reflect( object_handle, attrs, time, tag ))
-    {
-      return;
+        B::remove_object(object_handle);
     }
 
-    B::reflect_object( object_handle, attrs, time, tag );
-  }
+    /**
+     * Forward \c RTI::reflectAttributeValues callbacks to this function.
+     */
+    void reflect_object(      RTI::ObjectHandle                 object_handle,
+                        const RTI::AttributeHandleValuePairSet &attrs,
+                        const RTI::FedTime                     *time,
+                        const char                             *tag) {
+        if (A::reflect(object_handle, attrs, time, tag)) {
+            return;
+        }
 
-  template< typename T >
-  inline typename remote_object_base< T >::const_it begin() const
-  {
-    return (static_cast< remote_object_base< T > const & >( *this ).objects.begin());
-  }
+        B::reflect_object(object_handle, attrs, time, tag);
+    }
 
-  template< typename T >
-  inline typename remote_object_base< T >::const_it end() const
-  {
-    return (static_cast< remote_object_base< T > const & >( *this ).objects.end());
-  }
+    template< typename T >
+    inline typename remote_object_base< T >::const_it begin() const {
+        return (static_cast< remote_object_base< T > const & >(*this).objects.begin());
+    }
 
-  /**
-   * \return The number of discovered objects of type \a T.
-   */
-  template< typename T >
-  inline std::size_t size() const
-  {
-    return (static_cast< remote_object_base< T > const & >( *this ).objects.size());
-  }
+    template< typename T >
+    inline typename remote_object_base< T >::const_it end() const {
+        return (static_cast< remote_object_base< T > const & >(*this).objects.end());
+    }
 
-  /**
-   * \return true if there are no objects of the given type \a T
-   */
-  template< typename T >
-  inline bool empty() const
-  {
-    return (static_cast< remote_object_base< T > const & >( *this ).objects.empty());
-  }
+    /**
+     * \return The number of discovered objects of type \a T.
+     */
+    template< typename T >
+    inline std::size_t size() const { return (static_cast< remote_object_base< T > const & >(*this).objects.size()); }
+
+    /**
+     * \return true if there are no objects of the given type \a T
+     */
+    template< typename T >
+    inline bool empty() const { return (static_cast< remote_object_base< T > const & >(*this).objects.empty()); }
 };
 
 /**********************************************************************************************************************/

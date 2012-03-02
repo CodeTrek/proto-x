@@ -134,342 +134,295 @@ struct som {
         return map;
     }
 
-  static void init_o_class_ancestors()
-  {
-    const hla::name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
-    hla::o_class_child_to_parent_map &parent_map = get_o_class_child_to_parent_map();
+    static void init_o_class_ancestors() {
+        const hla::name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
+        hla::o_class_child_to_parent_map &parent_map = get_o_class_child_to_parent_map();
 
-    if (!parent_map.empty())
-    {
-      return;
+        if (!parent_map.empty()) {
+            return;
+        }
+
+        attr_dft_type::init_o_class_ancestors(class_map, parent_map);
     }
 
-    attr_dft_type::init_o_class_ancestors( class_map, parent_map );
-  }
-
-  static hla::i_class_child_to_parent_map &get_i_class_child_to_parent_map()
-  {
-    static protox::hla::i_class_child_to_parent_map map;
-    return map;
-  }
-
-  static void init_i_class_ancestors()
-  {
-    const hla::name_to_i_class_handle_map &class_map = get_name_to_i_class_handle_map();
-    hla::i_class_child_to_parent_map &parent_map = get_i_class_child_to_parent_map();
-
-    if (!parent_map.empty())
-    {
-      return;
+    static hla::i_class_child_to_parent_map &get_i_class_child_to_parent_map() {
+        static protox::hla::i_class_child_to_parent_map map;
+        return map;
     }
 
-    param_dft_type::init_i_class_ancestors( class_map, parent_map );
-  }
+    static void init_i_class_ancestors() {
+        const hla::name_to_i_class_handle_map &class_map = get_name_to_i_class_handle_map();
+        hla::i_class_child_to_parent_map &parent_map = get_i_class_child_to_parent_map();
 
-public: 
-  /**
-   * The SOM's object class table.
-   *
-   * \sa protox::hla::o_class
-   */
-  typedef ROOT_O_CLASS o_class_table;
+        if (!parent_map.empty()) {
+            return;
+        }
 
-  /**
-   * The SOM's interactionn class table.
-   *
-   * \sa protox::hla::i_class
-   */
-  typedef ROOT_I_CLASS i_class_table;
-
-  /**
-   * \param parent An object class handle.
-   * \param child An object class handle.
-   *
-   * \return true, if the given parent class handle identifies a class that is an ancestor of the
-   *         class identified by the given child class handle.
-   */
-  static bool is_o_class_ancstor( RTI::ObjectClassHandle parent, RTI::ObjectClassHandle child )
-  {
-    hla::o_class_child_to_parent_map &parent_map = get_o_class_child_to_parent_map();
-    hla::o_class_child_to_parent_map::const_iterator it = parent_map.find( child );
-
-    if (it == parent_map.end())
-    {
-      return false;
+        param_dft_type::init_i_class_ancestors(class_map, parent_map);
     }
 
-    if (it->second == parent)
-    {
-      return true;
-    }
+    public:
+        /**
+         * The SOM's object class table.
+         *
+         * \sa protox::hla::o_class
+         */
+        typedef ROOT_O_CLASS o_class_table;
 
-    return som::is_o_class_ancestor( parent, it->second );
-  }
+        /**
+         * The SOM's interactionn class table.
+         *
+         * \sa protox::hla::i_class
+         */
+        typedef ROOT_I_CLASS i_class_table;
 
-  /**
-   * \param parent An interaction class handle.
-   * \param child An interaction class handle.
-   *
-   * \return true, if the given parent class handle identifies a class that is an ancestor of the
-   *         class identified by the given child class handle.
-   */
-  static bool is_i_class_ancstor( RTI::InteractionClassHandle parent,
-                                  RTI::InteractionClassHandle child )
-  {
-    hla::i_class_child_to_parent_map &parent_map = get_i_class_child_to_parent_map();
+        /**
+         * \param parent An object class handle.
+         * \param child An object class handle.
+         *
+         * \return true, if the given parent class handle identifies a class that is an ancestor of the class
+         *               identified by the given child class handle.
+         */
+        static bool is_o_class_ancstor(RTI::ObjectClassHandle parent, RTI::ObjectClassHandle child) {
+            hla::o_class_child_to_parent_map &parent_map = get_o_class_child_to_parent_map();
+            hla::o_class_child_to_parent_map::const_iterator it = parent_map.find(child);
 
-    hla::i_class_child_to_parent_map::const_iterator it = parent_map.find( child );
+            if (it == parent_map.end()) {
+                return false;
+            }
 
-    if (it == parent_map.end())
-    {
-      return false;
-    }
+            if (it->second == parent) {
+                return true;
+            }
 
-    if (it->second == parent)
-    {
-      return true;
-    }
+            return som::is_o_class_ancestor( parent, it->second );
+        }
 
-    return som::is_i_class_ancestor( parent, it->second );
-  }
+        /**
+         * \param parent An interaction class handle.
+         * \param child An interaction class handle.
+         *
+         * \return true, if the given parent class handle identifies a class that is an ancestor of the class
+         *               identified by the given child class handle.
+         */
+        static bool is_i_class_ancstor(RTI::InteractionClassHandle parent, RTI::InteractionClassHandle child) {
+            hla::i_class_child_to_parent_map &parent_map = get_i_class_child_to_parent_map();
 
-  /**
-   * \param name A fully qualified object class name.
-   *
-   * \return The handle of the object class identified by the given fully qualified name.
-   *
-   * \throws RTI::NameNotFound.
-   */
-  static RTI::ObjectClassHandle get_object_class_handle( const std::string &name )
-  {
-    name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
-    name_to_o_class_handle_map::const_iterator it = class_map.find(name);
+            hla::i_class_child_to_parent_map::const_iterator it = parent_map.find(child);
 
-    // Not found
-    if (it == class_map.end())
-    {
-      throw RTI::NameNotFound( name.c_str() );
-    }
+            if (it == parent_map.end()) {
+                return false;
+            }
 
-    return ((*it).second);
-  }
+            if (it->second == parent) {
+                return true;
+            }
 
-  /**
-   * \param name An attribute name.
-   * \param handle An object class handle.
-   *
-   * \return The handle of the attribute identified by the given name and object class handle.
-   *
-   * \throws RTI::ObjectClassNotDefined.
-   * \throws RTI::NameNotDefined.
-   */
-  static RTI::AttributeHandle get_attr_handle( const std::string &name,
-                                               RTI::ObjectClassHandle handle )
-  {
-    o_class_handle_to_attr_map &class_map = get_o_class_handle_to_attr_map();
-    o_class_handle_to_attr_map::const_iterator i = class_map.find( handle );
+            return som::is_i_class_ancestor(parent, it->second);
+        }
 
-    if (i == class_map.end())
-    {
-      throw RTI::ObjectClassNotDefined( "" );
-    }
+        /**
+         * \param name A fully qualified object class name.
+         *
+         * \return The handle of the object class identified by the given fully qualified name.
+         *
+         * \throws RTI::NameNotFound.
+         */
+        static RTI::ObjectClassHandle get_object_class_handle(const std::string &name) {
+            name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
+            name_to_o_class_handle_map::const_iterator it = class_map.find(name);
 
-    const attr_name_to_handle_map &attr_map = (*i).second;
-    attr_name_to_handle_map::const_iterator j = attr_map.find( name );
+            // Not found
+            if (it == class_map.end()) {
+                throw RTI::NameNotFound(name.c_str());
+            }
 
-    if (j == attr_map.end())
-    {
-      throw RTI::NameNotFound( name.c_str() );
-    }
+            return ((*it).second);
+        }
 
-    return ((*j).second);
-  }
+        /**
+         * \param name An attribute name.
+         * \param handle An object class handle.
+         *
+         * \return The handle of the attribute identified by the given name and object class handle.
+         *
+         * \throws RTI::ObjectClassNotDefined.
+         * \throws RTI::NameNotDefined.
+         */
+        static RTI::AttributeHandle get_attr_handle(const std::string &name, RTI::ObjectClassHandle handle) {
+            o_class_handle_to_attr_map &class_map = get_o_class_handle_to_attr_map();
+            o_class_handle_to_attr_map::const_iterator i = class_map.find(handle);
 
-  /**
-   * \param class_name A fully qualified object classs name.
-   * \param attr_name An attribute name.
-   *
-   * \return The handle of the attribute identified by the given object class name and
-   *         attribute name.
-   *
-   * \throws RTI::NameNotDefined.
-   */
-  static RTI::AttributeHandle get_attr_handle( const std::string &class_name,
-                                               const std::string &attr_name )
-  {
-    if (class_name.empty())
-    {
-      throw RTI::NameNotFound( attr_name.c_str() );
-    }
+            if (i == class_map.end()) {
+                throw RTI::ObjectClassNotDefined("");
+            }
 
-    RTI::ObjectClassHandle class_handle = get_object_class_handle( class_name );
+            const attr_name_to_handle_map &attr_map = (*i).second;
+            attr_name_to_handle_map::const_iterator j = attr_map.find(name);
 
-    RTI::AttributeHandle attr_handle;
+            if (j == attr_map.end()) {
+                throw RTI::NameNotFound(name.c_str());
+            }
 
-    try
-    {
-      attr_handle = get_attr_handle( attr_name, class_handle );
-    }
-    catch (RTI::Exception &) // Not found?
-    {
-      std::string parent = "";
-      std::string::size_type pos = class_name.find_last_of( '.' );
+            return ((*j).second);
+        }
 
-      if (pos != std::string::npos)
-      {
-        parent = class_name.substr( 0, pos );
-      }
+        /**
+         * \param class_name A fully qualified object classs name.
+         * \param attr_name An attribute name.
+         *
+         * \return The handle of the attribute identified by the given object class name and attribute name.
+         *
+         * \throws RTI::NameNotDefined.
+         */
+        static RTI::AttributeHandle get_attr_handle(const std::string &class_name, const std::string &attr_name) {
+            if (class_name.empty()) {
+                throw RTI::NameNotFound(attr_name.c_str());
+            }
 
-      return get_attr_handle( parent, attr_name );
-    }
+            RTI::ObjectClassHandle class_handle = get_object_class_handle(class_name);
 
-    return attr_handle;
-  }
+            RTI::AttributeHandle attr_handle;
 
-  /**
-   * \return The number of object classes in this SOM's object class table.
-   */
-  static std::size_t get_num_object_classes()
-  {
-    name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
-    return class_map.size();
-  }
+            try {
+                attr_handle = get_attr_handle(attr_name, class_handle);
+            } catch (RTI::Exception &) { // Not found?
+                std::string parent = "";
+                std::string::size_type pos = class_name.find_last_of('.');
 
-  /**
-   * \param name A fully qualified interaction class name.
-   *
-   * \return The handle of the interaction class identified by the given fully qualified name.
-   *
-   * \throws RTI::NameNotFound.
-   */
-  static RTI::InteractionClassHandle get_interaction_class_handle( const std::string &name )
-  {
-    name_to_i_class_handle_map &class_map = get_name_to_i_class_handle_map();
-    name_to_i_class_handle_map::const_iterator it = class_map.find( name );
+                if (pos != std::string::npos) {
+                    parent = class_name.substr(0, pos);
+                }
 
-    // Not found
-    if (it == class_map.end())
-    {
-      throw RTI::NameNotFound( name.c_str() );
-    }
+                return get_attr_handle(parent, attr_name);
+            }
 
-    return ((*it).second);
-  }
+            return attr_handle;
+        }
 
-  /**
-   * \param name A parameter name.
-   * \param handle An interaction class handle.
-   *
-   * \return The handle of the parameter identified by the given name and interaction class handle.
-   *
-   * \throws RTI::InteractionClassNotDefined.
-   * \throws RTI::NameNotDefined.
-   */
-  static RTI::ParameterHandle get_param_handle( const std::string &name,
-                                                RTI::InteractionClassHandle handle )
-  {
-    i_class_handle_to_param_map &class_map = get_i_class_handle_to_param_map();
-    i_class_handle_to_param_map::const_iterator i = class_map.find( handle );
+        /**
+         * \return The number of object classes in this SOM's object class table.
+         */
+        static std::size_t get_num_object_classes() {
+            name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
+            return class_map.size();
+        }
 
-    if (i == class_map.end())
-    {
-      throw RTI::InteractionClassNotDefined( "" );
-    }
+        /**
+         * \param name A fully qualified interaction class name.
+         *
+         * \return The handle of the interaction class identified by the given fully qualified name.
+         *
+         * \throws RTI::NameNotFound.
+         */
+        static RTI::InteractionClassHandle get_interaction_class_handle(const std::string &name) {
+            name_to_i_class_handle_map &class_map = get_name_to_i_class_handle_map();
+            name_to_i_class_handle_map::const_iterator it = class_map.find(name);
 
-    const param_name_to_handle_map &param_map = (*i).second;
-    param_name_to_handle_map::const_iterator j = param_map.find( name );
+            // Not found
+            if (it == class_map.end()) {
+                throw RTI::NameNotFound(name.c_str());
+            }
 
-    if (j == param_map.end())
-    {
-      throw RTI::NameNotFound( name.c_str() );
-    }
+            return ((*it).second);
+        }
 
-    return ((*j).second);
-  }
+        /**
+         * \param name A parameter name.
+         * \param handle An interaction class handle.
+         *
+         * \return The handle of the parameter identified by the given name and interaction class handle.
+         *
+         * \throws RTI::InteractionClassNotDefined.
+         * \throws RTI::NameNotDefined.
+         */
+        static RTI::ParameterHandle get_param_handle(const std::string &name, RTI::InteractionClassHandle handle) {
+            i_class_handle_to_param_map &class_map = get_i_class_handle_to_param_map();
+            i_class_handle_to_param_map::const_iterator i = class_map.find(handle);
 
-  /**
-   * \param class_name A fully qualified interaction class name.
-   * \param param_name A parameter name.
-   *
-   * \return The handle of the parameter identified by the given interaction class name and
-   *         parameter name.
-   *
-   * \throws RTI::NameNotDefined.
-   */
-  static RTI::ParameterHandle get_param_handle( const std::string &class_name,
-                                                const std::string &param_name )
-  {
-    if (class_name.empty())
-    {
-      throw RTI::NameNotFound( param_name.c_str() );
-    }
+            if (i == class_map.end()) {
+                throw RTI::InteractionClassNotDefined("");
+            }
 
-    RTI::InteractionClassHandle class_handle = get_interaction_class_handle( class_name );
+            const param_name_to_handle_map &param_map = (*i).second;
+            param_name_to_handle_map::const_iterator j = param_map.find(name);
 
-    RTI::ParameterHandle param_handle;
+            if (j == param_map.end()) {
+                throw RTI::NameNotFound(name.c_str());
+            }
 
-    try
-    {
-      param_handle = get_param_handle( param_name, class_handle );
-    }
-    catch( RTI::Exception & ) // Not found?
-    {
-      std::string parent = "";
-      std::string::size_type pos = class_name.find_last_of( '.' );
+            return ((*j).second);
+        }
 
-      if (pos != std::string::npos)
-      {
-        parent = class_name.substr( 0, pos );
-      }
+        /**
+         * \param class_name A fully qualified interaction class name.
+         * \param param_name A parameter name.
+         *
+         * \return The handle of the parameter identified by the given interaction class name and parameter name.
+         *
+         * \throws RTI::NameNotDefined.
+         */
+        static RTI::ParameterHandle get_param_handle(const std::string &class_name, const std::string &param_name) {
+            if (class_name.empty()) {
+                throw RTI::NameNotFound(param_name.c_str());
+            }
 
-      return get_param_handle( parent, param_name );
-    }
+            RTI::InteractionClassHandle class_handle = get_interaction_class_handle(class_name);
 
-    return param_handle;
-  }
+            RTI::ParameterHandle param_handle;
 
-  /**
-   * \return The number of interaction classes in this SOM's interaction class table.
-   */
-  static std::size_t get_num_interaction_classes()
-  {
-    name_to_i_class_handle_map &class_map = get_name_to_i_class_handle_map();
-    return class_map.size();
-  }
+            try {
+                param_handle = get_param_handle(param_name, class_handle);
+            } catch(RTI::Exception &) { // Not found?
+                std::string parent = "";
+                std::string::size_type pos = class_name.find_last_of('.');
 
-  /**
-   * Uses the given RTI ambassador to initialze the class, attribute, and parameter handles defined
-   * in this SOM's object and interaction class tables.
-   *
-   * \param rti_amb The RTI ambassador used to intialize this SOM's class, attribute, and parameter
-   *                handles.
-   */
-  static void init_handles( RTI::RTIambassador &rti_amb )
-  {
-    init_o_class_handles( rti_amb );
-    init_i_class_handles( rti_amb );
+                if (pos != std::string::npos) {
+                    parent = class_name.substr(0, pos);
+                }
 
-    init_o_class_ancestors();
-    init_i_class_ancestors();
-  }
+                return get_param_handle(parent, param_name);
+            }
+
+            return param_handle;
+        }
+
+        /**
+         * \return The number of interaction classes in this SOM's interaction class table.
+         */
+        static std::size_t get_num_interaction_classes() {
+            name_to_i_class_handle_map &class_map = get_name_to_i_class_handle_map();
+            return class_map.size();
+        }
+
+        /**
+         * Uses the given RTI ambassador to initialze the class, attribute, and parameter handles defined in this SOM's
+         * object and interaction class tables.
+         *
+         * \param rti_amb The RTI ambassador used to intialize this SOM's class, attribute, and parameter handles.
+         */
+        static void init_handles(RTI::RTIambassador &rti_amb) {
+            init_o_class_handles(rti_amb);
+            init_i_class_handles(rti_amb);
+
+            init_o_class_ancestors();
+            init_i_class_ancestors();
+        }
  
-  // Debug methods
-  static void dump_stack()
-  {
-    attr_dft_type::dump_stack();
-    param_dft_type::dump_stack();
-  }
+        // Debug methods
+        static void dump_stack() {
+            attr_dft_type::dump_stack();
+            param_dft_type::dump_stack();
+        }
 
-  static void print_object_class_handle_map()
-  {
-    name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
-    name_to_o_class_handle_map::const_iterator it;
+        static void print_object_class_handle_map() {
+            name_to_o_class_handle_map &class_map = get_name_to_o_class_handle_map();
+            name_to_o_class_handle_map::const_iterator it;
 
-    for (it = class_map.begin(); it != class_map.end(); ++it)
-    {
-      std::cout << (*it).first << " = " << (*it).second << "\n";
-    }
-  }
+            for (it = class_map.begin(); it != class_map.end(); ++it) {
+                std::cout << (*it).first << " = " << (*it).second << "\n";
+            }
+        }
 
         static void print_attr_handle_map() {
             o_class_handle_to_attr_map &class_map = get_o_class_handle_to_attr_map();
@@ -488,12 +441,12 @@ public:
         }
 };
   
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 }}
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
