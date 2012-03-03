@@ -5,21 +5,20 @@
     or http://www.opensource.org/licenses/mit-license.php)
 */
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 #ifndef PROTOX_DTL_ENUMERATED_HPP
 #define PROTOX_DTL_ENUMERATED_HPP
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 namespace protox {
 namespace dtl {
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 /**
- * A base class for representing enumerated types. Concrete enumerated types must derive from
- * this class.
+ * A base class for representing enumerated types. Concrete enumerated types must derive from this class.
  *
  * \tparam E The concrete enumerated type.
  * \tparam T The basic data type used to represent values of the enumerated type.
@@ -35,50 +34,45 @@ namespace dtl {
  */
 
 template< typename E, typename T, typename CODEC_TAG >
-class enumerated
-{
-public:
-  typedef CODEC_TAG codec_tag;
-  typedef T value_type;
+class enumerated {
+    public:
+        typedef CODEC_TAG codec_tag;
+        typedef T value_type;
 
-  // Some helpful operators.
-  enumerated &operator = ( const enumerated &rhs )
-  {
-    if( this == &rhs )
-    {
-      return( *this );
-    }
+        // Some helpful operators.
+        enumerated &operator = (const enumerated &rhs) {
+            if (this == &rhs) {
+                return (*this);
+            }
 
-    value = rhs.value;
+            value = rhs.value;
 
-    return( *this );
-  }
+            return (*this);
+        }
 
-  bool operator == ( const enumerated &rhs ) const
-  {
-    return E::is_equal( value, rhs.value );
-  }
+        bool operator == (const enumerated &rhs) const {
+            return E::is_equal(value, rhs.value);
+        }
 
-  bool operator != ( const enumerated &rhs ) const
-  {
-    return !(E::is_equal( value, rhs.value ));
-  }
+        bool operator != (const enumerated &rhs) const {
+            return !(E::is_equal(value, rhs.value));
+        }
 
-protected:
-  T value;
+      protected:
+          T value;
 
-protected:
-  enumerated() {}
-  enumerated( const T v ) : value(v) {}
-  enumerated( const enumerated &v ) : value(v.value) {}
+      protected:
+          enumerated() {}
+          enumerated(const T v) : value(v) {}
+          enumerated(const enumerated &v) : value(v.value) {}
 };
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 }}
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
 
 #endif
 
-/**************************************************************************************************/
+/**********************************************************************************************************************/
