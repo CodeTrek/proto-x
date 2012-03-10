@@ -18,12 +18,14 @@
 
 #include "protox/codec/codecs.hpp"
 #include "protox/dtl/simple.hpp"
+#include "protox/dtl/pnull.hpp"
 
 #include <protox/io/byte_data_sink.hpp>
 #include <protox/io/byte_data_source.hpp>
 
 #include <protox/hla_1516/basic_data_representation_table.hpp>
 #include <protox/hla_1516/fixed_record.hpp>
+
 
 /**********************************************************************************************************************/
 
@@ -562,6 +564,56 @@ BOOST_AUTO_TEST_CASE(test_fixed_record) {
     BOOST_CHECK(r2 == r1);
 
     r2.f_< t22::Y >().f_< t22::X >() = 5.0f;
+
+    BOOST_CHECK(r2 != r1);
+}
+
+/**********************************************************************************************************************/
+
+namespace t23 {
+  	struct NULL1 : protox::dtl::field< protox::dtl::pnull > {};
+  	struct NULL2 : protox::dtl::field< protox::dtl::pnull > {};
+  	struct NULL3 : protox::dtl::field< protox::dtl::pnull > {};
+
+  	struct D1 : protox::dtl::field< protox::hla_1516::HLAfloat64BE > {};
+    struct D2 : protox::dtl::field< protox::hla_1516::HLAfloat64BE > {};
+
+    typedef hla_1516::fixed_record< mpl::vector < NULL1, D1, NULL2, D2, NULL3 > > DD;
+    struct DF : protox::dtl::field< DD > {};
+
+    struct X : protox::dtl::field< protox::hla_1516::HLAfloat32BE > {};
+    typedef hla_1516::fixed_record< mpl::vector < NULL1, X, NULL2 > > R1;
+    struct Y : protox::dtl::field< R1 > {};
+
+    typedef hla_1516::fixed_record< mpl::vector < NULL1, Y, NULL2, DF, NULL3 > > r1_type;
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_fixed_record_with_null_fields) {
+
+    t23::r1_type r1;
+    r1.f_< t23::DF >().f_< t23::D1 >() = 3.145;
+
+    protox::io::byte_data_sink sink;
+
+    BOOST_CHECK(8 == codec::octet_boundary< t23::r1_type >::value);
+
+    sink.encode(r1);
+
+    protox::io::byte_data_source source(sink);
+
+    t23::r1_type r2;
+    r2.f_< t23::DF >().f_< t23::D1 >() = 0;
+
+    source.decode(r2);
+    BOOST_CHECK(abs(r2.f_< t23::DF >().f_< t23::D1 >() - 3.145) < 0.0001);
+
+    BOOST_CHECK(codec::dynamic_size(r2) == 24);
+
+    BOOST_CHECK(r2 == r1);
+
+    r2.f_< t23::Y >().f_< t23::X >() = 5.0f;
 
     BOOST_CHECK(r2 != r1);
 }

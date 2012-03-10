@@ -143,3 +143,12 @@ unit-test protox_hla_custom_tests
   : <target-os>windows:<cxxflags>/wd4535
     <include>..
   ;
+  
+########################################################################################################################
+# protox/om/rpr tests
+########################################################################################################################
+unit-test protox_om_rpr_tests
+  : ./protox/om/rpr/test_acceleration_vector_struct.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>..
+  ;

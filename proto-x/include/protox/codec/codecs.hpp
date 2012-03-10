@@ -11,6 +11,8 @@
 #define PROTOX_CODEC_CODEC_HPP
 
 /**************************************************************************************************/
+// protox codec policies
+#include <protox/null_value/null_value_codec.hpp>
 
 // HLA 13 codec policies
 #include <protox/hla_13/basic_data_codec.hpp>

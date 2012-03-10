@@ -12,6 +12,10 @@
 
 /**************************************************************************************************/
 
+// protox
+
+#include <protox/null_value/null_tag.hpp>
+
 // HLA 13
 #include <protox/hla_13/codec_tags.hpp>
 
