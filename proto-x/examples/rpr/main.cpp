@@ -14,11 +14,10 @@
 
 #include <protox/hla/o_class_type.hpp>
 #include <protox/hla/som.hpp>
+#include <protox/om/rpr/obj_class_table.hpp>
 
 #include "fedlet/fedlet_base.hpp"
 #include "fedlet/fed_amb.hpp"
-
-#include "./object_model/obj_class_table.hpp"
 
 
 using namespace boost;
