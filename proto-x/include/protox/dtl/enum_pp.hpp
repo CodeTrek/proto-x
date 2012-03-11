@@ -63,54 +63,39 @@
  * Defines the default enumerator.
  */
 
-/**
- * Visual studio C++ v10 workaround - I suspect this is a bug in the msvc c++ compiler
- */
-#ifdef WIN32
-#define PROTOX_ENUM_TYPE_ACCESS public
-#else
-#define PROTOX_ENUM_TYPE_ACCESS private
-#endif
-
-
-#define PROTOX_ENUM_TYPE(T, ENUMERATED_TYPE)                                  \
-                                                                              \
-  typedef T enum_rep_type;                                                    \
-                                                                              \
-  class type : public ENUMERATED_TYPE< type, enum_rep_type >                  \
-  {                                                                           \
-  PROTOX_ENUM_TYPE_ACCESS:                                                    \
-    friend class private_enum;                                                \
-                                                                              \
-    type(enum_rep_type v) : ENUMERATED_TYPE< type, enum_rep_type >(v) {}      \
-                                                                              \
-  public:                                                                     \
-    type();                                                                   \
-    type(const type & v) : ENUMERATED_TYPE< type, enum_rep_type >(v) {}       \
-    ~type() {}                                                                \
-                                                                              \
-    static bool is_equal(enum_rep_type lhs, enum_rep_type rhs);               \
-  };                                                                          \
-                                                                              \
-  class private_enum                                                          \
-  {                                                                           \
-    protected: static const type value(enum_rep_type v) { return type(v); }   \
-  };                                                                          \
-                                                                              \
-  typedef ENUMERATED_TYPE< type, enum_rep_type > type_enumerated
+#define PROTOX_ENUM_TYPE(T, ENUMERATED_TYPE)                                          \
+    typedef T enum_rep_type;                                                          \
+                                                                                      \
+    class type : public ENUMERATED_TYPE< type, enum_rep_type > {                      \
+        private:                                                                      \
+            friend class private_enum;                                                \
+                                                                                      \
+            type(enum_rep_type v) : ENUMERATED_TYPE< type, enum_rep_type >(v) {}      \
+                                                                                      \
+        public:                                                                       \
+            type();                                                                   \
+            type(const type & v) : ENUMERATED_TYPE< type, enum_rep_type >(v) {}       \
+            ~type() {}                                                                \
+                                                                                      \
+            static bool is_equal(enum_rep_type lhs, enum_rep_type rhs);               \
+    };                                                                                \
+                                                                                      \
+    class private_enum {                                                              \
+        protected: static const type value(enum_rep_type v) { return type(v); }       \
+    };                                                                                \
+                                                                                      \
+    typedef ENUMERATED_TYPE< type, enum_rep_type > type_enumerated
 
 /**********************************************************************************************************************/
 
-#define PROTOX_ENUM_EQUALITY_OPERATOR                                                  \
-    bool type::is_equal(enum_rep_type lhs, enum_rep_type rhs) { return (lhs == rhs); }
+#define PROTOX_ENUM_EQUALITY_OPERATOR bool type::is_equal(enum_rep_type lhs, enum_rep_type rhs) { return (lhs == rhs); }
 
 /**********************************************************************************************************************/
 
-#define PROTOX_ENUM_VALUE(NAME, VALUE)                             \
-  struct NAME : private private_enum                               \
-  {                                                                \
-    static type value() { return( private_enum::value(VALUE) ); }  \
-  }
+#define PROTOX_ENUM_VALUE(NAME, VALUE)                                    \
+    struct NAME : private private_enum {                                  \
+        static type value() { return( private_enum::value(VALUE) ); }     \
+    }
 
 /**********************************************************************************************************************/
 

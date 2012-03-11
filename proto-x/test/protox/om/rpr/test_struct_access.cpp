@@ -16,18 +16,17 @@
 
 #include <protox/io/char_data_sink.hpp>
 
-#include <protox/om/rpr/antenna_pattern_struct.hpp>
 #include <protox/om/rpr/acceleration_vector_struct.hpp>
 #include <protox/om/rpr/angular_velocity_vector_struct.hpp>
+#include <protox/om/rpr/orientation_struct.hpp>
 #include <protox/om/rpr/antenna_pattern_struct.hpp>
-
-/**********************************************************************************************************************/
-
-using namespace protox::om::rpr;
 
 /**********************************************************************************************************************/
 
 BOOST_AUTO_TEST_CASE(test_acceleration_vector_struct_field_access) {
+
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::AccelerationVectorStruct;
 
     AccelerationVectorStruct::type s;
 
@@ -44,6 +43,7 @@ BOOST_AUTO_TEST_CASE(test_acceleration_vector_struct_field_access) {
 
 BOOST_AUTO_TEST_CASE(test_angular_velocity_vector_struct_field_access) {
 
+    using namespace protox::om::rpr;
     using namespace protox::om::rpr::AngularVelocityVectorStruct;
 
     AngularVelocityVectorStruct::type s;
@@ -59,7 +59,30 @@ BOOST_AUTO_TEST_CASE(test_angular_velocity_vector_struct_field_access) {
 
 /**********************************************************************************************************************/
 
+BOOST_AUTO_TEST_CASE(test_orientation_struct_field_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::OrientationStruct;
+
+    OrientationStruct::type s;
+
+    s.f_< Psi   >() =  5;
+    s.f_< Theta >() = 10;
+    s.f_< Phi   >() = 15;
+
+    BOOST_CHECK(s.f_< Psi   >() ==  5);
+    BOOST_CHECK(s.f_< Theta >() == 10);
+    BOOST_CHECK(s.f_< Phi   >() == 15);
+}
+
+/**********************************************************************************************************************/
+
 BOOST_AUTO_TEST_CASE(test_antenna_pattern_struct_field_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::ReferenceSystemEnum8;
+    using namespace protox::om::rpr::AntennaPatternStruct;
+    using namespace protox::om::rpr::BeamAntennaStruct;
+    using namespace protox::om::rpr::SphericalHarmonicAntennaStruct;
+    using namespace protox::om::rpr::OrientationStruct;
 
     AntennaPatternStruct::type s;
 
