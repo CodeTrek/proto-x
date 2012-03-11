@@ -78,6 +78,11 @@ struct HLA13variableArray                {};
  */
 struct HLA13enumerated                   {};
 
+/**
+ * HLA 13 variant record encoding.
+ */
+struct HLA13variantRecord                {};
+
 /**********************************************************************************************************************/
 
 }}

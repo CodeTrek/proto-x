@@ -34,7 +34,7 @@
 
 #include <protox/hla_1516/codec_tags.hpp>
 #include <protox/hla_1516/static_pad.hpp>
-#include <protox/hla_1516/dynamic_pad.hpp>
+//#include <protox/hla_1516/dynamic_pad.hpp>
 #include <protox/hla_1516/size_type.hpp>
 
 /**************************************************************************************************/

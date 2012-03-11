@@ -20,6 +20,7 @@
 
 #include <protox/dtl/alternative.hpp>
 #include <protox/dtl/discriminant.hpp>
+#include <protox/dtl/discriminator_test.hpp>
 
 /**********************************************************************************************************************/
 

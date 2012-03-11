@@ -25,4 +25,4 @@ build-project fed_mgr ;
 build-project fedlet ;
 build-project hello_world ;
 build-project rgb ;
-build-project rpr ;
+# build-project rpr ;
