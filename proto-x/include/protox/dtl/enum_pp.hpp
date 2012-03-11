@@ -79,7 +79,7 @@
                                                                               \
   class type : public ENUMERATED_TYPE< type, enum_rep_type >                  \
   {                                                                           \
-  PROTOX_ENUM_TYPE_ACCESS:                                                         \
+  PROTOX_ENUM_TYPE_ACCESS:                                                    \
     friend class private_enum;                                                \
                                                                               \
     type(enum_rep_type v) : ENUMERATED_TYPE< type, enum_rep_type >(v) {}      \
