@@ -16,14 +16,18 @@
 
 #include <protox/io/char_data_sink.hpp>
 
+
 #include <protox/om/rpr/acceleration_vector_struct.hpp>
 #include <protox/om/rpr/angular_velocity_vector_struct.hpp>
 #include <protox/om/rpr/orientation_struct.hpp>
+#include <protox/om/rpr/beam_antenna_struct.hpp>
+#include <protox/om/rpr/spherical_harmonic_antenna_struct.hpp>
 #include <protox/om/rpr/antenna_pattern_struct.hpp>
+#include <protox/om/rpr/articulated_parts_struct.hpp>
 
 /**********************************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(test_acceleration_vector_struct_field_access) {
+BOOST_AUTO_TEST_CASE(test_acceleration_vector_struct_access) {
 
     using namespace protox::om::rpr;
     using namespace protox::om::rpr::AccelerationVectorStruct;
@@ -41,7 +45,7 @@ BOOST_AUTO_TEST_CASE(test_acceleration_vector_struct_field_access) {
 
 /**********************************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(test_angular_velocity_vector_struct_field_access) {
+BOOST_AUTO_TEST_CASE(test_angular_velocity_vector_struct_access) {
 
     using namespace protox::om::rpr;
     using namespace protox::om::rpr::AngularVelocityVectorStruct;
@@ -59,7 +63,8 @@ BOOST_AUTO_TEST_CASE(test_angular_velocity_vector_struct_field_access) {
 
 /**********************************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(test_orientation_struct_field_access) {
+BOOST_AUTO_TEST_CASE(test_orientation_struct_access) {
+
     using namespace protox::om::rpr;
     using namespace protox::om::rpr::OrientationStruct;
 
@@ -76,9 +81,67 @@ BOOST_AUTO_TEST_CASE(test_orientation_struct_field_access) {
 
 /**********************************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(test_antenna_pattern_struct_field_access) {
+BOOST_AUTO_TEST_CASE(test_beam_antenna_struct_access) {
+
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::BeamAntennaStruct;
+    using namespace protox::om::rpr::OrientationStruct;
+    using namespace protox::om::rpr::ReferenceSystemEnum8;
+
+    BeamAntennaStruct::type s;
+
+    s.f_< BeamOrientation        >().f_< Psi   >() =  5;
+    s.f_< BeamOrientation        >().f_< Theta >() = 10;
+    s.f_< BeamOrientation        >().f_< Phi   >() = 15;
+    s.f_< BeamAzimuthBeamwidth   >()               = 20;
+    s.f_< BeamElevationBeamwidth >()               = 25;
+    s.f_< ReferenceSystem        >()               = EntityCoordinates::value();
+    s.f_< Ez                     >()               = 30;
+    s.f_< Ex                     >()               = 35;
+    s.f_< BeamPhaseAngle         >()               = 40;
+
+    BOOST_CHECK(s.f_< BeamOrientation        >().f_< Psi   >() ==  5);
+    BOOST_CHECK(s.f_< BeamOrientation        >().f_< Theta >() == 10);
+    BOOST_CHECK(s.f_< BeamOrientation        >().f_< Phi   >() == 15);
+    BOOST_CHECK(s.f_< BeamAzimuthBeamwidth   >()               == 20);
+    BOOST_CHECK(s.f_< BeamElevationBeamwidth >()               == 25);
+    BOOST_CHECK(s.f_< ReferenceSystem        >()               == EntityCoordinates::value());
+    BOOST_CHECK(s.f_< Ez                     >()               == 30);
+    BOOST_CHECK(s.f_< Ex                     >()               == 35);
+    BOOST_CHECK(s.f_< BeamPhaseAngle         >()               == 40);
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_sperical_harmonic_antenna_access) {
+
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::SphericalHarmonicAntennaStruct;
+    using namespace protox::om::rpr::ReferenceSystemEnum8;
+
+    SphericalHarmonicAntennaStruct::type s;
+
+    s.f_< Order           >() = '5';
+    s.f_< Coefficients    >().push_back(10);
+    s.f_< Coefficients    >().push_back(15);
+    s.f_< Coefficients    >().push_back(20);
+    s.f_< Coefficients    >().push_back(30);
+    s.f_< ReferenceSystem >() = WorldCoordinates::value();
+
+    BOOST_CHECK(s.f_< Order           >()    == '5');
+    BOOST_CHECK(s.f_< Coefficients    >()[0] == 10);
+    BOOST_CHECK(s.f_< Coefficients    >()[1] == 15);
+    BOOST_CHECK(s.f_< Coefficients    >()[2] == 20);
+    BOOST_CHECK(s.f_< Coefficients    >()[3] == 30);
+    BOOST_CHECK(s.f_< ReferenceSystem >()    == WorldCoordinates::value());
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_antenna_pattern_struct_access) {
     using namespace protox::om::rpr;
     using namespace protox::om::rpr::ReferenceSystemEnum8;
+    using namespace protox::om::rpr::AntennaPatternTypeEnum32;
     using namespace protox::om::rpr::AntennaPatternStruct;
     using namespace protox::om::rpr::BeamAntennaStruct;
     using namespace protox::om::rpr::SphericalHarmonicAntennaStruct;
@@ -136,4 +199,24 @@ BOOST_AUTO_TEST_CASE(test_antenna_pattern_struct_field_access) {
     s.discriminant = OmniDirectional::value();
     sink.encode(s);
     sink.eol();
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_articulated_parts_struct_access) {
+
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::ArticulatedPartsStruct;
+    using namespace protox::om::rpr::ArticulatedPartsTypeEnum32;
+    using namespace protox::om::rpr::ArticulatedTypeMetricEnum32;
+
+    ArticulatedPartsStruct::type s;
+
+    s.f_< Class      >() = SpeedBrake::value();
+    s.f_< TypeMetric >() = X::value();
+    s.f_< Value      >() = 15;
+
+    BOOST_CHECK(s.f_< Class      >() == SpeedBrake::value());
+    BOOST_CHECK(s.f_< TypeMetric >() == X::value());
+    BOOST_CHECK(s.f_< Value      >() == 15);
 }

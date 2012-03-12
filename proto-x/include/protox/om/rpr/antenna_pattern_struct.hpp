@@ -34,19 +34,21 @@ using namespace protox::hla_13;
 
 namespace protox { namespace om { namespace rpr {
 
-using namespace protox::om::rpr::AntennaPatternTypeEnum32;
+/**********************************************************************************************************************/
+
+namespace apte32 = protox::om::rpr::AntennaPatternTypeEnum32;
 
 /**********************************************************************************************************************/
 
-// +---------------------------+------------------------------------------------------------------------------------+--------------------------------------+-----------------------+
-// |                           | Alternative                                                                        |                                      |                       |
-// | Record Name               +------------------------------------------------------------------------------------+ Disciminant Enumerator(s)            | Encoding              |
-// |                           | Name                     | Type                                                    |                                      |                       |
-// +---------------------------+--------------------------+---------------------------------------------------------+--------------------------------------+-----------------------+
+// +---------------------------+------------------------------------------------------------------------------------+----------------------------------------------+-----------------------+
+// |                           | Alternative                                                                        |                                              |                       |
+// | Record Name               +------------------------------------------------------------------------------------+ Disciminant Enumerator(s)                    | Encoding              |
+// |                           | Name                     | Type                                                    |                                              |                       |
+// +---------------------------+--------------------------+---------------------------------------------------------+----------------------------------------------+-----------------------+
 namespace AntennaPatternStruct {
-                          struct BeamAntenna              : dtl::discriminant< BeamAntennaStruct::type              , mpl::vector< Beam              > > {};
-                          struct SphericalHarmonicAntenna : dtl::discriminant< SphericalHarmonicAntennaStruct::type , mpl::vector< SphericalHarmonic > > {};
-                                                                                                                                               struct type : hla_13::variant_record< AntennaPatternTypeEnum32::type, mpl::vector< BeamAntenna, SphericalHarmonicAntenna >,
+                          struct BeamAntenna              : dtl::discriminant< BeamAntennaStruct::type              , mpl::vector< apte32::Beam              > > {};
+                          struct SphericalHarmonicAntenna : dtl::discriminant< SphericalHarmonicAntennaStruct::type , mpl::vector< apte32::SphericalHarmonic > > {};
+                                                                                                                                                       struct type : hla_13::variant_record< AntennaPatternTypeEnum32::type, mpl::vector< BeamAntenna, SphericalHarmonicAntenna >,
 //                                                        +---------------------------------------------------------+
                                                             dtl::discriminant_other< dtl::pnull                     > > {};
 //                                                        +---------------------------------------------------------+
