@@ -16,7 +16,6 @@
 
 #include <protox/io/char_data_sink.hpp>
 
-
 #include <protox/om/rpr/acceleration_vector_struct.hpp>
 #include <protox/om/rpr/angular_velocity_vector_struct.hpp>
 #include <protox/om/rpr/orientation_struct.hpp>
@@ -24,6 +23,10 @@
 #include <protox/om/rpr/spherical_harmonic_antenna_struct.hpp>
 #include <protox/om/rpr/antenna_pattern_struct.hpp>
 #include <protox/om/rpr/articulated_parts_struct.hpp>
+#include <protox/om/rpr/entity_type_struct.hpp>
+#include <protox/om/rpr/attached_parts_struct.hpp>
+
+#include <protox/om/rpr/parameter_value_struct.hpp>
 
 /**********************************************************************************************************************/
 
@@ -219,4 +222,106 @@ BOOST_AUTO_TEST_CASE(test_articulated_parts_struct_access) {
     BOOST_CHECK(s.f_< Class      >() == SpeedBrake::value());
     BOOST_CHECK(s.f_< TypeMetric >() == X::value());
     BOOST_CHECK(s.f_< Value      >() == 15);
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_entity_type_struct_access) {
+
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::EntityTypeStruct;
+
+    EntityTypeStruct::type s;
+
+    s.f_< EntityKind  >() =  5;
+    s.f_< Domain      >() = 10;
+    s.f_< CountryCode >() = 15;
+    s.f_< Category    >() = 20;
+    s.f_< Subcategory >() = 25;
+    s.f_< Specific    >() = 30;
+    s.f_< Extra       >() = 35;
+
+    BOOST_CHECK(s.f_< EntityKind  >() ==  5);
+    BOOST_CHECK(s.f_< Domain      >() == 10);
+    BOOST_CHECK(s.f_< CountryCode >() == 15);
+    BOOST_CHECK(s.f_< Category    >() == 20);
+    BOOST_CHECK(s.f_< Subcategory >() == 25);
+    BOOST_CHECK(s.f_< Specific    >() == 30);
+    BOOST_CHECK(s.f_< Extra       >() == 35);
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_attached_parts_struct_access) {
+
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::AttachedPartsStruct;
+    using namespace protox::om::rpr::EntityTypeStruct;
+
+    AttachedPartsStruct::type s;
+
+    s.f_< Station   >()                     = StationEnum32::M249_SAW::value();
+    s.f_< StoreType >().f_< EntityKind  >() =  5;
+    s.f_< StoreType >().f_< Domain      >() = 10;
+    s.f_< StoreType >().f_< CountryCode >() = 15;
+    s.f_< StoreType >().f_< Category    >() = 20;
+    s.f_< StoreType >().f_< Subcategory >() = 25;
+    s.f_< StoreType >().f_< Specific    >() = 30;
+    s.f_< StoreType >().f_< Extra       >() = 35;
+
+    BOOST_CHECK(s.f_< Station   >()                     == StationEnum32::M249_SAW::value());
+    BOOST_CHECK(s.f_< StoreType >().f_< EntityKind  >() ==  5);
+    BOOST_CHECK(s.f_< StoreType >().f_< Domain      >() == 10);
+    BOOST_CHECK(s.f_< StoreType >().f_< CountryCode >() == 15);
+    BOOST_CHECK(s.f_< StoreType >().f_< Category    >() == 20);
+    BOOST_CHECK(s.f_< StoreType >().f_< Subcategory >() == 25);
+    BOOST_CHECK(s.f_< StoreType >().f_< Specific    >() == 30);
+    BOOST_CHECK(s.f_< StoreType >().f_< Extra       >() == 35);
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_parameter_value_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::ParameterTypeEnum32;
+    using namespace protox::om::rpr::ArticulatedPartsTypeEnum32;
+    using namespace protox::om::rpr::ArticulatedTypeMetricEnum32;
+    using namespace protox::om::rpr::ParameterValueStruct;
+    using namespace protox::om::rpr::ArticulatedPartsStruct;
+    using namespace protox::om::rpr::AttachedPartsStruct;
+    using namespace protox::om::rpr::EntityTypeStruct;
+
+    ParameterValueStruct::type s;
+
+    s.discriminant = ArticulatedPart::value();
+    s.alt_< ArticulatedParts >(ArticulatedPartsStruct::type());
+
+    (*s.alt_< ArticulatedParts >()).f_< Class      >() = SpeedBrake::value();
+    (*s.alt_< ArticulatedParts >()).f_< TypeMetric >() = X::value();
+    (*s.alt_< ArticulatedParts >()).f_< Value      >() = 15;
+
+    BOOST_CHECK((*s.alt_< ArticulatedParts >()).f_< Class      >() == SpeedBrake::value());
+    BOOST_CHECK((*s.alt_< ArticulatedParts >()).f_< TypeMetric >() == X::value());
+    BOOST_CHECK((*s.alt_< ArticulatedParts >()).f_< Value      >() == 15);
+
+    s.discriminant = AttachedPart::value();
+    s.alt_< AttachedParts >(AttachedPartsStruct::type());
+
+    (*s.alt_< AttachedParts >()).f_< Station   >()                     = StationEnum32::M249_SAW::value();
+    (*s.alt_< AttachedParts >()).f_< StoreType >().f_< EntityKind  >() =  5;
+    (*s.alt_< AttachedParts >()).f_< StoreType >().f_< Domain      >() = 10;
+    (*s.alt_< AttachedParts >()).f_< StoreType >().f_< CountryCode >() = 15;
+    (*s.alt_< AttachedParts >()).f_< StoreType >().f_< Category    >() = 20;
+    (*s.alt_< AttachedParts >()).f_< StoreType >().f_< Subcategory >() = 25;
+    (*s.alt_< AttachedParts >()).f_< StoreType >().f_< Specific    >() = 30;
+    (*s.alt_< AttachedParts >()).f_< StoreType >().f_< Extra       >() = 35;
+
+    BOOST_CHECK((*s.alt_< AttachedParts >()).f_< Station   >()                     == StationEnum32::M249_SAW::value());
+    BOOST_CHECK((*s.alt_< AttachedParts >()).f_< StoreType >().f_< EntityKind  >() ==  5);
+    BOOST_CHECK((*s.alt_< AttachedParts >()).f_< StoreType >().f_< Domain      >() == 10);
+    BOOST_CHECK((*s.alt_< AttachedParts >()).f_< StoreType >().f_< CountryCode >() == 15);
+    BOOST_CHECK((*s.alt_< AttachedParts >()).f_< StoreType >().f_< Category    >() == 20);
+    BOOST_CHECK((*s.alt_< AttachedParts >()).f_< StoreType >().f_< Subcategory >() == 25);
+    BOOST_CHECK((*s.alt_< AttachedParts >()).f_< StoreType >().f_< Specific    >() == 30);
+    BOOST_CHECK((*s.alt_< AttachedParts >()).f_< StoreType >().f_< Extra       >() == 35);
 }
