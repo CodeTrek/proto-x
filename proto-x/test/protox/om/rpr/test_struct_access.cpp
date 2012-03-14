@@ -25,8 +25,8 @@
 #include <protox/om/rpr/articulated_parts_struct.hpp>
 #include <protox/om/rpr/entity_type_struct.hpp>
 #include <protox/om/rpr/attached_parts_struct.hpp>
-
 #include <protox/om/rpr/parameter_value_struct.hpp>
+#include <protox/om/rpr/articulated_parameter_struct.hpp>
 
 /**********************************************************************************************************************/
 
@@ -324,4 +324,52 @@ BOOST_AUTO_TEST_CASE(test_parameter_value_struct_access) {
     BOOST_CHECK((*s.alt_< AttachedParts >()).f_< StoreType >().f_< Subcategory >() == 25);
     BOOST_CHECK((*s.alt_< AttachedParts >()).f_< StoreType >().f_< Specific    >() == 30);
     BOOST_CHECK((*s.alt_< AttachedParts >()).f_< StoreType >().f_< Extra       >() == 35);
+}
+
+BOOST_AUTO_TEST_CASE(test_articulated_parameter_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::ParameterTypeEnum32;
+    using namespace protox::om::rpr::ArticulatedPartsTypeEnum32;
+    using namespace protox::om::rpr::ArticulatedTypeMetricEnum32;
+    using namespace protox::om::rpr::ArticulatedParameterStruct;
+    using namespace protox::om::rpr::ParameterValueStruct;
+    using namespace protox::om::rpr::ArticulatedPartsStruct;
+    using namespace protox::om::rpr::AttachedPartsStruct;
+    using namespace protox::om::rpr::EntityTypeStruct;
+
+    ArticulatedParameterStruct::type s;
+
+    s.f_< ArticulatedParameterChange >() = 5;
+    s.f_< PartAttachedTo >() = 10;
+    s.f_< ParameterValue >().discriminant = ArticulatedPart::value();
+    s.f_< ParameterValue >().alt_< ArticulatedParts >(ArticulatedPartsStruct::type());
+
+    (*s.f_< ParameterValue >().alt_< ArticulatedParts >()).f_< Class >() = SpeedBrake::value();
+    (*s.f_< ParameterValue >().alt_< ArticulatedParts >()).f_< TypeMetric >() = X::value();
+    (*s.f_< ParameterValue >().alt_< ArticulatedParts >()).f_< Value      >() = 15;
+
+    BOOST_CHECK((*s.f_< ParameterValue >().alt_< ArticulatedParts >()).f_< Class      >() == SpeedBrake::value());
+    BOOST_CHECK((*s.f_< ParameterValue >().alt_< ArticulatedParts >()).f_< TypeMetric >() == X::value());
+    BOOST_CHECK((*s.f_< ParameterValue >().alt_< ArticulatedParts >()).f_< Value      >() == 15);
+
+    s.f_< ParameterValue >().discriminant = AttachedPart::value();
+    s.f_< ParameterValue >().alt_< AttachedParts >(AttachedPartsStruct::type());
+
+    (*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< Station   >()                     = StationEnum32::M249_SAW::value();
+    (*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< EntityKind  >() =  5;
+    (*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< Domain      >() = 10;
+    (*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< CountryCode >() = 15;
+    (*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< Category    >() = 20;
+    (*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< Subcategory >() = 25;
+    (*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< Specific    >() = 30;
+    (*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< Extra       >() = 35;
+
+    BOOST_CHECK((*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< Station   >()                     == StationEnum32::M249_SAW::value());
+    BOOST_CHECK((*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< EntityKind  >() ==  5);
+    BOOST_CHECK((*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< Domain      >() == 10);
+    BOOST_CHECK((*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< CountryCode >() == 15);
+    BOOST_CHECK((*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< Category    >() == 20);
+    BOOST_CHECK((*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< Subcategory >() == 25);
+    BOOST_CHECK((*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< Specific    >() == 30);
+    BOOST_CHECK((*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< Extra       >() == 35);
 }
