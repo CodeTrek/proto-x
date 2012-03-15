@@ -27,6 +27,8 @@
 #include <protox/om/rpr/attached_parts_struct.hpp>
 #include <protox/om/rpr/parameter_value_struct.hpp>
 #include <protox/om/rpr/articulated_parameter_struct.hpp>
+#include <protox/om/rpr/attribute_pair_struct.hpp>
+#include <protox/om/rpr/attribute_value_set_struct.hpp>
 
 /**********************************************************************************************************************/
 
@@ -326,6 +328,8 @@ BOOST_AUTO_TEST_CASE(test_parameter_value_struct_access) {
     BOOST_CHECK((*s.alt_< AttachedParts >()).f_< StoreType >().f_< Extra       >() == 35);
 }
 
+/**********************************************************************************************************************/
+
 BOOST_AUTO_TEST_CASE(test_articulated_parameter_struct_access) {
     using namespace protox::om::rpr;
     using namespace protox::om::rpr::ParameterTypeEnum32;
@@ -372,4 +376,79 @@ BOOST_AUTO_TEST_CASE(test_articulated_parameter_struct_access) {
     BOOST_CHECK((*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< Subcategory >() == 25);
     BOOST_CHECK((*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< Specific    >() == 30);
     BOOST_CHECK((*s.f_< ParameterValue >().alt_< AttachedParts >()).f_< StoreType >().f_< Extra       >() == 35);
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_attribute_pair_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::AttributePairStruct;
+
+    AttributePairStruct::type s;
+
+    s.f_< AttributeHandle >() =  5;
+    s.f_< ValueLength     >() = 10;
+
+    s.f_< Value           >().push_back( 3);
+    s.f_< Value           >().push_back( 6);
+    s.f_< Value           >().push_back( 9);
+    s.f_< Value           >().push_back(12);
+
+    BOOST_CHECK(s.f_< AttributeHandle >()    ==  5);
+    BOOST_CHECK(s.f_< ValueLength     >()    == 10);
+    BOOST_CHECK(s.f_< Value           >()[0] ==  3);
+    BOOST_CHECK(s.f_< Value           >()[1] ==  6);
+    BOOST_CHECK(s.f_< Value           >()[2] ==  9);
+    BOOST_CHECK(s.f_< Value           >()[3] == 12);
+}
+
+BOOST_AUTO_TEST_CASE(test_attribute_value_set_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::AttributePairStruct;
+    using namespace protox::om::rpr::AttributeValueSetStruct;
+
+    AttributeValueSetStruct::type s;
+
+    s.f_< AttributeSetCount >() = 5;
+    s.f_ < AttributePairs >().push_back(AttributePairStruct::type());
+    s.f_ < AttributePairs >().push_back(AttributePairStruct::type());
+    s.f_ < AttributePairs >().push_back(AttributePairStruct::type());
+
+    s.f_< AttributePairs >()[0].f_< AttributeHandle >() =  5;
+    s.f_< AttributePairs >()[0].f_< ValueLength     >() = 10;
+    s.f_< AttributePairs >()[0].f_< Value           >().push_back(3);
+    s.f_< AttributePairs >()[0].f_< Value           >().push_back(6);
+    s.f_< AttributePairs >()[0].f_< Value           >().push_back(9);
+
+    s.f_< AttributePairs >()[1].f_< AttributeHandle >() = 15;
+    s.f_< AttributePairs >()[1].f_< ValueLength     >() = 20;
+    s.f_< AttributePairs >()[1].f_< Value           >().push_back(12);
+    s.f_< AttributePairs >()[1].f_< Value           >().push_back(15);
+    s.f_< AttributePairs >()[1].f_< Value           >().push_back(18);
+
+    s.f_< AttributePairs >()[2].f_< AttributeHandle >() = 25;
+    s.f_< AttributePairs >()[2].f_< ValueLength     >() = 30;
+    s.f_< AttributePairs >()[2].f_< Value           >().push_back(21);
+    s.f_< AttributePairs >()[2].f_< Value           >().push_back(24);
+    s.f_< AttributePairs >()[2].f_< Value           >().push_back(27);
+
+    BOOST_CHECK(s.f_< AttributeSetCount >()                               ==  5);
+
+    BOOST_CHECK(s.f_< AttributePairs    >()[0].f_< AttributeHandle >()    ==  5);
+    BOOST_CHECK(s.f_< AttributePairs    >()[0].f_< ValueLength     >()    == 10);
+    BOOST_CHECK(s.f_< AttributePairs    >()[0].f_< Value           >()[0] ==  3);
+    BOOST_CHECK(s.f_< AttributePairs    >()[0].f_< Value           >()[1] ==  6);
+    BOOST_CHECK(s.f_< AttributePairs    >()[0].f_< Value           >()[2] ==  9);
+
+    BOOST_CHECK(s.f_< AttributePairs    >()[1].f_< AttributeHandle >()    == 15);
+    BOOST_CHECK(s.f_< AttributePairs    >()[1].f_< ValueLength     >()    == 20);
+    BOOST_CHECK(s.f_< AttributePairs    >()[1].f_< Value           >()[0] == 12);
+    BOOST_CHECK(s.f_< AttributePairs    >()[1].f_< Value           >()[1] == 15);
+    BOOST_CHECK(s.f_< AttributePairs    >()[1].f_< Value           >()[2] == 18);
+
+    BOOST_CHECK(s.f_< AttributePairs    >()[2].f_< AttributeHandle >()    == 25);
+    BOOST_CHECK(s.f_< AttributePairs    >()[2].f_< ValueLength     >()    == 30);
+    BOOST_CHECK(s.f_< AttributePairs    >()[2].f_< Value           >()[0] == 21);
+    BOOST_CHECK(s.f_< AttributePairs    >()[2].f_< Value           >()[1] == 24);
+    BOOST_CHECK(s.f_< AttributePairs    >()[2].f_< Value           >()[2] == 27);
 }
