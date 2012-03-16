@@ -29,6 +29,11 @@
 #include <protox/om/rpr/articulated_parameter_struct.hpp>
 #include <protox/om/rpr/attribute_pair_struct.hpp>
 #include <protox/om/rpr/attribute_value_set_struct.hpp>
+#include <protox/om/rpr/clock_time_struct.hpp>
+#include <protox/om/rpr/federate_identifier_struct.hpp>
+#include <protox/om/rpr/entity_identifier_struct.hpp>
+#include <protox/om/rpr/rti_object_id_struct.hpp>
+#include <protox/om/rpr/event_identifier_struct.hpp>
 
 /**********************************************************************************************************************/
 
@@ -402,6 +407,8 @@ BOOST_AUTO_TEST_CASE(test_attribute_pair_struct_access) {
     BOOST_CHECK(s.f_< Value           >()[3] == 12);
 }
 
+/**********************************************************************************************************************/
+
 BOOST_AUTO_TEST_CASE(test_attribute_value_set_struct_access) {
     using namespace protox::om::rpr;
     using namespace protox::om::rpr::AttributePairStruct;
@@ -451,4 +458,97 @@ BOOST_AUTO_TEST_CASE(test_attribute_value_set_struct_access) {
     BOOST_CHECK(s.f_< AttributePairs    >()[2].f_< Value           >()[0] == 21);
     BOOST_CHECK(s.f_< AttributePairs    >()[2].f_< Value           >()[1] == 24);
     BOOST_CHECK(s.f_< AttributePairs    >()[2].f_< Value           >()[2] == 27);
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_clock_time_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::ClockTimeStruct;
+
+    ClockTimeStruct::type s;
+
+    s.f_< Hours           >() =  5;
+    s.f_< TimePastTheHour >() = 10;
+
+    BOOST_CHECK(s.f_< Hours           >() ==  5);
+    BOOST_CHECK(s.f_< TimePastTheHour >() == 10);
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_federation_identifier_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::FederateIdentifierStruct;
+
+    FederateIdentifierStruct::type s;
+
+    s.f_< SiteID        >() =  5;
+    s.f_< ApplicationID >() = 10;
+
+    BOOST_CHECK(s.f_< SiteID        >() ==  5);
+    BOOST_CHECK(s.f_< ApplicationID >() == 10);
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_entity_identifier_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::FederateIdentifierStruct;
+    using namespace protox::om::rpr::EntityIdentifierStruct;
+
+    EntityIdentifierStruct::type s;
+
+    s.f_< FederateIdentifier >().f_< SiteID        >() =  5;
+    s.f_< FederateIdentifier >().f_< ApplicationID >() = 10;
+    s.f_< EntityNumber       >()                       = 15;
+
+    BOOST_CHECK(s.f_< FederateIdentifier >().f_< SiteID        >() ==  5);
+    BOOST_CHECK(s.f_< FederateIdentifier >().f_< ApplicationID >() == 10);
+    BOOST_CHECK(s.f_< EntityNumber       >()                       == 15);
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_rti_object_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::RTIObjectIdStruct;
+
+    RTIObjectIdStruct::type s;
+
+    s.f_< ID >().push_back('a');
+    s.f_< ID >().push_back('b');
+    s.f_< ID >().push_back('c');
+    s.f_< ID >().push_back('d');
+    s.f_< ID >().push_back('e');
+
+    BOOST_CHECK(s.f_< ID >()[0] == 'a');
+    BOOST_CHECK(s.f_< ID >()[1] == 'b');
+    BOOST_CHECK(s.f_< ID >()[2] == 'c');
+    BOOST_CHECK(s.f_< ID >()[3] == 'd');
+    BOOST_CHECK(s.f_< ID >()[4] == 'e');
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_event_identifier_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::RTIObjectIdStruct;
+    using namespace protox::om::rpr::EventIdentifierStruct;
+
+    EventIdentifierStruct::type s;
+
+    s.f_< EventCount              >() = 5;
+    s.f_< IssuingObjectIdentifier >().f_< ID >().push_back('a');
+    s.f_< IssuingObjectIdentifier >().f_< ID >().push_back('b');
+    s.f_< IssuingObjectIdentifier >().f_< ID >().push_back('c');
+    s.f_< IssuingObjectIdentifier >().f_< ID >().push_back('d');
+    s.f_< IssuingObjectIdentifier >().f_< ID >().push_back('e');
+
+    BOOST_CHECK(s.f_< EventCount              >()               ==   5);
+    BOOST_CHECK(s.f_< IssuingObjectIdentifier >().f_< ID >()[0] == 'a');
+    BOOST_CHECK(s.f_< IssuingObjectIdentifier >().f_< ID >()[1] == 'b');
+    BOOST_CHECK(s.f_< IssuingObjectIdentifier >().f_< ID >()[2] == 'c');
+    BOOST_CHECK(s.f_< IssuingObjectIdentifier >().f_< ID >()[3] == 'd');
+    BOOST_CHECK(s.f_< IssuingObjectIdentifier >().f_< ID >()[4] == 'e');
 }
