@@ -35,6 +35,8 @@
 #include <protox/om/rpr/rti_object_id_struct.hpp>
 #include <protox/om/rpr/event_identifier_struct.hpp>
 
+#include <protox/om/rpr/datum_identifier_enum32.hpp>
+
 /**********************************************************************************************************************/
 
 BOOST_AUTO_TEST_CASE(test_acceleration_vector_struct_access) {
