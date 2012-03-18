@@ -37,6 +37,7 @@
 #include <protox/om/rpr/fixed_datum_struct.hpp>
 #include <protox/om/rpr/marking_struct.hpp>
 #include <protox/om/rpr/sincgars_modulation_struct.hpp>
+#include <protox/om/rpr/modulation_struct.hpp>
 
 /**********************************************************************************************************************/
 
@@ -617,4 +618,33 @@ BOOST_AUTO_TEST_CASE(test_sincgars_modulation_struct_access) {
     BOOST_CHECK(s.f_< FHSynchronizationTimeOffset >() == 20);
     BOOST_CHECK(s.f_< TransmissionSecurityKey     >() == 25);
     BOOST_CHECK(s.f_< ClearChannel                >() == 'z');
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_modulation_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::ModulationStruct;
+    using namespace protox::om::rpr::SINCGARSModulationStruct;
+
+    ModulationStruct::type s;
+
+    s.f_< SINCGARModulation >().push_back(SINCGARSModulationStruct::type());
+
+    s.f_< SINCGARModulation >()[0].f_< FHNetID                     >() =  5;
+    s.f_< SINCGARModulation >()[0].f_< HopSetID                    >() = 10;
+    s.f_< SINCGARModulation >()[0].f_< LockoutSetID                >() = 15;
+    s.f_< SINCGARModulation >()[0].f_< StartOfMessage              >() = StartMessageEnum8::StartOfMessage::value();
+    s.f_< SINCGARModulation >()[0].f_< FHSynchronizationTimeOffset >() = 20;
+    s.f_< SINCGARModulation >()[0].f_< TransmissionSecurityKey     >() = 25;
+    s.f_< SINCGARModulation >()[0].f_< ClearChannel                >() = 'z';
+
+    BOOST_CHECK(s.f_< SINCGARModulation >()[0].f_< FHNetID                     >() ==  5);
+    BOOST_CHECK(s.f_< SINCGARModulation >()[0].f_< HopSetID                    >() == 10);
+    BOOST_CHECK(s.f_< SINCGARModulation >()[0].f_< LockoutSetID                >() == 15);
+    BOOST_CHECK(s.f_< SINCGARModulation >()[0].f_< StartOfMessage              >() == StartMessageEnum8::StartOfMessage::value());
+    BOOST_CHECK(s.f_< SINCGARModulation >()[0].f_< FHSynchronizationTimeOffset >() == 20);
+    BOOST_CHECK(s.f_< SINCGARModulation >()[0].f_< TransmissionSecurityKey     >() == 25);
+    BOOST_CHECK(s.f_< SINCGARModulation >()[0].f_< ClearChannel                >() == 'z');
+
 }
