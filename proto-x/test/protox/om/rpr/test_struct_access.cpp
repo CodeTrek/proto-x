@@ -34,8 +34,7 @@
 #include <protox/om/rpr/entity_identifier_struct.hpp>
 #include <protox/om/rpr/rti_object_id_struct.hpp>
 #include <protox/om/rpr/event_identifier_struct.hpp>
-
-#include <protox/om/rpr/datum_identifier_enum32.hpp>
+#include <protox/om/rpr/fixed_datum_struct.hpp>
 
 /**********************************************************************************************************************/
 
@@ -553,4 +552,20 @@ BOOST_AUTO_TEST_CASE(test_event_identifier_struct_access) {
     BOOST_CHECK(s.f_< IssuingObjectIdentifier >().f_< ID >()[2] == 'c');
     BOOST_CHECK(s.f_< IssuingObjectIdentifier >().f_< ID >()[3] == 'd');
     BOOST_CHECK(s.f_< IssuingObjectIdentifier >().f_< ID >()[4] == 'e');
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_fixed_datum_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::FixedDatumStruct;
+    using namespace protox::om::rpr::DatumIdentifierEnum32;
+
+    FixedDatumStruct::type s;
+
+    s.f_< FixedDatumIdentifier >() = Body_Part_Damaged_Ratio::value();
+    s.f_< FixedDatumValue      >() = 5;
+
+    BOOST_CHECK(s.f_< FixedDatumIdentifier >() == Body_Part_Damaged_Ratio::value());
+    BOOST_CHECK(s.f_< FixedDatumValue      >() == 5);
 }
