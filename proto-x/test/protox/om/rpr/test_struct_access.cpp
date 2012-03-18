@@ -35,6 +35,8 @@
 #include <protox/om/rpr/rti_object_id_struct.hpp>
 #include <protox/om/rpr/event_identifier_struct.hpp>
 #include <protox/om/rpr/fixed_datum_struct.hpp>
+#include <protox/om/rpr/marking_struct.hpp>
+#include <protox/om/rpr/sincgars_modulation_struct.hpp>
 
 /**********************************************************************************************************************/
 
@@ -568,4 +570,51 @@ BOOST_AUTO_TEST_CASE(test_fixed_datum_struct_access) {
 
     BOOST_CHECK(s.f_< FixedDatumIdentifier >() == Body_Part_Damaged_Ratio::value());
     BOOST_CHECK(s.f_< FixedDatumValue      >() == 5);
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_marking_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::MarkingStruct;
+    using namespace protox::om::rpr::MarkingEncodingEnum8;
+
+    MarkingStruct::type s;
+
+    s.f_< MarkingEncodingType >()     = DigitChevron::value();
+    s.f_< MarkingData         >()[ 0] = 'a';
+    s.f_< MarkingData         >()[ 5] = 'b';
+    s.f_< MarkingData         >()[ 7] = 'c';
+    s.f_< MarkingData         >()[10] = 'd';
+
+    BOOST_CHECK(s.f_< MarkingEncodingType >()     == DigitChevron::value());
+    BOOST_CHECK(s.f_< MarkingData         >()[ 0] == 'a');
+    BOOST_CHECK(s.f_< MarkingData         >()[ 5] == 'b');
+    BOOST_CHECK(s.f_< MarkingData         >()[ 7] == 'c');
+    BOOST_CHECK(s.f_< MarkingData         >()[10] == 'd');
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_sincgars_modulation_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::SINCGARSModulationStruct;
+
+    SINCGARSModulationStruct::type s;
+
+    s.f_< FHNetID                     >() =  5;
+    s.f_< HopSetID                    >() = 10;
+    s.f_< LockoutSetID                >() = 15;
+    s.f_< StartOfMessage              >() = StartMessageEnum8::StartOfMessage::value();
+    s.f_< FHSynchronizationTimeOffset >() = 20;
+    s.f_< TransmissionSecurityKey     >() = 25;
+    s.f_< ClearChannel                >() = 'z';
+
+    BOOST_CHECK(s.f_< FHNetID                     >() ==  5);
+    BOOST_CHECK(s.f_< HopSetID                    >() == 10);
+    BOOST_CHECK(s.f_< LockoutSetID                >() == 15);
+    BOOST_CHECK(s.f_< StartOfMessage              >() == StartMessageEnum8::StartOfMessage::value());
+    BOOST_CHECK(s.f_< FHSynchronizationTimeOffset >() == 20);
+    BOOST_CHECK(s.f_< TransmissionSecurityKey     >() == 25);
+    BOOST_CHECK(s.f_< ClearChannel                >() == 'z');
 }
