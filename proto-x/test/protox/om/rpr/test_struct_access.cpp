@@ -38,6 +38,8 @@
 #include <protox/om/rpr/marking_struct.hpp>
 #include <protox/om/rpr/sincgars_modulation_struct.hpp>
 #include <protox/om/rpr/modulation_struct.hpp>
+#include <protox/om/rpr/radio_type_struct.hpp>
+#include <protox/om/rpr/relative_position_struct.hpp>
 
 /**********************************************************************************************************************/
 
@@ -647,4 +649,44 @@ BOOST_AUTO_TEST_CASE(test_modulation_struct_access) {
     BOOST_CHECK(s.f_< SINCGARModulation >()[0].f_< TransmissionSecurityKey     >() == 25);
     BOOST_CHECK(s.f_< SINCGARModulation >()[0].f_< ClearChannel                >() == 'z');
 
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_radio_type_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::RadioTypeStruct;
+
+    RadioTypeStruct::type s;
+
+    s.f_< EntityKind          >() =  5;
+    s.f_< Domain              >() = 10;
+    s.f_< CountryCode         >() = 15;
+    s.f_< Category            >() = 20;
+    s.f_< NomenclatureVersion >() = NomenclatureVersionEnum8::Other::value();
+    s.f_< Nomenclature        >() = NomenclatureEnum16::Other::value();
+
+    BOOST_CHECK(s.f_< EntityKind          >() ==  5);
+    BOOST_CHECK(s.f_< Domain              >() == 10);
+    BOOST_CHECK(s.f_< CountryCode         >() == 15);
+    BOOST_CHECK(s.f_< Category            >() == 20);
+    BOOST_CHECK(s.f_< NomenclatureVersion >() == NomenclatureVersionEnum8::Other::value());
+    BOOST_CHECK(s.f_< Nomenclature        >() == NomenclatureEnum16::Other::value());
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_relative_positioin_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::RelativePositionStruct;
+
+    RelativePositionStruct::type s;
+
+    s.f_< BodyXDistance >() =  5;
+    s.f_< BodyYDistance >() = 10;
+    s.f_< BodyZDistance >() = 15;
+
+    BOOST_CHECK(s.f_< BodyXDistance >() ==  5);
+    BOOST_CHECK(s.f_< BodyYDistance >() == 10);
+    BOOST_CHECK(s.f_< BodyZDistance >() == 15);
 }
