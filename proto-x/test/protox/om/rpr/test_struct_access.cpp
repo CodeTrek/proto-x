@@ -40,6 +40,7 @@
 #include <protox/om/rpr/modulation_struct.hpp>
 #include <protox/om/rpr/radio_type_struct.hpp>
 #include <protox/om/rpr/relative_position_struct.hpp>
+#include <protox/om/rpr/rf_modulation_type_struct.hpp>
 
 /**********************************************************************************************************************/
 
@@ -689,4 +690,22 @@ BOOST_AUTO_TEST_CASE(test_relative_positioin_struct_access) {
     BOOST_CHECK(s.f_< BodyXDistance >() ==  5);
     BOOST_CHECK(s.f_< BodyYDistance >() == 10);
     BOOST_CHECK(s.f_< BodyZDistance >() == 15);
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_rf_modulation_type_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::RFModulationTypeStruct;
+    using namespace protox::om::rpr::MajorRFModulationTypeEnum16;
+    using namespace protox::om::rpr::AmplitudeModulationTypeEnum16;
+
+    RFModulationTypeStruct::type s;
+
+    s.discriminant = Amplitude::value();
+    s.alt_< AmplitudeModulationType >(AmplitudeModulationTypeEnum16::type());
+    BOOST_CHECK((*s.alt_< AmplitudeModulationType >()) == AmplitudeModulationTypeEnum16::Other::value());
+
+    (*s.alt_< AmplitudeModulationType >()) = AmplitudeModulationTypeEnum16::SSB_LowerSideband::value();
+    BOOST_CHECK((*s.alt_< AmplitudeModulationType >()) == AmplitudeModulationTypeEnum16::SSB_LowerSideband::value());
 }
