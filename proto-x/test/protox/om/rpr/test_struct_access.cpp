@@ -41,6 +41,7 @@
 #include <protox/om/rpr/radio_type_struct.hpp>
 #include <protox/om/rpr/relative_position_struct.hpp>
 #include <protox/om/rpr/rf_modulation_type_struct.hpp>
+#include <protox/om/rpr/rti_object_id_array_struct.hpp>
 
 /**********************************************************************************************************************/
 
@@ -517,7 +518,7 @@ BOOST_AUTO_TEST_CASE(test_entity_identifier_struct_access) {
 
 /**********************************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(test_rti_object_struct_access) {
+BOOST_AUTO_TEST_CASE(test_rti_object_id_struct_access) {
     using namespace protox::om::rpr;
     using namespace protox::om::rpr::RTIObjectIdStruct;
 
@@ -699,6 +700,11 @@ BOOST_AUTO_TEST_CASE(test_rf_modulation_type_struct_access) {
     using namespace protox::om::rpr::RFModulationTypeStruct;
     using namespace protox::om::rpr::MajorRFModulationTypeEnum16;
     using namespace protox::om::rpr::AmplitudeModulationTypeEnum16;
+    using namespace protox::om::rpr::AmplitudeAngleModulationTypeEnum16;
+    using namespace protox::om::rpr::AngleModulationTypeEnum16;
+    using namespace protox::om::rpr::CombinationModulationTypeEnum16;
+    using namespace protox::om::rpr::PulseModulationTypeEnum16;
+    using namespace protox::om::rpr::UnmodulatedTypeEnum16;
 
     RFModulationTypeStruct::type s;
 
@@ -708,4 +714,73 @@ BOOST_AUTO_TEST_CASE(test_rf_modulation_type_struct_access) {
 
     (*s.alt_< AmplitudeModulationType >()) = AmplitudeModulationTypeEnum16::SSB_LowerSideband::value();
     BOOST_CHECK((*s.alt_< AmplitudeModulationType >()) == AmplitudeModulationTypeEnum16::SSB_LowerSideband::value());
+
+    s.discriminant = MajorRFModulationTypeEnum16::AmplitudeAndAngle::value();
+    s.alt_< AmplitudeAngleModulationType >(AmplitudeAngleModulationTypeEnum16::type());
+    BOOST_CHECK((*s.alt_< AmplitudeAngleModulationType >()) == AmplitudeAngleModulationTypeEnum16::Other::value());
+
+    (*s.alt_< AmplitudeAngleModulationType >()) = AmplitudeAngleModulationTypeEnum16::AmplitudeAndAngle::value();
+    BOOST_CHECK((*s.alt_< AmplitudeAngleModulationType >()) == AmplitudeAngleModulationTypeEnum16::AmplitudeAndAngle::value());
+
+    s.discriminant = MajorRFModulationTypeEnum16::Angle::value();
+    s.alt_< AngleModulationType >(AngleModulationTypeEnum16::type());
+    BOOST_CHECK((*s.alt_< AngleModulationType >()) == AngleModulationTypeEnum16::Other::value());
+
+    (*s.alt_< AngleModulationType >()) = FrequencyShiftKeying::value();
+    BOOST_CHECK((*s.alt_< AngleModulationType >()) == FrequencyShiftKeying::value());
+
+    s.discriminant = MajorRFModulationTypeEnum16::Combination::value();
+    s.alt_< CombinationModulationType >(CombinationModulationTypeEnum16::type());
+    BOOST_CHECK((*s.alt_< CombinationModulationType >()) == CombinationModulationTypeEnum16::Other::value());
+
+    (*s.alt_< CombinationModulationType >()) = AmplitudeAnglePulse::value();
+    BOOST_CHECK((*s.alt_< CombinationModulationType >()) == AmplitudeAnglePulse::value());
+
+    s.discriminant = MajorRFModulationTypeEnum16::Pulse::value();
+    s.alt_< PulseModulationType >(PulseModulationTypeEnum16::type());
+    BOOST_CHECK((*s.alt_< PulseModulationType >()) == PulseModulationTypeEnum16::Other::value());
+
+    (*s.alt_< PulseModulationType >()) = PulseModulationTypeEnum16::Pulse::value();
+    BOOST_CHECK((*s.alt_< PulseModulationType >()) == PulseModulationTypeEnum16::Pulse::value());
+
+    s.discriminant = MajorRFModulationTypeEnum16::Unmodulated::value();
+    s.alt_< UnmodulatedType >(UnmodulatedTypeEnum16::type());
+    BOOST_CHECK((*s.alt_< UnmodulatedType >()) == UnmodulatedTypeEnum16::Other::value());
+
+    (*s.alt_< UnmodulatedType >()) = ContinuousWaveEmission::value();
+    BOOST_CHECK((*s.alt_< UnmodulatedType >()) == ContinuousWaveEmission::value());
 }
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_rti_object_id_array_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::RTIObjectIdArrayStruct;
+
+    RTIObjectIdArrayStruct::type s;
+
+    s.f_< Length >() = 5;
+
+    RTIObjectIdStruct::type id1;
+    id1.f_< RTIObjectIdStruct::ID >().push_back('a');
+    id1.f_< RTIObjectIdStruct::ID >().push_back('b');
+
+    s.f_< ID >().push_back(id1);
+
+    RTIObjectIdStruct::type id2;
+    id2.f_< RTIObjectIdStruct::ID >().push_back('c');
+    id2.f_< RTIObjectIdStruct::ID >().push_back('d');
+    id2.f_< RTIObjectIdStruct::ID >().push_back('e');
+
+    s.f_< ID >().push_back(id2);
+
+    BOOST_CHECK(s.f_< Length >() == 5);
+    BOOST_CHECK(s.f_< ID >()[0].f_< RTIObjectIdStruct::ID >()[0] == 'a');
+    BOOST_CHECK(s.f_< ID >()[0].f_< RTIObjectIdStruct::ID >()[1] == 'b');
+    BOOST_CHECK(s.f_< ID >()[1].f_< RTIObjectIdStruct::ID >()[0] == 'c');
+    BOOST_CHECK(s.f_< ID >()[1].f_< RTIObjectIdStruct::ID >()[1] == 'd');
+    BOOST_CHECK(s.f_< ID >()[1].f_< RTIObjectIdStruct::ID >()[2] == 'e');
+}
+
+/**********************************************************************************************************************/
+// SupplyStruct
