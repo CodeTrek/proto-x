@@ -42,6 +42,9 @@
 #include <protox/om/rpr/relative_position_struct.hpp>
 #include <protox/om/rpr/rf_modulation_type_struct.hpp>
 #include <protox/om/rpr/rti_object_id_array_struct.hpp>
+#include <protox/om/rpr/supply_struct.hpp>
+#include <protox/om/rpr/variable_datum_struct.hpp>
+#include <protox/om/rpr/variable_datum_set_struct.hpp>
 
 /**********************************************************************************************************************/
 
@@ -783,4 +786,67 @@ BOOST_AUTO_TEST_CASE(test_rti_object_id_array_struct_access) {
 }
 
 /**********************************************************************************************************************/
-// SupplyStruct
+
+BOOST_AUTO_TEST_CASE(test_supply_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::SupplyStruct;
+    using namespace protox::om::rpr::EntityTypeStruct;
+
+    SupplyStruct::type s;
+
+    s.f_< SupplyType >().f_< EntityKind  >() =  5;
+    s.f_< SupplyType >().f_< Domain      >() = 10;
+    s.f_< SupplyType >().f_< CountryCode >() = 15;
+    s.f_< SupplyType >().f_< Category    >() = 20;
+    s.f_< SupplyType >().f_< Subcategory >() = 25;
+    s.f_< SupplyType >().f_< Specific    >() = 30;
+    s.f_< SupplyType >().f_< Extra       >() = 35;
+
+    s.f_< Quantity >() = 40;
+
+    BOOST_CHECK(s.f_< SupplyType >().f_< EntityKind  >() ==  5);
+    BOOST_CHECK(s.f_< SupplyType >().f_< Domain      >() == 10);
+    BOOST_CHECK(s.f_< SupplyType >().f_< CountryCode >() == 15);
+    BOOST_CHECK(s.f_< SupplyType >().f_< Category    >() == 20);
+    BOOST_CHECK(s.f_< SupplyType >().f_< Subcategory >() == 25);
+    BOOST_CHECK(s.f_< SupplyType >().f_< Specific    >() == 30);
+    BOOST_CHECK(s.f_< SupplyType >().f_< Extra       >() == 35);
+    BOOST_CHECK(s.f_< Quantity   >()                     == 40);
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_variable_datum_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::VariableDatumStruct;
+    using namespace protox::om::rpr::DatumIdentifierEnum32;
+
+    VariableDatumStruct::type s;
+
+    s.f_< DatumID     >() = Body_Part_Damaged_Ratio::value();
+    s.f_< DatumLength >() = 5;
+    s.f_< DatumValue  >().push_back(1);
+    s.f_< DatumValue  >().push_back(2);
+    s.f_< DatumValue  >().push_back(3);
+    s.f_< DatumValue  >().push_back(4);
+
+    BOOST_CHECK(s.f_< DatumID     >()    == Body_Part_Damaged_Ratio::value());
+    BOOST_CHECK(s.f_< DatumLength >()    == 5);
+    BOOST_CHECK(s.f_< DatumValue  >()[0] == 1);
+    BOOST_CHECK(s.f_< DatumValue  >()[1] == 2);
+    BOOST_CHECK(s.f_< DatumValue  >()[2] == 3);
+    BOOST_CHECK(s.f_< DatumValue  >()[3] == 4);
+
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_variable_datum_set_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::VariableDatumSetStruct;
+    using namespace protox::om::rpr::VariableDatumStruct;
+    using namespace protox::om::rpr::DatumIdentifierEnum32;
+
+    VariableDatumSetStruct::type s;
+
+}
