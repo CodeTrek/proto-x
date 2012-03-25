@@ -45,6 +45,8 @@
 #include <protox/om/rpr/supply_struct.hpp>
 #include <protox/om/rpr/variable_datum_struct.hpp>
 #include <protox/om/rpr/variable_datum_set_struct.hpp>
+#include <protox/om/rpr/velocity_vector_struct.hpp>
+#include <protox/om/rpr/world_location_struct.hpp>
 
 /**********************************************************************************************************************/
 
@@ -836,7 +838,6 @@ BOOST_AUTO_TEST_CASE(test_variable_datum_struct_access) {
     BOOST_CHECK(s.f_< DatumValue  >()[1] == 2);
     BOOST_CHECK(s.f_< DatumValue  >()[2] == 3);
     BOOST_CHECK(s.f_< DatumValue  >()[3] == 4);
-
 }
 
 /**********************************************************************************************************************/
@@ -848,5 +849,77 @@ BOOST_AUTO_TEST_CASE(test_variable_datum_set_struct_access) {
     using namespace protox::om::rpr::DatumIdentifierEnum32;
 
     VariableDatumSetStruct::type s;
+
+    s.f_< NumberOfVariableDatums >() = 5;
+
+    VariableDatumStruct::type d1;
+
+    d1.f_< DatumID     >() = Body_Part_Damaged_Ratio::value();
+    d1.f_< DatumLength >() = 5;
+    d1.f_< DatumValue  >().push_back(1);
+    d1.f_< DatumValue  >().push_back(2);
+    d1.f_< DatumValue  >().push_back(3);
+    d1.f_< DatumValue  >().push_back(4);
+
+    s.f_< VariableDatums >().push_back(d1);
+
+    VariableDatumStruct::type d2;
+
+    d2.f_< DatumID     >() = Default_Time_For_Radio_Transmission_For_Moving_Transmitters::value();
+    d2.f_< DatumLength >() = 10;
+    d2.f_< DatumValue  >().push_back(10);
+    d2.f_< DatumValue  >().push_back(20);
+    d2.f_< DatumValue  >().push_back(30);
+
+    s.f_< VariableDatums >().push_back(d2);
+
+    BOOST_CHECK(s.f_< NumberOfVariableDatums >() == 5);
+
+    BOOST_CHECK(s.f_< VariableDatums >()[0].f_< DatumID     >()    == Body_Part_Damaged_Ratio::value());
+    BOOST_CHECK(s.f_< VariableDatums >()[0].f_< DatumLength >()    == 5);
+    BOOST_CHECK(s.f_< VariableDatums >()[0].f_< DatumValue  >()[0] == 1);
+    BOOST_CHECK(s.f_< VariableDatums >()[0].f_< DatumValue  >()[1] == 2);
+    BOOST_CHECK(s.f_< VariableDatums >()[0].f_< DatumValue  >()[2] == 3);
+    BOOST_CHECK(s.f_< VariableDatums >()[0].f_< DatumValue  >()[3] == 4);
+
+    BOOST_CHECK(s.f_< VariableDatums >()[1].f_< DatumID     >()    == Default_Time_For_Radio_Transmission_For_Moving_Transmitters::value());
+    BOOST_CHECK(s.f_< VariableDatums >()[1].f_< DatumLength >()    == 10);
+    BOOST_CHECK(s.f_< VariableDatums >()[1].f_< DatumValue  >()[0] == 10);
+    BOOST_CHECK(s.f_< VariableDatums >()[1].f_< DatumValue  >()[1] == 20);
+    BOOST_CHECK(s.f_< VariableDatums >()[1].f_< DatumValue  >()[2] == 30);
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_velocity_vector_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::VelocityVectorStruct;
+
+    VelocityVectorStruct::type s;
+
+    s.f_< XVelocity >() =  5;
+    s.f_< YVelocity >() = 10;
+    s.f_< ZVelocity >() = 15;
+
+    BOOST_CHECK(s.f_< XVelocity >() ==  5);
+    BOOST_CHECK(s.f_< YVelocity >() == 10);
+    BOOST_CHECK(s.f_< ZVelocity >() == 15);
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_world_location_struct_access) {
+    using namespace protox::om::rpr;
+    using namespace protox::om::rpr::WorldLocationStruct;
+
+    WorldLocationStruct::type s;
+
+    s.f_< X >() =  5;
+    s.f_< Y >() = 10;
+    s.f_< Z >() = 15;
+
+    BOOST_CHECK(s.f_< X >() ==  5);
+    BOOST_CHECK(s.f_< Y >() == 10);
+    BOOST_CHECK(s.f_< Z >() == 15);
 
 }
