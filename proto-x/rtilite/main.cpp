@@ -14,6 +14,7 @@ int main( int argc, char* argv[] )
   RTI::RTIexec rti_exec;
   RTI::RTIambassador rtiAmb( rti_exec );
 
+
   return 0;
 }
 
