@@ -147,8 +147,16 @@ unit-test protox_hla_custom_tests
 ########################################################################################################################
 # protox/om/rpr tests
 ########################################################################################################################
-unit-test protox_om_rpr_tests
+unit-test protox_om_rpr_test_struct_access
   : ./protox/om/rpr/test_struct_access.cpp
   : <target-os>windows:<cxxflags>/wd4535
     <include>..
   ;
+  
+unit-test protox_om_rpr_test_attribute_access
+  : ./protox/om/rpr/test_attribute_access.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>$(RTI_INCLUDE_PATH)
+    <include>..
+  ;
+  
