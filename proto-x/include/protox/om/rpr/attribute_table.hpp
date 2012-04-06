@@ -27,6 +27,11 @@
 #include <protox/om/rpr/orientation_struct.hpp>
 #include <protox/om/rpr/world_location_struct.hpp>
 #include <protox/om/rpr/velocity_vector_struct.hpp>
+#include <protox/om/rpr/designator_code_name_enum16.hpp>
+#include <protox/om/rpr/rti_object_id_struct.hpp>
+#include <protox/om/rpr/designator_code_enum16.hpp>
+#include <protox/om/rpr/world_location_struct.hpp>
+#include <protox/om/rpr/relative_position_struct.hpp>
 
 /**********************************************************************************************************************/
 
@@ -39,27 +44,43 @@ using namespace protox::hla;
 
 /**********************************************************************************************************************/
 
-//   +------------------------------------------------+------------------------+-----------------------------------------+---------------------------------------+
-//   | Name                                           | Attribute              | Datatype                                | String Name                           |
-//   +------------------------------------------------+------------------------+-----------------------------------------+---------------------------------------+
+//   +------------------------------------------------+------------------------------+-----------------------------------------+---------------------------------------------+
+//   | Name                                           | Attribute                    | Datatype                                | String Name                                 |
+//   +------------------------------------------------+------------------------------+-----------------------------------------+---------------------------------------------+
 struct HLAobjectRoot   { HLA_NAME("HLAobjectRoot")   };
-//   +------------------------------------------------+------------------------+-----------------------------------------+---------------------------------------+
+//   +------------------------------------------------+------------------------------+-----------------------------------------+---------------------------------------------+
 struct BaseEntity      { HLA_NAME("BaseEntity")      };
-                                                 struct AccelerationVector     : attr< AngularVelocityVectorStruct::type > { HLA_NAME("AccelerationVector")     };
-                                                 struct AngularVelocityVector  : attr< AngularVelocityVectorStruct::type > { HLA_NAME("AngularVelocityVector")  };
-                                                 struct DeadReckoningAlgorithm : attr< DeadReckoningAlgorithmEnum8::type > { HLA_NAME("DeadReckoningAlgorithm") };
-                                                 struct EntityType             : attr< EntityTypeStruct::type            > { HLA_NAME("EntityType")             };
-                                                 struct EntityIdentifier       : attr< EntityIdentifierStruct::type      > { HLA_NAME("EntityIdentifier")       };
-                                                 struct IsFrozen               : attr< BoolEnum8::type                   > { HLA_NAME("IsFrozen")               };
-                                                 struct Orientation            : attr< OrientationStruct::type           > { HLA_NAME("Orientation")            };
-                                                 struct WorldLocation          : attr< WorldLocationStruct::type         > { HLA_NAME("WorldLocation")          };
-                                                 struct VelocityVector         : attr< VelocityVectorStruct::type        > { HLA_NAME("VelocityVector")         };
-//   +------------------------------------------------+------------------------+-----------------------------------------+---------------------------------------+
+                                                 struct AccelerationVector           : attr< AngularVelocityVectorStruct::type > { HLA_NAME("AccelerationVector")           };
+                                                 struct AngularVelocityVector        : attr< AngularVelocityVectorStruct::type > { HLA_NAME("AngularVelocityVector")        };
+                                                 struct DeadReckoningAlgorithm       : attr< DeadReckoningAlgorithmEnum8::type > { HLA_NAME("DeadReckoningAlgorithm")       };
+                                                 struct EntityType                   : attr< EntityTypeStruct::type            > { HLA_NAME("EntityType")                   };
+                                                 struct EntityIdentifier             : attr< EntityIdentifierStruct::type      > { HLA_NAME("EntityIdentifier")             };
+                                                 struct IsFrozen                     : attr< BoolEnum8::type                   > { HLA_NAME("IsFrozen")                     };
+                                                 struct Orientation                  : attr< OrientationStruct::type           > { HLA_NAME("Orientation")                  };
+                                                 struct WorldLocation                : attr< WorldLocationStruct::type         > { HLA_NAME("WorldLocation")                };
+                                                 struct VelocityVector               : attr< VelocityVectorStruct::type        > { HLA_NAME("VelocityVector")               };
+//   +------------------------------------------------+------------------------------+-----------------------------------------+---------------------------------------------+
 struct CulturalFeature { HLA_NAME("CulturalFeature") };
-                                                 struct ExternalLightsOn       : attr< BoolEnum8::type                   > { HLA_NAME("ExternalLightsOn")       };
-                                                 struct InternalHeatSourceOn   : attr< BoolEnum8::type                   > { HLA_NAME("InternalHeatSourceOn")   };
-                                                 struct InternalLightsOn       : attr< BoolEnum8::type                   > { HLA_NAME("InternalLightsOn")       };
-//   +------------------------------------------------+------------------------+-----------------------------------------+---------------------------------------+
+                                                 struct ExternalLightsOn             : attr< BoolEnum8::type                   > { HLA_NAME("ExternalLightsOn")             };
+                                                 struct InternalHeatSourceOn         : attr< BoolEnum8::type                   > { HLA_NAME("InternalHeatSourceOn")         };
+                                                 struct InternalLightsOn             : attr< BoolEnum8::type                   > { HLA_NAME("InternalLightsOn")             };
+//   +------------------------------------------------+------------------------------+-----------------------------------------+---------------------------------------------+
+struct Designator { HLA_NAME("Designator")           };
+                                                 struct CodeName                     : attr< DesignatorCodeNameEnum16::type    > { HLA_NAME("CodeName")                     };
+                                                 struct DesignatedObjectIdentifier   : attr< RTIObjectIdStruct::type           > { HLA_NAME("DesignatedObjectIdentifier")   };
+                                                 struct DesignatorCode               : attr< DesignatorCodeEnum16::type        > { HLA_NAME("DesignatorCode")               };
+                                                 struct DesignatorEmissionWavelength : attr< hla_13::HLA13float                > { HLA_NAME("DesignatorEmissionWavelength") };
+                                                 struct DesignatorOutputPower        : attr< hla_13::HLA13float                > { HLA_NAME("DesignatorOutputPower")        };
+                                                 struct DesignatorSpotLocation       : attr< WorldLocationStruct::type         > { HLA_NAME("DesignatorSpotLocation")       };
+                                              // struct DeadReckoningAlgorithm       : attr< DeadReckoningAlgorithmEnum8::type > { HLA_NAME("DeadReckoningAlgorithm")       };
+                                                 struct RelativeSpotLocation         : attr< RelativePositionStruct::type      > { HLA_NAME("RelativeSpotLocation")         };
+                                                 struct SpotLinearAccelerationVector : attr< AccelerationVectorStruct::type    > { HLA_NAME("SpotLinearAccelerationVector") };
+//   +------------------------------------------------+------------------------------+-----------------------------------------+---------------------------------------------+
+struct EmbeddedSystem { HLA_NAME("EmbeddedSystem")   };
+                                              // struct EntityIdentifier             : attr< EntityIdentifierStruct::type      > { HLA_NAME("EntityIdentifier")             };
+                                                 struct HostObjectIdentifier         : attr< RTIObjectIdStruct::type           > { HLA_NAME("HostObjectIdentifier")         };
+                                                 struct RelativePosition             : attr< RelativePositionStruct::type      > { HLA_NAME("RelativePosition")             };
+//   +------------------------------------------------+------------------------------+-----------------------------------------+---------------------------------------------+
 
 /**********************************************************************************************************************/
 
