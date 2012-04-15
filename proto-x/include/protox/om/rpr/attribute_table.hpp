@@ -46,6 +46,7 @@
 #include <protox/om/rpr/force_identifier_enum8.hpp>
 #include <protox/om/rpr/marking_struct.hpp>
 #include <protox/om/rpr/trailing_effects_code_enum32.hpp>
+#include <protox/om/rpr/hatch_state_enum32.hpp>
 
 /**********************************************************************************************************************/
 
@@ -155,6 +156,28 @@ struct PhysicalEntity { HLA_NAME("PhysicalEntity")           };
                                                          struct SmokePlumePresent            : attr< BoolEnum8::type                   > { HLA_NAME("SmokePlumePresent")            };
                                                          struct TentDeployed                 : attr< BoolEnum8::type                   > { HLA_NAME("TentDeployed")                 };
                                                          struct TrailingEffectsCode          : attr< BoolEnum8::type                   > { HLA_NAME("TrailingEffectsCode")          };
+//   +--------------------------------------------------------+------------------------------+-------------------------------------------+-------------------------------------------+
+struct Platform { HLA_NAME("Platform")                       };
+                                                         struct AfterburnerOn                : attr< BoolEnum8::type                   > { HLA_NAME("AfterburnerOn")                };
+                                                         struct AntiCollisionLightsOn        : attr< BoolEnum8::type                   > { HLA_NAME("AntiCollisionLightsOn")        };
+                                                         struct BlackOutBrakeLightsOn        : attr< BoolEnum8::type                   > { HLA_NAME("BlackOutBrakeLightsOn")        };
+                                                         struct BlackOutLightsOn             : attr< BoolEnum8::type                   > { HLA_NAME("BlackOutLightsOn")             };
+                                                         struct BrakeLightsOn                : attr< BoolEnum8::type                   > { HLA_NAME("BrakeLightsOn")                };
+                                                         struct FormationLightsOn            : attr< BoolEnum8::type                   > { HLA_NAME("FormationLightsOn")            };
+                                                         struct HatchState                   : attr< HatchStateEnum32::type            > { HLA_NAME("HatchState")                   };
+                                                         struct HeadLightsOn                 : attr< BoolEnum8::type                   > { HLA_NAME("HeadLightsOn")                 };
+                                                         struct InteriorLightsOn             : attr< BoolEnum8::type                   > { HLA_NAME("InteriorLightsOn")             };
+                                                         struct LandingLightsOn              : attr< BoolEnum8::type                   > { HLA_NAME("LandingLightsOn")              };
+                                                         struct LauncherRaised               : attr< BoolEnum8::type                   > { HLA_NAME("LauncherRaised")               };
+                                                         struct NavigationLightsOn           : attr< BoolEnum8::type                   > { HLA_NAME("NavigationLightsOn")           };
+                                                         struct RampDeployed                 : attr< BoolEnum8::type                   > { HLA_NAME("RampDeployed")                 };
+                                                         struct RunningLightsOn              : attr< BoolEnum8::type                   > { HLA_NAME("RunningLightsOn")              };
+                                                         struct SpotLightsOn                 : attr< BoolEnum8::type                   > { HLA_NAME("SpotLightsOn")                 };
+                                                         struct TailLightsOn                 : attr< BoolEnum8::type                   > { HLA_NAME("TailLightsOn")                 };
+//   +--------------------------------------------------------+------------------------------+-------------------------------------------+-------------------------------------------+
+struct RadarBeam { HLA_NAME("RadarBeam")                     };
+                                                         struct HighDensityTrack             : attr< BoolEnum8::type                   > { HLA_NAME("HighDensityTrack")             };
+                                                         struct TrackObjectIdentifiers       : attr< RTIObjectIdArrayStruct::type      > { HLA_NAME("TrackObjectIdentifiers")       };
 /**********************************************************************************************************************/
 
 }}}
