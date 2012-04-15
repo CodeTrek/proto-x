@@ -40,6 +40,12 @@
 #include <protox/om/rpr/rti_object_id_array_struct.hpp>
 #include <protox/om/rpr/stance_code_enum32.hpp>
 #include <protox/om/rpr/weapon_state_enum32.hpp>
+#include <protox/om/rpr/articulated_parameter_struct_array.hpp>
+#include <protox/om/rpr/camouflage_enum32.hpp>
+#include <protox/om/rpr/damage_status_enum32.hpp>
+#include <protox/om/rpr/force_identifier_enum8.hpp>
+#include <protox/om/rpr/marking_struct.hpp>
+#include <protox/om/rpr/trailing_effects_code_enum32.hpp>
 
 /**********************************************************************************************************************/
 
@@ -128,6 +134,27 @@ struct Lifeform { HLA_NAME("Lifeform")                       };
 //   +--------------------------------------------------------+------------------------------+-------------------------------------------+-------------------------------------------+
 struct Munition { HLA_NAME("Munition")                       };
                                                          struct LauncherFlashPresent         : attr< BoolEnum8::type                   > { HLA_NAME("LauncherFlashPresent")         };
+//   +--------------------------------------------------------+------------------------------+-------------------------------------------+-------------------------------------------+
+struct PhysicalEntity { HLA_NAME("PhysicalEntity")           };
+                                                         struct AlternateEntityType          : attr< EntityTypeStruct::type            > { HLA_NAME("AlternateEntityType")          };
+                                                         struct ArticulatedParametersArray   : attr< ArticulatedParameterStructArray   > { HLA_NAME("ArticulatedParametersArray")   };
+                                                         struct CamouflageType               : attr< CamouflageEnum32 ::type           > { HLA_NAME("CamouflageType")               };
+                                                         struct DamageState                  : attr< DamageStatusEnum32 ::type         > { HLA_NAME("DamageState")                  };
+                                                         struct EngineSmokeOn                : attr< BoolEnum8::type                   > { HLA_NAME("EngineSmokeOn")                };
+                                                         struct FirePowerDisabled            : attr< BoolEnum8::type                   > { HLA_NAME("FirePowerDisabled")            };
+                                                         struct FlamesPresent                : attr< BoolEnum8::type                   > { HLA_NAME("FlamesPresent")                };
+                                                         struct ForceIdentifier              : attr< ForceIdentifierEnum8::type        > { HLA_NAME("ForceIdentifier")              };
+                                                         struct HasAmmunitionSupplyCap       : attr< BoolEnum8::type                   > { HLA_NAME("HasAmmunitionSupplyCap")       };
+                                                         struct HasFuelSupplyCap             : attr< BoolEnum8::type                   > { HLA_NAME("HasFuelSupplyCap")             };
+                                                         struct HasRecoveryCap               : attr< BoolEnum8::type                   > { HLA_NAME("HasRecoveryCap")               };
+                                                         struct HasRepairCap                 : attr< BoolEnum8::type                   > { HLA_NAME("HasRepairCap")                 };
+                                                         struct Immobilized                  : attr< BoolEnum8::type                   > { HLA_NAME("Immobilized")                  };
+                                                         struct IsConcealed                  : attr< BoolEnum8::type                   > { HLA_NAME("IsConcealed")                  };
+                                                         struct Marking                      : attr< MarkingStruct::type               > { HLA_NAME("Marking")                      };
+                                                         struct PowerPlantOn                 : attr< BoolEnum8::type                   > { HLA_NAME("PowerPlantOn")                 };
+                                                         struct SmokePlumePresent            : attr< BoolEnum8::type                   > { HLA_NAME("SmokePlumePresent")            };
+                                                         struct TentDeployed                 : attr< BoolEnum8::type                   > { HLA_NAME("TentDeployed")                 };
+                                                         struct TrailingEffectsCode          : attr< BoolEnum8::type                   > { HLA_NAME("TrailingEffectsCode")          };
 /**********************************************************************************************************************/
 
 }}}
