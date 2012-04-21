@@ -7,6 +7,7 @@ project protox
   : requirements
       <target-os>windows:<linkflags>"Ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib"
       <target-os>windows:<cxxflags>/DWIN32
+      <toolset>gcc:<cxxflags>-ftemplate-depth-512
       <include>$(BOOST_INCLUDE_PATH)
       <include>$(PROTOX_INCLUDE_PATH)
   ;
