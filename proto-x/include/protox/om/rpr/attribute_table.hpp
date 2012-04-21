@@ -72,9 +72,13 @@ using namespace protox::hla;
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
 //   | Name                                                   | Attribute                     | Datatype                                        | String Name                                |
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
-struct HLAobjectRoot   { HLA_NAME("HLAobjectRoot")           };
+struct HLAobjectRoot { HLA_NAME("HLAobjectRoot") };
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
-struct BaseEntity      { HLA_NAME("BaseEntity")              };
+struct Aircraft { HLA_NAME("Aircraft") };
+//   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
+struct AmphibiousVehicle { HLA_NAME("AmphibiousVehicle") };
+//   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
+struct BaseEntity { HLA_NAME("BaseEntity") };
                                                          struct AccelerationVector            : attr< AngularVelocityVectorStruct::type       > { HLA_NAME("AccelerationVector")            };
                                                          struct AngularVelocityVector         : attr< AngularVelocityVectorStruct::type       > { HLA_NAME("AngularVelocityVector")         };
                                                          struct DeadReckoningAlgorithm        : attr< DeadReckoningAlgorithmEnum8::type       > { HLA_NAME("DeadReckoningAlgorithm")        };
@@ -85,12 +89,12 @@ struct BaseEntity      { HLA_NAME("BaseEntity")              };
                                                          struct WorldLocation                 : attr< WorldLocationStruct::type               > { HLA_NAME("WorldLocation")                 };
                                                          struct VelocityVector                : attr< VelocityVectorStruct::type              > { HLA_NAME("VelocityVector")                };
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
-struct CulturalFeature { HLA_NAME("CulturalFeature")         };
+struct CulturalFeature { HLA_NAME("CulturalFeature") };
                                                          struct ExternalLightsOn              : attr< BoolEnum8::type                         > { HLA_NAME("ExternalLightsOn")              };
                                                          struct InternalHeatSourceOn          : attr< BoolEnum8::type                         > { HLA_NAME("InternalHeatSourceOn")          };
                                                          struct InternalLightsOn              : attr< BoolEnum8::type                         > { HLA_NAME("InternalLightsOn")              };
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
-struct Designator { HLA_NAME("Designator")                   };
+struct Designator { HLA_NAME("Designator") };
                                                          struct CodeName                      : attr< DesignatorCodeNameEnum16::type          > { HLA_NAME("CodeName")                      };
                                                          struct DesignatedObjectIdentifier    : attr< RTIObjectIdStruct::type                 > { HLA_NAME("DesignatedObjectIdentifier")    };
                                                          struct DesignatorCode                : attr< DesignatorCodeEnum16::type              > { HLA_NAME("DesignatorCode")                };
@@ -101,12 +105,12 @@ struct Designator { HLA_NAME("Designator")                   };
                                                          struct RelativeSpotLocation          : attr< RelativePositionStruct::type            > { HLA_NAME("RelativeSpotLocation")          };
                                                          struct SpotLinearAccelerationVector  : attr< AccelerationVectorStruct::type          > { HLA_NAME("SpotLinearAccelerationVector")  };
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
-struct EmbeddedSystem { HLA_NAME("EmbeddedSystem")           };
+struct EmbeddedSystem { HLA_NAME("EmbeddedSystem") };
                                                       // struct EntityIdentifier              : attr< EntityIdentifierStruct::type            > { HLA_NAME("EntityIdentifier")              };
                                                          struct HostObjectIdentifier          : attr< RTIObjectIdStruct::type                 > { HLA_NAME("HostObjectIdentifier")          };
                                                          struct RelativePosition              : attr< RelativePositionStruct::type            > { HLA_NAME("RelativePosition")              };
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
-struct EmitterBeam { HLA_NAME("EmitterBeam")                 };
+struct EmitterBeam { HLA_NAME("EmitterBeam") };
                                                          struct BeamAzimuthCenter             : attr< hla_13::HLA13float                      > { HLA_NAME("BeamAzimuthCenter")             };
                                                          struct BeamAzimuthSweep              : attr< hla_13::HLA13float                      > { HLA_NAME("BeamAzimuthSweep")              };
                                                          struct BeamElevationCenter           : attr< hla_13::HLA13float                      > { HLA_NAME("BeamElevationCenter")           };
@@ -123,7 +127,7 @@ struct EmitterBeam { HLA_NAME("EmitterBeam")                 };
                                                          struct PulseWidth                    : attr< hla_13::HLA13float                      > { HLA_NAME("PulseWidth")                    };
                                                          struct SweepSynch                    : attr< hla_13::HLA13float                      > { HLA_NAME("SweepSynch")                    };
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
-struct EmitterSystem { HLA_NAME("EmitterSystem")             };
+struct EmitterSystem { HLA_NAME("EmitterSystem") };
                                                          struct EmitterFunctionCode           : attr< BeamFunctionCodeEnum8::type             > { HLA_NAME("EmitterFunctionCode")           };
                                                          struct EmitterType                   : attr< EmitterTypeEnum16::type                 > { HLA_NAME("EmitterType")                   };
                                                          struct EmitterIndex                  : attr< hla_13::HLA13octet                      > { HLA_NAME("EmitterIndex")                  };
@@ -132,7 +136,13 @@ struct EmitterSystem { HLA_NAME("EmitterSystem")             };
 struct EnvironmentalEntity { HLA_NAME("EnvironmentalEntity") };
                                                          struct OpacityCode                   : attr< OpacityCodeEnum32::type                 > { HLA_NAME("OpacityCode")                   };
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
-struct JammerBeam { HLA_NAME("JammerBeam")                   };
+struct Expendables { HLA_NAME("Expendables") };
+//   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
+struct GroundVehicle { HLA_NAME("GroundVehicle") };
+//   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
+struct Human { HLA_NAME("Human") };
+//   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
+struct JammerBeam { HLA_NAME("JammerBeam") };
                                                          struct JammingModeSequence           : attr< hla_13::HLA13unsigned_long              > { HLA_NAME("JammingModeSequence")         };
                                                          struct JammedObjectIdentifiers       : attr< RTIObjectIdArrayStruct::type            > { HLA_NAME("JammedObjectIdentifiers")       };
                                                          struct HighDensityJam                : attr< BoolEnum8::type                         > { HLA_NAME("HighDensityJam")                };
@@ -143,10 +153,14 @@ struct Lifeform { HLA_NAME("Lifeform")                       };
                                                          struct PrimaryWeaponState            : attr< WeaponStateEnum32::type                 > { HLA_NAME("PrimaryWeaponState")            };
                                                          struct SecondaryWeaponState          : attr< WeaponStateEnum32::type                 > { HLA_NAME("SecondaryWeaponState")          };
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
-struct Munition { HLA_NAME("Munition")                       };
+struct MultiDomainPlatform { HLA_NAME("MultiDomainPlatform") };
+//   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
+struct Munition { HLA_NAME("Munition") };
                                                          struct LauncherFlashPresent          : attr< BoolEnum8::type                         > { HLA_NAME("LauncherFlashPresent")          };
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
-struct PhysicalEntity { HLA_NAME("PhysicalEntity")           };
+struct NonHuman { HLA_NAME("NonHuman") };
+//   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
+struct PhysicalEntity { HLA_NAME("PhysicalEntity") };
                                                          struct AlternateEntityType           : attr< EntityTypeStruct::type                  > { HLA_NAME("AlternateEntityType")           };
                                                          struct ArticulatedParametersArray    : attr< ArticulatedParameterStructArray         > { HLA_NAME("ArticulatedParametersArray")    };
                                                          struct CamouflageType                : attr< CamouflageEnum32 ::type                 > { HLA_NAME("CamouflageType")                };
@@ -167,7 +181,7 @@ struct PhysicalEntity { HLA_NAME("PhysicalEntity")           };
                                                          struct TentDeployed                  : attr< BoolEnum8::type                         > { HLA_NAME("TentDeployed")                  };
                                                          struct TrailingEffectsCode           : attr< BoolEnum8::type                         > { HLA_NAME("TrailingEffectsCode")           };
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
-struct Platform { HLA_NAME("Platform")                       };
+struct Platform { HLA_NAME("Platform") };
                                                          struct AfterburnerOn                 : attr< BoolEnum8::type                         > { HLA_NAME("AfterburnerOn")                 };
                                                          struct AntiCollisionLightsOn         : attr< BoolEnum8::type                         > { HLA_NAME("AntiCollisionLightsOn")         };
                                                          struct BlackOutBrakeLightsOn         : attr< BoolEnum8::type                         > { HLA_NAME("BlackOutBrakeLightsOn")         };
@@ -185,16 +199,18 @@ struct Platform { HLA_NAME("Platform")                       };
                                                          struct SpotLightsOn                  : attr< BoolEnum8::type                         > { HLA_NAME("SpotLightsOn")                  };
                                                          struct TailLightsOn                  : attr< BoolEnum8::type                         > { HLA_NAME("TailLightsOn")                  };
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
-struct RadarBeam { HLA_NAME("RadarBeam")                     };
+struct RadarBeam { HLA_NAME("RadarBeam") };
                                                          struct HighDensityTrack              : attr< BoolEnum8::type                         > { HLA_NAME("HighDensityTrack")              };
                                                          struct TrackObjectIdentifiers        : attr< RTIObjectIdArrayStruct::type            > { HLA_NAME("TrackObjectIdentifiers")        };
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
-struct RadioReceiver { HLA_NAME("RadioReceiver")             };
+struct Radio { HLA_NAME("Radio") };
+//   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
+struct RadioReceiver { HLA_NAME("RadioReceiver") };
                                                          struct RadioIndex                    : attr< hla_13::HLA13unsigned_short             > { HLA_NAME("RadioIndex")                    };
                                                          struct ReceivedPower                 : attr< hla_13::HLA13float                      > { HLA_NAME("ReceivedPower")                 };
                                                          struct ReceivedTransmitterIdentifier : attr< RTIObjectIdStruct::type                 > { HLA_NAME("ReceivedTransmitterIdentifier") };
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
-struct RadioTransmitter { HLA_NAME("RadioTransmitter")       };
+struct RadioTransmitter { HLA_NAME("RadioTransmitter") };
                                                          struct AntennaPatternData            : attr< AntennaPatternStructArray               > { HLA_NAME("AntennaPatternData")            };
                                                          struct CryptographicMode             : attr< CryptographicModeEnum32::type           > { HLA_NAME("CryptographicMode")             };
                                                          struct CryptoSystem                  : attr< CryptographicSystemTypeEnum16::type     > { HLA_NAME("CryptoSystem")                  };
@@ -214,12 +230,20 @@ struct RadioTransmitter { HLA_NAME("RadioTransmitter")       };
                                                          struct TransmitterOperationalStatus  : attr< TransmitterOperationalStatusEnum8::type > { HLA_NAME("TransmitterOperationalStatus")  };
                                                       /* struct WorldLocation                 : attr< WorldLocationStruct::type               > { HLA_NAME("WorldLocation")                 }; */
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
-struct Sensor { HLA_NAME("Sensor")                           };
+struct Sensor { HLA_NAME("Sensor") };
                                                          struct AntennaRaised                 : attr< BoolEnum8::type                         > { HLA_NAME("AntennaRaised")                 };
                                                          struct BlackoutLightsOn              : attr< BoolEnum8::type                         > { HLA_NAME("BlackoutLightsOn")              };
                                                          struct LightsOn                      : attr< BoolEnum8::type                         > { HLA_NAME("LightsOn")                      };
                                                       /* struct InteriorLightsOn              : attr< BoolEnum8::type                         > { HLA_NAME("InteriorLightsOn")              }; */
                                                          struct MissionKill                   : attr< BoolEnum8::type                         > { HLA_NAME("MissionKill")                   };
+//   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
+struct Spacecraft { HLA_NAME("Spacecraft") };
+//   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
+struct SubmersibleVessel { HLA_NAME("SubmersibleVessel") };
+//   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
+struct Supplies { HLA_NAME("Supplies") };
+//   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
+struct SurfaceVessel { HLA_NAME("SurfaceVessel") };
 /**********************************************************************************************************************/
 
 }}}

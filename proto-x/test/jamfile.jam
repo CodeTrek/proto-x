@@ -160,3 +160,10 @@ unit-test protox_om_rpr_test_attribute_access
     <include>..
   ;
   
+unit-test protox_om_rpr_test_o_class_type
+  : ./protox/om/rpr/test_o_class_type.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>$(RTI_INCLUDE_PATH)
+    <include>..
+  ;
+  

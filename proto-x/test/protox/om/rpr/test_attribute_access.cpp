@@ -17,6 +17,7 @@
 #include <protox/io/char_data_sink.hpp>
 
 #include <protox/om/rpr/attribute_table.hpp>
+#include <protox/om/rpr/obj_class_table.hpp>
 
 /**********************************************************************************************************************/
 
