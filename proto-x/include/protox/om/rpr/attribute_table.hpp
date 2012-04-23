@@ -79,7 +79,7 @@ struct Aircraft { HLA_NAME("Aircraft") };
 struct AmphibiousVehicle { HLA_NAME("AmphibiousVehicle") };
 //   +--------------------------------------------------------+-------------------------------+-------------------------------------------------+--------------------------------------------+
 struct BaseEntity { HLA_NAME("BaseEntity") };
-                                                         struct AccelerationVector            : attr< AngularVelocityVectorStruct::type       > { HLA_NAME("AccelerationVector")            };
+                                                         struct AccelerationVector            : attr< AccelerationVectorStruct::type          > { HLA_NAME("AccelerationVector")            };
                                                          struct AngularVelocityVector         : attr< AngularVelocityVectorStruct::type       > { HLA_NAME("AngularVelocityVector")         };
                                                          struct DeadReckoningAlgorithm        : attr< DeadReckoningAlgorithmEnum8::type       > { HLA_NAME("DeadReckoningAlgorithm")        };
                                                          struct EntityType                    : attr< EntityTypeStruct::type                  > { HLA_NAME("EntityType")                    };
