@@ -100,4 +100,58 @@ BOOST_AUTO_TEST_CASE(test_om_rpr_base_entity_attr_access) {
     BOOST_CHECK(base_entity.a_< AngularVelocityVector >().f_< XAngularVelocity >() ==   5);
     BOOST_CHECK(base_entity.a_< AngularVelocityVector >().f_< YAngularVelocity >() ==  10);
     BOOST_CHECK(base_entity.a_< AngularVelocityVector >().f_< ZAngularVelocity >() ==  15);
+
+    using namespace protox::om::rpr::DeadReckoningAlgorithmEnum8;
+
+    base_entity.a_< DeadReckoningAlgorithm >() = DRM_FVW::value();
+
+    BOOST_CHECK(base_entity.a_< DeadReckoningAlgorithm >() ==  DRM_FVW::value());
+
+    using namespace protox::om::rpr::EntityTypeStruct;
+
+    base_entity.a_< EntityType >().f_< EntityKind >()  = 1;
+    base_entity.a_< EntityType >().f_< Domain >()      = 2;
+    base_entity.a_< EntityType >().f_< CountryCode >() = 3;
+    base_entity.a_< EntityType >().f_< Category >()    = 4;
+    base_entity.a_< EntityType >().f_< Subcategory >() = 5;
+    base_entity.a_< EntityType >().f_< Specific >()    = 6;
+    base_entity.a_< EntityType >().f_< Extra >()       = 7;
+
+    BOOST_CHECK(base_entity.a_< EntityType >().f_< EntityKind >()  == 1);
+    BOOST_CHECK(base_entity.a_< EntityType >().f_< Domain >()      == 2);
+    BOOST_CHECK(base_entity.a_< EntityType >().f_< CountryCode >() == 3);
+    BOOST_CHECK(base_entity.a_< EntityType >().f_< Category >()    == 4);
+    BOOST_CHECK(base_entity.a_< EntityType >().f_< Subcategory >() == 5);
+    BOOST_CHECK(base_entity.a_< EntityType >().f_< Specific >()    == 6);
+    BOOST_CHECK(base_entity.a_< EntityType >().f_< Extra >()       == 7);
+}
+
+BOOST_AUTO_TEST_CASE(test_om_rpr_environmental_entity_attr_access) {
+
+    using namespace protox::om::rpr;
+
+    RTI::RTIambassador rti_amb;
+    init_o_class_to_handle_map(rti_amb);
+
+    typedef protox::hla::som< obj_class_table > rpr_som;
+
+    rpr_som::init_handles(rti_amb);
+
+    typedef o_class_type< rpr_som, q_name< BaseEntity, EnvironmentalEntity > >::type environmental_entity_type;
+    environmental_entity_type environmental_entity;
+
+    using namespace protox::om::rpr::AngularVelocityVectorStruct;
+
+    environmental_entity.a_< AngularVelocityVector >().f_< XAngularVelocity >() =  5;
+    environmental_entity.a_< AngularVelocityVector >().f_< YAngularVelocity >() =  10;
+    environmental_entity.a_< AngularVelocityVector >().f_< ZAngularVelocity >() =  15;
+
+    BOOST_CHECK(environmental_entity.a_< AngularVelocityVector >().f_< XAngularVelocity >() ==   5);
+    BOOST_CHECK(environmental_entity.a_< AngularVelocityVector >().f_< YAngularVelocity >() ==  10);
+    BOOST_CHECK(environmental_entity.a_< AngularVelocityVector >().f_< ZAngularVelocity >() ==  15);
+
+    using namespace protox::om::rpr::OpacityCodeEnum32;
+
+    environmental_entity.a_< OpacityCode >() =  VeryDense::value();
+    BOOST_CHECK(environmental_entity.a_< OpacityCode >() ==  VeryDense::value());
 }
