@@ -11,6 +11,12 @@ local RTI_INCLUDE_PATH = [ os.environ TEST_RTI_INCLUDE ] ;
 # protox/dtl tests
 ########################################################################################################################
 
+unit-test protox_dtl_baseline
+  : ./protox/dtl/baseline.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>..
+  ;
+
 unit-test protox_dtl_basic_tests
   : ./protox/dtl/basic.cpp
   : <target-os>windows:<cxxflags>/wd4535
