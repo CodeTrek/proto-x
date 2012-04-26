@@ -126,6 +126,8 @@ BOOST_AUTO_TEST_CASE(test_om_rpr_base_entity_attr_access) {
     BOOST_CHECK(base_entity.a_< EntityType >().f_< Extra >()       == 7);
 }
 
+/**********************************************************************************************************************/
+
 BOOST_AUTO_TEST_CASE(test_om_rpr_environmental_entity_attr_access) {
 
     using namespace protox::om::rpr;
@@ -154,4 +156,38 @@ BOOST_AUTO_TEST_CASE(test_om_rpr_environmental_entity_attr_access) {
 
     environmental_entity.a_< OpacityCode >() =  VeryDense::value();
     BOOST_CHECK(environmental_entity.a_< OpacityCode >() ==  VeryDense::value());
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_om_rpr_physical_entity_attr_access) {
+
+    using namespace protox::om::rpr;
+
+    RTI::RTIambassador rti_amb;
+    init_o_class_to_handle_map(rti_amb);
+
+    typedef protox::hla::som< obj_class_table > rpr_som;
+
+    rpr_som::init_handles(rti_amb);
+
+    typedef o_class_type< rpr_som, q_name< BaseEntity, PhysicalEntity > >::type physical_entity_type;
+    physical_entity_type physical_entity;
+
+    using namespace protox::om::rpr::AccelerationVectorStruct;
+
+    using namespace protox::om::rpr::AccelerationVectorStruct;
+
+    physical_entity.a_< AccelerationVector >().f_< XAcceleration >() =  5;
+    physical_entity.a_< AccelerationVector >().f_< YAcceleration >() = 10;
+    physical_entity.a_< AccelerationVector >().f_< ZAcceleration >() = 15;
+
+    BOOST_CHECK(physical_entity.a_< AccelerationVector >().f_< XAcceleration >() ==  5);
+    BOOST_CHECK(physical_entity.a_< AccelerationVector >().f_< YAcceleration >() == 10);
+    BOOST_CHECK(physical_entity.a_< AccelerationVector >().f_< ZAcceleration >() == 15);
+
+    using namespace protox::om::rpr::DamageStatusEnum32;
+
+    physical_entity.a_< DamageState >() =  ModerateDamage::value();
+    BOOST_CHECK(physical_entity.a_< DamageState >() ==  ModerateDamage::value());
 }
