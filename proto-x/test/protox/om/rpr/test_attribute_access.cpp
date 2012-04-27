@@ -176,8 +176,6 @@ BOOST_AUTO_TEST_CASE(test_om_rpr_physical_entity_attr_access) {
 
     using namespace protox::om::rpr::AccelerationVectorStruct;
 
-    using namespace protox::om::rpr::AccelerationVectorStruct;
-
     physical_entity.a_< AccelerationVector >().f_< XAcceleration >() =  5;
     physical_entity.a_< AccelerationVector >().f_< YAcceleration >() = 10;
     physical_entity.a_< AccelerationVector >().f_< ZAcceleration >() = 15;
@@ -191,3 +189,154 @@ BOOST_AUTO_TEST_CASE(test_om_rpr_physical_entity_attr_access) {
     physical_entity.a_< DamageState >() =  ModerateDamage::value();
     BOOST_CHECK(physical_entity.a_< DamageState >() ==  ModerateDamage::value());
 }
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_om_rpr_platform_attr_access) {
+
+    using namespace protox::om::rpr;
+
+    RTI::RTIambassador rti_amb;
+    init_o_class_to_handle_map(rti_amb);
+
+    typedef protox::hla::som< obj_class_table > rpr_som;
+
+    rpr_som::init_handles(rti_amb);
+
+    typedef o_class_type< rpr_som, q_name< BaseEntity, PhysicalEntity, Platform > >::type platform_type;
+    platform_type platform;
+
+    using namespace protox::om::rpr::AccelerationVectorStruct;
+
+    platform.a_< AccelerationVector >().f_< XAcceleration >() =  5;
+    platform.a_< AccelerationVector >().f_< YAcceleration >() = 10;
+    platform.a_< AccelerationVector >().f_< ZAcceleration >() = 15;
+
+    BOOST_CHECK(platform.a_< AccelerationVector >().f_< XAcceleration >() ==  5);
+    BOOST_CHECK(platform.a_< AccelerationVector >().f_< YAcceleration >() == 10);
+    BOOST_CHECK(platform.a_< AccelerationVector >().f_< ZAcceleration >() == 15);
+
+    using namespace protox::om::rpr::DamageStatusEnum32;
+
+    platform.a_< DamageState >() =  ModerateDamage::value();
+    BOOST_CHECK(platform.a_< DamageState >() ==  ModerateDamage::value());
+
+    using namespace protox::om::rpr::HatchStateEnum32;
+
+    platform.a_< HatchState >() =  PrimaryHatchIsPoppedAndPersonIsVisibleUnderHatch::value();
+    BOOST_CHECK(platform.a_< HatchState >() ==  PrimaryHatchIsPoppedAndPersonIsVisibleUnderHatch::value());
+}
+
+/**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_om_rpr_platform_types_attr_access) {
+
+    using namespace protox::om::rpr;
+
+    RTI::RTIambassador rti_amb;
+    init_o_class_to_handle_map(rti_amb);
+
+    typedef protox::hla::som< obj_class_table > rpr_som;
+
+    rpr_som::init_handles(rti_amb);
+
+    typedef o_class_type< rpr_som, q_name< BaseEntity, PhysicalEntity, Platform, Aircraft > >::type aircraft_type;
+
+    aircraft_type aircraft;
+
+    using namespace protox::om::rpr::AccelerationVectorStruct;
+
+    // aircraft
+    aircraft.a_< AccelerationVector >().f_< XAcceleration >() =  5;
+    aircraft.a_< AccelerationVector >().f_< YAcceleration >() = 10;
+    aircraft.a_< AccelerationVector >().f_< ZAcceleration >() = 15;
+
+    BOOST_CHECK(aircraft.a_< AccelerationVector >().f_< XAcceleration >() ==  5);
+    BOOST_CHECK(aircraft.a_< AccelerationVector >().f_< YAcceleration >() == 10);
+    BOOST_CHECK(aircraft.a_< AccelerationVector >().f_< ZAcceleration >() == 15);
+
+    using namespace protox::om::rpr::DamageStatusEnum32;
+
+    aircraft.a_< DamageState >() =  ModerateDamage::value();
+    BOOST_CHECK(aircraft.a_< DamageState >() ==  ModerateDamage::value());
+
+    using namespace protox::om::rpr::HatchStateEnum32;
+
+    aircraft.a_< HatchState >() =  PrimaryHatchIsPoppedAndPersonIsVisibleUnderHatch::value();
+    BOOST_CHECK(aircraft.a_< HatchState >() ==  PrimaryHatchIsPoppedAndPersonIsVisibleUnderHatch::value());
+
+    // multi_domain_platform
+    typedef o_class_type< rpr_som, q_name< BaseEntity, PhysicalEntity, Platform, MultiDomainPlatform > >::type multi_domain_platform_type;
+    multi_domain_platform_type multi_domain_platform;
+
+    multi_domain_platform.a_< AccelerationVector >().f_< XAcceleration >() =  5;
+    multi_domain_platform.a_< AccelerationVector >().f_< YAcceleration >() = 10;
+    multi_domain_platform.a_< AccelerationVector >().f_< ZAcceleration >() = 15;
+
+    BOOST_CHECK(multi_domain_platform.a_< AccelerationVector >().f_< XAcceleration >() ==  5);
+    BOOST_CHECK(multi_domain_platform.a_< AccelerationVector >().f_< YAcceleration >() == 10);
+    BOOST_CHECK(multi_domain_platform.a_< AccelerationVector >().f_< ZAcceleration >() == 15);
+
+    using namespace protox::om::rpr::DamageStatusEnum32;
+
+    multi_domain_platform.a_< DamageState >() =  ModerateDamage::value();
+    BOOST_CHECK(multi_domain_platform.a_< DamageState >() ==  ModerateDamage::value());
+
+    using namespace protox::om::rpr::HatchStateEnum32;
+
+    multi_domain_platform.a_< HatchState >() =  PrimaryHatchIsPoppedAndPersonIsVisibleUnderHatch::value();
+    BOOST_CHECK(multi_domain_platform.a_< HatchState >() ==  PrimaryHatchIsPoppedAndPersonIsVisibleUnderHatch::value());
+
+    // Spacecraft
+    typedef o_class_type< rpr_som, q_name< BaseEntity, PhysicalEntity, Platform, Spacecraft > >::type spacecraft_type;
+    spacecraft_type spacecraft;
+
+    spacecraft.a_< AccelerationVector >().f_< XAcceleration >() =  5;
+    spacecraft.a_< AccelerationVector >().f_< YAcceleration >() = 10;
+    spacecraft.a_< AccelerationVector >().f_< ZAcceleration >() = 15;
+
+    BOOST_CHECK(spacecraft.a_< AccelerationVector >().f_< XAcceleration >() ==  5);
+    BOOST_CHECK(spacecraft.a_< AccelerationVector >().f_< YAcceleration >() == 10);
+    BOOST_CHECK(spacecraft.a_< AccelerationVector >().f_< ZAcceleration >() == 15);
+
+    using namespace protox::om::rpr::DamageStatusEnum32;
+
+    spacecraft.a_< DamageState >() =  ModerateDamage::value();
+    BOOST_CHECK(spacecraft.a_< DamageState >() ==  ModerateDamage::value());
+
+    using namespace protox::om::rpr::HatchStateEnum32;
+
+    spacecraft.a_< HatchState >() =  PrimaryHatchIsPoppedAndPersonIsVisibleUnderHatch::value();
+    BOOST_CHECK(spacecraft.a_< HatchState >() ==  PrimaryHatchIsPoppedAndPersonIsVisibleUnderHatch::value());
+
+    using namespace protox::om::rpr::ArticulatedParameterStruct;
+
+    spacecraft.a_< ArticulatedParametersArray >().push_back(ArticulatedParameterStruct::type());
+    spacecraft.a_< ArticulatedParametersArray >().push_back(ArticulatedParameterStruct::type());
+    spacecraft.a_< ArticulatedParametersArray >().push_back(ArticulatedParameterStruct::type());
+
+    using namespace protox::om::rpr::ParameterValueStruct;
+    using namespace protox::om::rpr::ArticulatedPartsStruct;
+    using namespace protox::om::rpr::ParameterTypeEnum32;
+    using namespace protox::om::rpr::ArticulatedPartsTypeEnum32;
+    using namespace protox::om::rpr::ArticulatedTypeMetricEnum32;
+    using namespace protox::om::rpr::ArticulatedParameterStruct;
+    using namespace protox::om::rpr::AttachedPartsStruct;
+    using namespace protox::om::rpr::EntityTypeStruct;
+
+    spacecraft.a_< ArticulatedParametersArray >()[0].f_< ArticulatedParameterChange >() =  5;
+    spacecraft.a_< ArticulatedParametersArray >()[0].f_< PartAttachedTo >() =  10;
+
+    spacecraft.a_< ArticulatedParametersArray >()[0].f_< ParameterValue >().discriminant = ArticulatedPart::value();
+    spacecraft.a_< ArticulatedParametersArray >()[0].f_< ParameterValue >().alt_< ArticulatedParts >(ArticulatedPartsStruct::type());
+
+    (*spacecraft.a_< ArticulatedParametersArray >()[0].f_< ParameterValue >().alt_< ArticulatedParts >()).f_< Class >() = SpeedBrake::value();
+    (*spacecraft.a_< ArticulatedParametersArray >()[0].f_< ParameterValue >().alt_< ArticulatedParts >()).f_< TypeMetric >() = X::value();
+    (*spacecraft.a_< ArticulatedParametersArray >()[0].f_< ParameterValue >().alt_< ArticulatedParts >()).f_< Value      >() = 15;
+
+    BOOST_CHECK((*spacecraft.a_< ArticulatedParametersArray >()[0].f_< ParameterValue >().alt_< ArticulatedParts >()).f_< Class >() == SpeedBrake::value());
+    BOOST_CHECK((*spacecraft.a_< ArticulatedParametersArray >()[0].f_< ParameterValue >().alt_< ArticulatedParts >()).f_< TypeMetric >() == X::value());
+    BOOST_CHECK((*spacecraft.a_< ArticulatedParametersArray >()[0].f_< ParameterValue >().alt_< ArticulatedParts >()).f_< Value >() == 15);
+}
+
+/**********************************************************************************************************************/
