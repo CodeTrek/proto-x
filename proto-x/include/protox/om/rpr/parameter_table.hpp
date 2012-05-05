@@ -47,6 +47,8 @@
 #include <protox/om/rpr/entity_type_struct.hpp>
 #include <protox/om/rpr/relative_position_struct.hpp>
 #include <protox/om/rpr/warhead_type_enum16.hpp>
+#include <protox/om/rpr/repair_type_enum16.hpp>
+#include <protox/om/rpr/repair_result_enum8.hpp>
 
 /**********************************************************************************************************************/
 
@@ -192,6 +194,41 @@ struct MunitionDetonation { HLA_NAME("MunitionDetonation")                      
                                                                                struct RelativeDetonationLocatio     : param< RelativePositionStruct::type     > { HLA_NAME("RelativeDetonationLocation")    };
                                                                                struct TargetObjectIdentifier        : param< RTIObjectIdStruct::type          > { HLA_NAME("TargetObjectIdentifier")        };
                                                                                struct WarheadType                   : param< WarheadTypeEnum16::type          > { HLA_NAME("WarheadType")                   };
+//   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct RawBinaryRadioSignal { HLA_NAME("RawBinaryRadioSignal")                     };
+                                                                            // struct HostRadioIndex                : param< RTIObjectIdStruct::type          > { HLA_NAME("HostRadioIndex")                };
+                                                                            // struct DataRate                      : param< hla_13::HLA13unsigned_long       > { HLA_NAME("HostRadioIndex")                };
+                                                                            // struct SignalDataLength              : param< hla_13::HLA13unsigned_short      > { HLA_NAME("SignalDataLength")              };
+                                                                            // struct SignalData                    : param< OctetArray                       > { HLA_NAME("SignalData")                    };
+                                                                            // struct TacticalDataLinkType          : param< TacticalDataLinkTypeEnum16::type > { HLA_NAME("TacticalDataLinkType")          };
+                                                                            // struct TDLMessageCount               : param< hla_13::HLA13unsigned_short      > { HLA_NAME("TDLMessageCount")               };
+//   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct RemoveEntity { HLA_NAME("RemoveEntity")                     };
+                                                                            // struct OriginatingEntity             : param< EntityIdentifierStruct::type     > { HLA_NAME("OriginatingEntity")             };
+                                                                            // struct ReceivingEntity               : param< EntityIdentifierStruct::type     > { HLA_NAME("ReceivingEntity")               };
+                                                                            // struct RequestIdentifier             : param< hla_13::HLA13unsigned_long       > { HLA_NAME("RequestIdentifier")             };
+//   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct RemoveObjectRequest { HLA_NAME("RemoveObjectRequest")                       };
+                                                                            // struct ObjectIdentifiers             : param< RTIObjectIdArrayStruct::type     > { HLA_NAME("ObjectIdentifiers")             };
+                                                                            // struct RequestIdentifier             : param< hla_13::HLA13unsigned_long       > { HLA_NAME("RequestIdentifier")             };
+//   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct RemoveObjectResult { HLA_NAME("RemoveObjectResult")                         };
+                                                                               struct RemoveObjectResultParam       : param< ResponseFlagEnum16::type         > { HLA_NAME("RemoveObjectResult")            };
+                                                                            // struct RequestIdentifier             : param< hla_13::HLA13unsigned_long       > { HLA_NAME("RequestIdentifier")             };
+//   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct RepairComplete { HLA_NAME("RepairComplete")                                 };
+                                                                               struct ReceivingObject               : param< RTIObjectIdStruct::type          > { HLA_NAME("ReceivingObject")               };
+                                                                               struct RepairingObject               : param< RTIObjectIdStruct::type          > { HLA_NAME("RepairingObject")               };
+                                                                               struct RepairType                    : param< RepairTypeEnum16::type           > { HLA_NAME("RepairType")                    };
+//   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct RepairResponse { HLA_NAME("RepairResponse")                                 };
+                                                                            // struct ReceivingObject               : param< RTIObjectIdStruct::type          > { HLA_NAME("ReceivingObject")               };
+                                                                            // struct RepairingObject               : param< RTIObjectIdStruct::type          > { HLA_NAME("RepairingObject")               };
+                                                                               struct RepairResultCode              : param< RepairTypeEnum16::type           > { HLA_NAME("RepairResultCode")              };
+//   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct ResupplyCancel { HLA_NAME("ResupplyCancel")                                 };
+                                                                            // struct ReceivingObject               : param< RTIObjectIdStruct::type          > { HLA_NAME("ReceivingObject")               };
+                                                                               struct SupplyingObject               : param< RTIObjectIdStruct::type          > { HLA_NAME("SupplyingObject")               };
 //   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
 /**********************************************************************************************************************/
 
