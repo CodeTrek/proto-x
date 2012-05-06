@@ -49,6 +49,11 @@
 #include <protox/om/rpr/warhead_type_enum16.hpp>
 #include <protox/om/rpr/repair_type_enum16.hpp>
 #include <protox/om/rpr/repair_result_enum8.hpp>
+#include <protox/om/rpr/supply_struct_array.hpp>
+#include <protox/om/rpr/service_type_enum8.hpp>
+#include <protox/om/rpr/clock_time_struct.hpp>
+#include <protox/om/rpr/stop_freeze_reason_enum8.hpp>
+#include <protox/om/rpr/bool_enum8.hpp>
 
 /**********************************************************************************************************************/
 
@@ -64,6 +69,8 @@ using namespace protox::hla;
 
 //   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
 //   | Name                                                                         | Parameter                     | Datatype                                | String Name                                  |
+//   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct HLAinteractionRoot  { HLA_NAME("HLAinteractionRoot")                        };
 //   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
 struct Acknowledge { HLA_NAME("Acknowledge")                                       };
                                                                                struct OriginatingEntity             : param< EntityIdentifierStruct::type     > { HLA_NAME("OriginatingEntity")             };
@@ -195,6 +202,8 @@ struct MunitionDetonation { HLA_NAME("MunitionDetonation")                      
                                                                                struct TargetObjectIdentifier        : param< RTIObjectIdStruct::type          > { HLA_NAME("TargetObjectIdentifier")        };
                                                                                struct WarheadType                   : param< WarheadTypeEnum16::type          > { HLA_NAME("WarheadType")                   };
 //   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct RadioSignal { HLA_NAME("RadioSignal")                                       };
+//   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
 struct RawBinaryRadioSignal { HLA_NAME("RawBinaryRadioSignal")                     };
                                                                             // struct HostRadioIndex                : param< RTIObjectIdStruct::type          > { HLA_NAME("HostRadioIndex")                };
                                                                             // struct DataRate                      : param< hla_13::HLA13unsigned_long       > { HLA_NAME("HostRadioIndex")                };
@@ -230,6 +239,61 @@ struct ResupplyCancel { HLA_NAME("ResupplyCancel")                              
                                                                             // struct ReceivingObject               : param< RTIObjectIdStruct::type          > { HLA_NAME("ReceivingObject")               };
                                                                                struct SupplyingObject               : param< RTIObjectIdStruct::type          > { HLA_NAME("SupplyingObject")               };
 //   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct ResupplyOffer { HLA_NAME("ResupplyOffer")                                   };
+                                                                            // struct ReceivingObject               : param< RTIObjectIdStruct::type          > { HLA_NAME("ReceivingObject")               };
+                                                                            // struct SupplyingObject               : param< RTIObjectIdStruct::type          > { HLA_NAME("SupplyingObject")               };
+                                                                               struct SuppliesData                  : param< SupplyStructArray                > { HLA_NAME("SuppliesData")                  };
+//   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct ResupplyReceived { HLA_NAME("ResupplyReceived")                             };
+                                                                            // struct ReceivingObject               : param< RTIObjectIdStruct::type          > { HLA_NAME("ReceivingObject")               };
+                                                                            // struct SupplyingObject               : param< RTIObjectIdStruct::type          > { HLA_NAME("SupplyingObject")               };
+                                                                            // struct SuppliesData                  : param< SupplyStructArray                > { HLA_NAME("SuppliesData")                  };
+//   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct ServiceRequest { HLA_NAME("ServiceRequest")                                 };
+                                                                               struct RequestingObject              : param< RTIObjectIdStruct::type          > { HLA_NAME("RequestingObject")              };
+                                                                               struct ServicingObject               : param< RTIObjectIdStruct::type          > { HLA_NAME("ServicingObject")               };
+                                                                               struct ServiceType                   : param< ServiceTypeEnum8::type           > { HLA_NAME("ServiceType")                   };
+                                                                            // struct SuppliesData                  : param< SupplyStructArray                > { HLA_NAME("SuppliesData")                  };
+//   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct SetData { HLA_NAME("SetData")                                               };
+                                                                            // struct OriginatingEntity             : param< EntityIdentifierStruct::type     > { HLA_NAME("OriginatingEntity")             };
+                                                                            // struct ReceivingEntity               : param< EntityIdentifierStruct::type     > { HLA_NAME("ReceivingEntity")               };
+                                                                            // struct RequestIdentifier             : param< hla_13::HLA13unsigned_long       > { HLA_NAME("RequestIdentifier")             };
+                                                                            // struct FixedDatums                   : param< FixedDatumStructArray            > { HLA_NAME("FixedDatums")                   };
+                                                                            // struct VariableDatumSet              : param< VariableDatumSetStruct::type     > { HLA_NAME("VariableDatumSet")              };
+//   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct StartResume { HLA_NAME("StartResume")                                       };
+                                                                            // struct OriginatingEntity             : param< EntityIdentifierStruct::type     > { HLA_NAME("OriginatingEntity")             };
+                                                                            // struct ReceivingEntity               : param< EntityIdentifierStruct::type     > { HLA_NAME("ReceivingEntity")               };
+                                                                            // struct RequestIdentifier             : param< hla_13::HLA13unsigned_long       > { HLA_NAME("RequestIdentifier")             };
+                                                                               struct RealWorldTime                 : param< ClockTimeStruct::type            > { HLA_NAME("RealWorldTime")                 };
+                                                                               struct SimulationTime                : param< ClockTimeStruct::type            > { HLA_NAME("SimulationTime")                };
+//   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct StopFreeze { HLA_NAME("StopFreeze")                                         };
+                                                                            // struct OriginatingEntity             : param< EntityIdentifierStruct::type     > { HLA_NAME("OriginatingEntity")             };
+                                                                            // struct ReceivingEntity               : param< EntityIdentifierStruct::type     > { HLA_NAME("ReceivingEntity")               };
+                                                                            // struct RequestIdentifier             : param< hla_13::HLA13unsigned_long       > { HLA_NAME("RequestIdentifier")             };
+                                                                            // struct RealWorldTime                 : param< ClockTimeStruct::type            > { HLA_NAME("RealWorldTime")                 };
+                                                                               struct Reason                        : param< StopFreezeReasonEnum8::type      > { HLA_NAME("Reason")                        };
+                                                                               struct ReflectValues                 : param< BoolEnum8::type                  > { HLA_NAME("ReflectValues")                 };
+                                                                               struct RunInternalSimulationClock    : param< BoolEnum8::type                  > { HLA_NAME("RunInternalSimulationClock")    };
+                                                                               struct UpdateAttributes              : param< BoolEnum8::type                  > { HLA_NAME("UpdateAttributes")              };
+//   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
+struct WeaponFire { HLA_NAME("WeaponFire")                                         };
+                                                                            // struct EventIdentifier               : param< EventIdentifierStruct::type      > { HLA_NAME("EventIdentifier")               };
+                                                                               struct FireControlSolutionRange      : param< hla_13::HLA13float               > { HLA_NAME("FireControlSolutionRange")      };
+                                                                               struct FireMissionIndex              : param< hla_13::HLA13unsigned_long       > { HLA_NAME("FireMissionIndex")              };
+                                                                               struct FiringLocation                : param< WorldLocationStruct::type        > { HLA_NAME("FiringLocation")                };
+                                                                            // struct FiringObjectIdentifier        : param< RTIObjectIdStruct::type          > { HLA_NAME("FiringObjectIdentifier")        };
+                                                                            // struct FuseType                      : param< FuseTypeEnum16::type             > { HLA_NAME("FuseType")                      };
+                                                                               struct InitialVelocityVector         : param< VelocityVectorStruct::type       > { HLA_NAME("InitialVelocityVector")         };
+                                                                            // struct MunitionObjectIdentifier      : param< RTIObjectIdStruct::type          > { HLA_NAME("MunitionObjectIdentifier")      };
+                                                                            // struct MunitionType                  : param< EntityTypeStruct::type           > { HLA_NAME("MunitionType")                  };
+                                                                            // struct QuantityFired                 : param< hla_13::HLA13unsigned_short      > { HLA_NAME("QuantityFired")                 };
+                                                                            // struct RateOfFire                    : param< hla_13::HLA13unsigned_short      > { HLA_NAME("RateOfFire")                    };
+                                                                            // struct RelativeDetonationLocatio     : param< RelativePositionStruct::type     > { HLA_NAME("RelativeDetonationLocation")    };
+                                                                            // struct TargetObjectIdentifier        : param< RTIObjectIdStruct::type          > { HLA_NAME("TargetObjectIdentifier")        };
+                                                                            // struct WarheadType                   : param< WarheadTypeEnum16::type          > { HLA_NAME("WarheadType")                   };
 /**********************************************************************************************************************/
 
 }}}

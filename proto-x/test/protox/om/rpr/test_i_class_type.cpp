@@ -19,7 +19,7 @@
 #include <protox/hla/som.hpp>
 #include <protox/hla/i_class_type.hpp>
 
-#include <protox/om/rpr/parameter_table.hpp>
+#include <protox/om/rpr/inter_class_table.hpp>
 
 /**********************************************************************************************************************/
 
