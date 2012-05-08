@@ -126,7 +126,7 @@ struct Collision { HLA_NAME("Collision")                                        
                                                                                struct IssuingObjectVelocityVector   : param< VelocityVectorStruct::type       > { HLA_NAME("IssuingObjectVelocityVector")   };
                                                                                struct CollisionType                 : param< CollisionTypeEnum8::type         > { HLA_NAME("CollisionType")                 };
                                                                                struct CollisionLocation             : param< RelativePositionStruct::type     > { HLA_NAME("CollisionLocation")             };
-                                                                               struct EventIdentifier               : param< EventIdentifierStruct::type      > { HLA_NAME("EventIdentifier")               };
+                                                                               struct EventIdentifierParam          : param< EventIdentifierStruct::type      > { HLA_NAME("EventIdentifier")               };
                                                                                struct IssuingObjectIdentifier       : param< RTIObjectIdStruct::type          > { HLA_NAME("IssuingObjectIdentifier")       };
 //   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
 struct Comment { HLA_NAME("Comment")                                               };
@@ -190,7 +190,7 @@ struct MunitionDetonation { HLA_NAME("MunitionDetonation")                      
                                                                                struct ArticulatedPartData           : param< ArticulatedParameterStructArray  > { HLA_NAME("ArticulatedPartData")           };
                                                                                struct DetonationLocation            : param< WorldLocationStruct::type        > { HLA_NAME("DetonationLocation")            };
                                                                                struct DetonationResultCode          : param< DetonationResultCodeEnum8::type  > { HLA_NAME("DetonationResultCode")          };
-                                                                            // struct EventIdentifier               : param< EventIdentifierStruct::type      > { HLA_NAME("EventIdentifier")               };
+                                                                            // struct EventIdentifierParam          : param< EventIdentifierStruct::type      > { HLA_NAME("EventIdentifier")               };
                                                                                struct FiringObjectIdentifier        : param< RTIObjectIdStruct::type          > { HLA_NAME("FiringObjectIdentifier")        };
                                                                                struct FinalVelocityVector           : param< VelocityVectorStruct::type       > { HLA_NAME("FinalVelocityVector")           };
                                                                                struct FuseType                      : param< FuseTypeEnum16::type             > { HLA_NAME("FuseType")                      };
@@ -198,7 +198,7 @@ struct MunitionDetonation { HLA_NAME("MunitionDetonation")                      
                                                                                struct MunitionType                  : param< EntityTypeStruct::type           > { HLA_NAME("MunitionType")                  };
                                                                                struct QuantityFired                 : param< hla_13::HLA13unsigned_short      > { HLA_NAME("QuantityFired")                 };
                                                                                struct RateOfFire                    : param< hla_13::HLA13unsigned_short      > { HLA_NAME("RateOfFire")                    };
-                                                                               struct RelativeDetonationLocatio     : param< RelativePositionStruct::type     > { HLA_NAME("RelativeDetonationLocation")    };
+                                                                               struct RelativeDetonationLocation    : param< RelativePositionStruct::type     > { HLA_NAME("RelativeDetonationLocation")    };
                                                                                struct TargetObjectIdentifier        : param< RTIObjectIdStruct::type          > { HLA_NAME("TargetObjectIdentifier")        };
                                                                                struct WarheadType                   : param< WarheadTypeEnum16::type          > { HLA_NAME("WarheadType")                   };
 //   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
@@ -280,7 +280,7 @@ struct StopFreeze { HLA_NAME("StopFreeze")                                      
                                                                                struct UpdateAttributes              : param< BoolEnum8::type                  > { HLA_NAME("UpdateAttributes")              };
 //   +------------------------------------------------------------------------------+-------------------------------+-----------------------------------------+----------------------------------------------+
 struct WeaponFire { HLA_NAME("WeaponFire")                                         };
-                                                                            // struct EventIdentifier               : param< EventIdentifierStruct::type      > { HLA_NAME("EventIdentifier")               };
+                                                                            // struct EventIdentifierParam          : param< EventIdentifierStruct::type      > { HLA_NAME("EventIdentifier")               };
                                                                                struct FireControlSolutionRange      : param< hla_13::HLA13float               > { HLA_NAME("FireControlSolutionRange")      };
                                                                                struct FireMissionIndex              : param< hla_13::HLA13unsigned_long       > { HLA_NAME("FireMissionIndex")              };
                                                                                struct FiringLocation                : param< WorldLocationStruct::type        > { HLA_NAME("FiringLocation")                };
@@ -291,7 +291,7 @@ struct WeaponFire { HLA_NAME("WeaponFire")                                      
                                                                             // struct MunitionType                  : param< EntityTypeStruct::type           > { HLA_NAME("MunitionType")                  };
                                                                             // struct QuantityFired                 : param< hla_13::HLA13unsigned_short      > { HLA_NAME("QuantityFired")                 };
                                                                             // struct RateOfFire                    : param< hla_13::HLA13unsigned_short      > { HLA_NAME("RateOfFire")                    };
-                                                                            // struct RelativeDetonationLocatio     : param< RelativePositionStruct::type     > { HLA_NAME("RelativeDetonationLocation")    };
+                                                                            // struct RelativeDetonationLocation    : param< RelativePositionStruct::type     > { HLA_NAME("RelativeDetonationLocation")    };
                                                                             // struct TargetObjectIdentifier        : param< RTIObjectIdStruct::type          > { HLA_NAME("TargetObjectIdentifier")        };
                                                                             // struct WarheadType                   : param< WarheadTypeEnum16::type          > { HLA_NAME("WarheadType")                   };
 /**********************************************************************************************************************/
