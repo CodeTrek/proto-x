@@ -25,10 +25,6 @@
 
 /**********************************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(test_i_abc) {
-    BOOST_CHECK(true);
-}
-
 BOOST_AUTO_TEST_CASE(test_i_class_static_attributes) {
     using namespace protox::om::rpr;
 

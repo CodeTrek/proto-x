@@ -183,3 +183,13 @@ unit-test protox_om_rpr_test_i_class_type
     <define>BOOST_MPL_LIMIT_VECTOR_SIZE=50
   ;
   
+unit-test protox_om_rpr_test_parameter_access
+  : ./protox/om/rpr/test_parameter_access.cpp
+  : <target-os>windows:<cxxflags>/wd4535
+    <include>$(RTI_INCLUDE_PATH)
+    <include>..
+    <define>BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS=1
+    <define>BOOST_MPL_LIMIT_SET_SIZE=50
+    <define>BOOST_MPL_LIMIT_VECTOR_SIZE=50
+  ;
+  
