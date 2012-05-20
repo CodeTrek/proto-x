@@ -439,6 +439,22 @@ struct som {
                 }
             }
         }
+
+        static void print_param_handle_map() {
+            i_class_handle_to_param_map &class_map = get_i_class_handle_to_param_map();
+            i_class_handle_to_param_map::const_iterator i;
+
+            for (i = class_map.begin(); i != class_map.end(); ++i) {
+                std::cout << (*i).first << " : " << "\n";
+
+                const param_name_to_handle_map &param_map = (*i).second;
+                param_name_to_handle_map::const_iterator j;
+
+                for (j = param_map.begin(); j != param_map.end(); ++j) {
+                    std::cout << "   " << (*j).first << " : " << (*j).second << "\n";
+                }
+            }
+        }
 };
   
 /**********************************************************************************************************************/
