@@ -78,25 +78,60 @@ BOOST_AUTO_TEST_CASE(test_om_rpr_o_class_handles) {
 
     rpr_som::init_handles(rti_amb);
 
-    //rpr_som::print_attr_handle_map();
+    rpr_som::print_attr_handle_map();
 
     typedef o_class_type< rpr_som, q_name< BaseEntity > >::type base_entity_type;
+    base_entity_type base_entity;
     BOOST_CHECK(base_entity_type::get_handle() == 2);
+    BOOST_CHECK(base_entity.get_attr_handle< AccelerationVector >() == 115);
+    BOOST_CHECK(base_entity.get_attr_handle< AngularVelocityVector >() == 114);
+    BOOST_CHECK(base_entity.get_attr_handle< IsFrozen >() == 110);
+    BOOST_CHECK(base_entity.get_attr_handle< VelocityVector >() == 107);
+    BOOST_CHECK(base_entity.get_attr_handle< WorldLocation >() == 108);
 
     typedef o_class_type< rpr_som, q_name< BaseEntity, EnvironmentalEntity > >::type environmental_entity_type;
+    environmental_entity_type environmental_entity;
     BOOST_CHECK(environmental_entity_type::get_handle() == 3);
+    BOOST_CHECK(environmental_entity.get_attr_handle< AngularVelocityVector >() == 114);
+    BOOST_CHECK(environmental_entity.get_attr_handle< IsFrozen >() == 110);
+    BOOST_CHECK(environmental_entity.get_attr_handle< VelocityVector >() == 107);
+    BOOST_CHECK(environmental_entity.get_attr_handle< OpacityCode >() == 106);
 
     typedef o_class_type< rpr_som, q_name< BaseEntity, PhysicalEntity > >::type physical_entity_type;
+    physical_entity_type physical_entity;
     BOOST_CHECK(physical_entity_type::get_handle() == 4);
+    BOOST_CHECK(physical_entity.get_attr_handle< AccelerationVector >() == 115);
+    BOOST_CHECK(physical_entity.get_attr_handle< VelocityVector >() == 107);
+    BOOST_CHECK(physical_entity.get_attr_handle< WorldLocation >() == 108);
+    BOOST_CHECK(physical_entity.get_attr_handle< AlternateEntityType >() == 105);
+    BOOST_CHECK(physical_entity.get_attr_handle< FlamesPresent >() == 99);
+    BOOST_CHECK(physical_entity.get_attr_handle< ForceIdentifier >() == 98);
+    BOOST_CHECK(physical_entity.get_attr_handle< IsConcealed >() == 92);
+    BOOST_CHECK(physical_entity.get_attr_handle< TentDeployed >() == 88);
 
     typedef o_class_type< rpr_som, q_name< BaseEntity, PhysicalEntity, Platform > >::type platform_type;
+    platform_type platform;
     BOOST_CHECK(platform_type::get_handle() == 5);
+    BOOST_CHECK(platform.get_attr_handle< AccelerationVector >() == 115);
+    BOOST_CHECK(platform.get_attr_handle< VelocityVector >() == 107);
+    BOOST_CHECK(platform.get_attr_handle< WorldLocation >() == 108);
+    BOOST_CHECK(platform.get_attr_handle< AlternateEntityType >() == 105);
+    BOOST_CHECK(platform.get_attr_handle< FlamesPresent >() == 99);
+    BOOST_CHECK(platform.get_attr_handle< ForceIdentifier >() == 98);
+    BOOST_CHECK(platform.get_attr_handle< IsConcealed >() == 92);
+    BOOST_CHECK(platform.get_attr_handle< TentDeployed >() == 88);
+    BOOST_CHECK(platform.get_attr_handle< AntiCollisionLightsOn >() == 85);
+    BOOST_CHECK(platform.get_attr_handle< BrakeLightsOn >() == 82);
+    BOOST_CHECK(platform.get_attr_handle< LauncherRaised >() == 76);
+    BOOST_CHECK(platform.get_attr_handle< SpotLightsOn >() == 72);
 
     typedef o_class_type< rpr_som, q_name< BaseEntity, PhysicalEntity, Platform, Aircraft > >::type aircraft_type;
     BOOST_CHECK(aircraft_type::get_handle() == 6);
 
     typedef o_class_type< rpr_som, q_name< BaseEntity, PhysicalEntity, Platform, AmphibiousVehicle > >::type amphibious_vehicle_type;
+    amphibious_vehicle_type amphibious_vehicle;
     BOOST_CHECK(amphibious_vehicle_type::get_handle() == 7);
+    BOOST_CHECK(amphibious_vehicle.get_attr_handle< AccelerationVector >() == 115);
 
     typedef o_class_type< rpr_som, q_name< BaseEntity, PhysicalEntity, Platform, GroundVehicle > >::type ground_vehicle_type;
     BOOST_CHECK(ground_vehicle_type::get_handle() == 8);
