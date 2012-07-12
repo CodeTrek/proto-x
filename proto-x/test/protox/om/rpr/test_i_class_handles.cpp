@@ -127,6 +127,12 @@ BOOST_AUTO_TEST_CASE(test_om_rpr_i_class_handles) {
     BOOST_CHECK(acknowledge.get_param_handle< RequestIdentifier >() == 151);
     BOOST_CHECK(acknowledge.get_param_handle< AcknowledgeFlag   >() == 150);
     BOOST_CHECK(acknowledge.get_param_handle< ResponseFlag      >() == 149);
+
+    typedef i_class_type< rpr_som, q_name< RadioSignal, ApplicationSpecificRadioSignal > >::type application_specific_radio_signal_type;
+    BOOST_CHECK(application_specific_radio_signal_type::get_handle() == 19);
+
+    application_specific_radio_signal_type application_specific_radio_signal;
+    BOOST_CHECK(application_specific_radio_signal.get_param_handle< HostRadioIndex >() == 80);
 }
 
 /**********************************************************************************************************************/

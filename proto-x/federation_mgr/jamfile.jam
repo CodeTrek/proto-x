@@ -1,0 +1,28 @@
+import os ;
+
+local RTI_HOME = [ os.environ RTI_HOME ] ;
+
+project
+  : requirements
+      <define>RTI_USES_STD_FSTREAM
+
+      <target-os>windows:<cxxflags>/DRTI_USES_STD_FSTREAM
+      <target-os>windows:<linkflags>\"$(RTI_HOME)/lib/libRTI-NG.lib\"
+      <target-os>windows:<linkflags>\"$(RTI_HOME)/lib/libFedTime.lib\"
+      
+      <target-os>linux:<cxxflags>-DRTI_USES_STD_FSTREAM
+      <target-os>linux:<linkflags>-lRTI-NG
+      <target-os>linux:<linkflags>-lFedTime
+      <target-os>linux:<linkflags>-L$(RTI_HOME)/lib
+      
+      <include>$(RTI_HOME)/include/ng6
+      <include>$(RTI_HOME)/include
+      <include>.
+      <include>..
+  ;
+
+exe federation_mgr
+  : federation_mgr.cpp
+  :  <include>.
+     <include>..
+  ;
