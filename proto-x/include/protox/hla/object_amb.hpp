@@ -30,7 +30,7 @@ namespace hla {
 
 /**
  * Generates an ambassador that maintains a database of discovered object instances. You can
- * also register type safe callback handlers that is invoked whenever an object is discovered,
+ * also register type safe callback handlers that are invoked whenever an object is discovered,
  * relfected, or removed.
  *
  * \tparam CLASS_TYPE_VECTOR A vector of object class types to be handled.
