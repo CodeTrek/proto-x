@@ -1,12 +1,6 @@
 import os ;
 using testing ;
 
-#
-# TEST_RTI_INCLUDE - an environment variable that points to the path containing RTI definitions used by the unit tests.
-#                    The value of this environment variable should be: <protox install>/include/protox/rti
-
-# local RTI_INCLUDE_PATH = [ os.environ TEST_RTI_INCLUDE ] ;
-
 project protox_test
     : requirements
           <target-os>windows:<cxxflags>/wd4535
@@ -20,133 +14,132 @@ project protox_test
 ########################################################################################################################
 
 unit-test protox_dtl_baseline
-  : ./protox/dtl/baseline.cpp
-  ;
+    : ./protox/dtl/baseline.cpp
+    ;
 
 unit-test protox_dtl_basic_tests
-  : ./protox/dtl/basic.cpp
-  ;
+    : ./protox/dtl/basic.cpp
+    ;
   
 unit-test protox_dtl_compute_octet_boundary_tests
-  : ./protox/dtl/compute_octet_boundary.cpp
-  ;
+    : ./protox/dtl/compute_octet_boundary.cpp
+    ;
   
 unit-test protox_dtl_simple_tests
-  : ./protox/dtl/simple.cpp
-  ;
+    : ./protox/dtl/simple.cpp
+    ;
 
 ########################################################################################################################
 # protox/hla tests
 ########################################################################################################################
 
 unit-test protox_hla_i_class_type_tests
-  : ./protox/hla/test_i_class_type.cpp
-  ;
+    : ./protox/hla/test_i_class_type.cpp
+    ;
   
 unit-test protox_hla_i_class_tests
-  : ./protox/hla/test_i_class.cpp
-  ;
+    : ./protox/hla/test_i_class.cpp
+    ;
   
 unit-test protox_hla_interaction_amb_tests
-  : ./protox/hla/test_interaction_amb.cpp
-  ;
+    : ./protox/hla/test_interaction_amb.cpp
+    ;
   
 unit-test protox_hla_keywords_tests
-  : ./protox/hla/test_keywords.cpp
-  ;
+    : ./protox/hla/test_keywords.cpp
+    ;
   
 unit-test protox_hla_o_class_type_tests
-  : ./protox/hla/test_o_class_type.cpp
-  ;
+    : ./protox/hla/test_o_class_type.cpp
+    ;
   
 unit-test protox_hla_o_class_tests
-  : ./protox/hla/test_o_class.cpp
-  ;
+    : ./protox/hla/test_o_class.cpp
+    ;
   
 unit-test protox_hla_object_amb_tests
-  : ./protox/hla/test_object_amb.cpp
-  ;
+    : ./protox/hla/test_object_amb.cpp
+    ;
   
 unit-test protox_hla_som_tests
-  : ./protox/hla/test_som.cpp
-  ;
+    : ./protox/hla/test_som.cpp
+    ;
   
 ########################################################################################################################
 # protox/hla_1516 tests
 ########################################################################################################################
 
 unit-test protox_hla_1516_policy_basic_data_tests
-  : ./protox/hla_1516/policy_basic_data.cpp
-  ;
+    : ./protox/hla_1516/policy_basic_data.cpp
+    ;
   
 unit-test protox_hla_1516_policy_enumerated_tests
-  : ./protox/hla_1516/policy_enumerated.cpp
-  ;
+    : ./protox/hla_1516/policy_enumerated.cpp
+    ;
   
 unit-test protox_hla_1516_policy_fixed_array_tests
-  : ./protox/hla_1516/policy_fixed_array.cpp
-  ;
+    : ./protox/hla_1516/policy_fixed_array.cpp
+    ;
   
 unit-test protox_hla_1516_policy_fixed_record_tests
-  : ./protox/hla_1516/policy_fixed_record.cpp
-  ;
+    : ./protox/hla_1516/policy_fixed_record.cpp
+    ;
   
 unit-test protox_hla_1516_policy_simple_data_tests
-  : ./protox/hla_1516/policy_simple_data.cpp
-  ;
+    : ./protox/hla_1516/policy_simple_data.cpp
+    ;
   
 unit-test protox_hla_1516_policy_variable_array_tests
-  : ./protox/hla_1516/policy_variable_array.cpp
-  ;
+    : ./protox/hla_1516/policy_variable_array.cpp
+    ;
   
 unit-test protox_hla_1516_policy_variant_record_tests
-  : ./protox/hla_1516/policy_variant_record.cpp
-  ;
+    : ./protox/hla_1516/policy_variant_record.cpp
+    ;
   
 ########################################################################################################################
 # protox/custom tests
 ########################################################################################################################
 unit-test protox_hla_custom_tests
-  : ./protox/custom/custom.cpp
-  ;
+    : ./protox/custom/custom.cpp
+    ;
   
 ########################################################################################################################
 # protox/om/rpr tests
 ########################################################################################################################
 unit-test protox_om_rpr_test_struct_access
-  : ./protox/om/rpr/test_struct_access.cpp
-  ;
+    : ./protox/om/rpr/test_struct_access.cpp
+    ;
   
 unit-test protox_om_rpr_test_o_class_type
-  : ./protox/om/rpr/test_o_class_type.cpp
-  ;
+    : ./protox/om/rpr/test_o_class_type.cpp
+    ;
   
 unit-test protox_om_rpr_test_o_class_handles
-  : ./protox/om/rpr/test_o_class_handles.cpp
-  ;
+    : ./protox/om/rpr/test_o_class_handles.cpp
+    ;
   
 unit-test protox_om_rpr_test_attribute_access
-  : ./protox/om/rpr/test_attribute_access.cpp
-  ;
+    : ./protox/om/rpr/test_attribute_access.cpp
+    ;
   
 unit-test protox_om_rpr_test_i_class_type
-  : ./protox/om/rpr/test_i_class_type.cpp
-  : <define>BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS=1
-    <define>BOOST_MPL_LIMIT_SET_SIZE=50
-    <define>BOOST_MPL_LIMIT_VECTOR_SIZE=50
-  ;
+    : ./protox/om/rpr/test_i_class_type.cpp
+    : <define>BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS=1
+      <define>BOOST_MPL_LIMIT_SET_SIZE=50
+      <define>BOOST_MPL_LIMIT_VECTOR_SIZE=50
+    ;
   
 unit-test protox_om_rpr_test_i_class_handles
-  : ./protox/om/rpr/test_i_class_handles.cpp
-  : <define>BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS=1
-    <define>BOOST_MPL_LIMIT_SET_SIZE=50
-    <define>BOOST_MPL_LIMIT_VECTOR_SIZE=50
-  ;
+    : ./protox/om/rpr/test_i_class_handles.cpp
+    : <define>BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS=1
+      <define>BOOST_MPL_LIMIT_SET_SIZE=50
+      <define>BOOST_MPL_LIMIT_VECTOR_SIZE=50
+    ;
   
 unit-test protox_om_rpr_test_parameter_access
-  : ./protox/om/rpr/test_parameter_access.cpp
-  : <define>BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS=1
-    <define>BOOST_MPL_LIMIT_SET_SIZE=50
-    <define>BOOST_MPL_LIMIT_VECTOR_SIZE=50
-  ;
-  
+    : ./protox/om/rpr/test_parameter_access.cpp
+    : <define>BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS=1
+      <define>BOOST_MPL_LIMIT_SET_SIZE=50
+      <define>BOOST_MPL_LIMIT_VECTOR_SIZE=50
+    ;
