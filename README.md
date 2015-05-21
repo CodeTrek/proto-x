@@ -55,7 +55,7 @@ Here is the entry in our _*array datatype table*_ that defines an array type for
 struct FixedMsg : hla_1516::fixed_array< HLAASCIIchar,   5 > {};
 ```
 Note that the proto-x keyword *hla_1516::fixed_array* specifies the standard HLA 1516 encoding for fixed arrays.
-----
+
 We now have all the definitions we need to define our _*parameter table*_ and our _*interaction class structure table*_:
 
 ```C++
@@ -69,7 +69,6 @@ struct Greeter {HLA_NAME("Greeter")};
 
 struct InteractionClassTable : i_class< Greeter, params< Message > > {};
 ```
-----
 With all of our SOM components defined, we can now implement our federate as follows:
 ```C++
 // Define a SOM
