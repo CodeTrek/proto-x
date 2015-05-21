@@ -108,7 +108,7 @@ Proto-x is an effort to make developing C++ HLA federates easier by providing th
   * An HLA interface description language (IDL) for the C++ language, and
   * A middleware component similar to object-relational mapping middleware solutions found in the relational database domain.
 
-The goal is to provide these solutions using a "pure" C++ implementation with minimal reliance on third-party libraries, and when third-party libraries are needed, they must be open source and cross-platform. Hopefully, proto-x along with a good open source RTI (e.g., http://www.porticoproject.org/comingsoon) will remove some of the pain associated with HLA experimentation and development on a limited budget, while at the same time providing a solid foundation upon which to build high quality HLA federates.
+The goal is to provide these solutions using a "pure" C++ implementation with minimal reliance on third-party libraries, and when third-party libraries are needed, they must be open source and cross-platform. Hopefully, proto-x along with a good open source RTI (e.g., https://github.com/openlvc/portico) will remove some of the pain associated with HLA experimentation and development on a limited budget, while at the same time providing a solid foundation upon which to build high quality HLA federates.
 
 # References
 The original concept for proto-x is described in the paper "Creating an HLA 1516 Data Encoding Library using C++ Template Metaprogramming Techniques". See 07S-SIW-035.pdf in Featured Downloads for a link to this paper.
