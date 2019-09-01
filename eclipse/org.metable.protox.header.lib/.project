@@ -27,102 +27,102 @@
 		<link>
 			<name>include/protox/platform.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/platform.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/platform.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/alternative.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/alternative.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/alternative.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/basic.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/basic.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/basic.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/basic_tag.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/basic_tag.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/basic_tag.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/codec_impl.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/codec_impl.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/codec_impl.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/codec_interface.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/codec_interface.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/codec_interface.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/compute_octet_boundary.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/compute_octet_boundary.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/compute_octet_boundary.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/discriminant.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/discriminant.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/discriminant.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/discriminator_test.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/discriminator_test.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/discriminator_test.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/endian_enum.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/endian_enum.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/endian_enum.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/enum_pp.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/enum_pp.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/enum_pp.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/enumerated.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/enumerated.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/enumerated.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/field.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/field.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/field.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/fixed_array.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/fixed_array.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/fixed_array.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/fixed_record.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/fixed_record.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/fixed_record.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/pnull.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/pnull.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/pnull.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/simple.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/simple.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/simple.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/unknown_static_size.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/unknown_static_size.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/unknown_static_size.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/variable_array.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/variable_array.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/variable_array.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/variant_record.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/git/proto-x/include/protox/dtl/variant_record.hpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/variant_record.hpp</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

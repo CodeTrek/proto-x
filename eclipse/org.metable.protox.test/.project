@@ -26,9 +26,34 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>src/protox</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>src/protox_test_main.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox_test_main.cpp</locationURI>
+		</link>
+		<link>
+			<name>src/protox/dtl</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>src/protox/dtl/basic_data_table.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/basic_data_table.hpp</locationURI>
+		</link>
+		<link>
+			<name>src/protox/dtl/test_basic.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_basic.cpp</locationURI>
+		</link>
+		<link>
+			<name>src/protox/dtl/test_compute_octet_boundary.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_compute_octet_boundary.cpp</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
