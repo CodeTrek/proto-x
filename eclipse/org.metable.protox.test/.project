@@ -28,7 +28,7 @@
 		<link>
 			<name>src/protox_test_main.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/test/protox_test_main.cpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox_test_main.cpp</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
