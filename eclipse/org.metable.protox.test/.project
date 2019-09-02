@@ -46,19 +46,9 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>src/protox/dtl/basic_data_table.hpp</name>
+			<name>src/protox/dtl/test_basic_data_type_generator.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/basic_data_table.hpp</locationURI>
-		</link>
-		<link>
-			<name>src/protox/dtl/simple_data_table.hpp</name>
-			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/simple_data_table.hpp</locationURI>
-		</link>
-		<link>
-			<name>src/protox/dtl/test_basic.cpp</name>
-			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_basic.cpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_basic_data_type_generator.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/dtl/test_compute_octet_boundary.cpp</name>
@@ -66,9 +56,9 @@
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_compute_octet_boundary.cpp</locationURI>
 		</link>
 		<link>
-			<name>src/protox/dtl/test_simple.cpp</name>
+			<name>src/protox/dtl/test_simple_type_generator.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_simple.cpp</locationURI>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_simple_type_generator.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/hla_1516/color_enum.hpp</name>

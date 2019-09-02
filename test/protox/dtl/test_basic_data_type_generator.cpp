@@ -6,37 +6,50 @@
 /******************************************************************************************************************************************/
 
 #include <boost/test/unit_test.hpp>
-#include "simple_data_table.hpp"
+#include <protox/dtl/endian_enum.hpp>
+#include <protox/dtl/basic.hpp>
 
 /******************************************************************************************************************************************/
 
-namespace test_simple {
+namespace test_basic {
 
 /******************************************************************************************************************************************/
 
-using namespace protox_dtl_test_simple_data_table;
+using namespace protox::dtl;
+
+/******************************************************************************************************************************************/
+
+struct na {
+};
+
+/******************************************************************************************************************************************/
+
+// Generate basic types.
+typedef basic<long,  32, endian::little, na> Integer32LE;
+typedef basic<short, 16, endian::big,    na> Integer16BE;
+typedef basic<float, 32, endian::little, na> Float32LE;
 
 /******************************************************************************************************************************************/
 
 BOOST_AUTO_TEST_CASE(test_default_constructor) {
-    Simple32LE int32LE;
+    Integer32LE int32LE;
     BOOST_CHECK(int32LE == 0);
 }
 
 /******************************************************************************************************************************************/
 
 BOOST_AUTO_TEST_CASE(test_initialization_constructor) {
-    Simple32LE int32LE(10);
+    Integer32LE int32LE(10);
     BOOST_CHECK(int32LE == 10);
 }
 
 /******************************************************************************************************************************************/
 
 BOOST_AUTO_TEST_CASE(test_copy_constructor) {
-    Simple32LE int32LE_1(10);
+    Integer32LE int32LE_1(10);
     BOOST_CHECK(int32LE_1 == 10);
 
-    Simple32LE int32LE_2(int32LE_1);
+    Integer32LE int32LE_2(int32LE_1);
     BOOST_CHECK(int32LE_2 == 10);
     BOOST_CHECK(int32LE_2 == int32LE_1);
 }
@@ -44,7 +57,7 @@ BOOST_AUTO_TEST_CASE(test_copy_constructor) {
 /******************************************************************************************************************************************/
 
 BOOST_AUTO_TEST_CASE(test_assignment) {
-    Simple16BE int16BE;
+    Integer16BE int16BE;
 
     int16BE = 5;
     BOOST_CHECK(int16BE == 5);
@@ -52,43 +65,66 @@ BOOST_AUTO_TEST_CASE(test_assignment) {
 
 /******************************************************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(test_type_casting_1) {
-    Simple16BE int16BE(10);
-    short short1 = int16BE;
-    BOOST_CHECK(short1 == 10);
+BOOST_AUTO_TEST_CASE(test_type_cast_int16BE_to_short) {
+    const Integer16BE value { 10 };
 
-    int16BE = 3.14; // Generates a compiler warning
-    BOOST_CHECK(int16BE == 3);
+    short result = value;
 
-    double double1 = int16BE;
-    BOOST_CHECK(double1 == 3.0);
+    BOOST_CHECK(result == 10);
 }
 
 /******************************************************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(test_type_casting_2) {
-    Simple16BE int16BE(10);
-    SimpleFloat32LE float32LE;
+BOOST_AUTO_TEST_CASE(test_type_cast_double_to_int16BE) {
+    Integer16BE result { };
 
-    float32LE = int16BE;
-    BOOST_CHECK(float32LE == 10.0f);
-    BOOST_CHECK(10.0f == float32LE);
+    result = 3.14; // Generates a compiler warning
 
-    float32LE = 5.678f;
+    BOOST_CHECK(result == 3);
+}
 
-    int16BE = float32LE; // Generates a compiler warning
-    BOOST_CHECK(5 == int16BE);
+/******************************************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_type_cast_int16be_to_double) {
+    const Integer16BE value { 3 };
+
+    double result = value;
+
+    BOOST_CHECK(result == 3.0);
+}
+
+/******************************************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_type_cast_int16BE_to_float32LE) {
+    const Integer16BE value(10);
+    Float32LE result;
+
+    result = value;
+
+    BOOST_CHECK(result == 10.0f);
+    BOOST_CHECK(10.0f == result);
+}
+
+/******************************************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_type_casting_float32LE_to_int16BE) {
+    const Float32LE value { 5.678f };
+    Integer16BE result { };
+
+    result = value; // Generates a compiler warning
+
+    BOOST_CHECK(5 == result);
 }
 
 /******************************************************************************************************************************************/
 
 BOOST_AUTO_TEST_CASE(test_inequality_operator) {
-    Simple16BE int16BE(10);
+    Integer16BE int16BE(10);
 
     BOOST_CHECK(5 != int16BE);
     BOOST_CHECK(int16BE != 20);
 
-    SimpleFloat32LE float32LE(8.5f);
+    Float32LE float32LE(8.5f);
     BOOST_CHECK(1.2 != float32LE);
     BOOST_CHECK(float32LE != 5.55);
 
@@ -99,7 +135,7 @@ BOOST_AUTO_TEST_CASE(test_inequality_operator) {
 /******************************************************************************************************************************************/
 
 BOOST_AUTO_TEST_CASE(test_increment_operator) {
-    Simple16BE int16BE(10);
+    Integer16BE int16BE(10);
     ++int16BE;
     ++int16BE;
     BOOST_CHECK(12 == int16BE);

@@ -29,7 +29,7 @@ namespace dtl {
 /**********************************************************************************************************************/
 
 /**
- * This is a type generator for basic data representations. basic data representations form the foundation of the
+ * A type generator for basic data representations. basic data representations form the foundation of the
  * protox::dtl type system. Generally, simple, enumerated, and constructed types are built using basic data
  * representations.
  *

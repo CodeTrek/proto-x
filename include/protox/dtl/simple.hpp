@@ -32,8 +32,8 @@ namespace dtl {
 struct unitless {};
 
 /**
- * This is a type generator for simple datatypes. A simple datatype is a scaler defined by a basic data representation
- * and an optional unit definition.
+ * A type generator for simple datatypes. A simple datatype is a scaler defined by a basic data representation and an optional
+ * unit definition.
  *
  * Use simple to associate basic data representation type \a T with a unit definition.
  *
