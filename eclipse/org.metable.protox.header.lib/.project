@@ -20,7 +20,27 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>include/protox/codec</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>include/protox/dtl</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>include/protox/io</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>include/protox/null_value</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -28,6 +48,16 @@
 			<name>include/protox/platform.hpp</name>
 			<type>1</type>
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/platform.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/codec/codec_tags.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/codec/codec_tags.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/codec/codecs.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/codec/codecs.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/dtl/alternative.hpp</name>
@@ -123,6 +153,121 @@
 			<name>include/protox/dtl/variant_record.hpp</name>
 			<type>1</type>
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/dtl/variant_record.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/basic_data_codec.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/basic_data_codec.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/basic_data_decoders.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/basic_data_decoders.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/basic_data_encoders.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/basic_data_encoders.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/basic_data_representation_table.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/basic_data_representation_table.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/codec_tags.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/codec_tags.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/dynamic_pad.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/dynamic_pad.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/enumerated.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/enumerated.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/enumerated_codec.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/enumerated_codec.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/fixed_array.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/fixed_array.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/fixed_array_codec.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/fixed_array_codec.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/fixed_record.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/fixed_record.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/fixed_record_codec.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/fixed_record_codec.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/hla_boolean.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/hla_boolean.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/size_type.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/size_type.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/static_pad.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/static_pad.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/variable_array.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/variable_array.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/variable_array_codec.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/variable_array_codec.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/variant_record.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/variant_record.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/hla_1516/variant_record_codec.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/hla_1516/variant_record_codec.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/io/byte_data_sink.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/io/byte_data_sink.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/io/byte_data_source.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/io/byte_data_source.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/null_value/null_tag.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/null_value/null_tag.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/null_value/null_value_codec.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/null_value/null_value_codec.hpp</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

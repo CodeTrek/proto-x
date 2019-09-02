@@ -63,32 +63,28 @@
  * Defines the default enumerator.
  */
 
-#define PROTOX_ENUM_TYPE(T, ENUMERATED_TYPE)                                          \
-    typedef T enum_rep_type;                                                          \
-                                                                                      \
-    class type : public ENUMERATED_TYPE< type, enum_rep_type > {                      \
-        private:                                                                      \
-            friend class private_enum;                                                \
-                                                                                      \
-            type(enum_rep_type v) : ENUMERATED_TYPE< type, enum_rep_type >(v) {}      \
-                                                                                      \
-        public:                                                                       \
-            type();                                                                   \
-            type(const type & v) : ENUMERATED_TYPE< type, enum_rep_type >(v) {}       \
-            ~type() {}                                                                \
-                                                                                      \
-            static bool is_equal(enum_rep_type lhs, enum_rep_type rhs);               \
-    };                                                                                \
-                                                                                      \
-    class private_enum {                                                              \
-        protected: static const type value(enum_rep_type v) { return type(v); }       \
-    };                                                                                \
-                                                                                      \
+#define PROTOX_ENUM_TYPE(T, ENUMERATED_TYPE, DEFAULT_VALUE)                                     \
+    typedef T enum_rep_type;                                                                    \
+                                                                                                \
+    class type : public ENUMERATED_TYPE< type, enum_rep_type > {                                \
+        private:                                                                                \
+            friend class private_enum;                                                          \
+                                                                                                \
+            type(enum_rep_type v) : ENUMERATED_TYPE< type, enum_rep_type >(v) {}                \
+                                                                                                \
+        public:                                                                                 \
+            type() : ENUMERATED_TYPE< type, enum_rep_type >( DEFAULT_VALUE ) {}                 \
+            type(const type & v) : ENUMERATED_TYPE< type, enum_rep_type >(v) {}                 \
+            ~type() {}                                                                          \
+                                                                                                \
+            static bool is_equal(enum_rep_type lhs, enum_rep_type rhs) { return (lhs == rhs); } \
+    };                                                                                          \
+                                                                                                \
+    class private_enum {                                                                        \
+        protected: static const type value(enum_rep_type v) { return type(v); }                 \
+    };                                                                                          \
+                                                                                                \
     typedef ENUMERATED_TYPE< type, enum_rep_type > type_enumerated
-
-/**********************************************************************************************************************/
-
-#define PROTOX_ENUM_EQUALITY_OPERATOR bool type::is_equal(enum_rep_type lhs, enum_rep_type rhs) { return (lhs == rhs); }
 
 /**********************************************************************************************************************/
 
@@ -96,10 +92,6 @@
     struct NAME : private private_enum {                                  \
         static type value() { return( private_enum::value(VALUE) ); }     \
     }
-
-/**********************************************************************************************************************/
-
-#define PROTOX_ENUM_DEFAULT(NAME) type::type() : type_enumerated( NAME::value() ) {}
 
 /**********************************************************************************************************************/
 

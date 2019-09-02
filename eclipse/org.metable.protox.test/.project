@@ -41,9 +41,19 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>src/protox/hla_1516</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>src/protox/dtl/basic_data_table.hpp</name>
 			<type>1</type>
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/basic_data_table.hpp</locationURI>
+		</link>
+		<link>
+			<name>src/protox/dtl/simple_data_table.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/simple_data_table.hpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/dtl/test_basic.cpp</name>
@@ -54,6 +64,61 @@
 			<name>src/protox/dtl/test_compute_octet_boundary.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_compute_octet_boundary.cpp</locationURI>
+		</link>
+		<link>
+			<name>src/protox/dtl/test_simple.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_simple.cpp</locationURI>
+		</link>
+		<link>
+			<name>src/protox/hla_1516/color_enum.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/color_enum.hpp</locationURI>
+		</link>
+		<link>
+			<name>src/protox/hla_1516/days_of_week_enum.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/days_of_week_enum.hpp</locationURI>
+		</link>
+		<link>
+			<name>src/protox/hla_1516/suite_enum.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/suite_enum.hpp</locationURI>
+		</link>
+		<link>
+			<name>src/protox/hla_1516/test_policy_basic_data.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/test_policy_basic_data.cpp</locationURI>
+		</link>
+		<link>
+			<name>src/protox/hla_1516/test_policy_enumerated.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/test_policy_enumerated.cpp</locationURI>
+		</link>
+		<link>
+			<name>src/protox/hla_1516/test_policy_fixed_array.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/test_policy_fixed_array.cpp</locationURI>
+		</link>
+		<link>
+			<name>src/protox/hla_1516/test_policy_fixed_record.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/test_policy_fixed_record.cpp</locationURI>
+		</link>
+		<link>
+			<name>src/protox/hla_1516/test_policy_simple_data.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/test_policy_simple_data.cpp</locationURI>
+		</link>
+		<link>
+			<name>src/protox/hla_1516/test_policy_variable_array.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/test_policy_variable_array.cpp</locationURI>
+		</link>
+		<link>
+			<name>src/protox/hla_1516/test_policy_variant_record.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/test_policy_variant_record.cpp</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
