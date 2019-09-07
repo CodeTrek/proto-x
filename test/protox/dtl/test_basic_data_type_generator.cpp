@@ -24,10 +24,12 @@ struct na {
 
 /******************************************************************************************************************************************/
 
+/* @formatter:off */
 // Generate basic types.
 typedef basic<long,  32, endian::little, na> Integer32LE;
 typedef basic<short, 16, endian::big,    na> Integer16BE;
 typedef basic<float, 32, endian::little, na> Float32LE;
+/* @formatter:on */
 
 /******************************************************************************************************************************************/
 
@@ -46,12 +48,11 @@ BOOST_AUTO_TEST_CASE(test_initialization_constructor) {
 /******************************************************************************************************************************************/
 
 BOOST_AUTO_TEST_CASE(test_copy_constructor) {
-    Integer32LE int32LE_1(10);
-    BOOST_CHECK(int32LE_1 == 10);
+    Integer32LE value1(10);
+    Integer32LE value2(value1);
 
-    Integer32LE int32LE_2(int32LE_1);
-    BOOST_CHECK(int32LE_2 == 10);
-    BOOST_CHECK(int32LE_2 == int32LE_1);
+    BOOST_CHECK(value2 == 10);
+    BOOST_CHECK(value2 == value1);
 }
 
 /******************************************************************************************************************************************/
@@ -118,15 +119,26 @@ BOOST_AUTO_TEST_CASE(test_type_casting_float32LE_to_int16BE) {
 
 /******************************************************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(test_inequality_operator) {
+BOOST_AUTO_TEST_CASE(test_int16BE_inequality_operator) {
     Integer16BE int16BE(10);
 
     BOOST_CHECK(5 != int16BE);
     BOOST_CHECK(int16BE != 20);
+}
 
+/******************************************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_float32LE_inequality_operator) {
     Float32LE float32LE(8.5f);
     BOOST_CHECK(1.2 != float32LE);
     BOOST_CHECK(float32LE != 5.55);
+}
+
+/******************************************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_int16BE_float32LE_inequality_operator) {
+    Integer16BE int16BE(10);
+    Float32LE float32LE(8.5f);
 
     BOOST_CHECK(float32LE != int16BE);
     BOOST_CHECK(int16BE != float32LE);
@@ -134,7 +146,7 @@ BOOST_AUTO_TEST_CASE(test_inequality_operator) {
 
 /******************************************************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(test_increment_operator) {
+BOOST_AUTO_TEST_CASE(test_int16BE_increment_operator) {
     Integer16BE int16BE(10);
     ++int16BE;
     ++int16BE;

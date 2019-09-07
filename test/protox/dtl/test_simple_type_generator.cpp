@@ -21,19 +21,21 @@ struct na {
 
 /******************************************************************************************************************************************/
 
+/* @formatter:off */
+
 // Generate the basic types used to define the simple types below.
 typedef basic<long,  32, endian::little, na> Integer32LE;
 typedef basic<short, 16, endian::big,    na> Integer16BE;
 typedef basic<float, 32, endian::little, na> Float32LE;
 
+/******************************************************************************************************************************************/
 
 // Generate simple types.
 typedef simple<Integer32LE> Simple32LE;
 typedef simple<Integer16BE> Simple16BE;
-typedef simple<Float32LE> SimpleFloat32LE;
+typedef simple<Float32LE>   SimpleFloat32LE;
 
-
-/******************************************************************************************************************************************/
+/* @formatter:on */
 
 /******************************************************************************************************************************************/
 

@@ -3,6 +3,7 @@
 	<name>org.metable.protox.test</name>
 	<comment></comment>
 	<projects>
+		<project>org.metable.protox.header.lib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
