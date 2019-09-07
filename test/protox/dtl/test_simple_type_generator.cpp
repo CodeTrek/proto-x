@@ -40,78 +40,117 @@ typedef simple<Float32LE>   SimpleFloat32LE;
 /******************************************************************************************************************************************/
 
 BOOST_AUTO_TEST_CASE(test_default_constructor) {
-    Simple32LE int32LE;
-    BOOST_CHECK(int32LE == 0);
+    Simple32LE result;
+
+    BOOST_CHECK(result == 0);
 }
 
 /******************************************************************************************************************************************/
 
 BOOST_AUTO_TEST_CASE(test_initialization_constructor) {
-    Simple32LE int32LE(10);
-    BOOST_CHECK(int32LE == 10);
+    Simple32LE result(10);
+
+    BOOST_CHECK(result == 10);
 }
 
 /******************************************************************************************************************************************/
 
 BOOST_AUTO_TEST_CASE(test_copy_constructor) {
-    Simple32LE int32LE_1(10);
-    BOOST_CHECK(int32LE_1 == 10);
+    Simple32LE value(10);
 
-    Simple32LE int32LE_2(int32LE_1);
-    BOOST_CHECK(int32LE_2 == 10);
-    BOOST_CHECK(int32LE_2 == int32LE_1);
+    Simple32LE result(value);
+
+    BOOST_CHECK(result == 10);
+    BOOST_CHECK(result == value);
 }
 
 /******************************************************************************************************************************************/
 
 BOOST_AUTO_TEST_CASE(test_assignment) {
-    Simple16BE int16BE;
+    Simple16BE result;
 
-    int16BE = 5;
-    BOOST_CHECK(int16BE == 5);
+    result = 5;
+
+    BOOST_CHECK(result == 5);
 }
 
 /******************************************************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(test_type_casting_1) {
-    Simple16BE int16BE(10);
-    short short1 = int16BE;
-    BOOST_CHECK(short1 == 10);
+BOOST_AUTO_TEST_CASE(test_type_cast_int16BE_to_short) {
+    Simple16BE value(10);
 
-    int16BE = 3.14; // Generates a compiler warning
-    BOOST_CHECK(int16BE == 3);
+    short result = value;
 
-    double double1 = int16BE;
-    BOOST_CHECK(double1 == 3.0);
+    BOOST_CHECK(result == 10);
 }
 
 /******************************************************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(test_type_casting_2) {
-    Simple16BE int16BE(10);
-    SimpleFloat32LE float32LE;
+BOOST_AUTO_TEST_CASE(test_type_cast_double_to_int16BE) {
+    Simple16BE result(10);
 
-    float32LE = int16BE;
-    BOOST_CHECK(float32LE == 10.0f);
-    BOOST_CHECK(10.0f == float32LE);
+    result = 3.14; // Generates a compiler warning
 
-    float32LE = 5.678f;
-
-    int16BE = float32LE; // Generates a compiler warning
-    BOOST_CHECK(5 == int16BE);
+    BOOST_CHECK(result == 3);
 }
 
 /******************************************************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(test_inequality_operator) {
+BOOST_AUTO_TEST_CASE(test_type_cast_int16BE_to_double) {
+    Simple16BE value(10);
+
+    double result = value;
+
+    BOOST_CHECK(result == 10.0);
+}
+
+/******************************************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_type_cast_int16BE_to_float32LE) {
+    Simple16BE value(10);
+    SimpleFloat32LE result;
+
+    result = value;
+
+    BOOST_CHECK(result == 10.0f);
+}
+
+/******************************************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_type_cast_float32LE_to_int16BE) {
+    SimpleFloat32LE value;
+    Simple16BE result;
+
+    value = 5.678f;
+
+    result = value; // Generates a compiler warning
+
+    BOOST_CHECK(5 == result);
+}
+
+/******************************************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_inequality_operator_for_int16BE) {
+    Simple16BE result(10);
+
+    BOOST_CHECK(5 != result);
+    BOOST_CHECK(result != 20);
+}
+
+/******************************************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_inequality_operator_for_float32LE) {
+    SimpleFloat32LE result(8.5f);
+    BOOST_CHECK(1.2 != result);
+    BOOST_CHECK(result != 5.55);
+
+}
+
+/******************************************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_inequality_operator_for_float32LE_and_int16BE) {
     Simple16BE int16BE(10);
-
-    BOOST_CHECK(5 != int16BE);
-    BOOST_CHECK(int16BE != 20);
-
     SimpleFloat32LE float32LE(8.5f);
-    BOOST_CHECK(1.2 != float32LE);
-    BOOST_CHECK(float32LE != 5.55);
 
     BOOST_CHECK(float32LE != int16BE);
     BOOST_CHECK(int16BE != float32LE);
@@ -119,14 +158,23 @@ BOOST_AUTO_TEST_CASE(test_inequality_operator) {
 
 /******************************************************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(test_increment_operator) {
+BOOST_AUTO_TEST_CASE(test_increment_operator_for_int16BE) {
     Simple16BE int16BE(10);
-    ++int16BE;
-    ++int16BE;
-    BOOST_CHECK(12 == int16BE);
 
-    int16BE += 5;
-    BOOST_CHECK(17 == int16BE);
+    ++int16BE;
+    ++int16BE;
+
+    BOOST_CHECK(12 == int16BE);
+}
+
+/******************************************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_increment_assignment_operator_for_int16BE) {
+    Simple16BE result(10);
+
+    result += 5;
+
+    BOOST_CHECK(15 == result);
 }
 
 /******************************************************************************************************************************************/
