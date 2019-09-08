@@ -24,16 +24,16 @@ struct na {
 /* @formatter:off */
 
 // Generate the basic types used to define the simple types below.
-typedef basic<long,  32, endian::little, na> Integer32LE;
-typedef basic<short, 16, endian::big,    na> Integer16BE;
-typedef basic<float, 32, endian::little, na> Float32LE;
+struct Integer32LE : basic<long,  32, endian::little, na> {PROTOX_BASIC(Integer32LE)};
+struct Integer16BE : basic<short, 16, endian::big,    na> {PROTOX_BASIC(Integer16BE)};
+struct Float32LE   : basic<float, 32, endian::little, na> {PROTOX_BASIC(Float32LE  )};
 
 /******************************************************************************************************************************************/
 
 // Generate simple types.
-typedef simple<Integer32LE> Simple32LE;
-typedef simple<Integer16BE> Simple16BE;
-typedef simple<Float32LE>   SimpleFloat32LE;
+struct Simple32LE      : simple<Integer32LE> {PROTOX_SIMPLE(Simple32LE     )};
+struct Simple16BE      : simple<Integer16BE> {PROTOX_SIMPLE(Simple16BE     )};
+struct SimpleFloat32LE : simple<Float32LE  > {PROTOX_SIMPLE(SimpleFloat32LE)};
 
 /* @formatter:on */
 
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE(test_type_cast_int16BE_to_float32LE) {
     Simple16BE value(10);
     SimpleFloat32LE result;
 
-    result = value;
+    result.value = value.value;
 
     BOOST_CHECK(result == 10.0f);
 }
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE(test_type_cast_float32LE_to_int16BE) {
 
     value = 5.678f;
 
-    result = value; // Generates a compiler warning
+    result.value = value.value; // Generates a compiler warning
 
     BOOST_CHECK(5 == result);
 }

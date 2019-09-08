@@ -26,9 +26,9 @@ struct na {
 
 /* @formatter:off */
 // Generate basic types.
-typedef basic<long,  32, endian::little, na> Integer32LE;
-typedef basic<short, 16, endian::big,    na> Integer16BE;
-typedef basic<float, 32, endian::little, na> Float32LE;
+struct Integer32LE : basic<long,  32, endian::little, na> {PROTOX_BASIC(Integer32LE)};
+struct Integer16BE : basic<short, 16, endian::big,    na> {PROTOX_BASIC(Integer16BE)};
+struct Float32LE   : basic<float, 32, endian::little, na> {PROTOX_BASIC(Float32LE  )};
 /* @formatter:on */
 
 /******************************************************************************************************************************************/
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE(test_type_cast_int16BE_to_float32LE) {
     const Integer16BE value(10);
     Float32LE result;
 
-    result = value;
+    result.value = value.value;
 
     BOOST_CHECK(result == 10.0f);
     BOOST_CHECK(10.0f == result);
@@ -112,7 +112,7 @@ BOOST_AUTO_TEST_CASE(test_type_casting_float32LE_to_int16BE) {
     const Float32LE value { 5.678f };
     Integer16BE result { };
 
-    result = value; // Generates a compiler warning
+    result.value = value.value; // Generates a compiler warning
 
     BOOST_CHECK(5 == result);
 }

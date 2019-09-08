@@ -159,13 +159,13 @@ public:
   /* Default constructor. */                            \
   basic_name() {}                                       \
                                                         \
-  /* basic_name is derived from base_type */            \
+  /* basic_name is derived from base_type. */           \
   typedef protox::dtl::basic< basic_name::value_type,   \
     basic_name::size_in_bits,                           \
     basic_name::endianess,                              \
     basic_name::codec_tag > base_type;                  \
                                                         \
-  /* Initialization constructor */                      \
+  /* Initialization constructor. */                     \
   basic_name(base_type::value_type v) : base_type(v) {}
 
 /******************************************************************************************************************************************/
