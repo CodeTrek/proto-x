@@ -72,6 +72,11 @@
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_simple_type_generator.cpp</locationURI>
 		</link>
 		<link>
+			<name>src/protox/dtl/test_variable_array_type_generator.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_variable_array_type_generator.cpp</locationURI>
+		</link>
+		<link>
 			<name>src/protox/hla_1516/color_enum.hpp</name>
 			<type>1</type>
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/color_enum.hpp</locationURI>
