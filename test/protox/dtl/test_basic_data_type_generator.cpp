@@ -5,7 +5,10 @@
 // (see accompanying file LICENSE_1_0_0.txt or http://www.opensource.org/licenses/mit-license.php)
 /******************************************************************************************************************************************/
 
+#include <type_traits>
+
 #include <boost/test/unit_test.hpp>
+
 #include <protox/dtl/endian_enum.hpp>
 #include <protox/dtl/basic.hpp>
 
@@ -154,6 +157,15 @@ BOOST_AUTO_TEST_CASE(test_int16BE_increment_operator) {
 
     int16BE += 5;
     BOOST_CHECK(17 == int16BE);
+}
+
+/******************************************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_basic_returns_correct_codec_tag) {
+
+    const bool result = std::is_same<na, Integer16BE::codec_tag>::value;
+
+    BOOST_CHECK(result == true);
 }
 
 /******************************************************************************************************************************************/

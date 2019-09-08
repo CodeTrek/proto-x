@@ -1,25 +1,25 @@
-/*
-    Copyright (C) 2009 Jay Graham
-
-    Distributed under the MIT License (see accompanying file LICENSE_1_0_0.txt
-    or http://www.opensource.org/licenses/mit-license.php)
-*/
-
-/**********************************************************************************************************************/
+/******************************************************************************************************************************************/
+// (c) 2009 - 2019 Jay Graham
+//
+// Distributed under the MIT License
+// (see accompanying file LICENSE_1_0_0.txt or http://www.opensource.org/licenses/mit-license.php)
+/******************************************************************************************************************************************/
 
 #ifndef PROTOX_DTL_FIXED_ARRAY_HPP
 #define PROTOX_DTL_FIXED_ARRAY_HPP
 
-/**********************************************************************************************************************/
+/******************************************************************************************************************************************/
+
+#include <initializer_list>
 
 #include <boost/static_assert.hpp>
 
-/**********************************************************************************************************************/
+/******************************************************************************************************************************************/
 
 namespace protox {
 namespace dtl {
 
-/**********************************************************************************************************************/
+/******************************************************************************************************************************************/
 
 /**
  * Constructs a fixed array of size \a N with elements of type \a T.
@@ -41,81 +41,113 @@ namespace dtl {
  *
  */
 
-template< typename T, int N, typename CODEC_TAG >
+/******************************************************************************************************************************************/
+
+template<typename T, int N, typename CODEC_TAG>
 struct fixed_array {
-    public:
-        static const int static_num_elements = N;
 
-        /// \cond
-        typedef CODEC_TAG codec_tag;
-        /// \endcond
+    BOOST_STATIC_ASSERT((N > 0));
 
-        typedef       T  value_type;
-        typedef       T& reference;
-        typedef const T& const_reference;
+public:
+    static const int static_num_elements = N;
 
-    private:
-        BOOST_STATIC_ASSERT((N > 0));
+    /// \cond
+    typedef CODEC_TAG codec_tag;
+    /// \endcond
 
-        T elems[N];
+    typedef T value_type;
+    typedef T &reference;
+    typedef const T &const_reference;
 
-        template< typename A >
-        static bool is_equal(const A &lhs, const A &rhs) {
-            bool result = true;
+private:
+    T elems[N];
 
-            // Test each element in the array for equality.
-            for (int i = 0; i < A::static_num_elements; ++i) {
-                if (!(lhs[i] == rhs[i])) {
-                    result = false;
-                    break;
-                }
+    template<typename A>
+    static bool is_equal(const A &lhs, const A &rhs) {
+        bool result = true;
+
+        // Test each element in the array for equality.
+        for (int i = 0; i < A::static_num_elements; ++i) {
+            if (!(lhs[i] == rhs[i])) {
+                result = false;
+                break;
             }
-      
-            return result;
         }
-  
-    public:
-        /**
-         * Read/write access to the element at the given zero-based index.
-         *
-         * \param i The zero-based index.
-         *
-         * \return A reference to the element at index \a i.
-         */
-        inline reference operator [] (int i) { return elems[i]; }
-  
-        /**
-         * Read-only access to the element at the given zero-based index.
-         *
-         * \param i The zero-based index.
-         *
-         * \return A \c const reference to the element at index \a i.
-         */
-        inline const_reference operator [] (int i) const { return elems[i]; }
 
-        /**
-         * Performs an element-by-element test of this array with the given array for equality. Two arrays are equal if
-         * their elements are equal.
-         *
-         * \param rhs The right hand side of the equality operator.
-         */
-        inline bool operator == (const fixed_array &rhs) const { return is_equal(*this, rhs); }
+        return result;
+    }
 
-        /**
-         * Performs an element-by-element test of this array with the given array for inequality. Two arrays are not
-         * equal if at least one element is not equal.
-         *
-         * \param rhs The right hand side of the inequality operator.
-         */
-        inline bool operator != (const fixed_array &rhs) const { return !(*this == rhs); }
+public:
+    fixed_array() {
+    }
+
+    template<typename ... ET>
+    fixed_array(ET ... ts) :
+            elems { ts... } {
+    }
+
+    /**
+     * Read/write access to the element at the given zero-based index.
+     *
+     * \param i The zero-based index.
+     *
+     * \return A reference to the element at index \a i.
+     */
+    inline reference operator [](int i) {
+        return elems[i];
+    }
+
+    /**
+     * Read-only access to the element at the given zero-based index.
+     *
+     * \param i The zero-based index.
+     *
+     * \return A \c const reference to the element at index \a i.
+     */
+    inline const_reference operator [](int i) const {
+        return elems[i];
+    }
+
+    /**
+     * Performs an element-by-element test of this array with the given array for equality. Two arrays are equal if
+     * their elements are equal.
+     *
+     * \param rhs The right hand side of the equality operator.
+     */
+    inline bool operator ==(const fixed_array &rhs) const {
+        return is_equal(*this, rhs);
+    }
+
+    /**
+     * Performs an element-by-element test of this array with the given array for inequality. Two arrays are not
+     * equal if at least one element is not equal.
+     *
+     * \param rhs The right hand side of the inequality operator.
+     */
+    inline bool operator !=(const fixed_array &rhs) const {
+        return !(*this == rhs);
+    }
 };
 
-/**********************************************************************************************************************/
+/******************************************************************************************************************************************/
 
-}}
+#define PROTOX_FIXED_ARRAY(fixed_array_name)                                                                                                             \
+    /* Default constructor. */                                                                                                                           \
+  fixed_array_name() {}                                                                                                                                  \
+                                                                                                                                                         \
+  /* simple_name derives from simple_type. */                                                                                                            \
+  typedef protox::dtl::fixed_array< fixed_array_name::value_type, fixed_array_name::static_num_elements, fixed_array_name::codec_tag > fixed_array_type; \
+                                                                                                                                                         \
+  /* Initialization constructor. */                                                                                                                      \
+  template <typename... ET> fixed_array_name(ET... ts) : fixed_array_type(ts...) {}
 
-/**********************************************************************************************************************/
+/******************************************************************************************************************************************/
+
+}
+}
+
+/******************************************************************************************************************************************/
 
 #endif
 
-/**********************************************************************************************************************/
+/******************************************************************************************************************************************/
