@@ -57,6 +57,11 @@
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_compute_octet_boundary.cpp</locationURI>
 		</link>
 		<link>
+			<name>src/protox/dtl/test_enumerated_type_generator.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_enumerated_type_generator.cpp</locationURI>
+		</link>
+		<link>
 			<name>src/protox/dtl/test_field_type_generator.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_field_type_generator.cpp</locationURI>
