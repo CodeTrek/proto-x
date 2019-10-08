@@ -31,7 +31,7 @@ struct int_array : protox::dtl::variable_array<std::vector<int>, na> {PROTOX_VAR
 
 /******************************************************************************************************************************************/
 
-BOOST_AUTO_TEST_CASE(test_fixed_array_returns_correct_value_type) {
+BOOST_AUTO_TEST_CASE(test_variable_array_returns_correct_value_type) {
     struct variable_array_type : protox::dtl::variable_array<std::vector<std::string>, na> {
     };
 

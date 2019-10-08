@@ -30,6 +30,9 @@
 #include <protox/hla_1516/enumerated_codec.hpp>
 #include <protox/hla_1516/variant_record_codec.hpp>
 
+// Binary Encoded Exchange (BEE) codec policies
+#include <protox/bee/basic_data_codec.hpp>
+
 #if 0
 // XDR codec policies
 #include <protox/xdr/basic_data_codec.hpp>

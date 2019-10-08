@@ -20,6 +20,11 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>include/protox/bee</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>include/protox/codec</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
@@ -48,6 +53,31 @@
 			<name>include/protox/platform.hpp</name>
 			<type>1</type>
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/platform.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/bee/README.md</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/bee/README.md</locationURI>
+		</link>
+		<link>
+			<name>include/protox/bee/basic_data_codec.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/bee/basic_data_codec.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/bee/basic_data_decoders.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/bee/basic_data_decoders.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/bee/basic_data_encoders.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/bee/basic_data_encoders.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/bee/codec_tags.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/bee/codec_tags.hpp</locationURI>
 		</link>
 		<link>
 			<name>include/protox/codec/codec_tags.hpp</name>

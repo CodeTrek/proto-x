@@ -22,6 +22,9 @@
 // HLA 1516
 #include <protox/hla_1516/codec_tags.hpp>
 
+// Binary Encoded Exchange
+#include <protox/bee/codec_tags.hpp>
+
 // SDX
 //#include <protox/sdx/codec_tags.hpp>
 
