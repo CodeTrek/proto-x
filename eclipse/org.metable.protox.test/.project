@@ -52,6 +52,11 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>src/protox/bee/encode_bits.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/bee/encode_bits.cpp</locationURI>
+		</link>
+		<link>
 			<name>src/protox/bee/policy_basic_data.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/bee/policy_basic_data.cpp</locationURI>

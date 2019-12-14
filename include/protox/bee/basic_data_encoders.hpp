@@ -20,6 +20,47 @@ namespace bee {
 
 /******************************************************************************************************************************************/
 
+/******************************************************************************************************************************************/
+/**
+ * Generic encode value template.
+ */
+template<typename S, // The destination (bit-addressable) buffer.
+         bool LE     // If true, encode the bits from least to most significant bit, else encode
+                     // from most to least significant bit.
+> struct encode_bits;
+
+template<typename S>
+struct encode_bits<S, true> {
+    static inline void pack(S &s, const unsigned char value, const unsigned num_bits) {
+        assert(num_bits > 0);
+        assert(num_bits <= 8);
+
+        static const unsigned char ONE = 1;
+
+        for (unsigned bit = 0; bit < num_bits; ++bit) {
+            const unsigned shift_count = (num_bits - 1) - bit;
+            const bool bit_value = ((value & (ONE << shift_count)) > 0);
+            s.push_back(bit_value);
+        }
+    }
+};
+
+template<typename S>
+struct encode_bits<S, false> {
+    static inline void pack(S &s, const unsigned char value, const unsigned num_bits) {
+        assert(num_bits > 0);
+        assert(num_bits <= 8);
+
+        static const unsigned char ONE = 1;
+
+        for (unsigned bit = 0; bit < num_bits; ++bit) {
+            const unsigned shift_count = bit;
+            const bool bit_value = ((value & (ONE << shift_count)) > 0);
+            s.push_back(bit_value);
+        }
+    }
+};
+
 /**
  * Encode the bits in the given value from least to most significant bit.
  * The least significant bit is located at bit position 0.
@@ -27,15 +68,18 @@ namespace bee {
  * @param s the bit-addressable destination buffer.
  * @param value the value to be encoded.
  * @param num_bits the number of bits to encode in the range > 1 and <= 8.
+ * @param little_endian if true, encode the bits from least to most significant bit, else encode
+ *                      from most to least significant bit.
  */
 template<typename S>
-void encode_value(S &s, const unsigned char value, const unsigned num_bits) {
+void encode_value(S &s, const unsigned char value, const unsigned num_bits, const bool little_endian = false) {
     assert(num_bits > 0);
     assert(num_bits <= 8);
 
     static const unsigned char ONE = 1;
 
-    for (unsigned shift_count = 0; shift_count < num_bits; ++shift_count) {
+    for (unsigned bit = 0; bit < num_bits; ++bit) {
+        const unsigned shift_count = (little_endian ? ((num_bits - 1) - bit) : bit);
         const bool bit_value = ((value & (ONE << shift_count)) > 0);
         s.push_back(bit_value);
     }

@@ -33,11 +33,12 @@ using namespace protox::bee;
 struct na {};
 
 
-struct Boolean   : basic<bool,          1, endian::big,    boolean> {PROTOX_BASIC(Boolean  )};
-struct Int02bit  : basic<char,          2, endian::big,    number > {PROTOX_BASIC(Int02bit )};
-struct UInt02bit : basic<unsigned char, 2, endian::big,    number > {PROTOX_BASIC(UInt02bit)};
-struct Int03bit  : basic<char,          3, endian::big,    number > {PROTOX_BASIC(Int03bit )};
-struct UInt03bit : basic<unsigned char, 3, endian::big,    number > {PROTOX_BASIC(UInt03bit)};
+struct Boolean   : basic<bool,            1, endian::big,    boolean> {PROTOX_BASIC(Boolean  )};
+struct Int02bit  : basic<char,            2, endian::big,    number > {PROTOX_BASIC(Int02bit )};
+struct UInt02bit : basic<unsigned char,   2, endian::big,    number > {PROTOX_BASIC(UInt02bit)};
+struct Int03bit  : basic<char,            3, endian::big,    number > {PROTOX_BASIC(Int03bit )};
+struct UInt03bit : basic<unsigned char,   3, endian::big,    number > {PROTOX_BASIC(UInt03bit)};
+struct UInt13bit : basic<unsigned short, 13, endian::big,    number > {PROTOX_BASIC(UInt13bit)};
 
 /* @formatter:on */
 
@@ -113,6 +114,21 @@ struct UInt03bit : basic<unsigned char, 3, endian::big,    number > {PROTOX_BASI
 //    BOOST_CHECK((unsigned) codec::dynamic_size(HLAfloat64LE()  ) == (unsigned) codec::static_size_in_bytes< HLAfloat64LE   >::value);
 //}
 /**********************************************************************************************************************/
+
+BOOST_AUTO_TEST_CASE(test_encode_unsigned_13_bit_value_of_8191) {
+
+    // Arrang.e
+    boost::dynamic_bitset<> bit_sink;
+    UInt13bit value = 8191;
+
+    // Act.
+    protox::dtl::codec::encode(bit_sink, value);
+
+    // Assert.
+    BOOST_CHECK_EQUAL(13, bit_sink.size());
+    // BOOST_CHECK_EQUAL(0, bit_sink[0]);
+    // BOOST_CHECK_EQUAL(0, bit_sink[1]);
+}
 
 BOOST_AUTO_TEST_CASE(test_encode_boolean_true) {
 
