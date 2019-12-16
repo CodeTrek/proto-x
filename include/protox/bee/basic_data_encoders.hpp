@@ -62,6 +62,70 @@ struct encode_bits<S, false> {
 };
 
 /**
+ * Generic encode basic template.
+ */
+template<typename S,               // The destination (bit-addressable) buffer.
+        unsigned SIZE_IN_BITS,     // Size of value to be encoded in bits.
+        std::size_t SIZE_IN_BYTES, // Size of value to be encoded in bytes.
+        bool PLATFORM_LE,          // True, if the platform is little-endian.
+        bool DATA_LE               // True, if the value should be encoded as little-endian.
+> struct encode_bytes;
+
+template<typename S, unsigned SIZE_IN_BITS, bool PLATFORM_LE, bool DATA_LE>
+struct encode_bytes<S, SIZE_IN_BITS, 1, PLATFORM_LE, DATA_LE> {
+    static inline void pack(S &s, unsigned char const *value) {
+        BOOST_STATIC_ASSERT((SIZE_IN_BITS > 0));
+        BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 8));
+
+        encode_bits<S, DATA_LE>::pack(s, *value, SIZE_IN_BITS);
+    }
+};
+
+template<typename S, unsigned SIZE_IN_BITS>
+struct encode_bytes<S, SIZE_IN_BITS, 2, true, true> {
+    static inline void pack(S &s, unsigned char const *value) {
+        BOOST_STATIC_ASSERT((SIZE_IN_BITS > 0));
+        BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 16));
+
+        encode_bits<S, true>::pack(s, value[1], SIZE_IN_BITS - 8);
+        encode_bits<S, true>::pack(s, value[0], 8);
+    }
+};
+
+template<typename S, unsigned SIZE_IN_BITS>
+struct encode_bytes<S, SIZE_IN_BITS, 2, true, false> {
+    static inline void pack(S &s, unsigned char const *value) {
+        BOOST_STATIC_ASSERT((SIZE_IN_BITS > 0));
+        BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 16));
+
+        encode_bits<S, false>::pack(s, value[0], 8);
+        encode_bits<S, false>::pack(s, value[1], SIZE_IN_BITS - 8);
+    }
+};
+
+template<typename S, unsigned SIZE_IN_BITS>
+struct encode_bytes<S, SIZE_IN_BITS, 2, false, true> {
+    static inline void pack(S &s, unsigned char const *value) {
+        BOOST_STATIC_ASSERT((SIZE_IN_BITS > 0));
+        BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 16));
+
+        encode_bits<S, true>::pack(s, value[0], SIZE_IN_BITS - 8);
+        encode_bits<S, true>::pack(s, value[1], 8);
+    }
+};
+
+template<typename S, unsigned SIZE_IN_BITS>
+struct encode_bytes<S, SIZE_IN_BITS, 2, false, false> {
+    static inline void pack(S &s, unsigned char const *value) {
+        BOOST_STATIC_ASSERT((SIZE_IN_BITS > 0));
+        BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 16));
+
+        encode_bits<S, false>::pack(s, value[1], 8);
+        encode_bits<S, false>::pack(s, value[0], SIZE_IN_BITS - 8);
+    }
+};
+
+/**
  * Encode the bits in the given value from least to most significant bit.
  * The least significant bit is located at bit position 0.
  *
@@ -84,6 +148,21 @@ void encode_value(S &s, const unsigned char value, const unsigned num_bits, cons
         s.push_back(bit_value);
     }
 }
+
+
+
+
+template<typename S, unsigned SIZE_IN_BITS, bool DATA_LE>
+struct encode_bytes<S, SIZE_IN_BITS, DATA_LE, 2, false> {
+    static inline void pack(S &s, unsigned char const *value) {
+        BOOST_STATIC_ASSERT((SIZE_IN_BITS > 0));
+        BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 16));
+
+        // Encode from least to most significant byte.
+        encode_bits<S, DATA_LE>::pack(s, value[1], 8);
+        encode_bits<S, DATA_LE>::PACK(s, value[0], SIZE_IN_BITS - 8);
+    }
+};
 
 /******************************************************************************************************************************************/
 /**
