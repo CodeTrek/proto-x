@@ -32,6 +32,7 @@ template<typename S, bool LE> struct bits<S, LE, 1> {
 
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
+
         value = value | ((s[offset + 0] ? 1 : 0) << 0);
         ++offset;
     }
@@ -47,6 +48,7 @@ template<typename S> struct bits<S, true, 2> {
 
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
+
         value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 0);
         ++offset;
         value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 1);
@@ -64,6 +66,7 @@ template<typename S> struct bits<S, false, 2> {
 
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
+
         value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 1);
         ++offset;
         value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 0);
@@ -82,6 +85,7 @@ template<typename S> struct bits<S, true, 3> {
 
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
+
         value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 0);
         ++offset;
         value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 1);
@@ -102,6 +106,7 @@ template<typename S> struct bits<S, false, 3> {
 
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
+
         value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 2);
         ++offset;
         value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 1);
@@ -123,6 +128,7 @@ template<typename S> struct bits<S, true, 4> {
 
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
+
         value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 0);
         ++offset;
         value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 1);
@@ -168,6 +174,21 @@ template<typename S> struct bits<S, true, 5> {
         s.push_back((value & (ONE << 1)) > 0);
         s.push_back((value & (ONE << 0)) > 0);
     }
+
+    static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
+        value = 0;
+
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 0);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 1);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 2);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 3);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 4);
+        ++offset;
+    }
 };
 
 /******************************************************************************************************************************************/
@@ -179,6 +200,21 @@ template<typename S> struct bits<S, false, 5> {
         s.push_back((value & (ONE << 2)) > 0);
         s.push_back((value & (ONE << 3)) > 0);
         s.push_back((value & (ONE << 4)) > 0);
+    }
+
+    static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
+        value = 0;
+
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 4);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 3);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 2);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 1);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 0);
+        ++offset;
     }
 };
 
@@ -193,6 +229,23 @@ template<typename S> struct bits<S, true, 6> {
         s.push_back((value & (ONE << 1)) > 0);
         s.push_back((value & (ONE << 0)) > 0);
     }
+
+    static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
+        value = 0;
+
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 0);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 1);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 2);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 3);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 4);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 5);
+        ++offset;
+    }
 };
 
 /******************************************************************************************************************************************/
@@ -205,6 +258,23 @@ template<typename S> struct bits<S, false, 6> {
         s.push_back((value & (ONE << 3)) > 0);
         s.push_back((value & (ONE << 4)) > 0);
         s.push_back((value & (ONE << 5)) > 0);
+    }
+
+    static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
+        value = 0;
+
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 5);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 4);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 3);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 2);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 1);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 0);
+        ++offset;
     }
 };
 
@@ -220,6 +290,25 @@ template<typename S> struct bits<S, true, 7> {
         s.push_back((value & (ONE << 1)) > 0);
         s.push_back((value & (ONE << 0)) > 0);
     }
+
+    static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
+        value = 0;
+
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 0);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 1);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 2);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 3);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 4);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 5);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 6);
+        ++offset;
+    }
 };
 
 /******************************************************************************************************************************************/
@@ -233,6 +322,25 @@ template<typename S> struct bits<S, false, 7> {
         s.push_back((value & (ONE << 4)) > 0);
         s.push_back((value & (ONE << 5)) > 0);
         s.push_back((value & (ONE << 6)) > 0);
+    }
+
+    static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
+        value = 0;
+
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 6);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 5);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 4);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 3);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 2);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 1);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 0);
+        ++offset;
     }
 };
 
@@ -249,6 +357,27 @@ template<typename S> struct bits<S, true, 8> {
         s.push_back((value & (ONE << 1)) > 0);
         s.push_back((value & (ONE << 0)) > 0);
     }
+
+    static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
+        value = 0;
+
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 0);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 1);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 2);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 3);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 4);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 5);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 6);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 7);
+        ++offset;
+    }
 };
 
 /******************************************************************************************************************************************/
@@ -263,6 +392,27 @@ template<typename S> struct bits<S, false, 8> {
         s.push_back((value & (ONE << 5)) > 0);
         s.push_back((value & (ONE << 6)) > 0);
         s.push_back((value & (ONE << 7)) > 0);
+    }
+
+    static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
+        value = 0;
+
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 7);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 6);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 5);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 4);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 3);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 2);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 1);
+        ++offset;
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 0);
+        ++offset;
     }
 };
 
