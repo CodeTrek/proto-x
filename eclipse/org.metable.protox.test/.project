@@ -82,6 +82,11 @@
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/binary/encode_bits.cpp</locationURI>
 		</link>
 		<link>
+			<name>src/protox/binary/encode_bytes.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/binary/encode_bytes.cpp</locationURI>
+		</link>
+		<link>
 			<name>src/protox/dtl/test_basic_data_type_generator.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_basic_data_type_generator.cpp</locationURI>

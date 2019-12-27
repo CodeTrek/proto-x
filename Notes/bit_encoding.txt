@@ -1,4 +1,4 @@
-                Endian
+               Endianess
   Platform (byte)      Value (bit)
 1 big                  big
 2 big                  little

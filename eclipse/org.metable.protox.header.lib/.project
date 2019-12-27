@@ -90,6 +90,11 @@
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/binary/bits.hpp</locationURI>
 		</link>
 		<link>
+			<name>include/protox/binary/bytes.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/binary/bytes.hpp</locationURI>
+		</link>
+		<link>
 			<name>include/protox/binary/util.hpp</name>
 			<type>1</type>
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/binary/util.hpp</locationURI>
