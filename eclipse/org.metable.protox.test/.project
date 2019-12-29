@@ -77,6 +77,11 @@
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/binary/decode_bits.cpp</locationURI>
 		</link>
 		<link>
+			<name>src/protox/binary/decode_bytes.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/binary/decode_bytes.cpp</locationURI>
+		</link>
+		<link>
 			<name>src/protox/binary/encode_bits.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/binary/encode_bits.cpp</locationURI>

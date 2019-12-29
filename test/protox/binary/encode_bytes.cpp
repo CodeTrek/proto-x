@@ -33,21 +33,6 @@ BOOST_AUTO_TEST_CASE(test_encode_1_bit_value_of_1) {
     BOOST_CHECK_EQUAL(1, bit_sink[0]);
 }
 
-BOOST_AUTO_TEST_CASE(test_decode_1_bit_value_of_1) {
-    // Arrange.
-    boost::dynamic_bitset<> bit_sink;
-    bit_sink.push_back(1);
-    unsigned char value = 0b00000000;
-    std::size_t offset = 0;
-
-    // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 1, 1, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, &value, offset);
-
-    // Assert.
-    BOOST_CHECK_EQUAL(1, offset);
-    BOOST_CHECK_EQUAL(0b00000001, value);
-}
-
 BOOST_AUTO_TEST_CASE(test_encode_1_bit_value_of_0) {
     // Arrange.
     boost::dynamic_bitset<> bit_sink;
@@ -61,22 +46,7 @@ BOOST_AUTO_TEST_CASE(test_encode_1_bit_value_of_0) {
     BOOST_CHECK_EQUAL(0, bit_sink[0]);
 }
 
-BOOST_AUTO_TEST_CASE(test_decode_1_bit_value_of_0) {
-    // Arrange.
-    boost::dynamic_bitset<> bit_sink;
-    bit_sink.push_back(0);
-    unsigned char value = 0b11111111;
-    std::size_t offset = 0;
-
-    // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 1, 1, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, &value, offset);
-
-    // Assert.
-    BOOST_CHECK_EQUAL(1, offset);
-    BOOST_CHECK_EQUAL(0b00000000, value);
-}
-
-BOOST_AUTO_TEST_CASE(test_encode_3_bits_1_byte_value_le) {
+BOOST_AUTO_TEST_CASE(test_encode_3_bit_value_as_little_endian_bitset) {
     // Arrange.
     boost::dynamic_bitset<> bit_sink;
     const unsigned char value = 0b00000001;
@@ -91,24 +61,7 @@ BOOST_AUTO_TEST_CASE(test_encode_3_bits_1_byte_value_le) {
     BOOST_CHECK_EQUAL(0, bit_sink[0]);
 }
 
-BOOST_AUTO_TEST_CASE(test_decode_3_bits_1_byte_value_le) {
-    // Arrange.
-    boost::dynamic_bitset<> bit_sink;
-    bit_sink.push_back(0);
-    bit_sink.push_back(0);
-    bit_sink.push_back(1);
-    unsigned char value = 0b00000000;
-    std::size_t offset = 0;
-
-    // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 3, 1, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, &value, offset);
-
-    // Assert.
-    BOOST_CHECK_EQUAL(3, offset);
-    BOOST_CHECK_EQUAL(0b00000001, value);
-}
-
-BOOST_AUTO_TEST_CASE(test_encode_3_bits_1_byte_value_be) {
+BOOST_AUTO_TEST_CASE(test_encode_3_bit_value_as_big_endian_bitset) {
     // Arrange.
     boost::dynamic_bitset<> bit_sink;
     const unsigned char value = 0b00000001;
@@ -123,24 +76,7 @@ BOOST_AUTO_TEST_CASE(test_encode_3_bits_1_byte_value_be) {
     BOOST_CHECK_EQUAL(1, bit_sink[0]);
 }
 
-BOOST_AUTO_TEST_CASE(test_decode_3_bits_1_byte_value_be) {
-    // Arrange.
-    boost::dynamic_bitset<> bit_sink;
-    bit_sink.push_back(0);
-    bit_sink.push_back(0);
-    bit_sink.push_back(1);
-    unsigned char value = 0b00000000;
-    std::size_t offset = 0;
-
-    // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 3, 1, BYTE_LITTLE_ENDIAN, BIT_BIG_ENDIAN>::decode(bit_sink, &value, offset);
-
-    // Assert.
-    BOOST_CHECK_EQUAL(3, offset);
-    BOOST_CHECK_EQUAL(0b00000100, value);
-}
-
-BOOST_AUTO_TEST_CASE(test_encode_8_bit_1_byte_value_le) {
+BOOST_AUTO_TEST_CASE(test_encode_8_bit_value_as_little_endian_bitset) {
     // Arrange.
     boost::dynamic_bitset<> bit_sink;
     const unsigned char value = 0b00110011;
@@ -160,7 +96,7 @@ BOOST_AUTO_TEST_CASE(test_encode_8_bit_1_byte_value_le) {
     BOOST_CHECK_EQUAL(0, bit_sink[0]);
 }
 
-BOOST_AUTO_TEST_CASE(test_encode_8_bit_1_byte_value_be) {
+BOOST_AUTO_TEST_CASE(test_encode_8_bit_value_as_big_endian_bitset) {
     // Arrange.
     boost::dynamic_bitset<> bit_sink;
     const unsigned char value = 0b00110011;
@@ -180,7 +116,7 @@ BOOST_AUTO_TEST_CASE(test_encode_8_bit_1_byte_value_be) {
     BOOST_CHECK_EQUAL(1, bit_sink[0]);
 }
 
-BOOST_AUTO_TEST_CASE(test_encode_2_byte_little_endian_value_as_little_endian_bitset) {
+BOOST_AUTO_TEST_CASE(test_encode_16_bit_little_endian_value_as_little_endian_bitset) {
 
     // Arrange.
     boost::dynamic_bitset<> bit_sink;
@@ -193,43 +129,6 @@ BOOST_AUTO_TEST_CASE(test_encode_2_byte_little_endian_value_as_little_endian_bit
     // Assert.
     BOOST_CHECK_EQUAL(16, bit_sink.size());
     BOOST_CHECK_EQUAL(0b1100110010111000, bit_sink.to_ulong());
-}
-
-BOOST_AUTO_TEST_CASE(test_decode_2_byte_little_endian_value_from_little_endian_bitset) {
-
-    // Arrange.
-    boost::dynamic_bitset<> bit_sink;
-
-    // MSB
-    bit_sink.push_back(1);
-    bit_sink.push_back(0);
-    bit_sink.push_back(1);
-    bit_sink.push_back(1);
-    bit_sink.push_back(1);
-    bit_sink.push_back(0);
-    bit_sink.push_back(0);
-    bit_sink.push_back(1);
-
-    // LSB
-    bit_sink.push_back(1);
-    bit_sink.push_back(1);
-    bit_sink.push_back(0);
-    bit_sink.push_back(0);
-    bit_sink.push_back(1);
-    bit_sink.push_back(1);
-    bit_sink.push_back(0);
-    bit_sink.push_back(0);
-
-    unsigned char value[2] = {0b00000000, 0b00000000};
-    std::size_t offset = 0;
-
-    // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 16, 2, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, value, offset);
-
-    // Assert.
-    BOOST_CHECK_EQUAL(16, offset);
-    BOOST_CHECK_EQUAL(0b11001100, value[0]);
-    BOOST_CHECK_EQUAL(0b10111001, value[1]);
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_13_bit_little_endian_value_as_little_endian_bitset) {
@@ -248,57 +147,7 @@ BOOST_AUTO_TEST_CASE(test_encode_13_bit_little_endian_value_as_little_endian_bit
     BOOST_CHECK_EQUAL(0b0111111111101, bit_sink.to_ulong());
 }
 
-BOOST_AUTO_TEST_CASE(test_decode_13_bit_little_endian_value_from_little_endian_bitset) {
-
-    // Arrange.
-    boost::dynamic_bitset<> bit_sink;
-
-    // MSB.
-    bit_sink.push_back(1);
-    bit_sink.push_back(0);
-    bit_sink.push_back(1);
-    bit_sink.push_back(1);
-    bit_sink.push_back(1);
-
-    // LSB
-    bit_sink.push_back(1);
-    bit_sink.push_back(1);
-    bit_sink.push_back(1);
-    bit_sink.push_back(1);
-    bit_sink.push_back(1);
-    bit_sink.push_back(1);
-    bit_sink.push_back(1);
-    bit_sink.push_back(0);
-
-    unsigned char value[2] = {0b00000000, 0b00000000};
-    std::size_t offset = 0;
-
-    // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 13, 2, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, value, offset);
-
-    // Assert.
-    BOOST_CHECK_EQUAL(13, offset);
-    BOOST_CHECK_EQUAL(0b11111110, value[0]);
-    BOOST_CHECK_EQUAL(0b00010111, value[1]);
-}
-
 BOOST_AUTO_TEST_CASE(test_encode_13_bit_little_endian_value_as_big_endian_bitset) {
-
-    // Arrange.
-    boost::dynamic_bitset<> bit_sink;
-    //                                 LSB         MSB
-    const unsigned char value[2] = {0b11111110, 0b00010111};
-
-    // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 13, 2, BYTE_LITTLE_ENDIAN, BIT_BIG_ENDIAN>::encode(bit_sink, value);
-
-    // Assert.
-    BOOST_CHECK_EQUAL(13, bit_sink.size());
-
-    BOOST_CHECK_EQUAL(0b1011111111110, bit_sink.to_ulong());
-}
-
-BOOST_AUTO_TEST_CASE(test_decode_13_bit_little_endian_value_from_big_endian_bitset) {
 
     // Arrange.
     boost::dynamic_bitset<> bit_sink;
