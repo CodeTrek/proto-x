@@ -8,6 +8,8 @@
 #ifndef PROTOX_BINARY_BIT_HPP
 #define PROTOX_BINARY_BIT_HPP
 
+#include <protox/binary/endian.hpp>
+
 /******************************************************************************************************************************************/
 
 namespace protox {
@@ -19,13 +21,14 @@ constexpr unsigned char ONE = 0b00000001;
 
 /******************************************************************************************************************************************/
 
-template<typename S, // The destination (bit-addressable) buffer.
-    bool LE, // If true, encode/decode the bits from least to most significant bit, else encode/decode from most to least significant bit.
-    const unsigned char NUM_BITS> struct bits;
+template<typename S,              // The destination (bit-addressable) buffer.
+    protox::binary::BitEndian BE, // Bit endianess.
+    const unsigned char NUM_BITS> // Value size in bits.
+struct bits;
 
 /******************************************************************************************************************************************/
 
-template<typename S, bool LE> struct bits<S, LE, 1> {
+template<typename S, protox::binary::BitEndian BE> struct bits<S, BE, 1> {
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & ONE) > 0);
     }
@@ -40,7 +43,7 @@ template<typename S, bool LE> struct bits<S, LE, 1> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, true, 2> {
+template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 2> {
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 1)) > 0);
         s.push_back((value & (ONE << 0)) > 0);
@@ -58,7 +61,7 @@ template<typename S> struct bits<S, true, 2> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, false, 2> {
+template<typename S> struct bits<S, BIT_BIG_ENDIAN, 2> {
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 0)) > 0);
         s.push_back((value & (ONE << 1)) > 0);
@@ -76,7 +79,7 @@ template<typename S> struct bits<S, false, 2> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, true, 3> {
+template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 3> {
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 2)) > 0);
         s.push_back((value & (ONE << 1)) > 0);
@@ -97,7 +100,7 @@ template<typename S> struct bits<S, true, 3> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, false, 3> {
+template<typename S> struct bits<S, BIT_BIG_ENDIAN, 3> {
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 0)) > 0);
         s.push_back((value & (ONE << 1)) > 0);
@@ -118,7 +121,7 @@ template<typename S> struct bits<S, false, 3> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, true, 4> {
+template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 4> {
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 3)) > 0);
         s.push_back((value & (ONE << 2)) > 0);
@@ -142,7 +145,7 @@ template<typename S> struct bits<S, true, 4> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, false, 4> {
+template<typename S> struct bits<S, BIT_BIG_ENDIAN, 4> {
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 0)) > 0);
         s.push_back((value & (ONE << 1)) > 0);
@@ -166,7 +169,7 @@ template<typename S> struct bits<S, false, 4> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, true, 5> {
+template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 5> {
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 4)) > 0);
         s.push_back((value & (ONE << 3)) > 0);
@@ -193,7 +196,7 @@ template<typename S> struct bits<S, true, 5> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, false, 5> {
+template<typename S> struct bits<S, BIT_BIG_ENDIAN, 5> {
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 0)) > 0);
         s.push_back((value & (ONE << 1)) > 0);
@@ -220,7 +223,7 @@ template<typename S> struct bits<S, false, 5> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, true, 6> {
+template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 6> {
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 5)) > 0);
         s.push_back((value & (ONE << 4)) > 0);
@@ -250,7 +253,7 @@ template<typename S> struct bits<S, true, 6> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, false, 6> {
+template<typename S> struct bits<S, BIT_BIG_ENDIAN, 6> {
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 0)) > 0);
         s.push_back((value & (ONE << 1)) > 0);
@@ -280,7 +283,7 @@ template<typename S> struct bits<S, false, 6> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, true, 7> {
+template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 7> {
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 6)) > 0);
         s.push_back((value & (ONE << 5)) > 0);
@@ -313,7 +316,7 @@ template<typename S> struct bits<S, true, 7> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, false, 7> {
+template<typename S> struct bits<S, BIT_BIG_ENDIAN, 7> {
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 0)) > 0);
         s.push_back((value & (ONE << 1)) > 0);
@@ -346,7 +349,7 @@ template<typename S> struct bits<S, false, 7> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, true, 8> {
+template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 8> {
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 7)) > 0);
         s.push_back((value & (ONE << 6)) > 0);
@@ -382,7 +385,7 @@ template<typename S> struct bits<S, true, 8> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, false, 8> {
+template<typename S> struct bits<S, BIT_BIG_ENDIAN, 8> {
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 0)) > 0);
         s.push_back((value & (ONE << 1)) > 0);

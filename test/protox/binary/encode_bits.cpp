@@ -12,6 +12,7 @@
 
 #include <protox/binary/bits.hpp>
 #include <protox/binary/util.hpp>
+#include <protox/binary/endian.hpp>
 
 /******************************************************************************************************************************************/
 
@@ -19,17 +20,17 @@ namespace test_binary_encode_bits {
 
 /******************************************************************************************************************************************/
 
-template<const unsigned int NUM_BITS, bool LE> struct bit_value {
+template<const unsigned int NUM_BITS, protox::binary::BitEndian VE> struct bit_value {
 	static void test() {
 		const unsigned short MAX_VALUE = std::pow(2, NUM_BITS) - 1;
 
 		for (unsigned short value = 0; value <= MAX_VALUE; ++value) {
 			boost::dynamic_bitset<> result;
-			protox::binary::bits<boost::dynamic_bitset<>, LE, NUM_BITS>::encode(result, (const unsigned char) value);
+			protox::binary::bits<boost::dynamic_bitset<>, VE, NUM_BITS>::encode(result, (const unsigned char) value);
 
 			BOOST_CHECK_EQUAL(NUM_BITS, result.size());
 
-			if (LE) {
+			if (VE == protox::binary::BIT_LITTLE_ENDIAN) {
 				BOOST_CHECK_EQUAL(
 						protox::binary::util::reverse(NUM_BITS, value).to_ulong(),
 						result.to_ulong());
@@ -41,67 +42,67 @@ template<const unsigned int NUM_BITS, bool LE> struct bit_value {
 };
 
 BOOST_AUTO_TEST_CASE(test_encode_1_bit_values_little_endian) {
-	bit_value<1, true>::test();
+	bit_value<1, protox::binary::BIT_LITTLE_ENDIAN>::test();
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_2_bit_values_little_endian) {
-	bit_value<2, true>::test();
+	bit_value<2, protox::binary::BIT_LITTLE_ENDIAN>::test();
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_3_bit_values_little_endian) {
-	bit_value<3, true>::test();
+	bit_value<3, protox::binary::BIT_LITTLE_ENDIAN>::test();
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_4_bit_values_little_endian) {
-	bit_value<4, true>::test();
+	bit_value<4, protox::binary::BIT_LITTLE_ENDIAN>::test();
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_5_bit_values_little_endian) {
-	bit_value<5, true>::test();
+	bit_value<5, protox::binary::BIT_LITTLE_ENDIAN>::test();
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_6_bit_values_little_endian) {
-	bit_value<6, true>::test();
+	bit_value<6, protox::binary::BIT_LITTLE_ENDIAN>::test();
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_7_bit_values_little_endian) {
-	bit_value<7, true>::test();
+	bit_value<7, protox::binary::BIT_LITTLE_ENDIAN>::test();
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_8_bit_values_little_endian) {
-	bit_value<8, true>::test();
+	bit_value<8, protox::binary::BIT_LITTLE_ENDIAN>::test();
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_1_bit_values_big_endian) {
-	bit_value<1, false>::test();
+	bit_value<1, protox::binary::BIT_BIG_ENDIAN>::test();
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_2_bit_values_big_endian) {
-	bit_value<2, false>::test();
+	bit_value<2, protox::binary::BIT_BIG_ENDIAN>::test();
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_3_bit_values_big_endian) {
-	bit_value<3, false>::test();
+	bit_value<3, protox::binary::BIT_BIG_ENDIAN>::test();
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_4_bit_values_big_endian) {
-	bit_value<4, false>::test();
+	bit_value<4, protox::binary::BIT_BIG_ENDIAN>::test();
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_5_bit_values_big_endian) {
-	bit_value<5, false>::test();
+	bit_value<5, protox::binary::BIT_BIG_ENDIAN>::test();
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_6_bit_values_big_endian) {
-	bit_value<6, false>::test();
+	bit_value<6, protox::binary::BIT_BIG_ENDIAN>::test();
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_7_bit_values_big_endian) {
-	bit_value<7, false>::test();
+	bit_value<7, protox::binary::BIT_BIG_ENDIAN>::test();
 }
 
 BOOST_AUTO_TEST_CASE(test_encode_8_bit_values_big_endian) {
-	bit_value<8, false>::test();
+	bit_value<8, protox::binary::BIT_BIG_ENDIAN>::test();
 }
 
 /******************************************************************************************************************************************/
