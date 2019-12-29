@@ -118,49 +118,81 @@ template<unsigned SIZE_IN_BITS> struct bytes<SIZE_IN_BITS, 2, BYTE_BIG_ENDIAN, B
 
 // 16-24 bits.
 
-//template<typename S, unsigned SIZE_IN_BITS> struct encode_bytes<S, SIZE_IN_BITS, 3, true, true> {
-//    static inline void pack(S &s, unsigned char const *value) {
-//        BOOST_STATIC_ASSERT((SIZE_IN_BITS > 16));
-//        BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 24));
-//
-//        encode_bits<S, true>::pack(s, value[2], SIZE_IN_BITS - 16);
-//        encode_bits<S, true>::pack(s, value[1], 8);
-//        encode_bits<S, true>::pack(s, value[0], 8);
-//    }
-//};
+template<unsigned SIZE_IN_BITS> struct bytes<SIZE_IN_BITS, 3, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN> {
+    BOOST_STATIC_ASSERT((SIZE_IN_BITS > 16));
+    BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 24));
 
-//template<typename S, unsigned SIZE_IN_BITS> struct encode_bytes<S, SIZE_IN_BITS, 3, true, false> {
-//    static inline void pack(S &s, unsigned char const *value) {
-//        BOOST_STATIC_ASSERT((SIZE_IN_BITS > 16));
-//        BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 24));
-//
-//        encode_bits<S, false>::pack(s, value[0], 8);
-//        encode_bits<S, false>::pack(s, value[1], 8);
-//        encode_bits<S, false>::pack(s, value[2], SIZE_IN_BITS - 16);
-//    }
-//};
+    template<typename S>
+    static inline void encode(S &s, unsigned char const *value) {
+        bits<BIT_LITTLE_ENDIAN, SIZE_IN_BITS - 16>::encode(s, value[2]);
+        bits<BIT_LITTLE_ENDIAN,                 8>::encode(s, value[1]);
+        bits<BIT_LITTLE_ENDIAN,                 8>::encode(s, value[0]);
+    }
 
-//template<typename S, unsigned SIZE_IN_BITS> struct encode_bytes<S, SIZE_IN_BITS, 3, false, true> {
-//    static inline void pack(S &s, unsigned char const *value) {
-//        BOOST_STATIC_ASSERT((SIZE_IN_BITS > 16));
-//        BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 24));
-//
-//        encode_bits<S, true>::pack(s, value[0], SIZE_IN_BITS - 16);
-//        encode_bits<S, true>::pack(s, value[1], 8);
-//        encode_bits<S, true>::pack(s, value[2], 8);
-//    }
-//};
+    template<typename S>
+    static inline void decode(const S &s, unsigned char *value, std::size_t &offset) {
+        bits<BIT_LITTLE_ENDIAN,                 8>::decode(s, value[0], offset);
+        bits<BIT_LITTLE_ENDIAN,                 8>::decode(s, value[1], offset);
+        bits<BIT_LITTLE_ENDIAN, SIZE_IN_BITS - 16>::decode(s, value[2], offset);
+    }
+};
 
-//template<typename S, unsigned SIZE_IN_BITS> struct encode_bytes<S, SIZE_IN_BITS, 3, false, false> {
-//    static inline void pack(S &s, unsigned char const *value) {
-//        BOOST_STATIC_ASSERT((SIZE_IN_BITS > 16));
-//        BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 24));
-//
-//        encode_bits<S, false>::pack(s, value[2], 8);
-//        encode_bits<S, false>::pack(s, value[1], 8);
-//        encode_bits<S, false>::pack(s, value[0], SIZE_IN_BITS - 16);
-//    }
-//};
+template<unsigned SIZE_IN_BITS> struct bytes<SIZE_IN_BITS, 3, BYTE_LITTLE_ENDIAN, BIT_BIG_ENDIAN> {
+    BOOST_STATIC_ASSERT((SIZE_IN_BITS > 16));
+    BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 24));
+
+    template<typename S>
+    static inline void encode(S &s, unsigned char const *value) {
+        bits<BIT_BIG_ENDIAN,                 8>::encode(s, value[0]);
+        bits<BIT_BIG_ENDIAN,                 8>::encode(s, value[1]);
+        bits<BIT_BIG_ENDIAN, SIZE_IN_BITS - 16>::encode(s, value[2]);
+    }
+
+    template<typename S>
+    static inline void decode(const S &s, unsigned char *value, std::size_t &offset) {
+        bits<BIT_BIG_ENDIAN, SIZE_IN_BITS - 16>::decode(s, value[2], offset);
+        bits<BIT_BIG_ENDIAN,                 8>::decode(s, value[1], offset);
+        bits<BIT_BIG_ENDIAN,                 8>::decode(s, value[0], offset);
+    }
+};
+
+template<unsigned SIZE_IN_BITS> struct bytes<SIZE_IN_BITS, 3, BYTE_BIG_ENDIAN, BIT_LITTLE_ENDIAN> {
+    BOOST_STATIC_ASSERT((SIZE_IN_BITS > 16));
+    BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 24));
+
+    template<typename S>
+    static inline void encode(S &s, unsigned char const *value) {
+        bits<BIT_LITTLE_ENDIAN, SIZE_IN_BITS - 16>::encode(s, value[0]);
+        bits<BIT_LITTLE_ENDIAN,                 8>::encode(s, value[1]);
+        bits<BIT_LITTLE_ENDIAN,                 8>::encode(s, value[2]);
+    }
+
+    template<typename S>
+    static inline void decode(const S &s, unsigned char *value, std::size_t &offset) {
+        bits<BIT_LITTLE_ENDIAN,                 8>::decode(s, value[2], offset);
+        bits<BIT_LITTLE_ENDIAN,                 8>::decode(s, value[1], offset);
+        bits<BIT_LITTLE_ENDIAN, SIZE_IN_BITS - 16>::decode(s, value[0], offset);
+    }
+};
+
+template<unsigned SIZE_IN_BITS> struct bytes<SIZE_IN_BITS, 3, BYTE_BIG_ENDIAN, BIT_BIG_ENDIAN> {
+    BOOST_STATIC_ASSERT((SIZE_IN_BITS > 16));
+    BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 24));
+
+    template<typename S>
+    static inline void encode(S &s, unsigned char const *value) {
+        bits<BIT_BIG_ENDIAN,                 8>::encode(s, value[2]);
+        bits<BIT_BIG_ENDIAN,                 8>::encode(s, value[1]);
+        bits<BIT_BIG_ENDIAN, SIZE_IN_BITS - 16>::encode(s, value[0]);
+    }
+
+    template<typename S>
+    static inline void decode(const S &s, unsigned char *value, std::size_t &offset) {
+        bits<BIT_BIG_ENDIAN, SIZE_IN_BITS - 16>::decode(s, value[0], offset);
+        bits<BIT_BIG_ENDIAN,                 8>::decode(s, value[1], offset);
+        bits<BIT_BIG_ENDIAN,                 8>::decode(s, value[2], offset);
+    }
+};
 
 /******************************************************************************************************************************************/
 
