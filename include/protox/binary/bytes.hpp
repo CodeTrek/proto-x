@@ -18,8 +18,7 @@ namespace binary {
 
 /******************************************************************************************************************************************/
 
-template<typename S,                  // The destination (bit-addressable) buffer.
-        unsigned SIZE_IN_BITS,        // Size of value to be encoded in bits.
+template<unsigned SIZE_IN_BITS,       // Size of value to be encoded in bits.
         std::size_t SIZE_IN_BYTES,    // Size of value to be encoded in bytes.
         protox::binary::ByteEndian E, // Byte endieness
         protox::binary::BitEndian BE  // Bit endianess.
@@ -30,79 +29,89 @@ template<typename S,                  // The destination (bit-addressable) buffe
 
 // 0-8 bits.
 
-template<typename S, unsigned SIZE_IN_BITS, ByteEndian E, BitEndian BE>
-struct bytes<S, SIZE_IN_BITS, 1, E, BE> {
+template<unsigned SIZE_IN_BITS, ByteEndian E, BitEndian BE>
+struct bytes<SIZE_IN_BITS, 1, E, BE> {
     BOOST_STATIC_ASSERT((SIZE_IN_BITS > 0));
     BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 8));
 
+    template<typename S>
     static inline void encode(S &s, unsigned char const *value) {
-        bits<S, BE, SIZE_IN_BITS>::encode(s, value[0]);
+        bits<BE, SIZE_IN_BITS>::encode(s, value[0]);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char *value, std::size_t &offset) {
-        bits<S, BE, SIZE_IN_BITS>::decode(s, value[0], offset);
+        bits<BE, SIZE_IN_BITS>::decode(s, value[0], offset);
     }
 };
 
 // 8-16 bits.
 
-template<typename S, unsigned SIZE_IN_BITS> struct bytes<S, SIZE_IN_BITS, 2, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN> {
+template<unsigned SIZE_IN_BITS> struct bytes<SIZE_IN_BITS, 2, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN> {
     BOOST_STATIC_ASSERT((SIZE_IN_BITS > 8));
     BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 16));
 
+    template<typename S>
     static inline void encode(S &s, unsigned char const *value) {
-        bits<S, BIT_LITTLE_ENDIAN, SIZE_IN_BITS - 8>::encode(s, value[1]);
-        bits<S, BIT_LITTLE_ENDIAN,                8>::encode(s, value[0]);
+        bits<BIT_LITTLE_ENDIAN, SIZE_IN_BITS - 8>::encode(s, value[1]);
+        bits<BIT_LITTLE_ENDIAN,                8>::encode(s, value[0]);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char *value, std::size_t &offset) {
-        bits<S, BIT_LITTLE_ENDIAN,                8>::decode(s, value[0], offset);
-        bits<S, BIT_LITTLE_ENDIAN, SIZE_IN_BITS - 8>::decode(s, value[1], offset);
+        bits<BIT_LITTLE_ENDIAN,                8>::decode(s, value[0], offset);
+        bits<BIT_LITTLE_ENDIAN, SIZE_IN_BITS - 8>::decode(s, value[1], offset);
     }
 };
 
-template<typename S, unsigned SIZE_IN_BITS> struct bytes<S, SIZE_IN_BITS, 2, BYTE_LITTLE_ENDIAN, BIT_BIG_ENDIAN> {
+template<unsigned SIZE_IN_BITS> struct bytes<SIZE_IN_BITS, 2, BYTE_LITTLE_ENDIAN, BIT_BIG_ENDIAN> {
     BOOST_STATIC_ASSERT((SIZE_IN_BITS > 8));
     BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 16));
 
+    template<typename S>
     static inline void encode(S &s, unsigned char const *value) {
-        bits<S, BIT_BIG_ENDIAN,                8>::encode(s, value[0]);
-        bits<S, BIT_BIG_ENDIAN, SIZE_IN_BITS - 8>::encode(s, value[1]);
+        bits<BIT_BIG_ENDIAN,                8>::encode(s, value[0]);
+        bits<BIT_BIG_ENDIAN, SIZE_IN_BITS - 8>::encode(s, value[1]);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char *value, std::size_t &offset) {
-        bits<S, BIT_BIG_ENDIAN, SIZE_IN_BITS - 8>::decode(s, value[1], offset);
-        bits<S, BIT_BIG_ENDIAN,                8>::decode(s, value[0], offset);
+        bits<BIT_BIG_ENDIAN, SIZE_IN_BITS - 8>::decode(s, value[1], offset);
+        bits<BIT_BIG_ENDIAN,                8>::decode(s, value[0], offset);
     }
 };
 
-template<typename S, unsigned SIZE_IN_BITS> struct bytes<S, SIZE_IN_BITS, 2, BYTE_BIG_ENDIAN, BIT_LITTLE_ENDIAN> {
+template<unsigned SIZE_IN_BITS> struct bytes<SIZE_IN_BITS, 2, BYTE_BIG_ENDIAN, BIT_LITTLE_ENDIAN> {
     BOOST_STATIC_ASSERT((SIZE_IN_BITS > 8));
     BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 16));
 
+    template<typename S>
     static inline void encode(S &s, unsigned char const *value) {
-        bits<S, BIT_LITTLE_ENDIAN, SIZE_IN_BITS - 8>::encode(s, value[0]);
-        bits<S, BIT_LITTLE_ENDIAN,                8>::encode(s, value[1]);
+        bits<BIT_LITTLE_ENDIAN, SIZE_IN_BITS - 8>::encode(s, value[0]);
+        bits<BIT_LITTLE_ENDIAN,                8>::encode(s, value[1]);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char *value, std::size_t &offset) {
-        bits<S, BIT_LITTLE_ENDIAN,                8>::decode(s, value[1], offset);
-        bits<S, BIT_LITTLE_ENDIAN, SIZE_IN_BITS - 8>::decode(s, value[0], offset);
+        bits<BIT_LITTLE_ENDIAN,                8>::decode(s, value[1], offset);
+        bits<BIT_LITTLE_ENDIAN, SIZE_IN_BITS - 8>::decode(s, value[0], offset);
     }
 };
 
-template<typename S, unsigned SIZE_IN_BITS> struct bytes<S, SIZE_IN_BITS, 2, BYTE_BIG_ENDIAN, BIT_BIG_ENDIAN> {
+template<unsigned SIZE_IN_BITS> struct bytes<SIZE_IN_BITS, 2, BYTE_BIG_ENDIAN, BIT_BIG_ENDIAN> {
     BOOST_STATIC_ASSERT((SIZE_IN_BITS > 8));
     BOOST_STATIC_ASSERT((SIZE_IN_BITS <= 16));
 
+    template<typename S>
     static inline void encode(S &s, unsigned char const *value) {
-        bits<S, BIT_BIG_ENDIAN,                8>::encode(s, value[1]);
-        bits<S, BIT_BIG_ENDIAN, SIZE_IN_BITS - 8>::encode(s, value[0]);
+        bits<BIT_BIG_ENDIAN,                8>::encode(s, value[1]);
+        bits<BIT_BIG_ENDIAN, SIZE_IN_BITS - 8>::encode(s, value[0]);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char *value, std::size_t &offset) {
-        bits<S, BIT_BIG_ENDIAN, SIZE_IN_BITS - 8>::decode(s, value[0], offset);
-        bits<S, BIT_BIG_ENDIAN,                8>::decode(s, value[1], offset);
+        bits<BIT_BIG_ENDIAN, SIZE_IN_BITS - 8>::decode(s, value[0], offset);
+        bits<BIT_BIG_ENDIAN,                8>::decode(s, value[1], offset);
     }
 
 };

@@ -21,18 +21,19 @@ constexpr unsigned char ONE = 0b00000001;
 
 /******************************************************************************************************************************************/
 
-template<typename S,              // The destination (bit-addressable) buffer.
-    protox::binary::BitEndian BE, // Bit endianess.
-    const unsigned char NUM_BITS> // Value size in bits.
+template<protox::binary::BitEndian BE, // Bit endianess.
+         const unsigned char NUM_BITS> // Value size in bits.
 struct bits;
 
 /******************************************************************************************************************************************/
 
-template<typename S, protox::binary::BitEndian BE> struct bits<S, BE, 1> {
+template<protox::binary::BitEndian BE> struct bits<BE, 1> {
+    template<typename S>
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & ONE) > 0);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 
@@ -43,12 +44,14 @@ template<typename S, protox::binary::BitEndian BE> struct bits<S, BE, 1> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 2> {
+template<> struct bits<BIT_LITTLE_ENDIAN, 2> {
+    template<typename S>
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 1)) > 0);
         s.push_back((value & (ONE << 0)) > 0);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 
@@ -61,12 +64,14 @@ template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 2> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, BIT_BIG_ENDIAN, 2> {
+template<> struct bits<BIT_BIG_ENDIAN, 2> {
+    template<typename S>
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 0)) > 0);
         s.push_back((value & (ONE << 1)) > 0);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 
@@ -79,13 +84,15 @@ template<typename S> struct bits<S, BIT_BIG_ENDIAN, 2> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 3> {
+template<> struct bits<BIT_LITTLE_ENDIAN, 3> {
+    template<typename S>
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 2)) > 0);
         s.push_back((value & (ONE << 1)) > 0);
         s.push_back((value & (ONE << 0)) > 0);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 
@@ -100,13 +107,15 @@ template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 3> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, BIT_BIG_ENDIAN, 3> {
+template<> struct bits<BIT_BIG_ENDIAN, 3> {
+    template<typename S>
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 0)) > 0);
         s.push_back((value & (ONE << 1)) > 0);
         s.push_back((value & (ONE << 2)) > 0);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 
@@ -121,7 +130,8 @@ template<typename S> struct bits<S, BIT_BIG_ENDIAN, 3> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 4> {
+template<> struct bits<BIT_LITTLE_ENDIAN, 4> {
+    template<typename S>
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 3)) > 0);
         s.push_back((value & (ONE << 2)) > 0);
@@ -129,6 +139,7 @@ template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 4> {
         s.push_back((value & (ONE << 0)) > 0);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 
@@ -145,7 +156,8 @@ template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 4> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, BIT_BIG_ENDIAN, 4> {
+template<> struct bits<BIT_BIG_ENDIAN, 4> {
+    template<typename S>
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 0)) > 0);
         s.push_back((value & (ONE << 1)) > 0);
@@ -153,6 +165,7 @@ template<typename S> struct bits<S, BIT_BIG_ENDIAN, 4> {
         s.push_back((value & (ONE << 3)) > 0);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 
@@ -169,7 +182,8 @@ template<typename S> struct bits<S, BIT_BIG_ENDIAN, 4> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 5> {
+template<> struct bits<BIT_LITTLE_ENDIAN, 5> {
+    template<typename S>
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 4)) > 0);
         s.push_back((value & (ONE << 3)) > 0);
@@ -178,6 +192,7 @@ template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 5> {
         s.push_back((value & (ONE << 0)) > 0);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 
@@ -196,7 +211,8 @@ template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 5> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, BIT_BIG_ENDIAN, 5> {
+template<> struct bits<BIT_BIG_ENDIAN, 5> {
+    template<typename S>
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 0)) > 0);
         s.push_back((value & (ONE << 1)) > 0);
@@ -205,6 +221,7 @@ template<typename S> struct bits<S, BIT_BIG_ENDIAN, 5> {
         s.push_back((value & (ONE << 4)) > 0);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 
@@ -223,7 +240,8 @@ template<typename S> struct bits<S, BIT_BIG_ENDIAN, 5> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 6> {
+template<> struct bits<BIT_LITTLE_ENDIAN, 6> {
+    template<typename S>
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 5)) > 0);
         s.push_back((value & (ONE << 4)) > 0);
@@ -233,6 +251,7 @@ template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 6> {
         s.push_back((value & (ONE << 0)) > 0);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 
@@ -253,7 +272,8 @@ template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 6> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, BIT_BIG_ENDIAN, 6> {
+template<> struct bits<BIT_BIG_ENDIAN, 6> {
+    template<typename S>
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 0)) > 0);
         s.push_back((value & (ONE << 1)) > 0);
@@ -263,6 +283,7 @@ template<typename S> struct bits<S, BIT_BIG_ENDIAN, 6> {
         s.push_back((value & (ONE << 5)) > 0);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 
@@ -283,7 +304,8 @@ template<typename S> struct bits<S, BIT_BIG_ENDIAN, 6> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 7> {
+template<> struct bits<BIT_LITTLE_ENDIAN, 7> {
+    template<typename S>
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 6)) > 0);
         s.push_back((value & (ONE << 5)) > 0);
@@ -294,6 +316,7 @@ template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 7> {
         s.push_back((value & (ONE << 0)) > 0);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 
@@ -316,7 +339,8 @@ template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 7> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, BIT_BIG_ENDIAN, 7> {
+template<> struct bits<BIT_BIG_ENDIAN, 7> {
+    template<typename S>
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 0)) > 0);
         s.push_back((value & (ONE << 1)) > 0);
@@ -327,6 +351,7 @@ template<typename S> struct bits<S, BIT_BIG_ENDIAN, 7> {
         s.push_back((value & (ONE << 6)) > 0);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 
@@ -349,7 +374,8 @@ template<typename S> struct bits<S, BIT_BIG_ENDIAN, 7> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 8> {
+template<> struct bits<BIT_LITTLE_ENDIAN, 8> {
+    template<typename S>
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 7)) > 0);
         s.push_back((value & (ONE << 6)) > 0);
@@ -361,6 +387,7 @@ template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 8> {
         s.push_back((value & (ONE << 0)) > 0);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 
@@ -385,7 +412,8 @@ template<typename S> struct bits<S, BIT_LITTLE_ENDIAN, 8> {
 
 /******************************************************************************************************************************************/
 
-template<typename S> struct bits<S, BIT_BIG_ENDIAN, 8> {
+template<> struct bits<BIT_BIG_ENDIAN, 8> {
+    template<typename S>
     static inline void encode(S &s, const unsigned char value) {
         s.push_back((value & (ONE << 0)) > 0);
         s.push_back((value & (ONE << 1)) > 0);
@@ -397,6 +425,7 @@ template<typename S> struct bits<S, BIT_BIG_ENDIAN, 8> {
         s.push_back((value & (ONE << 7)) > 0);
     }
 
+    template<typename S>
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 

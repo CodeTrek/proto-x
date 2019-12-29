@@ -28,7 +28,7 @@ BOOST_AUTO_TEST_CASE(test_decode_1_bit_value_of_1) {
     std::size_t offset = 0;
 
     // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 1, 1, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, &value, offset);
+    protox::binary::bytes<1, 1, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, &value, offset);
 
     // Assert.
     BOOST_CHECK_EQUAL(1, offset);
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(test_decode_1_bit_value_of_0) {
     std::size_t offset = 0;
 
     // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 1, 1, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, &value, offset);
+    protox::binary::bytes<1, 1, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, &value, offset);
 
     // Assert.
     BOOST_CHECK_EQUAL(1, offset);
@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE(test_decode_3_bit_value_from_little_endian_bitset) {
     std::size_t offset = 0;
 
     // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 3, 1, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, &value, offset);
+    protox::binary::bytes<3, 1, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, &value, offset);
 
     // Assert.
     BOOST_CHECK_EQUAL(3, offset);
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE(test_decode_3_bit_value_from_big_endian_bitset) {
     std::size_t offset = 0;
 
     // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 3, 1, BYTE_LITTLE_ENDIAN, BIT_BIG_ENDIAN>::decode(bit_sink, &value, offset);
+    protox::binary::bytes<3, 1, BYTE_LITTLE_ENDIAN, BIT_BIG_ENDIAN>::decode(bit_sink, &value, offset);
 
     // Assert.
     BOOST_CHECK_EQUAL(3, offset);
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_CASE(test_decode_8_bit_value_from_little_endian_bitset) {
     std::size_t offset = 0;
 
     // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 8, 1, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, &value, offset);
+    protox::binary::bytes<8, 1, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, &value, offset);
 
     // Assert.
     BOOST_CHECK_EQUAL(8, offset);
@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_CASE(test_decode_8_bit_value_from_big_endian_bitset) {
     std::size_t offset = 0;
 
     // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 8, 1, BYTE_LITTLE_ENDIAN, BIT_BIG_ENDIAN>::decode(bit_sink, &value, offset);
+    protox::binary::bytes<8, 1, BYTE_LITTLE_ENDIAN, BIT_BIG_ENDIAN>::decode(bit_sink, &value, offset);
 
     // Assert.
     BOOST_CHECK_EQUAL(8, offset);
@@ -157,7 +157,7 @@ BOOST_AUTO_TEST_CASE(test_decode_16_bit_little_endian_value_from_little_endian_b
     std::size_t offset = 0;
 
     // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 16, 2, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, value, offset);
+    protox::binary::bytes<16, 2, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, value, offset);
 
     // Assert.
     BOOST_CHECK_EQUAL(16, offset);
@@ -191,7 +191,7 @@ BOOST_AUTO_TEST_CASE(test_decode_13_bit_little_endian_value_from_little_endian_b
     std::size_t offset = 0;
 
     // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 13, 2, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, value, offset);
+    protox::binary::bytes<13, 2, BYTE_LITTLE_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, value, offset);
 
     // Assert.
     BOOST_CHECK_EQUAL(13, offset);
@@ -225,7 +225,7 @@ BOOST_AUTO_TEST_CASE(test_decode_13_bit_little_endian_value_from_big_endian_bits
     std::size_t offset = 0;
 
     // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 13, 2, BYTE_LITTLE_ENDIAN, BIT_BIG_ENDIAN>::decode(bit_sink, value, offset);
+    protox::binary::bytes<13, 2, BYTE_LITTLE_ENDIAN, BIT_BIG_ENDIAN>::decode(bit_sink, value, offset);
 
     // Assert.
     BOOST_CHECK_EQUAL(13, offset);
@@ -259,7 +259,7 @@ BOOST_AUTO_TEST_CASE(test_decode_13_bit_big_endian_value_from_little_endian_bits
     std::size_t offset = 0;
 
     // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 13, 2, BYTE_BIG_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, value, offset);
+    protox::binary::bytes<13, 2, BYTE_BIG_ENDIAN, BIT_LITTLE_ENDIAN>::decode(bit_sink, value, offset);
 
     // Assert.
     BOOST_CHECK_EQUAL(13, offset);
@@ -293,7 +293,7 @@ BOOST_AUTO_TEST_CASE(test_decode_13_bit_big_endian_value_from_big_endian_bitset)
     std::size_t offset = 0;
 
     // Act.
-    protox::binary::bytes<boost::dynamic_bitset<>, 13, 2, BYTE_BIG_ENDIAN, BIT_BIG_ENDIAN>::decode(bit_sink, value, offset);
+    protox::binary::bytes<13, 2, BYTE_BIG_ENDIAN, BIT_BIG_ENDIAN>::decode(bit_sink, value, offset);
 
     // Assert.
     BOOST_CHECK_EQUAL(13, offset);

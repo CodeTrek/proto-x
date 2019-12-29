@@ -26,7 +26,7 @@ template<const unsigned int NUM_BITS, protox::binary::BitEndian VE> struct bit_v
 
 		for (unsigned short value = 0; value <= MAX_VALUE; ++value) {
 			boost::dynamic_bitset<> result;
-			protox::binary::bits<boost::dynamic_bitset<>, VE, NUM_BITS>::encode(result, (const unsigned char) value);
+			protox::binary::bits<VE, NUM_BITS>::encode(result, (const unsigned char) value);
 
 			BOOST_CHECK_EQUAL(NUM_BITS, result.size());
 
