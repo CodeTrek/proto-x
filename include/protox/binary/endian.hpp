@@ -17,7 +17,7 @@ namespace binary {
 
 /******************************************************************************************************************************************/
 
-enum ByteEndian {BYTE_BIG_ENDIAN = PROTOX_DTL_LITTLE_ENDIAN, BYTE_LITTLE_ENDIAN = PROTOX_DTL_BIG_ENDIAN};
+enum ByteEndian {BYTE_BIG_ENDIAN = PROTOX_DTL_BIG_ENDIAN, BYTE_LITTLE_ENDIAN = PROTOX_DTL_LITTLE_ENDIAN};
 enum BitEndian {BIT_LITTLE_ENDIAN = 11, BIT_BIG_ENDIAN = 17};
 
 /******************************************************************************************************************************************/
