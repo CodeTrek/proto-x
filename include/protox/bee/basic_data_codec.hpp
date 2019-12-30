@@ -21,8 +21,12 @@
 #include <protox/dtl/compute_octet_boundary.hpp>
 
 #include <protox/bee/codec_tags.hpp>
-#include <protox/bee/basic_data_encoders.hpp>
-#include <protox/bee/basic_data_decoders.hpp>
+
+// #include <protox/bee/basic_data_encoders.hpp>
+// #include <protox/bee/basic_data_decoders.hpp>
+
+#include <protox/binary/bytes.hpp>
+#include <protox/binary/endian.hpp>
 
 /******************************************************************************************************************************************/
 
@@ -54,21 +58,31 @@ struct bee_basic_codec_impl {
     template<typename S, typename T>
     inline static void encode(S &s, const T &obj) {
         BOOST_STATIC_ASSERT((boost::mpl::sizeof_<unsigned char>::value == 1));
+        const protox::binary::BitEndian bitEndian = (T::endianess::value == PROTOX_DTL_LITTLE_ENDIAN ? protox::binary::BIT_LITTLE_ENDIAN : protox::binary::BIT_BIG_ENDIAN);
 
         const unsigned char *bytes = (unsigned char const*) (&obj.value);
 
-        protox::bee::encode_basic<S, T::size_in_bits, codec::static_size_in_bytes<T>::value,
-                (T::endianess::value != PROTOX_DTL_PLATFORM_ENDIANESS)>::pack(s, bytes);
+        protox::binary::bytes<
+            T::size_in_bits,
+            codec::static_size_in_bytes<T>::value,
+            (protox::binary::ByteEndian) PROTOX_DTL_PLATFORM_ENDIANESS,
+            bitEndian
+        >::encode(s, bytes);
     }
 
     template<typename S, typename T>
     inline static void decode(T &v, const S &s, std::size_t &offset) {
         BOOST_STATIC_ASSERT((boost::mpl::sizeof_<unsigned char>::value == 1));
+        const protox::binary::BitEndian bitEndian = (T::endianess::value == PROTOX_DTL_LITTLE_ENDIAN ? protox::binary::BIT_LITTLE_ENDIAN : protox::binary::BIT_BIG_ENDIAN);
 
         unsigned char *bytes = (unsigned char*) (&v.value);
 
-        protox::bee::decode_basic<S, T::size_in_bits, codec::static_size_in_bytes<T>::value,
-                (T::endianess::value != PROTOX_DTL_PLATFORM_ENDIANESS)>::unpack(bytes, s, offset);
+        protox::binary::bytes<
+            T::size_in_bits,
+            codec::static_size_in_bytes<T>::value,
+            (protox::binary::ByteEndian) PROTOX_DTL_PLATFORM_ENDIANESS,
+            bitEndian
+        >::decode(s, bytes, offset);
     }
 };
 

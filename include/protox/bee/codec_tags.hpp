@@ -19,7 +19,7 @@ namespace bee {
 
 struct boolean {}; // 1 bit logical value (0 = false, 1 = true)
 
-struct number {};  // multi-bit 2s-complement integer value read left to right (higher bit # to
+struct number {};  // multi-bit integer value read left to right (higher bit # to
                    // lower bit #), with the most significant bit on the left.
 
 struct record {};  // A vector of boolean or number data elements.
