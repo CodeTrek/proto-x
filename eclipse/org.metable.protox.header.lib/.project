@@ -75,6 +75,16 @@
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/bee/codec_tags.hpp</locationURI>
 		</link>
 		<link>
+			<name>include/protox/bee/record_type.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/bee/record_type.hpp</locationURI>
+		</link>
+		<link>
+			<name>include/protox/bee/record_type_codec.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/bee/record_type_codec.hpp</locationURI>
+		</link>
+		<link>
 			<name>include/protox/binary/bits.hpp</name>
 			<type>1</type>
 			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/include/protox/binary/bits.hpp</locationURI>

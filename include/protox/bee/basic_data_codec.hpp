@@ -22,9 +22,6 @@
 
 #include <protox/bee/codec_tags.hpp>
 
-// #include <protox/bee/basic_data_encoders.hpp>
-// #include <protox/bee/basic_data_decoders.hpp>
-
 #include <protox/binary/bytes.hpp>
 #include <protox/binary/endian.hpp>
 
