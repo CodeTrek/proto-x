@@ -34,7 +34,7 @@
 		<link>
 			<name>src/protox_test_main.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox_test_main.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox_test_main.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/bee</name>
@@ -59,122 +59,128 @@
 		<link>
 			<name>src/protox/bee/policy_basic_data.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/bee/policy_basic_data.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/bee/policy_basic_data.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/bee/policy_record.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/bee/policy_record.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/bee/policy_record.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/binary/decode_bits.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/binary/decode_bits.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/binary/decode_bits.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/binary/decode_bytes.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/binary/decode_bytes.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/binary/decode_bytes.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/binary/encode_bits.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/binary/encode_bits.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/binary/encode_bits.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/binary/encode_bytes.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/binary/encode_bytes.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/binary/encode_bytes.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/dtl/test_basic_data_type_generator.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_basic_data_type_generator.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/dtl/test_basic_data_type_generator.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/dtl/test_compute_octet_boundary.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_compute_octet_boundary.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/dtl/test_compute_octet_boundary.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/dtl/test_enumerated_type_generator.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_enumerated_type_generator.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/dtl/test_enumerated_type_generator.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/dtl/test_field_type_generator.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_field_type_generator.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/dtl/test_field_type_generator.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/dtl/test_fixed_array_type_generator.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_fixed_array_type_generator.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/dtl/test_fixed_array_type_generator.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/dtl/test_fixed_record_type_generator.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_fixed_record_type_generator.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/dtl/test_fixed_record_type_generator.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/dtl/test_simple_type_generator.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_simple_type_generator.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/dtl/test_simple_type_generator.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/dtl/test_variable_array_type_generator.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/dtl/test_variable_array_type_generator.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/dtl/test_variable_array_type_generator.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/hla_1516/color_enum.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/color_enum.hpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/hla_1516/color_enum.hpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/hla_1516/days_of_week_enum.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/days_of_week_enum.hpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/hla_1516/days_of_week_enum.hpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/hla_1516/suite_enum.hpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/suite_enum.hpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/hla_1516/suite_enum.hpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/hla_1516/test_policy_basic_data.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/test_policy_basic_data.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/hla_1516/test_policy_basic_data.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/hla_1516/test_policy_enumerated.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/test_policy_enumerated.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/hla_1516/test_policy_enumerated.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/hla_1516/test_policy_fixed_array.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/test_policy_fixed_array.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/hla_1516/test_policy_fixed_array.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/hla_1516/test_policy_fixed_record.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/test_policy_fixed_record.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/hla_1516/test_policy_fixed_record.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/hla_1516/test_policy_simple_data.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/test_policy_simple_data.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/hla_1516/test_policy_simple_data.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/hla_1516/test_policy_variable_array.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/test_policy_variable_array.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/hla_1516/test_policy_variable_array.cpp</locationURI>
 		</link>
 		<link>
 			<name>src/protox/hla_1516/test_policy_variant_record.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-ECLIPSE_HOME/git/proto-x/test/protox/hla_1516/test_policy_variant_record.cpp</locationURI>
+			<locationURI>PROTOX_LOC/test/protox/hla_1516/test_policy_variant_record.cpp</locationURI>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>PROTOX_LOC</name>
+			<value>file:/home/jgraham/git/proto-x</value>
+		</variable>
+	</variableList>
 </projectDescription>
