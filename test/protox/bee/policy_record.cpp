@@ -31,8 +31,6 @@ using namespace protox::dtl;
 using namespace protox::bee;
 
 /* @formatter:off */
-struct na {};
-
 
 struct Boolean     : basic<bool,            1, endian::big,    boolean> {PROTOX_BASIC(Boolean  )};
 struct UInt03bitBe : basic<unsigned char,   3, endian::big,    number > {PROTOX_BASIC(UInt03bitBe)};
@@ -55,18 +53,117 @@ namespace t01 {
     typedef protox::bee::record_type< mpl::vector < f01, f02, f03, f04 > > R;
 }
 
-/**********************************************************************************************************************/
+namespace t02 {
+    struct f01 : protox::dtl::field< Boolean > {};
+    struct f02 : protox::dtl::field< UInt03bitLe > {};
+    struct f03 : protox::dtl::field< UInt13bitLe > {};
+    struct f04 : protox::dtl::field< UInt19bitLe > {};
+
+    typedef protox::bee::record_type< mpl::vector < f01, f02, f03, f04 > > R;
+}
+
+/******************************************************************************************************************************************/
 
 BOOST_AUTO_TEST_CASE(test_record_field_assignment) {
+    // Arrange.
     t01::R r;
 
+    // Act.
     r.f_<t01::f01>() = true;
     r.f_<t01::f02>() = 0b110;
     r.f_<t01::f03>() = 0b1100111;
 
+    boost::dynamic_bitset<> bit_sink;
+
+    // Assert.
     BOOST_CHECK_EQUAL(true, r.f_<t01::f01>());
     BOOST_CHECK_EQUAL(0b110, r.f_<t01::f02>());
     BOOST_CHECK_EQUAL(0b1100111, r.f_<t01::f03>());
+}
+
+BOOST_AUTO_TEST_CASE(test_record_encode_big_endian_fields) {
+    // Arrange.
+    t01::R r;
+    boost::dynamic_bitset<> bit_sink;
+    r.f_<t01::f01>() = true;
+    r.f_<t01::f02>() = 0b110;
+    r.f_<t01::f03>() = 0b0000001100111;
+    r.f_<t01::f04>() = 0b1100000001100000000;
+
+    // Act.
+    protox::dtl::codec::encode(bit_sink, r);
+
+    // Assert.
+    BOOST_CHECK_EQUAL(36, bit_sink.size());
+    BOOST_CHECK_EQUAL(0b110000000110000000000000011001111101, bit_sink.to_ulong());
+    BOOST_CHECK_EQUAL(true, r.f_<t01::f01>());
+    BOOST_CHECK_EQUAL(0b110, r.f_<t01::f02>());
+    BOOST_CHECK_EQUAL(0b1100111, r.f_<t01::f03>());
+}
+
+BOOST_AUTO_TEST_CASE(test_record_decode_big_endian_fields) {
+    // Arrange.
+    t01::R r;
+    boost::dynamic_bitset<> bit_sink;
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+
+    bit_sink.push_back(1);
+    bit_sink.push_back(1);
+    bit_sink.push_back(1);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(1);
+    bit_sink.push_back(1);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+    bit_sink.push_back(0);
+
+    bit_sink.push_back(0);
+    bit_sink.push_back(1);
+    bit_sink.push_back(1);
+
+    bit_sink.push_back(1);
+
+    std::size_t offset = 0;
+
+    // Act.
+    protox::dtl::codec::decode(r, bit_sink, offset);
+
+    // Assert.
+    BOOST_CHECK_EQUAL(36, offset);
+
+    // unsigned value = r.f_<t01::f01>();
+
+    // BOOST_CHECK_EQUAL(true, r.f_<t01::f01>());
+
+    // value = r.f_<t01::f02>();
+    BOOST_CHECK_EQUAL(0b110, r.f_<t01::f02>());
+
+    // value = r.f_<t01::f03>();
+    BOOST_CHECK_EQUAL(0b1100111, r.f_<t01::f03>());
+
+    // BOOST_CHECK_EQUAL(0b0000001100111, value);
 }
 
 /******************************************************************************************************************************************/

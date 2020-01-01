@@ -32,6 +32,7 @@
 
 // Binary Encoded Exchange (BEE) codec policies
 #include <protox/bee/basic_data_codec.hpp>
+#include <protox/bee/record_type_codec.hpp>
 
 #if 0
 // XDR codec policies
