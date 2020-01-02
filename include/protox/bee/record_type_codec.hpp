@@ -160,10 +160,10 @@ struct impl_ {
 
     template<typename S, typename R>
     static void encode(S &s, R const &obj) {
-        Base::encode(s, obj);
-
         typename T::value_type const &value = obj.template f_<T>();
         dtl::codec::encode(s, value);
+
+        Base::encode(s, obj);
     }
 
     template<typename S, typename R>

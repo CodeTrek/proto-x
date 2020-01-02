@@ -37,7 +37,7 @@ template<protox::binary::BitEndian BE> struct bits<BE, 1> {
     static inline void decode(const S &s, unsigned char &value, std::size_t &offset) {
         value = 0;
 
-        value = value | ((s[offset + 0] ? 1 : 0) << 0);
+        value = value | ((s[((s.size() - 1) - offset)] ? 1 : 0) << 0);
         ++offset;
     }
 };
