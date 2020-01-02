@@ -91,9 +91,20 @@ BOOST_AUTO_TEST_CASE(test_record_field_assignment) {
     BOOST_CHECK_EQUAL(0b1100111, r.f_<t01::f03>());
 }
 
-BOOST_AUTO_TEST_CASE(test_record_size_in_bytes) {
+BOOST_AUTO_TEST_CASE(test_record_static_size_in_bytes) {
     // Act.
     const unsigned value = codec::static_size_in_bytes<t01::R>::value;
+
+    // Assert.
+    BOOST_CHECK_EQUAL(7, value);
+}
+
+BOOST_AUTO_TEST_CASE(test_record_dynamic_size_in_bytes) {
+    // Arrange.
+    t01::R r;
+
+    // Act.
+    const unsigned value = codec::dynamic_size(r);
 
     // Assert.
     BOOST_CHECK_EQUAL(7, value);
